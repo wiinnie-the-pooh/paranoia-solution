@@ -1,0 +1,56 @@
+// General additions to namespace FOAM
+OpenFOAM/Lists/scalarIOList.C
+OpenFOAM/Lists/tensorIOList.C
+OpenFOAM/diffusionFoamOps/diffusionFoamOps.C
+
+finiteVolume/harmonicGaussLaplacianScheme/harmonicGaussLaplacianSchemes.C
+finiteVolume/extrapolatedLength/extrapolatedLengthFvPatchFields.C
+finiteVolume/albedo/albedoFvPatchFields.C
+
+// Cross-section related classes
+nuclearCalculation/crossSectionSets/crossSectionSets/crossSectionSet/crossSectionSet.C
+nuclearCalculation/crossSectionSets/crossSectionSets/crossSectionSets.C
+
+nuclearCalculation/crossSectionSets/fixedValueCrossSectionSets/fixedValueCrossSectionSet/fixedValueCrossSectionSet.C
+nuclearCalculation/crossSectionSets/fixedValueCrossSectionSets/fixedValueCrossSectionSets.C
+
+nuclearCalculation/crossSectionSets/fixedMaterialCrossSectionSets/fixedMaterialCrossSectionSet/fixedMaterialCrossSectionSet.C
+nuclearCalculation/crossSectionSets/fixedMaterialCrossSectionSets/fixedMaterialCrossSectionSets.C
+
+nuclearCalculation/crossSectionSets/polyMaterialCrossSectionSets/polyMaterialCrossSectionSet/polynomial/polynomial.C
+nuclearCalculation/crossSectionSets/polyMaterialCrossSectionSets/polyMaterialCrossSectionSet/polynomial/tensorPolynomial.C
+nuclearCalculation/crossSectionSets/polyMaterialCrossSectionSets/polyMaterialCrossSectionSet/polynomialList/PolynomialLists.C
+nuclearCalculation/crossSectionSets/polyMaterialCrossSectionSets/polyMaterialCrossSectionSet/polyMaterialCrossSectionSet.C
+nuclearCalculation/crossSectionSets/polyMaterialCrossSectionSets/polyMaterialCrossSectionSets.C
+
+//Fission product (Iodine-xenon) related classes
+nuclearCalculation/fissionProducts/isotope/isotope.C
+nuclearCalculation/fissionProducts/decayChain/decayChain.C
+nuclearCalculation/fissionProducts/fissionProducts.C
+
+// Delayed neutron related classes
+nuclearCalculation/delayNeutrons/delayNeutronGroup/delayNeutronGroup.C
+nuclearCalculation/delayNeutrons/delayNeutrons.C
+
+// Heat production related classes
+nuclearCalculation/heatProduction/heatProduction.C
+
+// Neutron diffusion solution related classes
+nuclearCalculation/fluxGroups/fluxGroup/fluxGroup.C
+nuclearCalculation/fluxGroups/fluxGroups.C
+
+nuclearCalculation/globalNuclearParameters/globalNuclearParameters.C
+
+nuclearCalculation/nuclearField/nuclearField.C
+
+nuclearCalculation/diffusionSolver/diffusionSolver.C
+
+// Nuclear calculation class
+nuclearCalculation/nuclearCalculation/nuclearCalculation.C
+
+
+// Temperature calculation class
+temperatureCalculation/temperatureCalculation.C
+
+
+LIB = $(DIFFUSION_ROOT_DIR)/lib/libdiffusionFoam

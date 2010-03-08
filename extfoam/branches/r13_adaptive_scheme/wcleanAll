@@ -1,0 +1,8 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # run from this directory
+
+set -x && device="./common/wcleanAll" && test -f ${device} && ${device}
+
+set -x && device="./pbmr/wcleanAll" && test -f ${device} && ${device}
+
+# ----------------------------------------------------------------- end-of-file

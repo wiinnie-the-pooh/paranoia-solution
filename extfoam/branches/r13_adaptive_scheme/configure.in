@@ -1,0 +1,99 @@
+## Copyright (C) 2009 Pebble Bed Modular Reactor (Pty) Limited (PBMR)
+## 
+## This library is free software; you can redistribute it and/or 
+## modify it under the terms of the GNU Lesser General Public 
+## License as published by the Free Software Foundation; either 
+## version 2.1 of the License. 
+## 
+## This library is distributed in the hope that it will be useful, 
+## but WITHOUT ANY WARRANTY; without even the implied warranty of 
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
+## Lesser General Public License for more details. 
+## 
+## You should have received a copy of the GNU Lesser General Public 
+## License along with this library; if not, write to the Free Software 
+## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA 
+## 
+## See http://sourceforge.net/projects/pyfoam
+##
+## Author : Alexey PETROV
+##
+
+
+#--------------------------------------------------------------------------------------
+# Process this file with autoconf to produce a configure script
+#--------------------------------------------------------------------------------------
+#AC_PREREQ(2.59)
+#
+AC_INIT([extFoam Project], [2.3], [alexey.petrov.nnov@gmail.com], [extfoam])
+
+# AC_CONFIG_AUX_DIR defines an alternative directory where to find the auxiliary
+# scripts such as config.guess, install-sh, ...
+AC_CONFIG_AUX_DIR(admin)
+AC_CONFIG_MACRO_DIR([admin])
+AM_INIT_AUTOMAKE([tar-pax -Wno-portability])
+
+
+echo "--------------------------------------------------------------------------------------"
+EXTFOAM_CHECK_OPENFOAM
+echo 
+
+echo "--------------------------------------------------------------------------------------"
+EXTFOAM_CHECK_LOKI
+echo 
+
+echo "--------------------------------------------------------------------------------------"
+EXTFOAM_CHECK_BOOST
+echo 
+
+
+#--------------------------------------------------------------------------------------
+function summary {
+  variables=$*
+  for var in $variables
+  do
+    eval toto=\$$var
+    if test x$toto != "x"; then
+      printf "   %10s : " `echo \$var | sed -e "s,_ok,,"`
+      eval echo \$$var
+    fi
+  done
+}
+
+
+#--------------------------------------------------------------------------------------
+function check_fatal_error {
+  variables=$*
+  for var in $variables
+  do
+    eval toto=\$$var
+    if test x$toto != "xyes"; then
+        echo "FATAL ERROR: some mandatory products are missing."
+	echo "Installing the missing products is required before running the configure script".
+    	exit 1
+    fi
+  done  
+}
+
+
+#--------------------------------------------------------------------------------------
+echo "---------------------------- mandatory products --------------------------------"
+summary "openfoam_ok"
+echo
+echo "---------------------------- optional products ---------------------------------"
+summary "loki_ok boost_ok"
+echo
+echo "--------------------------------------------------------------------------------"
+
+
+#--------------------------------------------------------------------------------------
+AC_OUTPUT([ pbmr/parallel/include.makefile \
+	    pbmr/parallel/base/include.makefile \
+	    pbmr/parallel/dev/include.makefile \
+	    common/applications/solvers/incompressible/icoFoam/Allwmake \
+	    common/applications/solvers/incompressible/icoFoam/lib/Make/options \
+	    common/applications/solvers/incompressible/icoFoam/bin/Make/options ],
+	  [ chmod +x common/applications/solvers/incompressible/icoFoam/Allwmake ])
+
+
+#--------------------------------------------------------------------------------------
