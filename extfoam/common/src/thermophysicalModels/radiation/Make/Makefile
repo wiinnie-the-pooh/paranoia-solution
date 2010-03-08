@@ -1,0 +1,102 @@
+## Copyright (C) 2009 Pebble Bed Modular Reactor (Pty) Limited (PBMR)
+## 
+## This library is free software; you can redistribute it and/or 
+## modify it under the terms of the GNU Lesser General Public 
+## License as published by the Free Software Foundation; either 
+## version 2.1 of the License. 
+## 
+## This library is distributed in the hope that it will be useful, 
+## but WITHOUT ANY WARRANTY; without even the implied warranty of 
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
+## Lesser General Public License for more details. 
+## 
+## You should have received a copy of the GNU Lesser General Public 
+## License along with this library; if not, write to the Free Software 
+## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA 
+## 
+## See http://sourceforge.net/projects/extfoam
+##
+## Author : Alexey PETROV
+##
+
+
+#--------------------------------------------------------------------------------------
+pyfoam_root_dir:=../..
+
+include $(EXTFOAM_ROOT_DIR)/common/foam.version.makefile
+
+
+#--------------------------------------------------------------------------------------
+ifeq "$(shell if [ ${__FOAM_VERSION__} -gt 010500 ]; then echo 'true'; else echo 'false'; fi )" "true" 
+#--------------------------------------------------------------------------------------
+
+target = ext_radiation
+
+local_dir = $(EXTFOAM_ROOT_DIR)/common/src/thermophysicalModels/radiation
+external_dir = $(WM_PROJECT_DIR)/src/thermophysicalModels/radiation
+
+#/* Radiation constants */
+sources += $(external_dir)/radiationConstants/radiationConstants.C
+
+#/* Radiation model */
+sources += $(external_dir)/radiationModel/radiationModel/radiationModel.C
+sources += $(external_dir)/radiationModel/radiationModel/newRadiationModel.C
+sources += $(external_dir)/radiationModel/noRadiation/noRadiation.C
+sources += $(external_dir)/radiationModel/P1/P1.C
+sources += $(external_dir)/radiationModel/fvDOM/blackBodyEmission/blackBodyEmission.C
+sources += $(external_dir)/radiationModel/fvDOM/absorptionCoeffs/absorptionCoeffs.C
+
+sources += $(local_dir)/radiationModel/fvDOM/fvDOM/fvDOM.C
+sources += $(local_dir)/radiationModel/fvDOM/radiativeIntensityRay/radiativeIntensityRay.C
+
+#/* Scatter model */
+sources += $(external_dir)/submodels/scatterModel/scatterModel/scatterModel.C
+sources += $(external_dir)/submodels/scatterModel/scatterModel/newScatterModel.C
+sources += $(external_dir)/submodels/scatterModel/constantScatter/constantScatter.C
+
+
+#/* Absorption/Emission model */
+sources += $(external_dir)/submodels/absorptionEmissionModel/absorptionEmissionModel/absorptionEmissionModel.C
+sources += $(external_dir)/submodels/absorptionEmissionModel/absorptionEmissionModel/newAbsorptionEmissionModel.C
+sources += $(external_dir)/submodels/absorptionEmissionModel/noAbsorptionEmission/noAbsorptionEmission.C
+sources += $(external_dir)/submodels/absorptionEmissionModel/constantAbsorptionEmission/constantAbsorptionEmission.C
+sources += $(external_dir)/submodels/absorptionEmissionModel/binaryAbsorptionEmission/binaryAbsorptionEmission.C
+sources += $(external_dir)/submodels/absorptionEmissionModel/greyMeanAbsorptionEmission/greyMeanAbsorptionEmission.C
+sources += $(external_dir)/submodels/absorptionEmissionModel/wideBandAbsorptionEmission/wideBandAbsorptionEmission.C
+
+
+#/* Boundary conditions */
+sources += $(external_dir)/derivedFvPatchFields/MarshakRadiation/MarshakRadiationMixedFvPatchScalarField.C
+sources += $(external_dir)/derivedFvPatchFields/MarshakRadiationFixedT/MarshakRadiationFixedTMixedFvPatchScalarField.C
+sources += $(external_dir)/derivedFvPatchFields/greyDiffusiveRadiation/greyDiffusiveRadiationMixedFvPatchScalarField.C
+sources += $(external_dir)/derivedFvPatchFields/wideBandDiffusiveRadiation/wideBandDiffusiveRadiationMixedFvPatchScalarField.C
+
+
+#--------------------------------------------------------------------------------------
+__CXX_INCLUDES__ := $(__CXX_INCLUDES__)\
+	-I$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude\
+	-I$(WM_PROJECT_DIR)/src/thermophysicalModels/basic/lnInclude
+
+__LIB_FLAGS__ := $(__LIB_FLAGS__) \
+	-L$(WM_PROJECT_DIR)/lib/$(WM_OPTIONS) -lfiniteVolume\
+	-L$(WM_PROJECT_DIR)/lib/$(WM_OPTIONS) -lbasicThermophysicalModels\
+	-L$(WM_PROJECT_DIR)/lib/$(WM_OPTIONS) -lspecie
+
+
+#--------------------------------------------------------------------------------------
+include $(EXTFOAM_ROOT_DIR)/common/extlibso.include.makefile
+
+
+#--------------------------------------------------------------------------------------
+else
+#--------------------------------------------------------------------------------------
+
+$(warning Compilable only for OpenFOAM later then 1.5)
+
+all:
+clean:
+
+
+#--------------------------------------------------------------------------------------
+endif
+#--------------------------------------------------------------------------------------

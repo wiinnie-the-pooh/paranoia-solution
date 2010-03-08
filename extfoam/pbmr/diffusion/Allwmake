@@ -1,0 +1,15 @@
+#!/bin/bash
+
+cd ${0%/*} || exit 1    # run from this directory
+
+if [ "${WM_PROJECT_VERSION}xx" != "1.4.1-devxx" ]; then
+    echo "Warning: To build this package OpenFOAM-1.4.1-dev should be used"
+    exit 0
+fi
+
+echo "Making project diffusionFoam"
+
+wmake libso blockMatrixLib
+wmake libso diffusionFoamLib
+wmake steadyDiffusionFoam
+wmake transientDiffusionFoam

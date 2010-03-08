@@ -1,0 +1,9 @@
+EXE_INC = \
+	-I$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude \
+    	-I$(EXTFOAM_ROOT_DIR)/common/applications/solvers/incompressible/icoFoam/lib \
+    	@BOOST_CPPFLAGS@ @BOOST_CXXFLAGS@
+
+
+EXE_LIBS = \
+	-L$(WM_PROJECT_DIR)/lib/$(WM_OPTIONS) -lfiniteVolume -ldl \
+        -L$(EXTFOAM_ROOT_DIR)/common/lib -lext_icoFoam

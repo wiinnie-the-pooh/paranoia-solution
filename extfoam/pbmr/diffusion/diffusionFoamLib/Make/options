@@ -1,0 +1,8 @@
+EXE_INC = \
+    -ftemplate-depth-200 \
+    -I$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude \
+    -I$(DIFFUSION_ROOT_DIR)/blockMatrixLib/lnInclude
+
+EXE_LIBS = \
+    -lfiniteVolume \
+    -L$(DIFFUSION_ROOT_DIR)/lib -lblockMatrix

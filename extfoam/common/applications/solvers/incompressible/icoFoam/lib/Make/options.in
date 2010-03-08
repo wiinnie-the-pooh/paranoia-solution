@@ -1,0 +1,7 @@
+EXE_INC = \
+    	-I$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude \
+	@BOOST_CPPFLAGS@ @BOOST_CXXFLAGS@
+
+
+LIB_LIBS = \
+    	 -L$(WM_PROJECT_DIR)/lib/$(WM_OPTIONS) -lOpenFOAM -lfiniteVolume
