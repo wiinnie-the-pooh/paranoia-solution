@@ -64,15 +64,11 @@ namespace parallel
 
       dev::CPortHelper< CSerializedDimensionedScalar > m_time_i;
       dev::CPortHelper< dev::CIntPort > m_index_i;
-
-      dev::CPortHelper< dev::CBoolPort > m_next_i;
-      dev::CPortHelper< dev::CBoolPort > m_stop_i;
       dev::CPortHelper< dev::CBoolPort > m_write_i;
+      dev::CPortHelper< dev::CBoolPort > m_stop_i;
 
-      dev::CPortHelper< dev::CBoolPort > m_continue_i;
-
-      dev::CPortHelper< dev::CDoublePort > m_residual_o;
       dev::CPortHelper< dev::CBoolPort > m_finished_o;
+      dev::CPortHelper< dev::CDoublePort > m_residual_o;
 
     protected:
       virtual void init();
@@ -81,7 +77,6 @@ namespace parallel
       bool pre_step();
       bool post_step();
 
-      void increment();
       bool finished();
     };
 

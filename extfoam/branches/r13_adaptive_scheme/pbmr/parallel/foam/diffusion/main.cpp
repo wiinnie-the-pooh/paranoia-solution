@@ -55,7 +55,8 @@ namespace parallel
                   const CConvergencyCriteriaTask::TPtr& theConvergencyCriteria )
     {
       theTaskMgr->connect( theSolverBase, "residual", theConvergencyCriteria, "residual" );
-      theTaskMgr->connect( theSolverBase, "finished", theConvergencyCriteria, "continue" );
+
+      theTaskMgr->connect( theSolverBase, "finished", theConvergencyCriteria, "stop" );
    }
 
 
@@ -65,11 +66,11 @@ namespace parallel
                   const CConvergencyCriteriaTask::TPtr& theRighCriteria, 
                   const CORPredicateTask::TPtr& theCombinedCriteria )
     {
-      theTaskMgr->connect( theLeftCriteria, "next", theCombinedCriteria, "left" );
-      theTaskMgr->connect( theLeftCriteria, "finished", theCombinedCriteria, "continue_left" );
+      theTaskMgr->connect( theLeftCriteria, "result", theCombinedCriteria, "left" );
+      theTaskMgr->connect( theLeftCriteria, "finished", theCombinedCriteria, "stop_left" );
 
-      theTaskMgr->connect( theRighCriteria, "next", theCombinedCriteria, "right" );
-      theTaskMgr->connect( theLeftCriteria, "finished", theCombinedCriteria, "continue_right" );
+      theTaskMgr->connect( theRighCriteria, "result", theCombinedCriteria, "right" );
+      theTaskMgr->connect( theLeftCriteria, "finished", theCombinedCriteria, "stop_right" );
    }
 
 
@@ -80,9 +81,9 @@ namespace parallel
     {
       theTaskMgr->connect( theTimeSource, "time", theSolverBase, "time" );
       theTaskMgr->connect( theTimeSource, "index", theSolverBase, "index" );
-      theTaskMgr->connect( theTimeSource, "next", theSolverBase, "next" );
-      theTaskMgr->connect( theTimeSource, "stop", theSolverBase, "stop" );
       theTaskMgr->connect( theTimeSource, "write", theSolverBase, "write" );
+
+      theTaskMgr->connect( theTimeSource, "finished", theSolverBase, "stop" );
     }
     
     
@@ -95,13 +96,13 @@ namespace parallel
       TTaskPtr aMapperTask( new CVolFieldMapperTask() );
       theTaskMgr->add_task( aMapperTask );
 
-      theTaskMgr->connect( theSourceTask, "finished", aMapperTask, "stop" );
-      theTaskMgr->connect( aMapperTask, "finished", theSourceTask, "continue" );
-
       theTaskMgr->connect( theSourceTask, thePortName, aMapperTask, "theSourceField" );
       theTaskMgr->connect( theSourceTask, "fvMesh", aMapperTask, "theSourceMesh" );
       theTaskMgr->connect( theTragetTask, "fvMesh", aMapperTask, "theTargetMesh" );
       theTaskMgr->connect( aMapperTask, "aTargetField", theTragetTask, thePortName );
+
+      theTaskMgr->connect( theSourceTask, "finished", aMapperTask, "stop" );
+      theTaskMgr->connect( aMapperTask, "finished", theSourceTask, "stop" );
     }
 
 

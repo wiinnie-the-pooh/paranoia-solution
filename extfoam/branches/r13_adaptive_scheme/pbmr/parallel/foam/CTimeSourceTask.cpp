@@ -31,13 +31,12 @@ namespace parallel
   {
     //-----------------------------------------------------------------------
     CTimeSourceTask::CTimeSourceTask()
-      : m_next_i( "next", true, *this )
-      , m_delta_i( "delta", true, *this )
+      : m_delta_i( "delta", true, *this )
+      , m_next_i( "next", true, *this )
 
+      , m_finished_o( "finished", false, *this )
       , m_time_o( "time", false, *this )
       , m_index_o( "index", false, *this )
-      , m_next_o( "next", false, *this )
-      , m_stop_o( "stop", false, *this )
       , m_write_o( "write", false, *this )
 
       , m_end( 0.0 )
@@ -61,8 +60,6 @@ namespace parallel
       this->m_next_i.retrieve();
       this->m_delta_i.retrieve();
 
-      this->m_next_o.publish( this->m_next_i() );
-
       if ( this->m_next_i() ) 
       {
         this->increment();
@@ -70,12 +67,12 @@ namespace parallel
 
       Foam::dimensionedScalar time_eps( this->deltaT() * 0.01 );
       bool is_time_exit = this->value() - time_eps > this->endTime();
-      this->m_stop_o.publish( is_time_exit && this->m_next_i() );
+      this->m_finished_o.publish( is_time_exit && this->m_next_i() );
 
       std::cout << "\nCTimeSourceTask[ " << this << " ]::step"
                 << " | value = " << this->value().value()
                 << " | is_time_exit = " << is_time_exit
-                << " | m_stop_o = " << this->m_stop_o()
+                << " | m_finished_o = " << this->m_finished_o()
                 << " | m_next_i = " << this->m_next_i() << "\n"; 
 
       this->m_time_o.publish();
@@ -84,7 +81,7 @@ namespace parallel
       bool is_write = this->timeIndex() % this->getWriteInterval() == 0;
       this->m_write_o.publish( is_write );
 
-      return ! this->m_stop_o();
+      return ! this->m_finished_o();
     }
 
 

@@ -48,14 +48,14 @@ namespace parallel
       ~CORPredicateTask();
 
     protected:
-      dev::CPortHelper< dev::CBoolPort > m_continue_left_i;
-      dev::CPortHelper< dev::CBoolPort > m_left_i;
+      CPortHelper< CBoolPort > m_left_i;
+      CPortHelper< CBoolPort > m_stop_left_i;
 
-      dev::CPortHelper< dev::CBoolPort > m_continue_right_i;
-      dev::CPortHelper< dev::CBoolPort > m_right_i;
+      CPortHelper< CBoolPort > m_right_i;
+      CPortHelper< CBoolPort > m_stop_right_i;
 
-      dev::CPortHelper< dev::CBoolPort > m_result_o;
-      dev::CPortHelper< dev::CBoolPort > m_finished_o;
+      CPortHelper< CBoolPort > m_finished_o;
+      CPortHelper< CBoolPort > m_result_o;
 
     protected:
       virtual void init();

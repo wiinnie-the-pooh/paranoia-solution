@@ -56,16 +56,16 @@ namespace parallel
       int getMaxIterationNumber() const;
       
     protected:
+      CPortHelper< CDoublePort > m_residual_i;
+      CPortHelper< CBoolPort > m_stop_i;
+
+      CPortHelper< CBoolPort > m_finished_o;
+      CPortHelper< CBoolPort > m_result_o;
+
+    protected:
       double maxResidual;
       int maxIterationNumber;
       int iterationCounter;
-
-    protected:
-      dev::CPortHelper< dev::CBoolPort > m_continue_i;
-      dev::CPortHelper< dev::CDoublePort > m_residual_i;
-
-      dev::CPortHelper< dev::CBoolPort > m_next_o;
-      dev::CPortHelper< dev::CBoolPort > m_finished_o;
 
     protected:
       virtual void init();

@@ -33,13 +33,15 @@ namespace parallel
   {
     //-----------------------------------------------------------------------
     CConvergencyCriteriaTask::CConvergencyCriteriaTask()
-      : maxResidual( 0.001 )
+      : m_residual_i( "residual", true, *this )
+      , m_stop_i( "stop", true, *this )
+
+      , m_finished_o( "finished", false, *this )
+      , m_result_o( "result", false, *this )
+
+      , maxResidual( 0.001 )
       , maxIterationNumber( 100 )
       , iterationCounter( 0 )
-      , m_continue_i( "continue", true, *this )
-      , m_residual_i( "residual", true, *this )
-      , m_next_o( "next", false, *this )
-      , m_finished_o( "finished", false, *this )
     {}
 
 
@@ -86,27 +88,28 @@ namespace parallel
     //-----------------------------------------------------------------------
     bool CConvergencyCriteriaTask::step()
     {
-      bool cancel_iterations = this->m_continue_i.retrieve();
-      if ( ! cancel_iterations )
+      bool stop_iterations = this->m_stop_i.retrieve();
+      if ( ! stop_iterations )
       {
         bool satisfy_residual = this->m_residual_i.retrieve() < this->maxResidual;
         
         bool exit_iterations_limit = this->iterationCounter++ > this->maxIterationNumber;
         
-        cancel_iterations = satisfy_residual || exit_iterations_limit;
+        stop_iterations = satisfy_residual || exit_iterations_limit;
         
-        if ( cancel_iterations )
+        if ( stop_iterations )
           this->iterationCounter = 0;
 
-        std::cout << "CConvergencyCriteriaTask::step[ " << this << " ] = " 
-                  << satisfy_residual << " : " 
-                  << exit_iterations_limit << " : "
-                  << this->m_continue_i() << std::endl;
+        std::cout << "CConvergencyCriteriaTask::step[ " << this << " ]" 
+		  << " | satisfy_residual = " << satisfy_residual
+		  << " | exit_iterations_limit = " << exit_iterations_limit
+		  << " | m_stop_i = " << this->m_stop_i()
+		  << "\n"; 
       }
 
-      this->m_next_o.publish( cancel_iterations );
+      this->m_result_o.publish( stop_iterations );
 
-      this->m_finished_o.publish( this->m_continue_i() );
+      this->m_finished_o.publish( this->m_stop_i() );
 
       return ! this->m_finished_o();
     }

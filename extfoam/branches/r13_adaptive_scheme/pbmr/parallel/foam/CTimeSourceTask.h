@@ -68,14 +68,12 @@ namespace parallel
       label getWriteInterval() const;
       
     protected:
-      dev::CPortHelper< dev::CBoolPort > m_next_i;
       dev::CPortHelper< CSerializedDimensionedScalar > m_delta_i;
+      dev::CPortHelper< dev::CBoolPort > m_next_i;
 
+      dev::CPortHelper< dev::CBoolPort > m_finished_o;
       dev::CPortHelper< CSerializedDimensionedScalar > m_time_o;
       dev::CPortHelper< dev::CIntPort > m_index_o;
-
-      dev::CPortHelper< dev::CBoolPort > m_next_o;
-      dev::CPortHelper< dev::CBoolPort > m_stop_o;
       dev::CPortHelper< dev::CBoolPort > m_write_o;
 
       Foam::dimensionedScalar m_end;

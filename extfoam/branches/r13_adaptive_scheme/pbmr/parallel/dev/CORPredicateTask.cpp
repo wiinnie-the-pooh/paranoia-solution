@@ -33,12 +33,14 @@ namespace parallel
   {
     //-----------------------------------------------------------------------
     CORPredicateTask::CORPredicateTask()
-      : m_continue_left_i( "continue_left", true, *this )
-      , m_left_i( "left", true, *this )
-      , m_continue_right_i( "continue_right", true, *this )
+      : m_left_i( "left", true, *this )
+      , m_stop_left_i( "stop_left", true, *this )
+
       , m_right_i( "right", true, *this )
-      , m_result_o( "result", false, *this )
+      , m_stop_right_i( "stop_right", true, *this )
+
       , m_finished_o( "finished", false, *this )
+      , m_result_o( "result", false, *this )
     {}
 
 
@@ -59,10 +61,11 @@ namespace parallel
     {
       std::cout << "\nCORPredicateTask[ " << this << " ]::step\n";
 
-      this->m_finished_o.publish( this->m_continue_left_i.retrieve() && this->m_continue_right_i.retrieve() );
+      this->m_finished_o.publish( this->m_stop_left_i.retrieve() || this->m_stop_right_i.retrieve() );
 
-        std::cout << "\tCORPredicateTask[ " << this << " ]"
-                  << " | m_finished_o = " << this->m_finished_o() << "\n"; 
+      std::cout << "\nCORPredicateTask[ " << this << " ]"
+		<< " | m_finished_o = " << this->m_finished_o()
+		<< "\n"; 
 
       this->m_result_o.publish( this->m_left_i.retrieve() && this->m_right_i.retrieve() );
       

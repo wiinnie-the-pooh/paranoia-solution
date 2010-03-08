@@ -34,12 +34,11 @@ namespace parallel
       : runTime( runTime )
       , m_time_i( "time", true, *this )
       , m_index_i( "index", true, *this )
-      , m_next_i( "next", true, *this )
-      , m_stop_i( "stop", true, *this )
       , m_write_i( "write", true, *this )
-      , m_continue_i( "continue", true, *this )
-      , m_residual_o( "residual", false, *this )
+      , m_stop_i( "stop", true, *this )
+
       , m_finished_o( "finished", false, *this )
+      , m_residual_o( "residual", false, *this )
     {}
 
     //-----------------------------------------------------------------------
@@ -51,27 +50,18 @@ namespace parallel
     void CSolverTaskBase::init()
     {
       std::cout << "\nStart of CSolverTaskBase[ " << this << " ]\n";
-
-      this->m_continue_i.init( true );
     }
     
     
     //-----------------------------------------------------------------------
     bool CSolverTaskBase::pre_step()
     {
-      this->m_continue_i.retrieve();
+      this->m_finished_o.publish( this->m_stop_i.retrieve() );
 
       this->m_time_i.retrieve();
       this->m_index_i.retrieve();
 
-      this->m_next_i.retrieve();
-      this->m_stop_i.retrieve();
-      this->m_write_i.retrieve();
-
-      if ( this->m_next_i() )
-        this->increment();
-
-      this->m_finished_o.publish( this->m_stop_i() );
+      this->runTime.setTime( this->m_time_i(), this->m_index_i() );
 
       return ! this->finished();
     }
@@ -80,20 +70,12 @@ namespace parallel
     //-----------------------------------------------------------------------
     bool CSolverTaskBase::post_step()
     {
-      if ( this->m_write_i() )
+      if ( this->m_write_i.retrieve() )
         this->runTime.writeNow();
 
       return ! this->finished();
     }
 
-
-    //-----------------------------------------------------------------------
-    void CSolverTaskBase::increment()
-    {
-      Info << endl << "CSolverTaskBase::increment[ " << this->m_time_i() << " ] = " << this->m_index_i() << endl;
-      this->runTime.setTime( this->m_time_i(), this->m_index_i() );
-    }
-    
 
     //-----------------------------------------------------------------------
     bool CSolverTaskBase::finished()
