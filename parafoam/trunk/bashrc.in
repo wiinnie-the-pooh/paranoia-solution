@@ -13,26 +13,22 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ## 
-## See https://csrcs.pbmr.co.za/svn/nea/prototypes/reaktor/parafoam
+## See https://csrcs.pbmr.co.za/svn/nea/prototypes/reaktor/ifoam
 ##
 ## Author : Alexey PETROV
 ##
 
 
 #--------------------------------------------------------------------------------------
-source /opt/conffoam/r0.1/bashrc
+if test "${PARAFOAM_ROOT_DIR}x" = "x" ; then
+   export PARAFOAM_ROOT_DIR="@abs_top_builddir@"
+   echo PARAFOAM_ROOT_DIR=\"${PARAFOAM_ROOT_DIR}\"
 
+   export PATH=${PARAFOAM_ROOT_DIR}/bin:${PATH}
+   export LD_LIBRARY_PATH=${PARAFOAM_ROOT_DIR}/lib:${LD_LIBRARY_PATH}
 
-#--------------------------------------------------------------------------------------
-which_open_foam="1.4.1-dev"
-
-source_openfoam /opt/OpenFOAM/r${which_open_foam}/debug/bashrc
-
-source_salome /opt/SALOME/r5.1.3/r1.0/from_sources/bashrc
-
-source /opt/extfoam/r2.3/OpenFOAM-${which_open_foam}/bashrc 
-
-source /opt/loki/r0.1.7/env.sh
+   source ${PARAFOAM_ROOT_DIR}/env.sh
+fi
 
 
 #--------------------------------------------------------------------------------------
