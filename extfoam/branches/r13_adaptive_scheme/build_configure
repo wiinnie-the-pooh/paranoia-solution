@@ -65,3 +65,20 @@ autoconf
 
 
 #--------------------------------------------------------------------------------------
+# automake creates some scripts used in building process
+# (install-sh, missing, ...). It only depends on the automake
+# version. The files are created in the directory specified with the
+# AC_CONFIG_AUX_DIR(<mydir>) tag (see configure.ac). This step also
+# creates the Makefile.in files from the Makefile.am files.
+# output:
+#   ./admin/compile
+#   ./admin/depcomp
+#   ./admin/install-sh
+#   ./admin/missing
+#   ./admin/py-compile
+#   Makefile.in (from Makefile.am)
+echo "---------------------------------- automake -------------------------------------"
+automake --add-missing --copy --gnu
+
+
+#--------------------------------------------------------------------------------------
