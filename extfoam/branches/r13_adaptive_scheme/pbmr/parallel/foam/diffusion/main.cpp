@@ -102,7 +102,6 @@ namespace parallel
       theTaskMgr->connect( aMapperTask, "aTargetField", theTragetTask, thePortName );
 
       theTaskMgr->connect( theSourceTask, "finished", aMapperTask, "stop" );
-      theTaskMgr->connect( aMapperTask, "finished", theSourceTask, "stop" );
     }
 
 

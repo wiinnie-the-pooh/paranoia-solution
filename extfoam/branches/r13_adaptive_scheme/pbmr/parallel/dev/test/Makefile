@@ -25,8 +25,6 @@ sexe = parallel_dev_test
 
 parallel_dev_root_dir = ..
 
-LDFLAGS := -lparallel_dev
-
 include $(parallel_dev_root_dir)/include.makefile
 
 

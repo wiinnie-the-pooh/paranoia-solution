@@ -65,13 +65,15 @@ namespace parallel
       pthread_mutex_lock( &m_List );
       
       base::TDataHolderPtr aDataHolder;
-      if( !m_DataHolders.empty() )
+      if ( !m_DataHolders.empty() )
       {
         aDataHolder = m_DataHolders.front();
         m_DataHolders.pop_front();
       }
       
-      if( !m_DataHolders.empty() )
+      // "publish" could be called many times before first "retrive" will be called
+      // we should be able read all the available data
+      if ( !m_DataHolders.empty() )
         pthread_mutex_unlock( &m_Read );
       
       pthread_mutex_unlock( &m_List );
