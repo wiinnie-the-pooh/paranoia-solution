@@ -115,15 +115,6 @@ The same as "test_icoFoam_embedded.py", but additionally "demonstarates how to
 create and run an icoFoam case from scratch; no pre-existing case files are
 required"
 
-
-#--------------------------------------------------------------------------------------
-"test_icoFoam_scratch.py"
-#--------------------------------------------------------------------------------------
-
-The same as "test_icoFoam_embedded.py", but additionally "demonstarates how to
-create and run an icoFoam case from scratch; no pre-existing case files are
-required".
-
 Uses Python Pmw package to keep track on residual value through 2D plot
 representation.
 

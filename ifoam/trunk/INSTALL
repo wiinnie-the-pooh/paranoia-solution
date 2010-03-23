@@ -73,25 +73,30 @@ Then follow below instructions in order to build and install the "IFoam".
 Basic Installation
 #--------------------------------------------------------------------------------------
 
-The build procedure of the "pyFoam" package is based on GNU autoconf and make utilities. 
+The build procedure of the "IFoam" package is based on GNU autoconf and make utilities. 
 In order to build the module you have to perform the following actions:
 
 1. Go to the source directory:
 
    cd <path to the sources>
 
-2. Modify and source the provided "env.sh" file to adjust to your local
-   environment.
+2. Modify the provided "env.sh" file to adjust to your local environment.
+   
+   <your favorite editor> ./env.sh
 
-   vi env.sh
+3. Source this "env.sh" file to define corresponding build environment.
 
-3. Configuring the "IFoam" build system:
+   source ./env.sh
+
+4. Configuring the "IFoam" build system:
 
    ./build_configure
    ./configure
 
-   Make sure that this step was passed succesfully.
+   Make sure that after each configuration step "--- OK ---" message is
+   printed in your console.
 
+   To see all applicable configuration options run "./configure --help"
    Currently, the following options are available:
 
      --with-pyfoam=<path>
@@ -101,18 +106,16 @@ In order to build the module you have to perform the following actions:
      --with-foam2vtk=<path>
      --with-unv2foam=<path>
 
-  To see more details for the applicable options run ./configure --help.
-
 
 #--------------------------------------------------------------------------------------
-"pyFoam" environment
+"IFoam" environment
 #--------------------------------------------------------------------------------------
 
 Before start to use "IFoam" it is necessary to source the generated "bashrc" file
 
 
 #--------------------------------------------------------------------------------------
-"pyFoam" installation check
+"IFoam" installation check
 #--------------------------------------------------------------------------------------
 
 Run the following "IFoam" script

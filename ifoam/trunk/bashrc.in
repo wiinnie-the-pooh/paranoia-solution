@@ -28,7 +28,7 @@ if test "${IFOAM_ROOT_DIR}x" = "x" ; then
    export PYTHONPATH=${IFOAM_ROOT_DIR}:${IFOAM_ROOT_DIR}:${PYTHONPATH}
    export LD_LIBRARY_PATH=${IFOAM_ROOT_DIR}:${LD_LIBRARY_PATH}
 
-   source ${FOAM2MED_ROOT_DIR}/env.sh
+   source ${IFOAM_ROOT_DIR}/env.sh
 fi
 
 
