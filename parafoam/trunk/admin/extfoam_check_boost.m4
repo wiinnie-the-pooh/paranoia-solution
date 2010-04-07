@@ -81,8 +81,9 @@ if test ! "x${withval}" = "xno" ; then
       BOOST_CXXFLAGS="-ftemplate-depth-40"
       CXXFLAGS="${BOOST_CXXFLAGS}"
 
-      test ! "x${boost_dir}" = "x/usr" && BOOST_LDFLAGS="-L${loki_root_dir}/lib"
+      test ! "x${boost_dir}" = "x/usr" && BOOST_LDFLAGS="-L${boost_dir}/lib"
       LDFLAGS="${BOOST_LDFLAGS}"
+      LIBS=""
 
       AC_CHECK_HEADERS( [boost/shared_ptr.hpp], [ boost_ok=yes ], [ boost_ok=no ] )
 
@@ -99,6 +100,8 @@ if test ! "x${withval}" = "xno" ; then
    if test "x${boost_ok}" = "xyes" ; then
       AC_MSG_CHECKING( Boost threading functionality )
 
+      test ! "x${boost_dir}" = "x/usr" && BOOST_LDFLAGS="-L${boost_dir}/lib"
+      LDFLAGS="${BOOST_LDFLAGS}"
       LIBS="-lboost_thread${BOOST_LIBSUFFIX}"
 
       AC_LINK_IFELSE( [ AC_LANG_PROGRAM( [ [ #include <boost/thread/thread.hpp> ] ],
