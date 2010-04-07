@@ -30,7 +30,7 @@ source_openfoam /opt/OpenFOAM/r${which_open_foam}/debug/bashrc
 
 source_salome /opt/SALOME/r5.1.3/r1.0/from_sources/bashrc
 
-source /opt/extfoam/r2.3/OpenFOAM-${which_open_foam}/bashrc 
+source /opt/extfoam/r2.2/OpenFOAM-${which_open_foam}/bashrc 
 
 source /opt/loki/r0.1.7/env.sh
 
