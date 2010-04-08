@@ -21,93 +21,110 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/dev/CDataHolderBase.h"
+#include "parallel/dev/CSerializedValueHelper.h"
 
+#include "parallel/dev/CSmartPtrValueHelper.h"
+
+#include "parallel/foam/utilities.h"
+
+//---------------------------------------------------------------------------
+#include "parallel/dev/TPort.h"
+
+#include "parallel/dev/TTask.h"
+
+#include "parallel/dev/CSerializedDataHolder.h"
+
+
+//---------------------------------------------------------------------------
 #include "iostream"
 
 
 //---------------------------------------------------------------------------
 namespace parallel
 {
-  namespace dev
+  namespace foam
   {
     //---------------------------------------------------------------------------
-    template< class Type, class DataHolderType >
-    struct CSimpleDataHolderBase : CDataHolderBase
+    struct CSerializedFvMeshHelper : dev::CSmartPtrValueHelper< Foam::fvMesh >
     {
-      typedef Type TValue;
-      TValue value;
-      
-      typedef TValue& TRef;
-      typedef const TValue& TConstRef;
+      TimePtr runTime;
 
-      typedef TValue* TPointer;
-      
-      typedef typename base::SmartPtrDef< DataHolderType >::type TDataHolderPtr;
-
-      CSimpleDataHolderBase( const TValue& the_value )
-        : value( the_value )
-      {}
-        
-      virtual ~CSimpleDataHolderBase()
+      CSerializedFvMeshHelper( const TValue& the_value = TValue() )
+        : dev::CSmartPtrValueHelper< Foam::fvMesh >( the_value )
       {}
 
-      bool valid() const
+      CSerializedFvMeshHelper( const CSerializedFvMeshHelper& the_value_helper )
+        : dev::CSmartPtrValueHelper< Foam::fvMesh >( the_value_helper.value )
+      {}
+
+      template< class SerializedDataHolderType >
+      void save_data( SerializedDataHolderType& the_serialized_data_holder ) const
       {
-        return true;
-      }
-        
-      TRef ref()
-      {
-        return this->value;
+        save_value( *this, the_serialized_data_holder() );
       }
 
-      TConstRef ref() const
+      template< class SerializedDataHolderType >
+      void restore_data( const SerializedDataHolderType& the_serialized_data_holder )
       {
-        return this->value;
+        restore_value( the_serialized_data_holder(), *this );
       }
-      
-      TPointer ptr()
-      {
-        return & this->value;
-      }
-
-      friend class boost::serialization::access;
 
       template< class ArchiveType >
-      void serialize( ArchiveType & ar, const unsigned int /* file_version */)
+      void save( ArchiveType & ar, const unsigned int /* revision_number */ ) const
       {
-        ar & this->value;
+        Foam::OStringStream an_ostream;
+
+        an_ostream << this->value->time().rootPath() << Foam::token::SPACE
+                   << this->value->time().caseName();
+
+        std::string a_string = an_ostream.str();
+
+        ar << a_string;
       }
 
-      virtual void save() const
+      template< class ArchiveType >
+      void load( ArchiveType & ar, const unsigned int /* revision_number */ )
       {
-        parallel::dev::save( *this, this->data );
+        std::string a_string;
+
+        ar >> a_string;
+
+        Foam::IStringStream an_ostream( a_string );
+
+        Foam::fileName rootPath;
+	an_ostream >> rootPath;
+
+        Foam::fileName caseName;
+	an_ostream >> caseName;
+
+	this->runTime = createTime( rootPath, caseName );
+
+	this->value = createMesh( *this->runTime );
       }
 
-      virtual void restore()
+      template< class ArchiveType >
+      void serialize( ArchiveType & ar, const unsigned int revision_number )
       {
-        parallel::dev::restore( this->data, *this );
-        this->data.clear();
-      }
-
-      virtual TDataHolderPtr serialize() const
-      {
-        return new DataHolderType( this->value );
+        boost::serialization::split_member( ar, *this, revision_number );
       }
     };
-    
-    
+
+
     //---------------------------------------------------------------------------
-    struct CDoubleHolder : CSimpleDataHolderBase< double, CDoubleHolder >
+    struct CSerializedFvMesh : dev::TPort
     {
-      typedef double TValue;
+      PARALLEL_DERIVED_PORT_DEF( CSerializedFvMesh );
+    
+      typedef CSerializedFvMeshHelper TValueHelper;
 
-      CDoubleHolder( const TValue& the_value = TValue() )
-        : CSimpleDataHolderBase< TValue, CDoubleHolder >( the_value )
-      {}
+      struct TDataHolder : dev::CSerializedDataHolder< TValueHelper >
+      {
+        TDataHolder( const TValueHelper& the_value_helper )
+          : dev::CSerializedDataHolder< TValueHelper >( the_value_helper )
+        {}
+      };
     };
-
+    
 
     //---------------------------------------------------------------------------
   }
@@ -117,24 +134,6 @@ namespace parallel
 //---------------------------------------------------------------------------
 int main( int argc, char *argv[] )
 {
-  using namespace parallel::dev;
-
-  CDoubleHolder a( 2.0 );
-
-  std::cout << "a : value = " << a.value << "; data = '" << a.data << "'" << std::endl;
-
-  a.save();
-
-  std::cout << "a : value = " << a.value << "; data = '" << a.data << "'" << std::endl;
-
-  a.value = -1;
-
-  std::cout << "a : value = " << a.value << "; data = '" << a.data << "'" << std::endl;
-
-  a.restore();
-
-  std::cout << "a : value = " << a.value << "; data = '" << a.data << "'" << std::endl;
-
   return 0;
 }
 
