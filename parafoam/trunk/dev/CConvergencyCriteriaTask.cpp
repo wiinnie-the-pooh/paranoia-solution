@@ -81,7 +81,7 @@ namespace parallel
     //-----------------------------------------------------------------------
     void CConvergencyCriteriaTask::init()
     {
-      std::cout << "\nStart of CConvergencyCriteriaTask[ " << this << " ]\n";
+      MSG( "\nStart of CConvergencyCriteriaTask[ " << this << " ]\n" );
     }
     
     
@@ -100,11 +100,11 @@ namespace parallel
         if ( stop_iterations )
           this->iterationCounter = 0;
 
-        std::cout << "CConvergencyCriteriaTask::step[ " << this << " ]" 
-		  << " | satisfy_residual = " << satisfy_residual
-		  << " | exit_iterations_limit = " << exit_iterations_limit
-		  << " | m_stop_i = " << this->m_stop_i()
-		  << "\n"; 
+        MSG( "CConvergencyCriteriaTask::step[ " << this << " ]" 
+	     << " | satisfy_residual = " << satisfy_residual
+	     << " | exit_iterations_limit = " << exit_iterations_limit
+	     << " | m_stop_i = " << this->m_stop_i()
+	     << "\n" ); 
       }
 
       this->m_result_o.publish( stop_iterations );
@@ -118,7 +118,7 @@ namespace parallel
     //-----------------------------------------------------------------------
     void CConvergencyCriteriaTask::destroy()
     {
-      std::cout << "\nEnd of CConvergencyCriteriaTask[ " << this << " ]\n";
+      MSG( "\nEnd of CConvergencyCriteriaTask[ " << this << " ]\n" );
     }
     
 

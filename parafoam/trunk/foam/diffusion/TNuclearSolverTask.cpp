@@ -60,7 +60,7 @@ namespace parallel
     //---------------------------------------------------------------------------
     void TNuclearSolverTask::init()
     {
-      std::cout << "\nStart of TNuclearSolverTask[ " << this << " ]\n";
+      MSG( "\nStart of TNuclearSolverTask[ " << this << " ]\n" );
 
       CSolverTaskBase::init();
 
@@ -74,7 +74,7 @@ namespace parallel
     //---------------------------------------------------------------------------
     bool TNuclearSolverTask::step()
     {
-      std::cout << "\nTNuclearSolverTask[ " << this << " ]::step\n";
+      MSG( "\nTNuclearSolverTask[ " << this << " ]::step\n" );
 
       // It is necessary to retrieve the fileds before time modification
       // ( which take place in "pre_step" function)
@@ -85,9 +85,9 @@ namespace parallel
       {
         scalar residual = this->engine->solve();
         
-        std::cout << "\nTNuclearSolverTask[ " << this << " ]"
-                  << " | " << this->runTime.timeName().c_str()
-                  << " | " << residual << "\n";
+        MSG( "\nTNuclearSolverTask[ " << this << " ]"
+	     << " | " << this->runTime.timeName().c_str()
+	     << " | " << residual << "\n" );
       
         this->m_residual_o.publish( residual );
 
@@ -101,7 +101,7 @@ namespace parallel
     //---------------------------------------------------------------------------
     void TNuclearSolverTask::destroy()
     {
-      std::cout << "\nEnd of TNuclearSolverTask[ " << this << " ]\n";
+      MSG( "\nEnd of TNuclearSolverTask[ " << this << " ]\n" );
 
       CSolverTaskBase::destroy();
     }

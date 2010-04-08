@@ -30,6 +30,11 @@
 
 #include <set>
 
+#include <sstream>
+
+
+//---------------------------------------------------------------------------
+#define MSG( the_message ) { std::ostringstream a_stream; a_stream << the_message; parallel::dev::TTask::print( a_stream.str() ); }
 
 //---------------------------------------------------------------------------
 namespace parallel
@@ -89,6 +94,8 @@ namespace parallel
       
       virtual void destroy()
       {}
+
+      static void print( const std::string& theMessage );
 
     private:
       typedef std::pair< base::TQueuePtr, base::TDataHolderPtr > TDataFactrory;

@@ -47,7 +47,7 @@ namespace parallel
     //-----------------------------------------------------------------------
     void CTimeSourceTask::init()
     {
-      std::cout << "\nStart of CTimeSourceTask[ " << this << " ]\n";
+      MSG( "\nStart of CTimeSourceTask[ " << this << " ]\n" );
       
       this->m_next_i.init( true );
       this->m_delta_i.init( this->m_delta_i() );
@@ -69,11 +69,11 @@ namespace parallel
       bool is_time_exit = this->value() - time_eps > this->endTime();
       this->m_finished_o.publish( is_time_exit && this->m_next_i() );
 
-      std::cout << "\nCTimeSourceTask[ " << this << " ]::step"
-                << " | value = " << this->value().value()
-                << " | is_time_exit = " << is_time_exit
-                << " | m_finished_o = " << this->m_finished_o()
-                << " | m_next_i = " << this->m_next_i() << "\n"; 
+      MSG( "\nCTimeSourceTask[ " << this << " ]::step"
+	   << " | value = " << this->value().value()
+	   << " | is_time_exit = " << is_time_exit
+	   << " | m_finished_o = " << this->m_finished_o()
+	   << " | m_next_i = " << this->m_next_i() << "\n" ); 
 
       this->m_time_o.publish();
       this->m_index_o.publish();
@@ -88,7 +88,7 @@ namespace parallel
     //-----------------------------------------------------------------------
     void CTimeSourceTask::destroy()
     {
-      std::cout << "\nEnd of CTimeSourceTask[ " << this << " ]\n";
+      MSG( "\nEnd of CTimeSourceTask[ " << this << " ]\n" );
     }
     
 

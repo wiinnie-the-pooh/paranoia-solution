@@ -52,22 +52,27 @@ namespace parallel
     //-----------------------------------------------------------------------
     void CORPredicateTask::init()
     {
-      std::cout << "\nStart of CORPredicateTask[ " << this << " ]\n";
+      MSG( "\nStart of CORPredicateTask[ " << this << " ]\n" );
     }
     
     
     //-----------------------------------------------------------------------
     bool CORPredicateTask::step()
     {
-      std::cout << "\nCORPredicateTask[ " << this << " ]::step\n";
+      MSG( "\nCORPredicateTask[ " << this << " ]::step\n" );
 
       this->m_finished_o.publish( this->m_stop_left_i.retrieve() || this->m_stop_right_i.retrieve() );
 
-      this->m_result_o.publish( this->m_left_i.retrieve() && this->m_right_i.retrieve() );
+      this->m_left_i.retrieve();
+      this->m_right_i.retrieve();
+
+      this->m_result_o.publish( this->m_left_i() && this->m_right_i() );
       
-      std::cout << "\nCORPredicateTask[ " << this << " ]"
-		<< " | m_result_o = " << this->m_result_o()
-		<< "\n"; 
+      MSG( "\nCORPredicateTask[ " << this << " ]"
+	   << " | m_result_o = " << this->m_result_o()
+	   << " | m_left_i = " << this->m_left_i()
+	   << " | m_right_i = " << this->m_right_i()
+	   << "\n" ); 
 
       return ! this->m_finished_o();
     }
@@ -76,7 +81,7 @@ namespace parallel
     //-----------------------------------------------------------------------
     void CORPredicateTask::destroy()
     {
-      std::cout << "\nEnd of CORPredicateTask[ " << this << " ]\n";
+      MSG( "\nEnd of CORPredicateTask[ " << this << " ]\n" );
     }
     
 

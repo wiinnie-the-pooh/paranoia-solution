@@ -41,6 +41,22 @@ namespace
 
     return NULL;
   }
+
+  
+  //---------------------------------------------------------------------------
+  static pthread_mutex_t PRINT_MUTEX;
+
+  int init()
+  {
+    pthread_mutexattr_t attr;
+    pthread_mutexattr_init( &attr );
+    pthread_mutexattr_settype( &attr, PTHREAD_MUTEX_NORMAL );
+    pthread_mutex_init( &PRINT_MUTEX, &attr );
+
+    return 1;
+  }
+
+  static int INIT = init();
 }
 
 
@@ -209,6 +225,18 @@ namespace parallel
     }
     
     
+
+    //---------------------------------------------------------------------------
+    void TTask::print( const std::string& theMessage )
+    {
+      pthread_mutex_lock( &PRINT_MUTEX );
+
+      std::cout << theMessage;
+
+      pthread_mutex_unlock( &PRINT_MUTEX );
+    }
+
+
     //---------------------------------------------------------------------------
   }
 }

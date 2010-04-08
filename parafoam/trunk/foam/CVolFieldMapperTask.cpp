@@ -45,7 +45,7 @@ namespace parallel
     //-----------------------------------------------------------------------
     void CVolFieldMapperTask::init()
     {
-      std::cout << "\nStart of CVolFieldMapperTask[ " << this << " ]\n";
+      MSG( "\nStart of CVolFieldMapperTask[ " << this << " ]\n" );
 
       this->m_SourceMesh_i.retrieve();
       this->m_TargetMesh_i.retrieve();
@@ -55,15 +55,15 @@ namespace parallel
     //-----------------------------------------------------------------------
     bool CVolFieldMapperTask::step()
     {
-      std::cout << "\nCVolFieldMapperTask[ " << this << " ]::step\n";
+      MSG( "\nCVolFieldMapperTask[ " << this << " ]::step\n" );
 
       if ( !this->m_stop_i.retrieve() )
       {
         this->m_SourceField_i.retrieve( this->m_SourceMesh_i );
       
-        std::cout << "\nCVolFieldMapperTask[ " << this << " ]"
-                  << " | " << this->m_TargetMesh_i->time().timeName().c_str()
-                  << " | \"" << this->m_SourceField_i->name().c_str() << "\"\n";
+        MSG( "\nCVolFieldMapperTask[ " << this << " ]"
+	     << " | " << this->m_TargetMesh_i->time().timeName().c_str()
+	     << " | \"" << this->m_SourceField_i->name().c_str() << "\"\n" );
         
         this->m_TargetField_o.publish( clone( mapConsistentField( this->m_SourceField_i(), this->m_TargetMesh_i() ) ) );
       }
@@ -77,7 +77,7 @@ namespace parallel
     //-----------------------------------------------------------------------
     void CVolFieldMapperTask::destroy()
     {
-      std::cout << "\nEnd of CVolFieldMapperTask[ " << this << " ]\n";
+      MSG( "\nEnd of CVolFieldMapperTask[ " << this << " ]\n" );
     }
 
 
