@@ -30,7 +30,7 @@
 
 #include "parallel/dev/CPortHelper.h"
 
-#include "parallel/foam/CFvMeshPort.h"
+#include "parallel/foam/CSerializedFvMesh.h"
 
 #include "parallel/foam/CGeometricFieldPortHelper.h"
 
@@ -65,7 +65,7 @@ namespace parallel
       TTemperatureSolverPtr engine;
 
       CGeometricFieldPortHelper< Foam::volScalarField > m_powerDensity_i;
-      dev::CPortHelper< CFvMeshPort > m_fvMesh_o;
+      dev::CPortHelper< CSerializedFvMesh > m_fvMesh_o;
       CGeometricFieldPortHelper< Foam::volScalarField > m_Tfuel_o;
       CGeometricFieldPortHelper< Foam::volScalarField > m_Tmod_o;
 

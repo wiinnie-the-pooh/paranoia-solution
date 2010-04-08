@@ -32,7 +32,7 @@
 
 #include "parallel/dev/CPortHelper.h"
 
-#include "parallel/foam/CFvMeshPort.h"
+#include "parallel/foam/CSerializedFvMesh.h"
 
 #include "parallel/foam/CGeometricFieldPortHelper.h"
 
@@ -61,8 +61,8 @@ namespace parallel
       dev::CPortHelper< dev::CBoolPort > m_stop_i;
 
       CGeometricFieldPortHelper< Foam::volScalarField > m_SourceField_i;
-      dev::CPortHelper< CFvMeshPort > m_SourceMesh_i;
-      dev::CPortHelper< CFvMeshPort > m_TargetMesh_i;
+      dev::CPortHelper< CSerializedFvMesh > m_SourceMesh_i;
+      dev::CPortHelper< CSerializedFvMesh > m_TargetMesh_i;
 
       CGeometricFieldPortHelper< Foam::volScalarField > m_TargetField_o;
       dev::CPortHelper< dev::CBoolPort > m_finished_o;
