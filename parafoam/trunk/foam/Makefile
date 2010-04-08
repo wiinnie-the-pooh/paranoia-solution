@@ -25,7 +25,7 @@ libso = libparallel_foam.so
 
 parallel_foam_root_dir := .
 
-SUBDIRS := diffusion
+SUBDIRS := test diffusion
 
 include $(parallel_foam_root_dir)/include.makefile
 
