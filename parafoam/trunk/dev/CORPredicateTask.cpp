@@ -63,12 +63,12 @@ namespace parallel
 
       this->m_finished_o.publish( this->m_stop_left_i.retrieve() || this->m_stop_right_i.retrieve() );
 
-      std::cout << "\nCORPredicateTask[ " << this << " ]"
-		<< " | m_finished_o = " << this->m_finished_o()
-		<< "\n"; 
-
       this->m_result_o.publish( this->m_left_i.retrieve() && this->m_right_i.retrieve() );
       
+      std::cout << "\nCORPredicateTask[ " << this << " ]"
+		<< " | m_result_o = " << this->m_result_o()
+		<< "\n"; 
+
       return ! this->m_finished_o();
     }
 
