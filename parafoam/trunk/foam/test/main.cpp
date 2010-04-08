@@ -134,6 +134,25 @@ namespace parallel
 //---------------------------------------------------------------------------
 int main( int argc, char *argv[] )
 {
+  using namespace Foam;
+
+# include "setRootCase.H"
+
+  using namespace parallel::foam;
+
+  TimePtr runTime = createTime( args.path(), "nuclear" );
+  fvMeshPtr mesh = createMesh( *runTime );
+
+  Foam::Info << "mesh = " << mesh->time().path() << Foam::nl;
+
+  CSerializedFvMesh::TDataHolder aDataHolder( mesh );
+      
+  std::cout << "aDataHolder.store = " << aDataHolder() << std::endl;
+
+  std::cout << "aDataHolder.restore = " << aDataHolder.value()->time().path() << std::endl;
+
+  std::cout << "End" << std::endl;
+
   return 0;
 }
 
