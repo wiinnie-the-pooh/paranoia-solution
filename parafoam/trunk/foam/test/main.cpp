@@ -141,6 +141,7 @@ int main( int argc, char *argv[] )
   using namespace parallel::foam;
 
   TimePtr runTime = createTime( args.path(), "nuclear" );
+
   fvMeshPtr mesh = createMesh( *runTime );
 
   Foam::Info << "mesh = " << mesh->time().path() << Foam::nl;
