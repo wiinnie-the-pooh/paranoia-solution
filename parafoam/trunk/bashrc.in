@@ -24,10 +24,10 @@ if test "${PARAFOAM_ROOT_DIR}x" = "x" ; then
    export PARAFOAM_ROOT_DIR="@abs_top_builddir@"
    echo PARAFOAM_ROOT_DIR=\"${PARAFOAM_ROOT_DIR}\"
 
+   source ${PARAFOAM_ROOT_DIR}/env.sh
+
    export PATH=${PARAFOAM_ROOT_DIR}/bin:${PATH}
    export LD_LIBRARY_PATH=${PARAFOAM_ROOT_DIR}/lib:${LD_LIBRARY_PATH}
-
-   source ${PARAFOAM_ROOT_DIR}/env.sh
 fi
 
 
