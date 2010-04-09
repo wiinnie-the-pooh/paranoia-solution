@@ -49,7 +49,7 @@ namespace parallel
     //-----------------------------------------------------------------------
     void CSolverTaskBase::init()
     {
-      MSG( "\nStart of CSolverTaskBase[ " << this << " ]\n" );
+      MSG( "Start of CSolverTaskBase[ " << this << " ]\n" );
     }
     
     
@@ -87,7 +87,7 @@ namespace parallel
     //-----------------------------------------------------------------------
     void CSolverTaskBase::destroy()
     {
-      MSG( "\nEnd of CSolverTaskBase[ " << this << " ]\n" );
+      MSG( "End of CSolverTaskBase[ " << this << " ]\n" );
     }
 
 

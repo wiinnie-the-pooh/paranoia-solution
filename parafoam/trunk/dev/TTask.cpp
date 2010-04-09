@@ -165,7 +165,8 @@ namespace parallel
     {
       this->init();
       
-      while( theMgr->is_run() && this->step() );
+      while( theMgr->is_run() && this->step() )
+        this->m_StepCounter++;
       
       this->destroy();
     }
@@ -223,17 +224,29 @@ namespace parallel
         aQueue->publish( theDataHolder );
       }
     }
-    
+      
+      
+    //---------------------------------------------------------------------------
+    TTask::TTask()
+      : m_StepCounter( 0 )
+    {}
     
 
     //---------------------------------------------------------------------------
-    void TTask::print( const std::string& theMessage )
+    void TTask::print( TTask& theTask, const std::string& theMessage )
     {
       pthread_mutex_lock( &PRINT_MUTEX );
 
-      std::cout << theMessage;
+      std::cout << "\n< " << theTask.step_counter() << " > - " << theMessage;
 
       pthread_mutex_unlock( &PRINT_MUTEX );
+    }
+
+
+    //---------------------------------------------------------------------------
+    int TTask::step_counter() const
+    {
+      return this->m_StepCounter;
     }
 
 

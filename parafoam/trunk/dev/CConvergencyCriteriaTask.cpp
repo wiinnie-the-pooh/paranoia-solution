@@ -81,7 +81,7 @@ namespace parallel
     //-----------------------------------------------------------------------
     void CConvergencyCriteriaTask::init()
     {
-      MSG( "\nStart of CConvergencyCriteriaTask[ " << this << " ]\n" );
+      MSG( "Start of CConvergencyCriteriaTask[ " << this << " ]\n" );
     }
     
     
@@ -118,7 +118,7 @@ namespace parallel
     //-----------------------------------------------------------------------
     void CConvergencyCriteriaTask::destroy()
     {
-      MSG( "\nEnd of CConvergencyCriteriaTask[ " << this << " ]\n" );
+      MSG( "End of CConvergencyCriteriaTask[ " << this << " ]\n" );
     }
     
 

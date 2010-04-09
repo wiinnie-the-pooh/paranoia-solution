@@ -34,7 +34,7 @@
 
 
 //---------------------------------------------------------------------------
-#define MSG( the_message ) { std::ostringstream a_stream; a_stream << the_message; parallel::dev::TTask::print( a_stream.str() ); }
+#define MSG( the_message ) { std::ostringstream a_stream; a_stream << the_message; parallel::dev::TTask::print( *this, a_stream.str() ); }
 
 //---------------------------------------------------------------------------
 namespace parallel
@@ -89,13 +89,17 @@ namespace parallel
       friend struct CPortHelperEngine;
 
     protected:
+      TTask();
+
       virtual void init() 
       {}
       
       virtual void destroy()
       {}
 
-      static void print( const std::string& theMessage );
+      static void print( TTask& theTask, const std::string& theMessage );
+
+      int step_counter() const;
 
     private:
       typedef std::pair< base::TQueuePtr, base::TDataHolderPtr > TDataFactrory;
@@ -105,6 +109,8 @@ namespace parallel
       typedef std::set< base::TQueuePtr > TQueueSet;
       typedef std::map< base::TPortPtr, TQueueSet > TOutputPorts;
       TOutputPorts m_OutputPorts;
+
+      int m_StepCounter;
     };
 
 

@@ -52,14 +52,14 @@ namespace parallel
     //-----------------------------------------------------------------------
     void CORPredicateTask::init()
     {
-      MSG( "\nStart of CORPredicateTask[ " << this << " ]\n" );
+      MSG( "Start of CORPredicateTask[ " << this << " ]\n" );
     }
     
     
     //-----------------------------------------------------------------------
     bool CORPredicateTask::step()
     {
-      MSG( "\nCORPredicateTask[ " << this << " ]::step\n" );
+      MSG( "CORPredicateTask[ " << this << " ]::step\n" );
 
       this->m_finished_o.publish( this->m_stop_left_i.retrieve() || this->m_stop_right_i.retrieve() );
 
@@ -68,7 +68,7 @@ namespace parallel
 
       this->m_result_o.publish( this->m_left_i() && this->m_right_i() );
       
-      MSG( "\nCORPredicateTask[ " << this << " ]"
+      MSG( "CORPredicateTask[ " << this << " ]"
 	   << " | m_result_o = " << this->m_result_o()
 	   << " | m_left_i = " << this->m_left_i()
 	   << " | m_right_i = " << this->m_right_i()
@@ -81,7 +81,7 @@ namespace parallel
     //-----------------------------------------------------------------------
     void CORPredicateTask::destroy()
     {
-      MSG( "\nEnd of CORPredicateTask[ " << this << " ]\n" );
+      MSG( "End of CORPredicateTask[ " << this << " ]\n" );
     }
     
 

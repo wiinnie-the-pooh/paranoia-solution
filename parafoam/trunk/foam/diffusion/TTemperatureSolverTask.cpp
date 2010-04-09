@@ -61,7 +61,7 @@ namespace parallel
 
     void TTemperatureSolverTask::init()
     {
-      MSG( "\nStart of TTemperatureSolverTask[ " << this << " ]\n" );
+      MSG( "Start of TTemperatureSolverTask[ " << this << " ]\n" );
 
       CSolverTaskBase::init();
       
@@ -74,7 +74,7 @@ namespace parallel
     //---------------------------------------------------------------------------
     bool TTemperatureSolverTask::step()
     {      
-      MSG( "\nTTemperatureSolverTask[ " << this << " ]::step\n" );
+      MSG( "TTemperatureSolverTask[ " << this << " ]::step\n" );
 
       // It is necessary to retrieve the fileds before time modification
       // ( which take place in "pre_step" function)
@@ -84,7 +84,7 @@ namespace parallel
       {
         scalar residual = this->engine->solve();
         
-        MSG( "\nTTemperatureSolverTask[ " << this << " ]"
+        MSG( "TTemperatureSolverTask[ " << this << " ]"
 	     << " | " << this->runTime.timeName().c_str()
 	     << " | " << residual << "\n" );
       
@@ -101,7 +101,7 @@ namespace parallel
     //---------------------------------------------------------------------------
     void TTemperatureSolverTask::destroy()
     {
-      MSG( "\nEnd of TTemperatureSolverTask[ " << this << " ]\n" );
+      MSG( "End of TTemperatureSolverTask[ " << this << " ]\n" );
 
       CSolverTaskBase::destroy();
     }
