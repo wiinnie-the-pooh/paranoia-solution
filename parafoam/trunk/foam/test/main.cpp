@@ -23,7 +23,33 @@
 //---------------------------------------------------------------------------
 #include "parallel/foam/CSerializedFvMesh.h"
 
-#include "iostream"
+#include <pthread.h>
+
+#include <iostream>
+
+
+//---------------------------------------------------------------------------
+void* thrd_start( void* ptr )
+{
+  using namespace Foam;
+  using namespace parallel::foam;
+
+  fileName& path= *( (fileName*)ptr );
+  
+  TimePtr runTime = createTime( path, "nuclear" );
+  
+  fvMeshPtr mesh = createMesh( *runTime );
+  
+  Foam::Info << "mesh = " << mesh->time().path() << Foam::nl;
+  
+  CSerializedFvMesh::TDataHolder aDataHolder( mesh );
+      
+  std::cout << "aDataHolder.store = " << aDataHolder() << std::endl;
+  
+  std::cout << "aDataHolder.restore = " << aDataHolder.value()->time().path() << std::endl;
+
+  return 0;
+}
 
 
 //---------------------------------------------------------------------------
@@ -33,19 +59,28 @@ int main( int argc, char *argv[] )
 
 # include "setRootCase.H"
 
+  fileName path = args.path();
+
   using namespace parallel::foam;
 
-  TimePtr runTime = createTime( args.path(), "nuclear" );
+  typedef std::list< pthread_t > ThreadList;
+  ThreadList a_Threads;
 
-  fvMeshPtr mesh = createMesh( *runTime );
+  for( int i = 0; i < 10; i++ )
+  {
+    //thrd_start( (void*)&path );
 
-  Foam::Info << "mesh = " << mesh->time().path() << Foam::nl;
+    pthread_t thrd;
+    pthread_create( &thrd, NULL, thrd_start, (void*)&path );
+    a_Threads.push_back( thrd );
+  }
 
-  CSerializedFvMesh::TDataHolder aDataHolder( mesh );
-      
-  std::cout << "aDataHolder.store = " << aDataHolder() << std::endl;
-
-  std::cout << "aDataHolder.restore = " << aDataHolder.value()->time().path() << std::endl;
+  ThreadList::const_iterator anIter = a_Threads.begin();
+  ThreadList::const_iterator anEnd = a_Threads.end();
+  for ( ; anIter != anEnd; anIter++ )
+  {
+    pthread_join( *anIter, NULL );
+  }
 
   std::cout << "End" << std::endl;
 
