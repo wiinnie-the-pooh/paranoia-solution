@@ -20,22 +20,11 @@
 ##
 
 
-#------------------------------------------------------------------------------
-parallel_root_dir := $(parallel_base_root_dir)/..
-
-
-#------------------------------------------------------------------------------
-CPPFLAGS := @LOKI_CPPFLAGS@ @LOKI_CXXFLAGS@ -I$(parallel_root_dir)/.. $(CPPFLAGS)
-CPPFLAGS := $(CPPFLAGS) -g -D_DEBUG_ -Wno-deprecated -Wparentheses -Wreturn-type -Wunused
-
-LDFLAGS := @LOKI_LDFLAGS@ @LOKI_LIBS@ -L$(parallel_root_dir)/lib $(LDFLAGS)
-
-ifneq "$(parallel_base_root_dir)" "."
-  LDFLAGS := -lparallel_base $(LDFLAGS)
-endif
-
-
 #--------------------------------------------------------------------------------------
+parallel_root_dir := ..
+
+SUBDIRS := base dev foam toys
+
 include $(parallel_root_dir)/include.makefile
 
 

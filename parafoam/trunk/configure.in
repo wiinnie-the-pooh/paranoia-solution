@@ -54,8 +54,8 @@ CONFFOAM_CHECK_MANDATORY( "openfoam_ok loki_ok boost_ok" )
 #--------------------------------------------------------------------------------------
 AC_OUTPUT( [ bashrc \
 	     include.makefile \
-	     base/include.makefile \
-	     dev/include.makefile ] )
+	     parallel/base/include.makefile \
+	     parallel/dev/include.makefile ] )
 
 
 echo "------------------------------------ OK -----------------------------------------"
