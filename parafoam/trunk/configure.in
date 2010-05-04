@@ -40,15 +40,19 @@ EXTFOAM_CHECK_LOKI
 echo 
 
 echo "--------------------------------------------------------------------------------------"
-EXTFOAM_CHECK_BOOST
+CONFFOAM_CHECK_BOOST_SERIALIZATION
+echo 
+
+echo "--------------------------------------------------------------------------------------"
+CONFFOAM_CHECK_BOOST_THREAD
 echo 
 
 
 echo "---------------------------- mandatory products --------------------------------"
-CONFFOAM_PRINT_SUMMURY( "openfoam_ok loki_ok boost_ok" )
+CONFFOAM_PRINT_SUMMURY( "openfoam_ok loki_ok boost_serialization_ok boost_thread_ok" )
 echo
 echo "--------------------------------------------------------------------------------"
-CONFFOAM_CHECK_MANDATORY( "openfoam_ok loki_ok boost_ok" )
+CONFFOAM_CHECK_MANDATORY( "openfoam_ok loki_ok boost_serialization_ok boost_thread_ok" )
 
 
 #--------------------------------------------------------------------------------------
