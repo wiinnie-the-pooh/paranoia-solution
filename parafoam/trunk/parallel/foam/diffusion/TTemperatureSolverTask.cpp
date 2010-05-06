@@ -72,15 +72,16 @@ namespace parallel
     //---------------------------------------------------------------------------
     bool TTemperatureSolverTask::step()
     {      
-      MSG( "TTemperatureSolverTask[ " << this << " ]::step\n" );
+      MSG( "TTemperatureSolverTask[ " << this << " ]::step entered\n" );
 
       // It is necessary to retrieve the fileds before time modification
       // ( which take place in "pre_step" function)
       this->m_powerDensity_i.retrieve( this->engine->mesh );
+      MSG( "TTemperatureSolverTask[ " << this << " ]::data retrieved\n" );
       
       if ( this->pre_step() )
       {
-        SFoamMutex aMutex;
+        //SFoamMutex aMutex; // pure matrix manipulations seems are threadsafe
 
         scalar residual = this->engine->solve();
         
@@ -92,6 +93,8 @@ namespace parallel
 
         this->m_Tfuel_o.publish( clone( this->engine->Tfuel() ) );
         this->m_Tmod_o.publish( clone( this->engine->Tmod() ) );
+
+        MSG( "TTemperatureSolverTask[ " << this << " ]::data published\n" );
       }
 
       return this->post_step();

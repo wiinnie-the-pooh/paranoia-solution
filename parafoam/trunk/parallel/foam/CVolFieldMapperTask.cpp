@@ -55,18 +55,16 @@ namespace parallel
     //-----------------------------------------------------------------------
     bool CVolFieldMapperTask::step()
     {
-      MSG( "CVolFieldMapperTask[ " << this << " ]::step\n" );
-
       if ( !this->m_stop_i.retrieve() )
       {
         this->m_SourceField_i.retrieve( this->m_SourceMesh_i );
       
+        SFoamMutex aMutex;
+
         MSG( "CVolFieldMapperTask[ " << this << " ]"
 	     << " | " << this->m_TargetMesh_i->time().timeName().c_str()
 	     << " | \"" << this->m_SourceField_i->name().c_str() << "\"\n" );
         
-        SFoamMutex aMutex;
-
         this->m_TargetField_o.publish( clone( mapConsistentField( this->m_SourceField_i(), this->m_TargetMesh_i() ) ) );
       }
 

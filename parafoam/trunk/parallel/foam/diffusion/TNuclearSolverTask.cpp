@@ -74,16 +74,17 @@ namespace parallel
     //---------------------------------------------------------------------------
     bool TNuclearSolverTask::step()
     {
-      MSG( "TNuclearSolverTask[ " << this << " ]::step\n" );
+      MSG( "TNuclearSolverTask[ " << this << " ]::step entered\n" );
 
       // It is necessary to retrieve the fileds before time modification
       // ( which take place in "pre_step" function)
       this->m_Tfuel_i.retrieve( this->engine->mesh );
       this->m_Tmod_i.retrieve( this->engine->mesh );
+      MSG( "TNuclearSolverTask[ " << this << " ]::data retrieved\n" );
       
       if ( this->pre_step() )
       {
-        SFoamMutex aMutex;
+        //SFoamMutex aMutex; // pure matrix manipulations seems are threadsafe
 
         scalar residual = this->engine->solve();
         
@@ -94,6 +95,8 @@ namespace parallel
         this->m_residual_o.publish( residual );
 
         this->m_powerDensity_o.publish( clone( this->engine->powerDensity() ) );
+        MSG( "TNuclearSolverTask[ " << this << " ]::data published\n" );
+
       }
 
       return this->post_step();
