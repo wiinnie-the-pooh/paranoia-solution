@@ -30,6 +30,8 @@
 
 #include "parallel/dev/CSerializedValueHelper.h"
 
+#include "parallel/foam/SFoamMutex.h"
+
 #include <loki/SmartPtr.h>
 
 #include <fvMesh.H>
@@ -86,6 +88,8 @@ namespace parallel
       template< class ArchiveType >
       void save( ArchiveType & ar, const unsigned int /* revision_number */ ) const
       {
+        SFoamMutex aMutex;
+
         Foam::OStringStream an_ostream;
 
         an_ostream << this->value->name();
@@ -105,6 +109,8 @@ namespace parallel
 
         std::string a_string;
         ar >> a_string;
+
+        SFoamMutex aMutex;
 
         Foam::IStringStream an_istream( a_string );
         

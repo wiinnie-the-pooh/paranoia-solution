@@ -30,6 +30,8 @@
 
 #include "parallel/dev/CSerializedValueHelper.h"
 
+#include "parallel/foam/SFoamMutex.h"
+
 #include <loki/SmartPtr.h>
 
 #include <fvMesh.H>
@@ -74,6 +76,8 @@ namespace parallel
       template< class SerializedDataHolderType >
       void save_data( SerializedDataHolderType& the_serialized_data_holder ) const
       {
+        SFoamMutex aMutex;
+
         Foam::OStringStream an_ostream;
 
         an_ostream << this->value->name() << "\n";
@@ -86,6 +90,8 @@ namespace parallel
       template< class SerializedDataHolderType >
       void restore_data( const SerializedDataHolderType& the_serialized_data_holder )
       {
+        SFoamMutex aMutex;
+
         Foam::IStringStream an_istream( the_serialized_data_holder() );
 
         Foam::word a_name;

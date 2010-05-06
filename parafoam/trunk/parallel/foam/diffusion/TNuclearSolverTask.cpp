@@ -25,7 +25,7 @@
 
 #include "parallel/foam/diffusion/TNuclearSolver.h"
 
-#include "parallel/dev/TPort.h"
+#include "parallel/foam/SFoamMutex.h"
 
 
 //---------------------------------------------------------------------------
@@ -83,6 +83,8 @@ namespace parallel
       
       if ( this->pre_step() )
       {
+        SFoamMutex aMutex;
+
         scalar residual = this->engine->solve();
         
         MSG( "TNuclearSolverTask[ " << this << " ]"

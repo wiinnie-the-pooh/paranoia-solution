@@ -32,6 +32,8 @@
 
 #include "parallel/foam/utilities.h"
 
+#include "parallel/foam/SFoamMutex.h"
+
 
 //---------------------------------------------------------------------------
 namespace parallel
@@ -66,6 +68,8 @@ namespace parallel
       template< class ArchiveType >
       void save( ArchiveType & ar, const unsigned int /* revision_number */ ) const
       {
+        SFoamMutex aMutex;
+
         Foam::OStringStream an_ostream;
 
         an_ostream << this->value->time().rootPath() << Foam::token::SPACE
@@ -82,6 +86,8 @@ namespace parallel
         std::string a_string;
 
         ar >> a_string;
+
+        SFoamMutex aMutex;
 
         Foam::IStringStream an_ostream( a_string );
 

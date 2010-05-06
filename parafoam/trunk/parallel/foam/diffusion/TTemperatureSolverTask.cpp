@@ -25,9 +25,7 @@
 
 #include "parallel/foam/diffusion/TTemperatureSolver.h"
 
-#include "parallel/dev/TPort.h"
-
-#include "parallel/dev/CBoolPort.h"
+#include "parallel/foam/SFoamMutex.h"
 
 
 //---------------------------------------------------------------------------
@@ -82,6 +80,8 @@ namespace parallel
       
       if ( this->pre_step() )
       {
+        SFoamMutex aMutex;
+
         scalar residual = this->engine->solve();
         
         MSG( "TTemperatureSolverTask[ " << this << " ]"
