@@ -23,6 +23,8 @@
 //---------------------------------------------------------------------------
 #include "parallel/foam/utilities.h"
 
+#include <pthread.h>
+
 
 //---------------------------------------------------------------------------
 namespace parallel 
@@ -32,6 +34,8 @@ namespace parallel
     //-----------------------------------------------------------------------
     TimePtr createTime( const fileName& rootPath, const fileName& caseName )
     {
+      SFoamMutex aMutex;
+
       return new Time( Time::controlDictName,
                        rootPath,
                        caseName );
@@ -41,6 +45,8 @@ namespace parallel
     //-----------------------------------------------------------------------
     fvMeshPtr createMesh( const Time& runTime )
     {
+      SFoamMutex aMutex;
+
       return new fvMesh( IOobject( fvMesh::defaultRegion,
                                    fileName( runTime.timeName() ),
                                    runTime,
@@ -51,9 +57,39 @@ namespace parallel
     //-----------------------------------------------------------------------
     tmp< volScalarField > clone( const volScalarField& theValue )
     {
+      SFoamMutex aMutex;
+
       return tmp< volScalarField >( new volScalarField( theValue ) );
     }
     
+
+    //-----------------------------------------------------------------------
+    static pthread_mutex_t FOAM_MUTEX;
+
+    int init_foam_mutex()
+    {
+      pthread_mutexattr_t attr;
+      pthread_mutexattr_init( &attr );
+      pthread_mutexattr_settype( &attr, PTHREAD_MUTEX_NORMAL );
+      pthread_mutex_init( &FOAM_MUTEX, &attr );
+      
+      return 1;
+    }
+
+    static int INIT_FOAM_MUTEX = init_foam_mutex();
+
+
+    //-----------------------------------------------------------------------
+    SFoamMutex::SFoamMutex()
+    {
+      pthread_mutex_lock( &FOAM_MUTEX );
+    }
+
+    SFoamMutex::~SFoamMutex()
+    {
+      pthread_mutex_unlock( &FOAM_MUTEX );
+    }
+
 
     //-----------------------------------------------------------------------
   }
