@@ -23,6 +23,8 @@
 //---------------------------------------------------------------------------
 #include "parallel/foam/CSerializedFvMesh.h"
 
+#include "parallel/foam/SFoamMutex.h"
+
 #include <pthread.h>
 
 #include <iostream>

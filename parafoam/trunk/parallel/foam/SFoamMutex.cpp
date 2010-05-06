@@ -21,43 +21,47 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef foam_utilities_h
-#define foam_utilities_h
+#include "parallel/foam/SFoamMutex.h"
+
+#include <pthread.h>
 
 
 //---------------------------------------------------------------------------
-#include <fvCFD.H>
-
-#include <loki/SmartPtr.h>
-
-
-//---------------------------------------------------------------------------
-namespace parallel
+namespace parallel 
 {
   namespace foam
   {
     //-----------------------------------------------------------------------
-    using namespace Foam;
+    static pthread_mutex_t FOAM_MUTEX;
+
+    int init_foam_mutex()
+    {
+      pthread_mutexattr_t attr;
+      pthread_mutexattr_init( &attr );
+      pthread_mutexattr_settype( &attr, PTHREAD_MUTEX_RECURSIVE );
+      pthread_mutex_init( &FOAM_MUTEX, &attr );
+      
+      return 1;
+    }
+
+    static int INIT_FOAM_MUTEX = init_foam_mutex();
 
 
     //-----------------------------------------------------------------------
-    typedef Loki::SmartPtrDef< Time >::type TimePtr;
-    TimePtr createTime( const fileName& rootPath, const fileName& caseName );
+    SFoamMutex::SFoamMutex()
+    {
+      pthread_mutex_lock( &FOAM_MUTEX );
+    }
+
+    SFoamMutex::~SFoamMutex()
+    {
+      pthread_mutex_unlock( &FOAM_MUTEX );
+    }
 
 
     //-----------------------------------------------------------------------
-    typedef Loki::SmartPtrDef< fvMesh >::type fvMeshPtr;
-    fvMeshPtr createMesh( const Time& runTime );
-
-
-    //-----------------------------------------------------------------------
-    tmp< volScalarField > clone( const volScalarField& theValue );
-
-
-    //-----------------------------------------------------------------------
- }
+  }
 }
 
 
 //---------------------------------------------------------------------------
-#endif

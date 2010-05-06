@@ -23,7 +23,7 @@
 //---------------------------------------------------------------------------
 #include "parallel/foam/utilities.h"
 
-#include <pthread.h>
+#include "parallel/foam/SFoamMutex.h"
 
 
 //---------------------------------------------------------------------------
@@ -62,34 +62,6 @@ namespace parallel
       return tmp< volScalarField >( new volScalarField( theValue ) );
     }
     
-
-    //-----------------------------------------------------------------------
-    static pthread_mutex_t FOAM_MUTEX;
-
-    int init_foam_mutex()
-    {
-      pthread_mutexattr_t attr;
-      pthread_mutexattr_init( &attr );
-      pthread_mutexattr_settype( &attr, PTHREAD_MUTEX_RECURSIVE );
-      pthread_mutex_init( &FOAM_MUTEX, &attr );
-      
-      return 1;
-    }
-
-    static int INIT_FOAM_MUTEX = init_foam_mutex();
-
-
-    //-----------------------------------------------------------------------
-    SFoamMutex::SFoamMutex()
-    {
-      pthread_mutex_lock( &FOAM_MUTEX );
-    }
-
-    SFoamMutex::~SFoamMutex()
-    {
-      pthread_mutex_unlock( &FOAM_MUTEX );
-    }
-
 
     //-----------------------------------------------------------------------
   }
