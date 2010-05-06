@@ -23,7 +23,7 @@
 //---------------------------------------------------------------------------
 #include "parallel/foam/SFoamMutex.h"
 
-#include <pthread.h>
+#include <boost/thread/recursive_mutex.hpp>
 
 
 //---------------------------------------------------------------------------
@@ -32,30 +32,18 @@ namespace parallel
   namespace foam
   {
     //-----------------------------------------------------------------------
-    static pthread_mutex_t FOAM_MUTEX;
-
-    int init_foam_mutex()
-    {
-      pthread_mutexattr_t attr;
-      pthread_mutexattr_init( &attr );
-      pthread_mutexattr_settype( &attr, PTHREAD_MUTEX_RECURSIVE );
-      pthread_mutex_init( &FOAM_MUTEX, &attr );
-      
-      return 1;
-    }
-
-    static int INIT_FOAM_MUTEX = init_foam_mutex();
+    static boost::recursive_mutex FOAM_MUTEX;
 
 
     //-----------------------------------------------------------------------
     SFoamMutex::SFoamMutex()
     {
-      pthread_mutex_lock( &FOAM_MUTEX );
+      boost::detail::thread::lock_ops< boost::recursive_mutex >::lock( FOAM_MUTEX );
     }
 
     SFoamMutex::~SFoamMutex()
     {
-      pthread_mutex_unlock( &FOAM_MUTEX );
+      boost::detail::thread::lock_ops< boost::recursive_mutex >::unlock( FOAM_MUTEX );
     }
 
 

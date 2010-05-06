@@ -23,7 +23,7 @@
 #------------------------------------------------------------------------------
 CPPFLAGS := @BOOST_CPPFLAGS@ @BOOST_CXXFLAGS@ $(CPPFLAGS)
 
-LDFLAGS := @BOOST_LDFLAGS@ @BOOST_SERIALIZATION_LIBS@ $(LDFLAGS)
+LDFLAGS := @BOOST_LDFLAGS@ @BOOST_SERIALIZATION_LIBS@ @BOOST_THREAD_LIBS@ $(LDFLAGS)
 
 ifneq "$(parallel_dev_root_dir)" "."
   LDFLAGS := -lparallel_dev $(LDFLAGS)

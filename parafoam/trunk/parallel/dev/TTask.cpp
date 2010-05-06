@@ -24,6 +24,8 @@
 #include "parallel/dev/TTask.h"
 #include "parallel/dev/TPort.h"
 
+#include <boost/thread/mutex.hpp>
+
 #include <iostream>
 
 
@@ -44,19 +46,7 @@ namespace
 
   
   //---------------------------------------------------------------------------
-  static pthread_mutex_t PRINT_MUTEX;
-
-  int init()
-  {
-    pthread_mutexattr_t attr;
-    pthread_mutexattr_init( &attr );
-    pthread_mutexattr_settype( &attr, PTHREAD_MUTEX_NORMAL );
-    pthread_mutex_init( &PRINT_MUTEX, &attr );
-
-    return 1;
-  }
-
-  static int INIT = init();
+  static boost::mutex PRINT_MUTEX;
 }
 
 
@@ -235,11 +225,9 @@ namespace parallel
     //---------------------------------------------------------------------------
     void TTask::print( TTask& theTask, const std::string& theMessage )
     {
-      pthread_mutex_lock( &PRINT_MUTEX );
+      boost::mutex::scoped_lock a_lock( PRINT_MUTEX );
 
       std::cout << "\n< " << theTask.step_counter() << " > - " << theMessage;
-
-      pthread_mutex_unlock( &PRINT_MUTEX );
     }
 
 
