@@ -104,13 +104,13 @@ namespace parallel
       template< class ArchiveType >
       void load( ArchiveType & ar, const unsigned int /* revision_number */ )
       {
+        SFoamMutex aMutex;
+
         std::string a_name;
         ar >> a_name;
 
         std::string a_string;
         ar >> a_string;
-
-        SFoamMutex aMutex;
 
         Foam::IStringStream an_istream( a_string );
         

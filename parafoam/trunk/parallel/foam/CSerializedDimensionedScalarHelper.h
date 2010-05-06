@@ -28,6 +28,8 @@
 //---------------------------------------------------------------------------
 #include "parallel/dev/CSerializedValueHelper.h"
 
+#include "parallel/foam/SFoamMutex.h"
+
 #include <dimensionedScalar.H>
 
 #include <IStringStream.H>
@@ -66,6 +68,8 @@ namespace parallel
       template< class ArchiveType >
       void save( ArchiveType & ar, const unsigned int /* revision_number */ ) const
       {
+        parallel::foam::SFoamMutex aMutex;
+
         Foam::OStringStream an_ostream;
 
         an_ostream << /* this->value.name() */ "dummy_name" << Foam::token::SPACE 
@@ -80,6 +84,8 @@ namespace parallel
       template< class ArchiveType >
       void load( ArchiveType & ar, const unsigned int /* revision_number */ )
       {
+        parallel::foam::SFoamMutex aMutex;
+
         std::string a_string;
 
         ar >> a_string;

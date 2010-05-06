@@ -23,6 +23,8 @@
 //---------------------------------------------------------------------------
 #include "parallel/foam/CTimeSourceTask.h"
 
+#include "parallel/foam/SFoamMutex.h"
+
 
 //---------------------------------------------------------------------------
 namespace parallel
@@ -57,6 +59,8 @@ namespace parallel
     //-----------------------------------------------------------------------
     bool CTimeSourceTask::step()
     {
+      //SFoamMutex aMutex; // this line leads to dead lock by somereasons
+
       this->m_next_i.retrieve();
       this->m_delta_i.retrieve();
 
