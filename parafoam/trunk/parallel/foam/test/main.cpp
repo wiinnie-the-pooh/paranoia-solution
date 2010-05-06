@@ -36,6 +36,8 @@ void* thrd_start( void* ptr )
 
   fileName& path= *( (fileName*)ptr );
   
+  SFoamMutex aMutex;
+
   TimePtr runTime = createTime( path, "nuclear" );
   
   fvMeshPtr mesh = createMesh( *runTime );
