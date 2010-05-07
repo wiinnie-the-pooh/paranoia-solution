@@ -84,26 +84,30 @@ namespace parallel
         return aTargetField;
       }
       
-      IOobject aTargetIOobject = IOobject( aFieldName,
-                                           fileName( meshTarget.time().timeName() ),
-                                           meshTarget,
-                                           IOobject::READ_IF_PRESENT,
-                                           IOobject::AUTO_WRITE );
+      autoPtr< IOobject > aTargetIOobject;
+      {
+        SFoamMutex aMutex;
+        aTargetIOobject = autoPtr< IOobject >( new IOobject( aFieldName,
+                                                             fileName( meshTarget.time().timeName() ),
+                                                             meshTarget,
+                                                             IOobject::READ_IF_PRESENT,
+                                                             IOobject::AUTO_WRITE ) );
+      }
       TResult aTargetField;
       
-      if ( aTargetIOobject.headerOk() ) {
-	{
+      if ( aTargetIOobject().headerOk() ) {
+        {
 	  SFoamMutex aMutex;
-	  aTargetField = TResult( new TGeometricField( aTargetIOobject, meshTarget ) );
-	}
+	  aTargetField = TResult( new TGeometricField( aTargetIOobject(), meshTarget ) );
+        }
         meshToMeshInterp.interpolate( aTargetField(), theSourceField, meshToMesh::INTERPOLATE );
       } else {
-        aTargetIOobject.readOpt() = IOobject::NO_READ;
+        aTargetIOobject().readOpt() = IOobject::NO_READ;
         TResult aPrototype = meshToMeshInterp.interpolate( theSourceField, meshToMesh::INTERPOLATE );
-	{
+        {
 	  SFoamMutex aMutex;
-	  aTargetField = TResult( new TGeometricField( aTargetIOobject, aPrototype ) );
-	}
+	  aTargetField = TResult( new TGeometricField( aTargetIOobject(), aPrototype ) );
+        }
       }
       
       print_interpolate_report( aTargetField(), theSourceField );
