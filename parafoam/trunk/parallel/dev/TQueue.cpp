@@ -23,6 +23,8 @@
 //---------------------------------------------------------------------------
 #include "parallel/dev/TQueue.h"
 
+#include "parallel/dev/boost_threading.h"
+
 
 //---------------------------------------------------------------------------
 namespace parallel
@@ -32,37 +34,27 @@ namespace parallel
     //---------------------------------------------------------------------------
     TQueue::TQueue()
     {
-      pthread_mutexattr_t attr1;
-      pthread_mutexattr_init( &attr1 );
-      pthread_mutexattr_settype( &attr1, PTHREAD_MUTEX_NORMAL );
-      pthread_mutex_init( &m_Read, &attr1 );
-      
-      pthread_mutexattr_t attr2;
-      pthread_mutexattr_init( &attr2 );
-      pthread_mutexattr_settype( &attr2, PTHREAD_MUTEX_NORMAL );
-      pthread_mutex_init( &m_List, &attr2 );
-      
-      pthread_mutex_lock( &m_Read );
+      parallel::threading::lock( m_Read );
     }
 
 
     //---------------------------------------------------------------------------
     void TQueue::publish( const base::TDataHolderPtr& theDataHolder )
     {
-      pthread_mutex_lock( &m_List );
+      parallel::threading::lock( m_List );
       
       m_DataHolders.push_back( theDataHolder );
       
-      pthread_mutex_unlock( &m_List );
-      pthread_mutex_unlock( &m_Read );
+      parallel::threading::unlock( m_List );
+      parallel::threading::unlock( m_Read );
     }
 
 
     //---------------------------------------------------------------------------
     base::TDataHolderPtr TQueue::retrieve()
     {
-      pthread_mutex_lock( &m_Read );
-      pthread_mutex_lock( &m_List );
+      parallel::threading::lock( m_Read );
+      parallel::threading::lock( m_List );
       
       base::TDataHolderPtr aDataHolder;
       if ( !m_DataHolders.empty() )
@@ -74,9 +66,9 @@ namespace parallel
       // "publish" could be called many times before first "retrive" will be called
       // we should be able read all the available data
       if ( !m_DataHolders.empty() )
-        pthread_mutex_unlock( &m_Read );
+        parallel::threading::unlock( m_Read );
       
-      pthread_mutex_unlock( &m_List );
+      parallel::threading::unlock( m_List );
       
       return aDataHolder;
     }

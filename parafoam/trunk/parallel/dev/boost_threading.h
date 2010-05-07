@@ -39,7 +39,7 @@ namespace parallel
 #if BOOST_VERSION >= 103500
       the_mutex.lock();
 #else
-      boost::detail::thread::lock_ops< boost::recursive_mutex >::lock( the_mutex );
+      boost::detail::thread::lock_ops< MutexType >::lock( the_mutex );
 #endif
     };
 
@@ -51,7 +51,7 @@ namespace parallel
 #if BOOST_VERSION >= 103500
       the_mutex.unlock();
 #else
-      boost::detail::thread::lock_ops< boost::recursive_mutex >::unlock( the_mutex );
+      boost::detail::thread::lock_ops< MutexType >::unlock( the_mutex );
 #endif
     };
 

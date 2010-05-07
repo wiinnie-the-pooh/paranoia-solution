@@ -28,6 +28,8 @@
 //---------------------------------------------------------------------------
 #include "parallel/base/Interfaces.h"
 
+#include <boost/thread/mutex.hpp>
+
 #include <list>
 
 
@@ -46,7 +48,7 @@ namespace parallel
 
     private:
       std::list< base::TDataHolderPtr > m_DataHolders;
-      pthread_mutex_t m_List, m_Read;
+      boost::mutex m_List, m_Read;
     };
 
 
