@@ -176,7 +176,7 @@ int implicit_scheme( int argc, char *argv[] )
     CTimeSourceTask::TPtr aTimeSource( new CTimeSourceTask() );
     aTimeSource->setTime( dimensionedScalar( 0.000 ), 0 );
     aTimeSource->setDeltaT( dimensionedScalar( 0.005 ) );
-    aTimeSource->setEndTime( dimensionedScalar( 0.030 ) );
+    aTimeSource->setEndTime( dimensionedScalar( 0.777 ) );
     aTimeSource->setWriteInterval( 1 );
     aMgr->add_task( aTimeSource );
 
@@ -184,7 +184,7 @@ int implicit_scheme( int argc, char *argv[] )
     aMgr->add_task( aNuclearSolver );
 
     CConvergencyCriteriaTask::TPtr aNuclearConvergencyCriteria( new CConvergencyCriteriaTask() );
-    aNuclearConvergencyCriteria->setMaxResidual( 1.0E-5 );
+    aNuclearConvergencyCriteria->setMaxResidual( 1.0E-6 );
     aNuclearConvergencyCriteria->setMaxIterationNumber( 100 );
     aMgr->add_task( aNuclearConvergencyCriteria );
 
@@ -192,7 +192,7 @@ int implicit_scheme( int argc, char *argv[] )
     aMgr->add_task( aTemperatureSolver );
 
     CConvergencyCriteriaTask::TPtr aTemperatureConvergencyCriteria( new CConvergencyCriteriaTask() );
-    aTemperatureConvergencyCriteria->setMaxResidual( 1.0E-5 );
+    aTemperatureConvergencyCriteria->setMaxResidual( 1.0E-6 );
     aTemperatureConvergencyCriteria->setMaxIterationNumber( 100 );
     aMgr->add_task( aTemperatureConvergencyCriteria );
 

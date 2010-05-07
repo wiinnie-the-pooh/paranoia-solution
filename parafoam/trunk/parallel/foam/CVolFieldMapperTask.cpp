@@ -59,8 +59,6 @@ namespace parallel
       {
         this->m_SourceField_i.retrieve( this->m_SourceMesh_i );
       
-        SFoamMutex aMutex;
-
         MSG( "CVolFieldMapperTask[ " << this << " ]"
 	     << " | " << this->m_TargetMesh_i->time().timeName().c_str()
 	     << " | \"" << this->m_SourceField_i->name().c_str() << "\"\n" );

@@ -23,6 +23,8 @@
 //---------------------------------------------------------------------------
 #include "parallel/foam/mapConsistentField.h"
 
+#include "parallel/foam/SFoamMutex.h"
+
 #include <meshToMesh.H>
 
 
@@ -90,12 +92,18 @@ namespace parallel
       TResult aTargetField;
       
       if ( aTargetIOobject.headerOk() ) {
-        aTargetField = TResult( new TGeometricField( aTargetIOobject, meshTarget ) );
+	{
+	  SFoamMutex aMutex;
+	  aTargetField = TResult( new TGeometricField( aTargetIOobject, meshTarget ) );
+	}
         meshToMeshInterp.interpolate( aTargetField(), theSourceField, meshToMesh::INTERPOLATE );
       } else {
         aTargetIOobject.readOpt() = IOobject::NO_READ;
         TResult aPrototype = meshToMeshInterp.interpolate( theSourceField, meshToMesh::INTERPOLATE );
-        aTargetField = TResult( new TGeometricField( aTargetIOobject, aPrototype ) );
+	{
+	  SFoamMutex aMutex;
+	  aTargetField = TResult( new TGeometricField( aTargetIOobject, aPrototype ) );
+	}
       }
       
       print_interpolate_report( aTargetField(), theSourceField );
