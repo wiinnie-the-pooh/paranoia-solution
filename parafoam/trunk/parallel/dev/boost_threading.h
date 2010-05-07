@@ -21,37 +21,45 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/foam/SFoamMutex.h"
+#ifndef dev_boost_threading_h
+#define dev_boost_threading_h
 
-#include "parallel/dev/boost_threading.h"
-
-#include <boost/thread/recursive_mutex.hpp>
+#include <boost/thread.hpp>
 
 
 //---------------------------------------------------------------------------
-namespace parallel 
+namespace parallel
 {
-  namespace foam
+  namespace threading
   {
     //-----------------------------------------------------------------------
-    static boost::recursive_mutex FOAM_MUTEX;
+    template< class MutexType >
+    void lock( MutexType& the_mutex )
+    {
+#if BOOST_VERSION >= 103500
+      the_mutex.lock();
+#else
+      boost::detail::thread::lock_ops< boost::recursive_mutex >::lock( the_mutex );
+#endif
+    };
 
 
     //-----------------------------------------------------------------------
-    SFoamMutex::SFoamMutex()
+    template< class MutexType >
+    void unlock( MutexType& the_mutex )
     {
-      parallel::threading::lock( FOAM_MUTEX );
-    }
-
-    SFoamMutex::~SFoamMutex()
-    {
-      parallel::threading::unlock( FOAM_MUTEX );
-    }
+#if BOOST_VERSION >= 103500
+      the_mutex.unlock();
+#else
+      boost::detail::thread::lock_ops< boost::recursive_mutex >::unlock( the_mutex );
+#endif
+    };
 
 
     //-----------------------------------------------------------------------
-  }
+ }
 }
 
 
 //---------------------------------------------------------------------------
+#endif
