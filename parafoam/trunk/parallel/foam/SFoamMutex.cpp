@@ -38,12 +38,20 @@ namespace parallel
     //-----------------------------------------------------------------------
     SFoamMutex::SFoamMutex()
     {
+#if BOOST_VERSION >= 103500
+      FOAM_MUTEX.lock();
+#else
       boost::detail::thread::lock_ops< boost::recursive_mutex >::lock( FOAM_MUTEX );
+#endif
     }
 
     SFoamMutex::~SFoamMutex()
     {
+#if BOOST_VERSION >= 103500
+      FOAM_MUTEX.unlock();
+#else
       boost::detail::thread::lock_ops< boost::recursive_mutex >::unlock( FOAM_MUTEX );
+#endif
     }
 
 
