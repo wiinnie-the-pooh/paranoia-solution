@@ -28,7 +28,9 @@
 //---------------------------------------------------------------------------
 #include "parallel/base/Interfaces.h"
 
-#include <pthread.h>
+#include <boost/thread/thread.hpp>
+#include <boost/thread/mutex.hpp>
+
 #include <list>
 
 
@@ -62,11 +64,10 @@ namespace parallel
       typedef std::list< base::TTaskPtr > TaskList;
       TaskList m_Tasks;
       
-      typedef std::list< pthread_t > ThreadList;
-      ThreadList m_Threads;
+      boost::thread_group m_Threads;
       
       bool m_IsRun;
-      pthread_mutex_t m_Pause;
+      boost::mutex m_Pause;
     };
 
 

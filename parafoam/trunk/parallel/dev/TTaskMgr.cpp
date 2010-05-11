@@ -24,8 +24,27 @@
 #include "parallel/dev/TTaskMgr.h"
 #include "parallel/dev/TQueue.h"
 
-#include <iostream>
+#include "parallel/dev/boost_threading.h"
+
+#include <boost/bind.hpp>
+#include <boost/function.hpp>
+
 #include <algorithm>
+#include <iostream>
+
+
+//---------------------------------------------------------------------------
+namespace
+{
+    //---------------------------------------------------------------------------
+    void invoke( const parallel::base::TTaskPtr& theTask )
+    {
+      theTask->invoke( parallel::dev::TTaskMgr::get_instance() );
+    }
+
+
+    //---------------------------------------------------------------------------
+}
 
 
 //---------------------------------------------------------------------------
@@ -36,12 +55,7 @@ namespace parallel
     //---------------------------------------------------------------------------
     TTaskMgr::TTaskMgr()
       : m_IsRun( false )
-    {
-      pthread_mutexattr_t attr;
-      pthread_mutexattr_init( &attr );
-      pthread_mutexattr_settype( &attr, PTHREAD_MUTEX_NORMAL );
-      pthread_mutex_init( &m_Pause, &attr );
-    }
+    {}
 
 
     //---------------------------------------------------------------------------
@@ -52,17 +66,6 @@ namespace parallel
       return anInst;
     }
     
-
-    //---------------------------------------------------------------------------
-    void* thrd_start( void* ptr )
-    {
-      base::TTaskPtr aTask = *((base::TTaskPtr*)ptr);
-
-      aTask->invoke( TTaskMgr::get_instance() );
-
-      return 0;
-    }
-
 
     //---------------------------------------------------------------------------
     void TTaskMgr::start()
@@ -76,11 +79,8 @@ namespace parallel
       TaskList::const_iterator anEnd = m_Tasks.end();
       for( ; anIter != anEnd; anIter++ )
       {
-        pthread_t thrd;
         const base::TTaskPtr& aTask = *anIter;
-        pthread_create( &thrd, NULL, thrd_start, (void*)&aTask );
-        
-        m_Threads.push_back( thrd );
+        m_Threads.create_thread( boost::bind( boost::bind< void >( invoke, _1 ), aTask ) );
       }
     }
 
@@ -88,12 +88,7 @@ namespace parallel
     //---------------------------------------------------------------------------
     void TTaskMgr::wait()
     {
-      ThreadList::const_iterator anIter = m_Threads.begin();
-      ThreadList::const_iterator anEnd = m_Threads.end();
-      for ( ; anIter != anEnd; anIter++ )
-      {
-        pthread_join( *anIter, NULL );
-      }
+      m_Threads.join_all();
     }
 
 
@@ -107,22 +102,23 @@ namespace parallel
     //---------------------------------------------------------------------------
     void TTaskMgr::pause()
     {
-      pthread_mutex_lock( &m_Pause );
+      parallel::threading::lock( m_Pause );
     }
 
 
     //---------------------------------------------------------------------------
     void TTaskMgr::resume()
     {
-      pthread_mutex_unlock( &m_Pause );
+      parallel::threading::unlock( m_Pause );
     }
 
 
     //---------------------------------------------------------------------------
     bool TTaskMgr::is_run()
     {
-      pthread_mutex_lock( &m_Pause );
-      pthread_mutex_unlock( &m_Pause );
+      parallel::threading::lock( m_Pause );
+      parallel::threading::unlock( m_Pause );
+
       return m_IsRun;
     }
 
