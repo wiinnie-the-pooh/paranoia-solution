@@ -25,19 +25,19 @@
 
 #include "parallel/foam/SFoamMutex.h"
 
-#include <pthread.h>
+#include <boost/thread/thread.hpp>
+
+#include <boost/bind.hpp>
 
 #include <iostream>
 
 
 //---------------------------------------------------------------------------
-void* thrd_start( void* ptr )
+void invoke( const fileName& path )
 {
   using namespace Foam;
   using namespace parallel::foam;
 
-  fileName& path= *( (fileName*)ptr );
-  
   SFoamMutex aMutex;
 
   TimePtr runTime = createTime( path, "nuclear" );
@@ -51,8 +51,6 @@ void* thrd_start( void* ptr )
   std::cout << "aDataHolder.store = " << aDataHolder() << std::endl;
   
   std::cout << "aDataHolder.restore = " << aDataHolder.value()->time().path() << std::endl;
-
-  return 0;
 }
 
 
@@ -67,24 +65,14 @@ int main( int argc, char *argv[] )
 
   using namespace parallel::foam;
 
-  typedef std::list< pthread_t > ThreadList;
-  ThreadList a_Threads;
+  boost::thread_group a_Threads;
 
   for( int i = 0; i < 10; i++ )
   {
-    //thrd_start( (void*)&path );
-
-    pthread_t thrd;
-    pthread_create( &thrd, NULL, thrd_start, (void*)&path );
-    a_Threads.push_back( thrd );
+    a_Threads.create_thread( boost::bind( boost::bind< void >( invoke, _1 ), path ) );
   }
 
-  ThreadList::const_iterator anIter = a_Threads.begin();
-  ThreadList::const_iterator anEnd = a_Threads.end();
-  for ( ; anIter != anEnd; anIter++ )
-  {
-    pthread_join( *anIter, NULL );
-  }
+  a_Threads.join_all();
 
   std::cout << "End" << std::endl;
 
