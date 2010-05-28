@@ -1,8 +1,9 @@
 #!/bin/sh
 cd ${0%/*} || exit 1    # run from this directory
+set -x
 
-set -x && device="./common/wcleanAll" && test -f ${device} && ${device}
+applications/wcleanAll
 
-set -x && device="./pbmr/wcleanAll" && test -f ${device} && ${device}
+src/wcleanAll
 
 # ----------------------------------------------------------------- end-of-file

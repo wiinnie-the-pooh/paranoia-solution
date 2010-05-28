@@ -1,3 +1,0 @@
-ext_icoFoam.C
-
-LIB = $(EXTFOAM_ROOT_DIR)/common/lib/libext_icoFoam

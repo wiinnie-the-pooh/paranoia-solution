@@ -57,7 +57,7 @@ endif
 
 
 #--------------------------------------------------------------------------------------
-$(EXTFOAM_ROOT_DIR)/common/lib/lib$(target).so: $(notdir $(patsubst %.C,%.o,$(sources)))
+$(EXTFOAM_ROOT_DIR)/lib/lib$(target).so: $(notdir $(patsubst %.C,%.o,$(sources)))
 	c++ -shared $^ $(__LIB_FLAGS__) -o $@
 
 source_dirs = $(local_dir)/lnInclude $(external_dir)/lnInclude 

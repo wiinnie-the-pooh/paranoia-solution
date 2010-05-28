@@ -1,3 +1,0 @@
-exe_icoFoam.C
-
-SEXE = $(EXTFOAM_ROOT_DIR)/common/bin/exe_icoFoam

@@ -1,9 +1,0 @@
-#!/bin/sh
-cd ${0%/*} || exit 1    # run from this directory
-set -x
-
-applications/Allwmake
-
-src/Allwmake
-
-# ----------------------------------------------------------------- end-of-file
