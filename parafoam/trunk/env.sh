@@ -26,13 +26,13 @@ source /opt/conffoam/r0.2/bashrc
 #--------------------------------------------------------------------------------------
 which_open_foam="1.4.1-dev"
 
-source_openfoam /opt/OpenFOAM/r${which_open_foam}/debug/bashrc
+source_salome /opt/SALOME/r5.1.3/r1.0/from_sources/env_products.sh
 
-source_salome /opt/SALOME/r5.1.3/r1.0/from_sources/bashrc
-
-source /opt/extfoam/r2.2/OpenFOAM-${which_open_foam}/bashrc 
+source /opt/diffusionFoam/r1.4/OpenFOAM-${which_open_foam}/bashrc 
 
 source /opt/loki/r0.1.7/env.sh
+
+source_openfoam /opt/OpenFOAM/r${which_open_foam}/debug/bashrc
 
 
 #--------------------------------------------------------------------------------------

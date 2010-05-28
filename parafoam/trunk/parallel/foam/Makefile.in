@@ -20,20 +20,15 @@
 ##
 
 
-#------------------------------------------------------------------------------
-include $(EXTFOAM_ROOT_DIR)/common/foam.version.makefile
-
-
 #--------------------------------------------------------------------------------------
-ifeq "$(shell if [ ${__FOAM_VERSION__} -eq 010401 ]; then echo 'true'; else echo 'false'; fi )" "true" 
+ifeq "@ENABLE_OPENFOAM@xx" "yesxx"
 #--------------------------------------------------------------------------------------
 
-sexe = parallel_diffusion
+libso = libparallel_foam.so
 
-CPPFLAGS := -I$(DIFFUSION_ROOT_DIR)/diffusionFoamLib/lnInclude
-LDFLAGS := -L$(DIFFUSION_ROOT_DIR)/lib -lblockMatrix -ldiffusionFoam
+parallel_foam_root_dir := .
 
-parallel_foam_root_dir := ..
+SUBDIRS := test diffusion
 
 include $(parallel_foam_root_dir)/include.makefile
 
@@ -41,7 +36,7 @@ include $(parallel_foam_root_dir)/include.makefile
 else
 #--------------------------------------------------------------------------------------
 
-$(warning Compilable only for OpenFOAM 1.4.1-dev)
+$(warning To compile this package you need to install OpenFOAM)
 
 all:
 clean:

@@ -25,6 +25,7 @@
 #define dev_boost_threading_h
 
 #include <boost/thread.hpp>
+#include <boost/version.hpp>
 
 
 //---------------------------------------------------------------------------

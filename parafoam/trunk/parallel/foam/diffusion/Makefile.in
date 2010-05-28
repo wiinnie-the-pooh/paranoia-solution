@@ -20,14 +20,29 @@
 ##
 
 
-#------------------------------------------------------------------------------
-libso = libparallel_foam.so
+#--------------------------------------------------------------------------------------
+ifeq "@ENABLE_DIFFUSIONFOAM@xx" "yesxx"
+#--------------------------------------------------------------------------------------
 
-parallel_foam_root_dir := .
+sexe = parallel_diffusion
 
-SUBDIRS := test diffusion
+CPPFLAGS := @DIFFUSIONFOAM_CPPFLAGS@ @DIFFUSIONFOAM_CXXFLAGS@
+LDFLAGS := @DIFFUSIONFOAM_LDFLAGS@
+
+parallel_foam_root_dir := ..
 
 include $(parallel_foam_root_dir)/include.makefile
 
+#--------------------------------------------------------------------------------------
+else
+#--------------------------------------------------------------------------------------
 
+$(warning To compile this package you need to install diffusionFoam)
+
+all:
+clean:
+
+
+#--------------------------------------------------------------------------------------
+endif
 #--------------------------------------------------------------------------------------

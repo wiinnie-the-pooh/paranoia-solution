@@ -22,7 +22,7 @@
 #--------------------------------------------------------------------------------------
 # Process this file with autoconf to produce a configure script
 #--------------------------------------------------------------------------------------
-AC_INIT([paraFoam Project], [0.1], [alexey.petrov.nnov@gmail.com], [parafoam])
+AC_INIT([paraFoam Project], [0.4], [alexey.petrov.nnov@gmail.com], [parafoam])
 
 # AC_CONFIG_AUX_DIR defines an alternative directory where to find the auxiliary
 # scripts such as config.guess, install-sh, ...
@@ -30,10 +30,6 @@ AC_CONFIG_AUX_DIR(admin)
 AC_CONFIG_MACRO_DIR([admin])
 AM_INIT_AUTOMAKE([tar-pax -Wno-portability])
 
-
-echo "--------------------------------------------------------------------------------------"
-CONFFOAM_CHECK_OPENFOAM
-echo 
 
 echo "--------------------------------------------------------------------------------------"
 CONFFOAM_CHECK_LOKI
@@ -47,19 +43,32 @@ echo "--------------------------------------------------------------------------
 CONFFOAM_CHECK_BOOST_THREAD
 echo 
 
+echo "--------------------------------------------------------------------------------------"
+CONFFOAM_CHECK_OPENFOAM
+echo 
+
+echo "--------------------------------------------------------------------------------------"
+CONFFOAM_CHECK_DIFFUSIONFOAM
+echo 
+
 
 echo "---------------------------- mandatory products --------------------------------"
-CONFFOAM_PRINT_SUMMURY( "openfoam_ok loki_ok boost_serialization_ok boost_thread_ok" )
+CONFFOAM_PRINT_SUMMURY( "loki_ok boost_serialization_ok boost_thread_ok" )
+echo
+echo "---------------------------- optional products ---------------------------------"
+CONFFOAM_PRINT_SUMMURY( "openfoam_ok diffusionfoam_ok" )
 echo
 echo "--------------------------------------------------------------------------------"
-CONFFOAM_CHECK_MANDATORY( "openfoam_ok loki_ok boost_serialization_ok boost_thread_ok" )
+CONFFOAM_CHECK_MANDATORY( "loki_ok boost_serialization_ok boost_thread_ok" )
 
 
 #--------------------------------------------------------------------------------------
 AC_OUTPUT( [ bashrc \
 	     include.makefile \
 	     parallel/base/include.makefile \
-	     parallel/dev/include.makefile ] )
+	     parallel/dev/include.makefile \
+	     parallel/foam/Makefile \
+	     parallel/foam/diffusion/Makefile ] )
 
 
 echo "------------------------------------ OK -----------------------------------------"
