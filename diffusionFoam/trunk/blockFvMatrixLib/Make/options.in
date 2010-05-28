@@ -1,0 +1,7 @@
+EXE_INC = \
+    -ftemplate-depth-200 \
+    @BLOCKLDUMATRIXLIB_CPPFLAGS@ @BLOCKLDUMATRIXLIB_CXXFLAGS@ \
+    -I$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude
+
+EXE_LIBS = \
+    @BLOCKLDUMATRIXLIB_LDFLAGS@

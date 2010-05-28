@@ -1,0 +1,19 @@
+vectorN/vector2/tensor2Field.C
+vectorN/vector2/blockVector2Solvers.C
+vectorN/vector2/blockVector2Matrix.C
+
+vectorN/vector4/tensor4Field.C
+vectorN/vector4/blockVector4Solvers.C
+vectorN/vector4/blockVector4Matrix.C
+
+vectorN/vector6/tensor6Field.C
+vectorN/vector6/blockVector6Solvers.C
+vectorN/vector6/blockVector6Matrix.C
+
+vectorN/vector8/tensor8Field.C
+vectorN/vector8/blockVector8Solvers.C
+vectorN/vector8/blockVector8Matrix.C
+
+BlockFvMatrix/blockFvMatrices.C
+
+LIB = $(DIFFUSIONFOAM_ROOT_DIR)/lib/libblockFvMatrix

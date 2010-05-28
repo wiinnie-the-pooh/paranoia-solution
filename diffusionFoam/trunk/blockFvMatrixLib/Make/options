@@ -1,0 +1,7 @@
+EXE_INC = \
+    -ftemplate-depth-200 \
+    -I../wikki/blockLduMatrixLib/lnInclude \
+    -I$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude
+
+EXE_LIBS = \
+    -lblockLduMatrix

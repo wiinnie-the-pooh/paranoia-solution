@@ -1,0 +1,3 @@
+steadyDiffusionFoam.C
+
+EXE = @abs_top_builddir@/bin/steadyDiffusionFoam

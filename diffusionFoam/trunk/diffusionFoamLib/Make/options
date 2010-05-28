@@ -1,0 +1,11 @@
+EXE_INC = \
+    -ftemplate-depth-200 \
+    -I$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude \
+    -I$(DIFFUSIONFOAM_ROOT_DIR)/wikki/blockLduMatrixLib/lnInclude \
+    -I$(DIFFUSIONFOAM_ROOT_DIR)/blockFvMatrixLib/lnInclude
+
+EXE_LIBS = \
+    -lfiniteVolume \
+    -lblockLduMatrix \
+    -lblockFvMatrix \
+    -L$(DIFFUSIONFOAM_ROOT_DIR)/lib

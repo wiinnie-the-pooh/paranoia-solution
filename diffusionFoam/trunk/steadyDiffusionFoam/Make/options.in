@@ -1,0 +1,7 @@
+EXE_INC = \
+    -I$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude \
+    @DIFFUSIONFOAMLIB_CPPFLAGS@ @DIFFUSIONFOAMLIB_CXXFLAGS@
+
+EXE_LIBS = \
+    -lfiniteVolume \
+    @DIFFUSIONFOAMLIB_LDFLAGS@

@@ -1,0 +1,63 @@
+## /*---------------------------------------------------------------------------*\
+##   =========                 |
+##   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+##    \\    /   O peration     |
+##     \\  /    A nd           | Copyright (C) 2004-6 H. Jasak All rights reserved
+##      \\/     M anipulation  |
+## -------------------------------------------------------------------------------
+## License
+##     This file is part of OpenFOAM.
+## 
+##     OpenFOAM is free software; you can redistribute it and/or modify it
+##     under the terms of the GNU General Public License as published by the
+##     Free Software Foundation; either version 2 of the License, or (at your
+##     option) any later version.
+## 
+##     OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
+##     ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+##     FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+##     for more details.
+## 
+##     You should have received a copy of the GNU General Public License
+##     along with OpenFOAM; if not, write to the Free Software Foundation,
+##     Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+##
+## See https://vulashaka.svn.sourceforge.net/svnroot/vulashaka/wikki/blockLduMatrixLib
+##
+## Author : Hrvoje Jasak
+##
+
+
+#--------------------------------------------------------------------------------------
+# Process this file with autoconf to produce a configure script
+#--------------------------------------------------------------------------------------
+AC_INIT([blockLduMatrixLib Project], [0.0], [h.jasak@wikki.co.uk], [blockLduMatrixLib])
+
+# AC_CONFIG_AUX_DIR defines an alternative directory where to find the auxiliary
+# scripts such as config.guess, install-sh, ...
+AC_CONFIG_AUX_DIR(admin)
+AC_CONFIG_MACRO_DIR([admin])
+AM_INIT_AUTOMAKE([tar-pax -Wno-portability])
+
+
+echo "--------------------------------------------------------------------------------------"
+CONFFOAM_CHECK_OPENFOAM
+echo 
+
+echo "---------------------------- mandatory products --------------------------------"
+CONFFOAM_PRINT_SUMMURY( "openfoam_ok" )
+echo
+echo "--------------------------------------------------------------------------------"
+CONFFOAM_CHECK_MANDATORY( "openfoam_ok" )
+
+
+#--------------------------------------------------------------------------------------
+AC_OUTPUT( [ Make/files \
+             bashrc \
+	     Allwmake \
+	     wcleanAll ],
+	     [ chmod +x Allwmake wcleanAll ] )
+
+
+echo "------------------------------------ OK -----------------------------------------"
+

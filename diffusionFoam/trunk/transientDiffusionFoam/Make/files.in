@@ -1,0 +1,5 @@
+transientDiffusionFoam.C
+
+EXE = @abs_top_builddir@/bin/transientDiffusionFoam
+
+

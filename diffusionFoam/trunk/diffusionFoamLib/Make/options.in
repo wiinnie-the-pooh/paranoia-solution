@@ -1,0 +1,9 @@
+EXE_INC = \
+    -ftemplate-depth-200 \
+    -I$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude \
+    @BLOCKFVMATRIXLIB_CPPFLAGS@ @BLOCKFVMATRIXLIB_CXXFLAGS@
+
+EXE_LIBS = \
+    -lfiniteVolume \
+    @BLOCKFVMATRIXLIB_LDFLAGS@
+
