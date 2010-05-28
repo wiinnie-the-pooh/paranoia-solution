@@ -1,9 +1,0 @@
-#!/bin/sh
-cd ${0%/*} || exit 1    # run from this directory
-
-echo "Cleaning all intermediate files for project diffusionFoam"
-
-wclean libso blockMatrixLib
-wclean libso diffusionFoamLib
-wclean steadyDiffusionFoam
-wclean transientDiffusionFoam

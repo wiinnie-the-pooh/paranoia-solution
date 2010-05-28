@@ -1,7 +1,0 @@
-EXE_INC = \
-    -I$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude \
-    -I$(DIFFUSION_ROOT_DIR)/diffusionFoamLib/lnInclude
-
-EXE_LIBS = \
-    -lfiniteVolume \
-    -L$(DIFFUSION_ROOT_DIR)/lib -ldiffusionFoam -lblockMatrix

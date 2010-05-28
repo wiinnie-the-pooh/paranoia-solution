@@ -1,5 +1,0 @@
-transientDiffusionFoam.C
-
-EXE = $(DIFFUSION_ROOT_DIR)/bin/transientDiffusionFoam
-
-
