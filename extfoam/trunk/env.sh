@@ -24,13 +24,18 @@
 
 
 #--------------------------------------------------------------------------------------
+# Source the conffoam environment
+source /opt/conffoam/r0.2/bashrc
+
+
+#--------------------------------------------------------------------------------------
 which_open_foam="1.4.1-dev"
 
 device="/opt/OpenFOAM/r${which_open_foam}/debug/bashrc" && test -f ${device} && source ${device}
 
 device="/opt/SALOME/r5.1.3/r1.0/from_sources/bashrc" && test -f ${device} && source ${device}
 
-device="/opt/extfoam/r2.3/OpenFOAM-${which_open_foam}/bashrc" && test -f ${device} && source ${device}
+device="/opt/extfoam/r2.4/OpenFOAM-${which_open_foam}/bashrc" && test -f ${device} && source ${device}
 
 
 #--------------------------------------------------------------------------------------

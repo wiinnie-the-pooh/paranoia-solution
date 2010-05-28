@@ -24,12 +24,10 @@
 
 
 #--------------------------------------------------------------------------------------
-export EXTFOAM_ROOT_DIR="/opt/extfoam/r2.3/OpenFOAM-${which_open_foam}"
+export EXTFOAM_ROOT_DIR="/opt/extfoam/r2.4/OpenFOAM-${which_open_foam}"
 
-export PATH=${EXTFOAM_ROOT_DIR}/common/bin:${PATH}
-export LD_LIBRARY_PATH=${EXTFOAM_ROOT_DIR}/common/lib:${LD_LIBRARY_PATH}
-
-device="${EXTFOAM_ROOT_DIR}/pbmr/bashrc" && test -f ${device} && source ${device}
+export PATH=${EXTFOAM_ROOT_DIR}/bin:${PATH}
+export LD_LIBRARY_PATH=${EXTFOAM_ROOT_DIR}/lib:${LD_LIBRARY_PATH}
 
 
 #--------------------------------------------------------------------------------------

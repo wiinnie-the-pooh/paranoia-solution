@@ -87,13 +87,10 @@ echo "--------------------------------------------------------------------------
 
 
 #--------------------------------------------------------------------------------------
-AC_OUTPUT([ pbmr/parallel/include.makefile \
-	    pbmr/parallel/base/include.makefile \
-	    pbmr/parallel/dev/include.makefile \
-	    common/applications/solvers/incompressible/icoFoam/Allwmake \
-	    common/applications/solvers/incompressible/icoFoam/lib/Make/options \
-	    common/applications/solvers/incompressible/icoFoam/bin/Make/options ],
-	  [ chmod +x common/applications/solvers/incompressible/icoFoam/Allwmake ])
+AC_OUTPUT([ applications/solvers/incompressible/icoFoam/Allwmake \
+	    applications/solvers/incompressible/icoFoam/lib/Make/options \
+	    applications/solvers/incompressible/icoFoam/bin/Make/options ],
+	  [ chmod +x applications/solvers/incompressible/icoFoam/Allwmake ])
 
 
 #--------------------------------------------------------------------------------------
