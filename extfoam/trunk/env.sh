@@ -29,7 +29,7 @@ source /opt/conffoam/r0.2/bashrc
 
 
 #--------------------------------------------------------------------------------------
-which_open_foam="1.4.1-dev"
+which_open_foam="1.6"
 
 device="/opt/OpenFOAM/r${which_open_foam}/debug/bashrc" && test -f ${device} && source ${device}
 
