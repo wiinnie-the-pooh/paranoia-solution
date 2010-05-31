@@ -25,7 +25,7 @@
 #--------------------------------------------------------------------------------------
 #AC_PREREQ(2.59)
 #
-AC_INIT([extFoam Project], [2.3], [alexey.petrov.nnov@gmail.com], [extfoam])
+AC_INIT([extFoam Project], [2.4], [alexey.petrov.nnov@gmail.com], [extfoam])
 
 # AC_CONFIG_AUX_DIR defines an alternative directory where to find the auxiliary
 # scripts such as config.guess, install-sh, ...
@@ -35,11 +35,11 @@ AM_INIT_AUTOMAKE([tar-pax -Wno-portability])
 
 
 echo "--------------------------------------------------------------------------------------"
-EXTFOAM_CHECK_OPENFOAM
+CONFFOAM_CHECK_OPENFOAM
 echo 
 
 echo "--------------------------------------------------------------------------------------"
-EXTFOAM_CHECK_BOOST
+CONFFOAM_CHECK_BOOST_SHARED_PTR
 echo 
 
 
@@ -77,7 +77,7 @@ echo "---------------------------- mandatory products --------------------------
 summary "openfoam_ok"
 echo
 echo "---------------------------- optional products ---------------------------------"
-summary "loki_ok boost_ok"
+summary "loki_ok boost_shared_ptr_ok"
 echo
 echo "--------------------------------------------------------------------------------"
 
