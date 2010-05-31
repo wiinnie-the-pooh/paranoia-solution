@@ -1,0 +1,3 @@
+exe_icoFoam.C
+
+SEXE = @abs_top_builddir@/bin/exe_icoFoam

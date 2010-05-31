@@ -21,18 +21,12 @@
 
 
 #--------------------------------------------------------------------------------------
-pyfoam_root_dir:=../..
-
-include $(EXTFOAM_ROOT_DIR)/foam.version.makefile
-
-
-#--------------------------------------------------------------------------------------
-ifeq "$(shell if [ ${__FOAM_VERSION__} -gt 010500 ]; then echo 'true'; else echo 'false'; fi )" "true" 
+ifeq "$(shell if [ @FOAM_VERSION@ -gt 010500 ]; then echo 'true'; else echo 'false'; fi )" "true" 
 #--------------------------------------------------------------------------------------
 
 target = ext_radiation
 
-local_dir = $(EXTFOAM_ROOT_DIR)/src/thermophysicalModels/radiation
+local_dir = @abs_top_builddir@/src/thermophysicalModels/radiation
 external_dir = $(WM_PROJECT_DIR)/src/thermophysicalModels/radiation
 
 #/* Radiation constants */
@@ -84,7 +78,7 @@ __LIB_FLAGS__ := $(__LIB_FLAGS__) \
 
 
 #--------------------------------------------------------------------------------------
-include $(EXTFOAM_ROOT_DIR)/extlibso.include.makefile
+include @abs_top_builddir@/extlibso.include.makefile
 
 
 #--------------------------------------------------------------------------------------

@@ -22,7 +22,7 @@
 
 #--------------------------------------------------------------------------------------
 ifdef WM_PROJECT_VERSION
-	__OS_INCLUDES__ = $(shell if [ 010600 -lt 010600 ]; then echo Unix; else echo POSIX; fi )
+	__OS_INCLUDES__ = $(shell if [ @FOAM_VERSION@ -lt 010600 ]; then echo Unix; else echo POSIX; fi )
 endif
 
 __CXX_INCLUDES__ := $(__CXX_INCLUDES__)\
@@ -45,13 +45,13 @@ __OBJ_FLAGS__ = $(__CXX_INCLUDES__)\
 	-g -Wall -Wno-strict-aliasing -Wextra -Wno-unused-parameter -march=opteron -ftemplate-depth-40
 
 ifdef WM_PROJECT_VERSION
-	__PRECISION_OPTION__ = $(shell if [ 010600 -lt 010600 ]; then echo ${WM_PRECISION_OPTION}; else echo WM_$(WM_PRECISION_OPTION); fi )
+	__PRECISION_OPTION__ = $(shell if [ @FOAM_VERSION@ -lt 010600 ]; then echo ${WM_PRECISION_OPTION}; else echo WM_$(WM_PRECISION_OPTION); fi )
 	__OBJ_FLAGS__ += $(WM_CFLAGS) -D$(WM_ARCH) -D$(__PRECISION_OPTION__) -D__FOAM_VERSION__=$(__FOAM_VERSION__) -DNoRepository
 endif
 
 
 #--------------------------------------------------------------------------------------
-/opt/extfoam/r2.4/OpenFOAM-1.6/lib/lib$(target).so: $(notdir $(patsubst %.C,%.o,$(sources)))
+@abs_top_builddir@/lib/lib$(target).so: $(notdir $(patsubst %.C,%.o,$(sources)))
 	c++ -shared $^ $(__LIB_FLAGS__) -o $@
 
 source_dirs = $(local_dir)/lnInclude $(external_dir)/lnInclude 
