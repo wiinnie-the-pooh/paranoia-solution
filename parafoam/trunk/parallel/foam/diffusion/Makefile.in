@@ -21,13 +21,13 @@
 
 
 #--------------------------------------------------------------------------------------
-ifeq "@ENABLE_DIFFUSIONFOAM@xx" "yesxx"
+ifeq "@ENABLE_DIFFUSIONFOAMLIB@xx" "yesxx"
 #--------------------------------------------------------------------------------------
 
 sexe = parallel_diffusion
 
-CPPFLAGS := @DIFFUSIONFOAM_CPPFLAGS@ @DIFFUSIONFOAM_CXXFLAGS@
-LDFLAGS := @DIFFUSIONFOAM_LDFLAGS@
+CPPFLAGS := @DIFFUSIONFOAMLIB_CPPFLAGS@ @DIFFUSIONFOAMLIB_CXXFLAGS@
+LDFLAGS := @DIFFUSIONFOAMLIB_LDFLAGS@
 
 parallel_foam_root_dir := ..
 
@@ -37,7 +37,7 @@ include $(parallel_foam_root_dir)/include.makefile
 else
 #--------------------------------------------------------------------------------------
 
-$(warning To compile this package you need to install diffusionFoam)
+$(warning To compile this package you need to install diffusionFoamLib)
 
 all:
 clean:

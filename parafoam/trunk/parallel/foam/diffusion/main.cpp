@@ -176,7 +176,7 @@ int implicit_scheme( int argc, char *argv[] )
     CTimeSourceTask::TPtr aTimeSource( new CTimeSourceTask() );
     aTimeSource->setTime( dimensionedScalar( 0.000 ), 0 );
     aTimeSource->setDeltaT( dimensionedScalar( 0.005 ) );
-    aTimeSource->setEndTime( dimensionedScalar( 7.777 ) );
+    aTimeSource->setEndTime( dimensionedScalar( 0.077 ) );
     aTimeSource->setWriteInterval( 1 );
     aMgr->add_task( aTimeSource );
 
