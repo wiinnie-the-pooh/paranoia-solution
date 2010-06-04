@@ -93,7 +93,7 @@ Before start to use "paraFoam" it is necessary to source the generated "bashrc" 
 
 
 #--------------------------------------------------------------------------------------
-"pyFoam" installation check
+"paraFoam" installation check
 #--------------------------------------------------------------------------------------
 
 Run "paraFoam" "toys" test application:
