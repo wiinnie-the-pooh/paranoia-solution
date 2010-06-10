@@ -16,4 +16,4 @@ vectorN/vector8/blockVector8Matrix.C
 
 BlockFvMatrix/blockFvMatrices.C
 
-LIB = $(DIFFUSIONFOAM_ROOT_DIR)/lib/libblockFvMatrix
+LIB = $(DIFFUSIONFOAM_ROOT_DIR)/blockFvMatrixLib/lib/libblockFvMatrix

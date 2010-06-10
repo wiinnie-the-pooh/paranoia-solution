@@ -53,10 +53,7 @@ CONFFOAM_CHECK_MANDATORY( "openfoam_ok" )
 
 
 #--------------------------------------------------------------------------------------
-AC_OUTPUT( [ bashrc \
-	     Allwmake \
-	     wcleanAll ],
-	     [ chmod +x Allwmake wcleanAll ] )
+AC_OUTPUT( [ bashrc ] )
 
 
 echo "------------------------------------ OK -----------------------------------------"

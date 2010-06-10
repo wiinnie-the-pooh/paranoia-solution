@@ -1,5 +1,5 @@
 steadyDiffusionFoam.C
 
-EXE = $(DIFFUSIONFOAM_ROOT_DIR)/bin/steadyDiffusionFoam
+EXE = $(DIFFUSIONFOAM_ROOT_DIR)/steadyDiffusionFoam/bin/steadyDiffusionFoam
 
 

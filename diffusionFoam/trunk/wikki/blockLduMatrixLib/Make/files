@@ -47,4 +47,4 @@ BlockLduSolvers/BlockBiCGStab/blockBiCGStabSolvers.C
 BlockLduSolvers/BlockGMRES/blockGMRESSolvers.C
 
 
-LIB = $(DIFFUSIONFOAM_ROOT_DIR)/lib/libblockLduMatrix
+LIB = $(DIFFUSIONFOAM_ROOT_DIR)/wikki/blockLduMatrixLib/lib/libblockLduMatrix

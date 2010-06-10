@@ -34,10 +34,47 @@ if test "${DIFFUSIONFOAM_ROOT_DIR}x" = "x" ; then
    export DIFFUSIONFOAM_ROOT_DIR="@abs_top_builddir@"
    echo DIFFUSIONFOAM_ROOT_DIR=\"${DIFFUSIONFOAM_ROOT_DIR}\"
 
-   export LD_LIBRARY_PATH=${DIFFUSIONFOAM_ROOT_DIR}/lib:${LD_LIBRARY_PATH}
-   export PATH=${DIFFUSIONFOAM_ROOT_DIR}/bin:${PATH}
 
+   #--------------------------------------------------------------------------------------
    source ${DIFFUSIONFOAM_ROOT_DIR}/env.sh
+
+
+   #--------------------------------------------------------------------------------------
+   export BLOCKLDUMATRIXLIB_ROOT_DIR="${DIFFUSIONFOAM_ROOT_DIR}/wikki/blockLduMatrixLib"
+   echo BLOCKLDUMATRIXLIB_ROOT_DIR=\"${BLOCKLDUMATRIXLIB_ROOT_DIR}\"
+
+   export LD_LIBRARY_PATH=${BLOCKLDUMATRIXLIB_ROOT_DIR}/lib:${LD_LIBRARY_PATH}
+
+
+   #--------------------------------------------------------------------------------------
+   export BLOCKFVMATRIXLIB_ROOT_DIR="${DIFFUSIONFOAM_ROOT_DIR}/blockFvMatrixLib"
+   echo BLOCKFVMATRIXLIB_ROOT_DIR=\"${BLOCKFVMATRIXLIB_ROOT_DIR}\"
+
+   export LD_LIBRARY_PATH=${BLOCKFVMATRIXLIB_ROOT_DIR}/lib:${LD_LIBRARY_PATH}
+
+
+   #--------------------------------------------------------------------------------------
+   export DIFFUSIONFOAMLIB_ROOT_DIR="${DIFFUSIONFOAM_ROOT_DIR}/diffusionFoamLib"
+   echo DIFFUSIONFOAMLIB_ROOT_DIR=\"${DIFFUSIONFOAMLIB_ROOT_DIR}\"
+
+   export LD_LIBRARY_PATH=${DIFFUSIONFOAMLIB_ROOT_DIR}/lib:${LD_LIBRARY_PATH}
+
+
+   #--------------------------------------------------------------------------------------
+   export STEADYDIFFUSIONFOAM_ROOT_DIR="${DIFFUSIONFOAM_ROOT_DIR}/steadyDiffusionFoam"
+   echo STEADYDIFFUSIONFOAM_ROOT_DIR=\"${STEADYDIFFUSIONFOAM_ROOT_DIR}\"
+
+   export PATH=${STEADYDIFFUSIONFOAM_ROOT_DIR}/bin:${PATH}
+
+
+   #--------------------------------------------------------------------------------------
+   export TRANSIENTDIFFUSIONFOAM_ROOT_DIR="${DIFFUSIONFOAM_ROOT_DIR}/transientDiffusionFoam"
+   echo TRANSIENTDIFFUSIONFOAM_ROOT_DIR=\"${TRANSIENTDIFFUSIONFOAM_ROOT_DIR}\"
+
+   export PATH=${TRANSIENTDIFFUSIONFOAM_ROOT_DIR}/bin:${PATH}
+
+
+   #--------------------------------------------------------------------------------------
 fi
 
 

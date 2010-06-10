@@ -5,7 +5,5 @@ EXE_INC = \
     -I$(DIFFUSIONFOAM_ROOT_DIR)/blockFvMatrixLib/lnInclude
 
 EXE_LIBS = \
-    -lfiniteVolume \
-    -lblockLduMatrix \
-    -lblockFvMatrix \
-    -L$(DIFFUSIONFOAM_ROOT_DIR)/lib
+    -L$(DIFFUSIONFOAM_ROOT_DIR)/wikki/blockLduMatrix/lib -lblockLduMatrix \
+    -L$(DIFFUSIONFOAM_ROOT_DIR)/blockFvMatrix/lib -lblockFvMatrix

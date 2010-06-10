@@ -53,4 +53,4 @@ nuclearCalculation/nuclearCalculation/nuclearCalculation.C
 temperatureCalculation/temperatureCalculation.C
 
 
-LIB = $(DIFFUSIONFOAM_ROOT_DIR)/lib/libdiffusionFoam
+LIB = $(DIFFUSIONFOAM_ROOT_DIR)/diffusionFoamLib/lib/libdiffusionFoam

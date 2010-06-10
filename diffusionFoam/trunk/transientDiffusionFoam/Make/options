@@ -4,7 +4,6 @@ EXE_INC = \
 
 EXE_LIBS = \
     -lfiniteVolume \
-    -ldiffusionFoam \
-    -lblockFvMatrix \
-    -lblockLduMatrix \
-    -L$(DIFFUSIONFOAM_ROOT_DIR)/lib
+    -L$(DIFFUSIONFOAM_ROOT_DIR)/wikki/blockLduMatrixLib/lib -lblockLduMatrix \
+    -L$(DIFFUSIONFOAM_ROOT_DIR)/blockFvMatrixLib/lib -lblockFvMatrix \
+    -L$(DIFFUSIONFOAM_ROOT_DIR)/diffusionFoamLib/lib -ldiffusionFoam

@@ -4,4 +4,4 @@ EXE_INC = \
     -I$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude
 
 EXE_LIBS = \
-    -lblockLduMatrix
+    -L$(DIFFUSIONFOAM_ROOT_DIR)/wikki/blockLduMatrix/lib -lblockLduMatrix
