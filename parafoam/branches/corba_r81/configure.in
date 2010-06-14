@@ -45,6 +45,10 @@ CONFFOAM_CHECK_BOOST_THREAD
 echo 
 
 echo "--------------------------------------------------------------------------------------"
+CONFFOAM_CHECK_OMNIORB
+echo 
+
+echo "--------------------------------------------------------------------------------------"
 CONFFOAM_CHECK_OPENFOAM
 echo 
 
@@ -68,6 +72,7 @@ AC_OUTPUT( [ bashrc \
 	     include.makefile \
 	     parallel/base/include.makefile \
 	     parallel/dev/include.makefile \
+	     parallel/idl/Makefile \
 	     parallel/foam/Makefile \
 	     parallel/foam/diffusion/Makefile ] )
 

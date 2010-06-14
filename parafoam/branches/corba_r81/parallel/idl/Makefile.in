@@ -26,13 +26,13 @@
 #--------------------------------------------------------------------------------------
 IDL_FILES = $(wildcard *.idl)
 
-libparallel_corba.so: $(patsubst %.idl, %.o, $(wildcard *.idl))
-	gcc -shared $^ -no-undefined -version-info=0:0:0 @OMNIORB_LIBS@ -o $(top_builddir)/lib/$@
+libparallel_corba.so: $(patsubst %.idl, %SK.o, $(wildcard *.idl))
+	gcc -shared $^ @OMNIORB_LIBS@ -o @top_builddir@/lib/$@
 
-%.cc: %.idl
+%SK.cc: %.idl
 	@IDL@ -bcxx @OMNIORB_IDLCXXFLAGS@ $<
 
-%.o: %.cc
+%SK.o: %SK.cc
 	gcc -x c++ @OMNIORB_CXXFLAGS@ @OMNIORB_INCLUDES@ -fPIC -c $<
 
 
