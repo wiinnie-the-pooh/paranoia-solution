@@ -24,8 +24,6 @@
 
 
 #--------------------------------------------------------------------------------------
-IDL_FILES = $(wildcard *.idl)
-
 libparallel_corba.so: $(patsubst %.idl, %SK.o, $(wildcard *.idl))
 	gcc -shared $^ @OMNIORB_LIBS@ -o @top_builddir@/lib/$@
 
@@ -35,5 +33,19 @@ libparallel_corba.so: $(patsubst %.idl, %SK.o, $(wildcard *.idl))
 %SK.o: %SK.cc
 	gcc -x c++ @OMNIORB_CXXFLAGS@ @OMNIORB_INCLUDES@ -fPIC -c $<
 
+.depidl: $(wildcard *.idl)
+	@echo "" > $@
+	@for dep in $^ dummy; do \
+	  if [ $${dep} != "dummy" ]; then \
+	    echo Building dependencies for $${dep}; \
+	    gcc  -MMD -x c $${dep} 2>/dev/null | \
+	    sed 's/\.o/\SK.cc/' >>$@; \
+	  fi; \
+	done ;
+
+include .depidl
+
+clean:
+	-rm -f  *.o .depidl
 
 #--------------------------------------------------------------------------------------
