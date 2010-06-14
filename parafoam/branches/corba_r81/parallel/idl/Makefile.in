@@ -29,12 +29,10 @@ IDL_FILES = $(wildcard *.idl)
 libparallel_corba.so: $(patsubst %.idl, %.o, $(wildcard *.idl))
 	gcc -shared $^ -no-undefined -version-info=0:0:0 @OMNIORB_LIBS@ -o $(top_builddir)/lib/$@
 
-SUFFIXES = .idl SK.cc .o
+%.cc: %.idl
+	@IDL@ -bcxx @OMNIORB_IDLCXXFLAGS@ $<
 
-.idlSK.cc:
-	@IDL@ -bcxx @IDLCXXFLAGS@ $<
-
-SK.cc.o:
+%.o: %.cc
 	gcc -x c++ @OMNIORB_CXXFLAGS@ @OMNIORB_INCLUDES@ -fPIC -c $<
 
 
