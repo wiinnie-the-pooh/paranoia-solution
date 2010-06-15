@@ -24,7 +24,9 @@
 
 
 #--------------------------------------------------------------------------------------
-LDFLAGS = @top_builddir@/bin/libparallel_idl.so
+all: eg3_impl eg3_clt
+
+LDFLAGS = @top_builddir@/lib/libparallel_idl.so
 
 eg3_impl: eg3_tieimpl.o
 	gcc $(LDFLAGS) $^ -o @top_builddir@/bin/$@
@@ -39,7 +41,7 @@ CXXFLAGS= @OMNIORB_CXXFLAGS@
 %.o: %.cc
 	gcc -x c++ $(CPPFLAGS) $(CXXFLAGS) -fPIC -c -MMD $<
 
-clean: clean-recursive
+clean: 
 	rm -f *.o *.d *~ 
 
 

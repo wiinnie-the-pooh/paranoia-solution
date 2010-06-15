@@ -30,7 +30,7 @@ libparallel_idl.so: $(patsubst %.idl, %SK.o, $(wildcard *.idl))
 	gcc -shared $^ @OMNIORB_LIBS@ -o @top_builddir@/lib/$@
 
 %SK.cc: %.idl
-	@IDL@ -bcxx @OMNIORB_IDLCXXFLAGS@ $<
+	@IDL@ -bcxx -Wbtp @OMNIORB_IDLCXXFLAGS@ $<
 
 %SK.o: %SK.cc
 	gcc -x c++ @OMNIORB_CXXFLAGS@ @OMNIORB_INCLUDES@ -fPIC -c $<
