@@ -26,10 +26,10 @@
 #--------------------------------------------------------------------------------------
 LDFLAGS = @top_builddir@/bin/libparallel_idl.so
 
-eg2_impl: eg2_tieimpl.o
+eg3_impl: eg3_tieimpl.o
 	gcc $(LDFLAGS) $^ -o @top_builddir@/bin/$@
 
-eg2_clt: eg2_clt.o
+eg3_clt: eg3_clt.o
 	gcc $(LDFLAGS) $^ -o @top_builddir@/bin/$@
 
 CPPFLAGS=@OMNIORB_INCLUDES@ -I@top_builddir@/parallel/idl
