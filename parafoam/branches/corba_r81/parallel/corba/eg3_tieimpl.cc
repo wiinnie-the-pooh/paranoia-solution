@@ -51,6 +51,8 @@ char* Echo_i::echoString(const char* mesg)
 int main(int argc, char** argv)
 {
   try {
+    //const char* options[][2] = { { "traceLevel", "10" }, { 0, 0 } };
+    //CORBA::ORB_var orb = CORBA::ORB_init(argc, argv, "omniORB4", options);
     CORBA::ORB_var orb = CORBA::ORB_init(argc, argv);
 
     CORBA::Object_var obj = orb->resolve_initial_references("RootPOA");
