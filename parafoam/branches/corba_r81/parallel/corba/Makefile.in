@@ -24,31 +24,23 @@
 
 
 #--------------------------------------------------------------------------------------
-all: libparallel_idl.so
+LDFLAGS = @top_builddir@/bin/libparallel_idl.so
 
-libparallel_idl.so: $(patsubst %.idl, %SK.o, $(wildcard *.idl))
-	gcc -shared $^ @OMNIORB_LIBS@ -o @top_builddir@/lib/$@
+eg2_impl: eg2_tieimpl.o
+	gcc $(LDFLAGS) $^ -o @top_builddir@/bin/$@
 
-%SK.cc: %.idl
-	@IDL@ -bcxx @OMNIORB_IDLCXXFLAGS@ $<
+eg2_clt: eg2_clt.o
+	gcc $(LDFLAGS) $^ -o @top_builddir@/bin/$@
 
-%SK.o: %SK.cc
-	gcc -x c++ @OMNIORB_CXXFLAGS@ @OMNIORB_INCLUDES@ -fPIC -c $<
+CPPFLAGS=@OMNIORB_INCLUDES@ -I@top_builddir@/parallel/idl
 
-.depidl: $(wildcard *.idl)
-	@echo "" > $@
-	@for dep in $^ dummy; do \
-	  if [ $${dep} != "dummy" ]; then \
-	    echo Building dependencies for $${dep}; \
-	    gcc  -MMD -x c $${dep} 2>/dev/null | \
-	    sed 's/\.o/\SK.cc/' >>$@; \
-	  fi; \
-	done ;
+CXXFLAGS= @OMNIORB_CXXFLAGS@
 
-include .depidl
+%.o: %.cc
+	gcc -x c++ $(CPPFLAGS) $(CXXFLAGS) -fPIC -c -MMD $<
 
-clean:
-	-rm -f  *.o .depidl
+clean: clean-recursive
+	rm -f *.o *.d *~ 
 
 
 #--------------------------------------------------------------------------------------
