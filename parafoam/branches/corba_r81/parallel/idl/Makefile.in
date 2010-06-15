@@ -24,7 +24,7 @@
 
 
 #--------------------------------------------------------------------------------------
-libparallel_corba.so: $(patsubst %.idl, %SK.o, $(wildcard *.idl))
+libparallel_idl.so: $(patsubst %.idl, %SK.o, $(wildcard *.idl))
 	gcc -shared $^ @OMNIORB_LIBS@ -o @top_builddir@/lib/$@
 
 %SK.cc: %.idl
