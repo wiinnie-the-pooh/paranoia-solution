@@ -26,20 +26,22 @@
 #--------------------------------------------------------------------------------------
 all: eg3_impl eg3_clt
 
-LDFLAGS = @top_builddir@/lib/libparallel_idl.so
+LDFLAGS = @abs_top_builddir@/lib/libparallel_idl.so
 
 eg3_impl: eg3_tieimpl.o
-	gcc $(LDFLAGS) $^ -o @top_builddir@/bin/$@
+	gcc $(LDFLAGS) $^ -o @abs_top_builddir@/bin/$@
 
 eg3_clt: eg3_clt.o
-	gcc $(LDFLAGS) $^ -o @top_builddir@/bin/$@
+	gcc $(LDFLAGS) $^ -o @abs_top_builddir@/bin/$@
 
-CPPFLAGS=@OMNIORB_INCLUDES@ -I@top_builddir@/parallel/idl
+CPPFLAGS=@OMNIORB_INCLUDES@ -I@abs_top_builddir@/parallel/idl
 
 CXXFLAGS= @OMNIORB_CXXFLAGS@
 
 %.o: %.cc
 	gcc -x c++ $(CPPFLAGS) $(CXXFLAGS) -fPIC -c -MMD $<
+
+include $(wildcard *.d)
 
 clean: 
 	rm -f *.o *.d *~ 
