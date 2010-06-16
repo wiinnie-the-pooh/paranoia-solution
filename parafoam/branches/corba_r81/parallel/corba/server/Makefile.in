@@ -24,30 +24,31 @@
 
 
 #--------------------------------------------------------------------------------------
-all: libparallel_corba_server.so TaskFactoryA_server
+all: libparallel_corba_server.so $(patsubst %.cc, @abs_top_builddir@/bin/%, $(wildcard *.cc))
 
-LDFLAGS = -L@abs_top_builddir@/lib -lparallel_idl
+LDFLAGS = -L@abs_top_builddir@/lib -lparallel_idl @OMNIORB_LIBS@
 
-TaskFactoryA_server: TaskFactoryA_server.o
-	gcc $(LDFLAGS) -lparallel_corba_server $^ -o @abs_top_builddir@/bin/$@
+libparallel_corba_server.so: $(patsubst %.cpp, %.o, $(wildcard *.cpp))
+	gcc -shared $^ $(LDFLAGS) -o @abs_top_builddir@/lib/$@
 
 CPPFLAGS=@OMNIORB_INCLUDES@ -I@abs_top_builddir@  -I@abs_top_builddir@/parallel/corba/idl
 
 CXXFLAGS= @OMNIORB_CXXFLAGS@
 
-%.o: %.cc
+%.o: %.cpp
 	gcc -x c++ $(CPPFLAGS) $(CXXFLAGS) -fPIC -c -MMD $<
 
-libparallel_corba_server.so: $(patsubst %.cpp, %.o, $(wildcard *.cpp))
-	gcc -shared $^ $(LDFLAGS) @OMNIORB_LIBS@ -o @abs_top_builddir@/lib/$@
+@abs_top_builddir@/bin/%: %.o
+	gcc $(LDFLAGS) -lparallel_corba_server $^ -o $@
 
-%.o: %.cpp
+%.o: %.cc
 	gcc -x c++ $(CPPFLAGS) $(CXXFLAGS) -fPIC -c -MMD $<
 
 include $(wildcard *.d)
 
 clean: 
 	rm -f *.o *.d *~ 
+	(cd @abs_top_builddir@/bin; rm -fr $(patsubst %.cc, %, $(wildcard *.cc)))
 
 
 #--------------------------------------------------------------------------------------
