@@ -24,12 +24,9 @@
 
 
 #--------------------------------------------------------------------------------------
-all: TaskFactoryA_server TaskFactoryA_client
+all: TaskFactoryA_client
 
 LDFLAGS = @abs_top_builddir@/lib/libparallel_idl.so
-
-TaskFactoryA_server: TaskFactoryA_server.o
-	gcc $(LDFLAGS) $^ -o @abs_top_builddir@/bin/$@
 
 TaskFactoryA_client: TaskFactoryA_client.o
 	gcc $(LDFLAGS) $^ -o @abs_top_builddir@/bin/$@
