@@ -21,27 +21,29 @@
 
 
 #--------------------------------------------------------------------------------------
-$(libso): $(patsubst %.cpp, %.o, $(wildcard *.cpp))
-	gcc -shared $^ $(LDFLAGS) -o $(parallel_root_dir)/lib/$@
+RECURSIVE_TARGETS = all-recursive clean-recursive
 
-$(sexe): $(patsubst %.cpp, %.o, $(wildcard *.cpp))
-	gcc $(LDFLAGS) $^ -o $(parallel_root_dir)/bin/$@
-
-%.o: %.cpp
-	gcc -x c++ $(CPPFLAGS) -fPIC -c -MMD $<
-
-ifneq "$(wildcard *.d)" "" # To avoid "include's" warning in case of empty folder
-include $(wildcard *.d)
-endif
-
-
-#--------------------------------------------------------------------------------------
-include @abs_top_builddir@/recursive.makefile
-
-all: $(libso) $(sexe) all-recursive
-
-clean: clean-recursive
-	rm -f *.o *.d *~ 
+$(RECURSIVE_TARGETS):
+	@failcom='exit 1'; \
+	for f in x $$MAKEFLAGS; do \
+	  case $$f in \
+	    *=* | --[!k]*);; \
+	    *k*) failcom='fail=yes';; \
+	  esac; \
+	done; \
+	target=`echo $@ | sed s/-recursive//`; \
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+	  echo "Making $$target in $$subdir"; \
+	  if test "$$subdir" = "."; then \
+	    break; \
+	  fi; \
+	  if ! test -f "$$subdir/Makefile"; then \
+	    continue; \
+	  fi; \
+	  echo "(cd $$subdir && $(MAKE) $$target)"; \
+	  (cd $$subdir && $(MAKE) $$target) \
+	  || eval $$failcom; \
+	done;
 
 
 #--------------------------------------------------------------------------------------

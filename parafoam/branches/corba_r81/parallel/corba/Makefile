@@ -21,27 +21,15 @@
 
 
 #--------------------------------------------------------------------------------------
-$(libso): $(patsubst %.cpp, %.o, $(wildcard *.cpp))
-	gcc -shared $^ $(LDFLAGS) -o $(parallel_root_dir)/lib/$@
+parallel_root_dir := ../..
 
-$(sexe): $(patsubst %.cpp, %.o, $(wildcard *.cpp))
-	gcc $(LDFLAGS) $^ -o $(parallel_root_dir)/bin/$@
+SUBDIRS := idl client server
 
-%.o: %.cpp
-	gcc -x c++ $(CPPFLAGS) -fPIC -c -MMD $<
+include $(parallel_root_dir)/recursive.makefile
 
-ifneq "$(wildcard *.d)" "" # To avoid "include's" warning in case of empty folder
-include $(wildcard *.d)
-endif
-
-
-#--------------------------------------------------------------------------------------
-include @abs_top_builddir@/recursive.makefile
-
-all: $(libso) $(sexe) all-recursive
+all: all-recursive
 
 clean: clean-recursive
-	rm -f *.o *.d *~ 
 
 
 #--------------------------------------------------------------------------------------
