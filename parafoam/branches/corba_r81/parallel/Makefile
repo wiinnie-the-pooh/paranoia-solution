@@ -23,7 +23,7 @@
 #--------------------------------------------------------------------------------------
 parallel_root_dir := ..
 
-SUBDIRS := base dev foam toys
+SUBDIRS := base dev foam toys corba
 
 include $(parallel_root_dir)/include.makefile
 
