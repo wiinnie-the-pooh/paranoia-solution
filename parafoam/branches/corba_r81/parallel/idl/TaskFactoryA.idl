@@ -21,23 +21,33 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef __PARALELL_TASKFACTORY_IDL__
-#define __PARALELL_TASKFACTORY_IDL__
+#ifndef __PARALELL_TASKFACTORY_A_IDL__
+#define __PARALELL_TASKFACTORY_A_IDL__
 
 
 //---------------------------------------------------------------------------
-#include "Task.idl"
+#include "TaskFactoryBase.idl"
+#include "TaskBase.idl"
 
 
 //---------------------------------------------------------------------------
 module parallel
 {
-  interface TaskFactory 
+  //---------------------------------------------------------------------------
+  interface TaskA : TaskBase
+  {};
+
+
+  //---------------------------------------------------------------------------
+  interface TaskFactoryA : TaskFactoryBase
   {
-    Task create();
+    TaskA create();
   };
+
+
+  //---------------------------------------------------------------------------
 };
 
 
 //---------------------------------------------------------------------------
-#endif  // __PARALELL_TASKFACTORY_IDL__
+#endif  // __PARALELL_TASKFACTORY_A_IDL__

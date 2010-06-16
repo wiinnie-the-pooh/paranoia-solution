@@ -21,17 +21,17 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef __PARALELL_TASK_IDL__
-#define __PARALELL_TASK_IDL__
+#ifndef __PARALELL_TASK_BASE_IDL__
+#define __PARALELL_TASK_BASE_IDL__
 
 
 //---------------------------------------------------------------------------
 module parallel
 {
-  interface Task
+  interface TaskBase
   {};
 };
 
 
 //---------------------------------------------------------------------------
-#endif  // __PARALELL_TASK_IDL__
+#endif  // __PARALELL_TASK_BASE_IDL__

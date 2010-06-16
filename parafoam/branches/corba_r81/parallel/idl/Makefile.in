@@ -28,7 +28,7 @@ all: libparallel_idl.so
 
 # $(patsubst %.idl, %SK.o, $(wildcard *.idl))
 
-libparallel_idl.so: TaskSK.o TaskFactorySK.o
+libparallel_idl.so: TaskBaseSK.o TaskFactoryBaseSK.o TaskFactoryASK.o
 	gcc -shared $^ @OMNIORB_LIBS@ -o @abs_top_builddir@/lib/$@
 
 %SK.cc: %.idl
@@ -50,7 +50,7 @@ libparallel_idl.so: TaskSK.o TaskFactorySK.o
 include .depidl
 
 clean:
-	-rm -f  *.o .depidl
+	-rm -f  *.o *.d *.hh .depidl
 
 
 #--------------------------------------------------------------------------------------
