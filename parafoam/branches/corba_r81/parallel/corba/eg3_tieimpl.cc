@@ -1,81 +1,69 @@
-// eg3_tieimpl.cc - This example is similar to eg3_impl.cc except that
-//                  the tie implementation skeleton is used.
+// VulaSHAKA (Simultaneous Neutronic, Fuel Performance, Heat And Kinetics Analysis)
+// Copyright (C) 2009-2010 Pebble Bed Modular Reactor (Pty) Limited (PBMR)
+// 
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// 
+// See https://vulashaka.svn.sourceforge.net/svnroot/vulashaka
 //
-//               This is the object implementation.
-//
-// Usage: eg3_tieimpl
-//
-//        On startup, the object reference is registered with the 
-//        COS naming service. The client uses the naming service to
-//        locate this object.
-//
-//        The name which the object is bound to is as follows:
-//              root  [context]
-//               |
-//              test  [context] kind [my_context]
-//               |
-//              Echo  [object]  kind [Object]
+// Author : Alexey PETROV
 //
 
-#include <echo.hh>
 
-#ifdef HAVE_STD
-#  include <iostream>
-   using namespace std;
-#else
-#  include <iostream.h>
-#endif
+//---------------------------------------------------------------------------
+#include <TaskFactory.hh>
 
-static CORBA::Boolean bindObjectToName(CORBA::ORB_ptr,CORBA::Object_ptr);
+#include <iostream>
+using namespace std;
 
 
-// This is the object implementation.  Notice that it does not inherit
-// from any stub class, and notice that the echoString() member
-// function does not have to be virtual.
+//---------------------------------------------------------------------------
+static CORBA::Boolean bindObjectToName( CORBA::ORB_ptr, CORBA::Object_ptr );
 
-class Echo_i {
-public:
-  inline Echo_i() {}
-  inline ~Echo_i() {}
-  char* echoString(const char* mesg);
+
+//---------------------------------------------------------------------------
+struct TaskFactory_i 
+{
+  inline TaskFactory_i() {}
+
+  inline ~TaskFactory_i() {}
+
+  Task_ptr create()
+  {
+    cout << "TaskFactory_i::create()" << endl;
+
+    return Task::_nil();
+  }
 };
 
 
-char* Echo_i::echoString(const char* mesg)
-{
-  return CORBA::string_dup(mesg);
-}
-
-//////////////////////////////////////////////////////////////////////
-
-int main(int argc, char** argv)
+//---------------------------------------------------------------------------
+int main( int argc, char** argv )
 {
   try {
-    //const char* options[][2] = { { "traceLevel", "10" }, { 0, 0 } };
-    //CORBA::ORB_var orb = CORBA::ORB_init(argc, argv, "omniORB4", options);
-    CORBA::ORB_var orb = CORBA::ORB_init(argc, argv);
+    CORBA::ORB_var orb = CORBA::ORB_init( argc, argv );
 
-    CORBA::Object_var obj = orb->resolve_initial_references("RootPOA");
-    PortableServer::POA_var poa = PortableServer::POA::_narrow(obj);
+    CORBA::Object_var poa_obj = orb->resolve_initial_references( "RootPOA" );
+    PortableServer::POA_var poa = PortableServer::POA::_narrow( poa_obj );
 
-    // Note that the <myecho> tie object is constructed on the stack
-    // here. It will delete its implementation (myimpl) when it it
-    // itself destroyed (when it goes out of scope).  It is essential
-    // however to ensure that such servants are not deleted whilst
-    // still activated.
-    //
-    // Tie objects can of course be allocated on the heap using new,
-    // in which case they are deleted when their reference count
-    // becomes zero, as with any other servant object.
-    Echo_i* myimpl = new Echo_i();
-    POA_Echo_tie<Echo_i> myecho(myimpl);
+    TaskFactory_i* a_task_factory_impl = new TaskFactory_i();
+    POA_TaskFactory_tie< TaskFactory_i > a_task_factory_tie( a_task_factory_impl );
 
-    PortableServer::ObjectId_var myechoid = poa->activate_object(&myecho);
+    PortableServer::ObjectId_var a_task_factory_id = poa->activate_object( &a_task_factory_tie );
 
-    // Obtain a reference to the object, and register it in
-    // the naming service.
-    obj = myecho._this();
-    if( !bindObjectToName(orb, obj) )
+    // Obtain a reference to the object, and register it in the naming service.
+    CORBA::Object_var a_task_factory_obj = a_task_factory_tie._this();
+    if( !bindObjectToName( orb, a_task_factory_obj ) )
       return 1;
 
     PortableServer::POAManager_var pman = poa->the_POAManager();
@@ -83,13 +71,13 @@ int main(int argc, char** argv)
 
     orb->run();
   }
-  catch(CORBA::SystemException& ex) {
+  catch( CORBA::SystemException& ex ) {
     cerr << "Caught CORBA::" << ex._name() << endl;
   }
-  catch(CORBA::Exception& ex) {
+  catch( CORBA::Exception& ex ) {
     cerr << "Caught CORBA::Exception: " << ex._name() << endl;
   }
-  catch(omniORB::fatalException& fe) {
+  catch( omniORB::fatalException& fe ) {
     cerr << "Caught omniORB::fatalException:" << endl;
     cerr << "  file: " << fe.file() << endl;
     cerr << "  line: " << fe.line() << endl;
@@ -98,90 +86,67 @@ int main(int argc, char** argv)
   return 0;
 }
 
-//////////////////////////////////////////////////////////////////////
 
+//---------------------------------------------------------------------------
 static CORBA::Boolean
-bindObjectToName(CORBA::ORB_ptr orb, CORBA::Object_ptr objref)
+bindObjectToName( CORBA::ORB_ptr orb, CORBA::Object_ptr objref )
 {
   CosNaming::NamingContext_var rootContext;
-
   try {
     // Obtain a reference to the root context of the Name service:
     CORBA::Object_var obj;
-    obj = orb->resolve_initial_references("NameService");
-
-    // Narrow the reference returned.
-    rootContext = CosNaming::NamingContext::_narrow(obj);
-    if( CORBA::is_nil(rootContext) ) {
+    obj = orb->resolve_initial_references( "NameService" );
+    rootContext = CosNaming::NamingContext::_narrow( obj );
+    if( CORBA::is_nil( rootContext ) ) {
       cerr << "Failed to narrow the root naming context." << endl;
       return 0;
     }
   }
-  catch (CORBA::NO_RESOURCES&) {
+  catch ( CORBA::NO_RESOURCES& ) {
     cerr << "Caught NO_RESOURCES exception. You must configure omniORB "
 	 << "with the location" << endl
 	 << "of the naming service." << endl;
     return 0;
   }
-  catch (CORBA::ORB::InvalidName&) {
+  catch ( CORBA::ORB::InvalidName& ) {
     // This should not happen!
     cerr << "Service required is invalid [does not exist]." << endl;
     return 0;
   }
 
   try {
-    // Bind a context called "test" to the root context:
-
     CosNaming::Name contextName;
-    contextName.length(1);
-    contextName[0].id   = (const char*) "test";       // string copied
-    contextName[0].kind = (const char*) "my_context"; // string copied
-    // Note on kind: The kind field is used to indicate the type
-    // of the object. This is to avoid conventions such as that used
-    // by files (name.type -- e.g. test.ps = postscript etc.)
+    contextName.length( 1 );
+    contextName[ 0 ].id   = (const char*) "TaskFactory";
+    contextName[ 0 ].kind = (const char*) "paraFoam";
 
-    CosNaming::NamingContext_var testContext;
+    CosNaming::NamingContext_var paraFoamContext;
     try {
-      // Bind the context to root.
-      testContext = rootContext->bind_new_context(contextName);
+      paraFoamContext = rootContext->bind_new_context( contextName );
     }
-    catch(CosNaming::NamingContext::AlreadyBound& ex) {
-      // If the context already exists, this exception will be raised.
-      // In this case, just resolve the name and assign testContext
-      // to the object returned:
+    catch( CosNaming::NamingContext::AlreadyBound& ex ) {
       CORBA::Object_var obj;
-      obj = rootContext->resolve(contextName);
-      testContext = CosNaming::NamingContext::_narrow(obj);
-      if( CORBA::is_nil(testContext) ) {
+      obj = rootContext->resolve( contextName );
+      paraFoamContext = CosNaming::NamingContext::_narrow( obj );
+      if( CORBA::is_nil( paraFoamContext ) ) {
         cerr << "Failed to narrow naming context." << endl;
         return 0;
       }
     }
 
-    // Bind objref with name Echo to the testContext:
     CosNaming::Name objectName;
-    objectName.length(1);
-    objectName[0].id   = (const char*) "Echo";   // string copied
-    objectName[0].kind = (const char*) "Object"; // string copied
+    objectName.length( 1 );
+    objectName[ 0 ].id   = (const char*) "XXX";
+    objectName[ 0 ].kind = (const char*) "object";
 
     try {
-      testContext->bind(objectName, objref);
+      paraFoamContext->bind( objectName, objref );
     }
-    catch(CosNaming::NamingContext::AlreadyBound& ex) {
-      testContext->rebind(objectName, objref);
+    catch( CosNaming::NamingContext::AlreadyBound& ex ) {
+      paraFoamContext->rebind( objectName, objref );
     }
-    // Note: Using rebind() will overwrite any Object previously bound
-    //       to /test/Echo with obj.
-    //       Alternatively, bind() can be used, which will raise a
-    //       CosNaming::NamingContext::AlreadyBound exception if the name
-    //       supplied is already bound to an object.
-
-    // Amendment: When using OrbixNames, it is necessary to first try bind
-    // and then rebind, as rebind on it's own will throw a NotFoundexception if
-    // the Name has not already been bound. [This is incorrect behaviour -
-    // it should just bind].
   }
-  catch(CORBA::TRANSIENT& ex) {
+  catch( CORBA::TRANSIENT& ex ) {
     cerr << "Caught system exception TRANSIENT -- unable to contact the "
          << "naming service." << endl
 	 << "Make sure the naming server is running and that omniORB is "
@@ -189,10 +154,14 @@ bindObjectToName(CORBA::ORB_ptr orb, CORBA::Object_ptr objref)
 
     return 0;
   }
-  catch(CORBA::SystemException& ex) {
+  catch( CORBA::SystemException& ex ) {
     cerr << "Caught a CORBA::" << ex._name()
 	 << " while using the naming service." << endl;
     return 0;
   }
+
   return 1;
 }
+
+
+//---------------------------------------------------------------------------
