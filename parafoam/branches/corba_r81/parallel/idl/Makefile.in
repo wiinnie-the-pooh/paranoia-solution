@@ -26,14 +26,16 @@
 #--------------------------------------------------------------------------------------
 all: libparallel_idl.so
 
-libparallel_idl.so: $(patsubst %.idl, %SK.o, $(wildcard *.idl))
-	gcc -shared $^ @OMNIORB_LIBS@ -o @top_builddir@/lib/$@
+# $(patsubst %.idl, %SK.o, $(wildcard *.idl))
+
+libparallel_idl.so: TaskSK.o TaskFactorySK.o
+	gcc -shared $^ @OMNIORB_LIBS@ -o @abs_top_builddir@/lib/$@
 
 %SK.cc: %.idl
-	@IDL@ -bcxx -Wbtp @OMNIORB_IDLCXXFLAGS@ $<
+	@IDL@ -bcxx -Wbtp -I@abs_top_builddir@/parallel/idl @OMNIORB_IDLCXXFLAGS@ $<
 
 %SK.o: %SK.cc
-	gcc -x c++ @OMNIORB_CXXFLAGS@ @OMNIORB_INCLUDES@ -fPIC -c $<
+	gcc -x c++ -I@abs_top_builddir@/parallel/idl @OMNIORB_CXXFLAGS@ @OMNIORB_INCLUDES@ -fPIC -c $<
 
 .depidl: $(wildcard *.idl)
 	@echo "" > $@

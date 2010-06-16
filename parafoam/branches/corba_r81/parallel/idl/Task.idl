@@ -21,23 +21,17 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef __PARALELL_TASKFACTORY_IDL__
-#define __PARALELL_TASKFACTORY_IDL__
-
-
-//---------------------------------------------------------------------------
-#include "Task.idl"
+#ifndef __PARALELL_TASK_IDL__
+#define __PARALELL_TASK_IDL__
 
 
 //---------------------------------------------------------------------------
 module parallel
 {
-  interface TaskFactory 
-  {
-    Task create();
-  };
+  interface Task
+  {};
 };
 
 
 //---------------------------------------------------------------------------
-#endif  // __PARALELL_TASKFACTORY_IDL__
+#endif  // __PARALELL_TASK_IDL__
