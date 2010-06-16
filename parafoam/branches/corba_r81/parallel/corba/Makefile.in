@@ -24,14 +24,14 @@
 
 
 #--------------------------------------------------------------------------------------
-all: eg3_impl eg3_clt
+all: TaskFactoryA_server TaskFactoryA_client
 
 LDFLAGS = @abs_top_builddir@/lib/libparallel_idl.so
 
-eg3_impl: eg3_tieimpl.o
+TaskFactoryA_server: TaskFactoryA_server.o
 	gcc $(LDFLAGS) $^ -o @abs_top_builddir@/bin/$@
 
-eg3_clt: eg3_clt.o
+TaskFactoryA_client: TaskFactoryA_client.o
 	gcc $(LDFLAGS) $^ -o @abs_top_builddir@/bin/$@
 
 CPPFLAGS=@OMNIORB_INCLUDES@ -I@abs_top_builddir@/parallel/idl
