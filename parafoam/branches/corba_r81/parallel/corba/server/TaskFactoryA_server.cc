@@ -23,29 +23,12 @@
 //---------------------------------------------------------------------------
 #include <parallel/corba/idl/TaskFactoryA.hh>
 
+#include <parallel/corba/server/TaskFactoryA_i.hh>
+
 #include <parallel/corba/server/TaskFactory_utilities.hpp>
 
 #include <iostream>
 using namespace std;
-
-
-//---------------------------------------------------------------------------
-namespace parallel
-{
-  struct TaskFactoryA_i 
-  {
-    inline TaskFactoryA_i() {}
-    
-    inline ~TaskFactoryA_i() {}
-    
-    TaskA_ptr create()
-    {
-      cout << "TaskFactoryA_i::create()" << endl;
-      
-      return TaskA::_nil();
-    }
-  };
-}
 
 
 //---------------------------------------------------------------------------
