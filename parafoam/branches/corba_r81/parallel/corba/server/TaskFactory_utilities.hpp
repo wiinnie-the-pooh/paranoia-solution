@@ -28,6 +28,7 @@
 //---------------------------------------------------------------------------
 #include <CORBA.h>
 
+#include <string>
 #include <iostream>
 
 
@@ -35,12 +36,14 @@
 namespace parallel 
 {
   //---------------------------------------------------------------------------
-  CORBA::Boolean bindObjectToName( CORBA::ORB_ptr, CORBA::Object_ptr );
+  CORBA::Boolean bindObjectToName( CORBA::ORB_ptr orb,
+				   CORBA::Object_ptr objref, 
+				   const std::string& theTaskFactoryName );
 
 
   //---------------------------------------------------------------------------
   template< class TaskFactoryType, template< class > class TaskFactoryTieType >
-  int run( int argc, char** argv )
+  int run( int argc, char** argv, const std::string& theTaskFactoryName )
   {
     try {
       CORBA::ORB_var orb = CORBA::ORB_init( argc, argv );
@@ -55,7 +58,7 @@ namespace parallel
   
       // Obtain a reference to the object, and register it in the naming service.
       CORBA::Object_var a_task_factory_obj = a_task_factory_tie._this();
-      if( !bindObjectToName( orb, a_task_factory_obj ) )
+      if( !bindObjectToName( orb, a_task_factory_obj, theTaskFactoryName ) )
         return 1;
   
       PortableServer::POAManager_var pman = poa->the_POAManager();

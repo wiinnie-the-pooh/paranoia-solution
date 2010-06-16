@@ -26,7 +26,7 @@
 
 
 //---------------------------------------------------------------------------
-#include <parallel/corba/idl/TaskFactoryA.hh>
+#include "parallel/corba/idl/TaskFactoryA.hh"
 
 #include <iostream>
 

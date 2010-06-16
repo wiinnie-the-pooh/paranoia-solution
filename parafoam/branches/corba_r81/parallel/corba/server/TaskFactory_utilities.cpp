@@ -23,6 +23,7 @@
 //---------------------------------------------------------------------------
 #include <parallel/corba/server/TaskFactory_utilities.hpp>
 
+#include <string>
 #include <iostream>
 using namespace std;
 
@@ -31,7 +32,9 @@ using namespace std;
 namespace parallel
 {
   //---------------------------------------------------------------------------
-  CORBA::Boolean bindObjectToName( CORBA::ORB_ptr orb, CORBA::Object_ptr objref )
+  CORBA::Boolean bindObjectToName( CORBA::ORB_ptr orb,
+				   CORBA::Object_ptr objref, 
+				   const std::string& theTaskFactoryName )
   {
     CosNaming::NamingContext_var rootContext;
     try {
@@ -78,7 +81,7 @@ namespace parallel
   
       CosNaming::Name objectName;
       objectName.length( 1 );
-      objectName[ 0 ].id   = (const char*) "A";
+      objectName[ 0 ].id   = (const char*) theTaskFactoryName.c_str();
       objectName[ 0 ].kind = (const char*) "object";
   
       try {

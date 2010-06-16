@@ -21,14 +21,15 @@
 
 
 //---------------------------------------------------------------------------
-#include <TaskFactoryA.hh>
+#include "parallel/corba/idl/TaskFactoryA.hh"
+#include "parallel/corba/idl/TaskFactoryB.hh"
 
 #include <iostream>
 using namespace std;
 
 
 //---------------------------------------------------------------------------
-static CORBA::Object_ptr getObjectReference( CORBA::ORB_ptr orb );
+static CORBA::Object_ptr getObjectReference( CORBA::ORB_ptr orb, const std::string& theTaskFactoryName );
 
 
 //---------------------------------------------------------------------------
@@ -37,11 +38,17 @@ int main( int argc, char **argv )
   try {
     CORBA::ORB_var orb = CORBA::ORB_init( argc, argv );
 
-    CORBA::Object_var obj = getObjectReference( orb );
+    {
+      CORBA::Object_var obj = getObjectReference( orb, "A" );
+      parallel::TaskFactoryA_var a_task_factory_ref = parallel::TaskFactoryA::_narrow( obj );
+      parallel::TaskA_var a_task = a_task_factory_ref->create();
+    }
 
-    parallel::TaskFactoryA_var a_task_factory_ref = parallel::TaskFactoryA::_narrow( obj );
-
-    parallel::TaskA_var a_task = a_task_factory_ref->create();
+    {
+      CORBA::Object_var obj = getObjectReference( orb, "B" );
+      parallel::TaskFactoryB_var a_task_factory_ref = parallel::TaskFactoryB::_narrow( obj );
+      parallel::TaskB_var a_task = a_task_factory_ref->create();
+    }
 
     orb->destroy();
   }
@@ -67,7 +74,7 @@ int main( int argc, char **argv )
 
 
 //---------------------------------------------------------------------------
-static CORBA::Object_ptr getObjectReference( CORBA::ORB_ptr orb )
+static CORBA::Object_ptr getObjectReference( CORBA::ORB_ptr orb, const std::string& theTaskFactoryName )
 {
   CosNaming::NamingContext_var rootContext;
   
@@ -102,7 +109,7 @@ static CORBA::Object_ptr getObjectReference( CORBA::ORB_ptr orb )
   name[ 0 ].id   = (const char*) "TaskFactory";
   name[ 0 ].kind = (const char*) "parallel";
 
-  name[ 1 ].id   = (const char*) "A";
+  name[ 1 ].id   = (const char*) theTaskFactoryName.c_str();
   name[ 1 ].kind = (const char*) "object";
 
   try {

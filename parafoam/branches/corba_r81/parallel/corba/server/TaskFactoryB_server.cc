@@ -21,17 +21,17 @@
 
 
 //---------------------------------------------------------------------------
-#include <parallel/corba/idl/TaskFactoryB.hh>
+#include "parallel/corba/idl/TaskFactoryB.hh"
 
-#include <parallel/corba/server/TaskFactoryB_i.hh>
+#include "parallel/corba/server/TaskFactoryB_i.hh"
 
-#include <parallel/corba/server/TaskFactory_utilities.hpp>
+#include "parallel/corba/server/TaskFactory_utilities.hpp"
 
 
 //---------------------------------------------------------------------------
 int main( int argc, char** argv )
 {
-  return parallel::run< parallel::TaskFactoryB_i, POA_parallel::TaskFactoryB_tie >( argc, argv );
+  return parallel::run< parallel::TaskFactoryB_i, POA_parallel::TaskFactoryB_tie >( argc, argv, "B" );
 }
 
 
