@@ -26,9 +26,9 @@
 #--------------------------------------------------------------------------------------
 all: libparallel_idl.so
 
-# $(patsubst %.idl, %SK.o, $(wildcard *.idl))
+IDL_FILES = TaskBase.idl TaskFactoryBase.idl TaskFactoryA.idl
 
-libparallel_idl.so: TaskBaseSK.o TaskFactoryBaseSK.o TaskFactoryASK.o
+libparallel_idl.so: $(patsubst %.idl, %SK.o, $(IDL_FILES))
 	gcc -shared $^ @OMNIORB_LIBS@ -o @abs_top_builddir@/lib/$@
 
 %SK.cc: %.idl
