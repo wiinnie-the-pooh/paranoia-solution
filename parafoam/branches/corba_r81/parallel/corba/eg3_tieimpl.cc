@@ -32,19 +32,22 @@ static CORBA::Boolean bindObjectToName( CORBA::ORB_ptr, CORBA::Object_ptr );
 
 
 //---------------------------------------------------------------------------
-struct TaskFactory_i 
+namespace parallel
 {
-  inline TaskFactory_i() {}
-
-  inline ~TaskFactory_i() {}
-
-  Task_ptr create()
+  struct TaskFactory_i 
   {
-    cout << "TaskFactory_i::create()" << endl;
-
-    return Task::_nil();
-  }
-};
+    inline TaskFactory_i() {}
+    
+    inline ~TaskFactory_i() {}
+    
+    Task_ptr create()
+    {
+      cout << "TaskFactory_i::create()" << endl;
+      
+      return Task::_nil();
+    }
+  };
+}
 
 
 //---------------------------------------------------------------------------
@@ -56,8 +59,9 @@ int main( int argc, char** argv )
     CORBA::Object_var poa_obj = orb->resolve_initial_references( "RootPOA" );
     PortableServer::POA_var poa = PortableServer::POA::_narrow( poa_obj );
 
+    using namespace parallel;
     TaskFactory_i* a_task_factory_impl = new TaskFactory_i();
-    POA_TaskFactory_tie< TaskFactory_i > a_task_factory_tie( a_task_factory_impl );
+    POA_parallel::TaskFactory_tie< TaskFactory_i > a_task_factory_tie( a_task_factory_impl );
 
     PortableServer::ObjectId_var a_task_factory_id = poa->activate_object( &a_task_factory_tie );
 

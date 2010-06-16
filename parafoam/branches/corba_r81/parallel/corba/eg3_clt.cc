@@ -39,9 +39,9 @@ int main( int argc, char **argv )
 
     CORBA::Object_var obj = getObjectReference( orb );
 
-    TaskFactory_var a_task_factory_ref = TaskFactory::_narrow( obj );
+    parallel::TaskFactory_var a_task_factory_ref = parallel::TaskFactory::_narrow( obj );
 
-    Task_var a_task = a_task_factory_ref->create();
+    parallel::Task_var a_task = a_task_factory_ref->create();
 
     orb->destroy();
   }
