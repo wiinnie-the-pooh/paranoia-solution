@@ -24,11 +24,11 @@
 
 
 #--------------------------------------------------------------------------------------
-all: TaskFactoryA_client
+all: scheme_definition
 
 LDFLAGS = @abs_top_builddir@/lib/libparallel_idl.so
 
-TaskFactoryA_client: TaskFactoryA_client.o
+scheme_definition: scheme_definition.o
 	gcc $(LDFLAGS) $^ -o @abs_top_builddir@/bin/$@
 
 CPPFLAGS=@OMNIORB_INCLUDES@ -I@abs_top_builddir@/parallel/corba/idl
