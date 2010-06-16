@@ -32,10 +32,10 @@ libparallel_idl.so: TaskBaseSK.o TaskFactoryBaseSK.o TaskFactoryASK.o
 	gcc -shared $^ @OMNIORB_LIBS@ -o @abs_top_builddir@/lib/$@
 
 %SK.cc: %.idl
-	@IDL@ -bcxx -Wbtp -I@abs_top_builddir@/parallel/idl @OMNIORB_IDLCXXFLAGS@ $<
+	@IDL@ -bcxx -Wbtp -I@abs_top_builddir@/parallel/corba/idl @OMNIORB_IDLCXXFLAGS@ $<
 
 %SK.o: %SK.cc
-	gcc -x c++ -I@abs_top_builddir@/parallel/idl @OMNIORB_CXXFLAGS@ @OMNIORB_INCLUDES@ -fPIC -c $<
+	gcc -x c++ -I@abs_top_builddir@/parallel/corba/idl @OMNIORB_CXXFLAGS@ @OMNIORB_INCLUDES@ -fPIC -c $<
 
 .depidl: $(wildcard *.idl)
 	@echo "" > $@
