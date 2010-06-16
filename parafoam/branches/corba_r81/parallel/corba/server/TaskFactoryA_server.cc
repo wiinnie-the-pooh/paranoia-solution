@@ -21,14 +21,12 @@
 
 
 //---------------------------------------------------------------------------
-#include <TaskFactoryA.hh>
+#include <parallel/corba/idl/TaskFactoryA.hh>
+
+#include <parallel/corba/server/TaskFactory_utilities.hpp>
 
 #include <iostream>
 using namespace std;
-
-
-//---------------------------------------------------------------------------
-static CORBA::Boolean bindObjectToName( CORBA::ORB_ptr, CORBA::Object_ptr );
 
 
 //---------------------------------------------------------------------------
@@ -88,83 +86,6 @@ int main( int argc, char** argv )
     cerr << "  mesg: " << fe.errmsg() << endl;
   }
   return 0;
-}
-
-
-//---------------------------------------------------------------------------
-static CORBA::Boolean
-bindObjectToName( CORBA::ORB_ptr orb, CORBA::Object_ptr objref )
-{
-  CosNaming::NamingContext_var rootContext;
-  try {
-    // Obtain a reference to the root context of the Name service:
-    CORBA::Object_var obj;
-    obj = orb->resolve_initial_references( "NameService" );
-    rootContext = CosNaming::NamingContext::_narrow( obj );
-    if( CORBA::is_nil( rootContext ) ) {
-      cerr << "Failed to narrow the root naming context." << endl;
-      return 0;
-    }
-  }
-  catch ( CORBA::NO_RESOURCES& ) {
-    cerr << "Caught NO_RESOURCES exception. You must configure omniORB "
-	 << "with the location" << endl
-	 << "of the naming service." << endl;
-    return 0;
-  }
-  catch ( CORBA::ORB::InvalidName& ) {
-    // This should not happen!
-    cerr << "Service required is invalid [does not exist]." << endl;
-    return 0;
-  }
-
-  try {
-    CosNaming::Name contextName;
-    contextName.length( 1 );
-    contextName[ 0 ].id   = (const char*) "TaskFactory";
-    contextName[ 0 ].kind = (const char*) "parallel";
-
-    CosNaming::NamingContext_var paraFoamContext;
-    try {
-      paraFoamContext = rootContext->bind_new_context( contextName );
-    }
-    catch( CosNaming::NamingContext::AlreadyBound& ex ) {
-      CORBA::Object_var obj;
-      obj = rootContext->resolve( contextName );
-      paraFoamContext = CosNaming::NamingContext::_narrow( obj );
-      if( CORBA::is_nil( paraFoamContext ) ) {
-        cerr << "Failed to narrow naming context." << endl;
-        return 0;
-      }
-    }
-
-    CosNaming::Name objectName;
-    objectName.length( 1 );
-    objectName[ 0 ].id   = (const char*) "A";
-    objectName[ 0 ].kind = (const char*) "object";
-
-    try {
-      paraFoamContext->bind( objectName, objref );
-    }
-    catch( CosNaming::NamingContext::AlreadyBound& ex ) {
-      paraFoamContext->rebind( objectName, objref );
-    }
-  }
-  catch( CORBA::TRANSIENT& ex ) {
-    cerr << "Caught system exception TRANSIENT -- unable to contact the "
-         << "naming service." << endl
-	 << "Make sure the naming server is running and that omniORB is "
-	 << "configured correctly." << endl;
-
-    return 0;
-  }
-  catch( CORBA::SystemException& ex ) {
-    cerr << "Caught a CORBA::" << ex._name()
-	 << " while using the naming service." << endl;
-    return 0;
-  }
-
-  return 1;
 }
 
 

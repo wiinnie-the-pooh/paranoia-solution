@@ -24,18 +24,24 @@
 
 
 #--------------------------------------------------------------------------------------
-all: TaskFactoryA_server
+all: libparallel_corba_server.so TaskFactoryA_server
 
-LDFLAGS = @abs_top_builddir@/lib/libparallel_idl.so
+LDFLAGS = -L@abs_top_builddir@/lib -lparallel_idl
 
 TaskFactoryA_server: TaskFactoryA_server.o
-	gcc $(LDFLAGS) $^ -o @abs_top_builddir@/bin/$@
+	gcc $(LDFLAGS) -lparallel_corba_server $^ -o @abs_top_builddir@/bin/$@
 
-CPPFLAGS=@OMNIORB_INCLUDES@ -I@abs_top_builddir@/parallel/corba/idl
+CPPFLAGS=@OMNIORB_INCLUDES@ -I@abs_top_builddir@  -I@abs_top_builddir@/parallel/corba/idl
 
 CXXFLAGS= @OMNIORB_CXXFLAGS@
 
 %.o: %.cc
+	gcc -x c++ $(CPPFLAGS) $(CXXFLAGS) -fPIC -c -MMD $<
+
+libparallel_corba_server.so: $(patsubst %.cpp, %.o, $(wildcard *.cpp))
+	gcc -shared $^ $(LDFLAGS) @OMNIORB_LIBS@ -o @abs_top_builddir@/lib/$@
+
+%.o: %.cpp
 	gcc -x c++ $(CPPFLAGS) $(CXXFLAGS) -fPIC -c -MMD $<
 
 include $(wildcard *.d)
