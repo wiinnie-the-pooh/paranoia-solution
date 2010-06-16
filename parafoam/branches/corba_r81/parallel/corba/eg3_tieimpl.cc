@@ -21,7 +21,7 @@
 
 
 //---------------------------------------------------------------------------
-#include <TaskFactory.hh>
+#include <TaskFactoryA.hh>
 
 #include <iostream>
 using namespace std;
@@ -34,17 +34,17 @@ static CORBA::Boolean bindObjectToName( CORBA::ORB_ptr, CORBA::Object_ptr );
 //---------------------------------------------------------------------------
 namespace parallel
 {
-  struct TaskFactory_i 
+  struct TaskFactoryA_i 
   {
-    inline TaskFactory_i() {}
+    inline TaskFactoryA_i() {}
     
-    inline ~TaskFactory_i() {}
+    inline ~TaskFactoryA_i() {}
     
-    Task_ptr create()
+    TaskA_ptr create()
     {
-      cout << "TaskFactory_i::create()" << endl;
+      cout << "TaskFactoryA_i::create()" << endl;
       
-      return Task::_nil();
+      return TaskA::_nil();
     }
   };
 }
@@ -60,8 +60,8 @@ int main( int argc, char** argv )
     PortableServer::POA_var poa = PortableServer::POA::_narrow( poa_obj );
 
     using namespace parallel;
-    TaskFactory_i* a_task_factory_impl = new TaskFactory_i();
-    POA_parallel::TaskFactory_tie< TaskFactory_i > a_task_factory_tie( a_task_factory_impl );
+    TaskFactoryA_i* a_task_factory_impl = new TaskFactoryA_i();
+    POA_parallel::TaskFactoryA_tie< TaskFactoryA_i > a_task_factory_tie( a_task_factory_impl );
 
     PortableServer::ObjectId_var a_task_factory_id = poa->activate_object( &a_task_factory_tie );
 
@@ -122,7 +122,7 @@ bindObjectToName( CORBA::ORB_ptr orb, CORBA::Object_ptr objref )
     CosNaming::Name contextName;
     contextName.length( 1 );
     contextName[ 0 ].id   = (const char*) "TaskFactory";
-    contextName[ 0 ].kind = (const char*) "paraFoam";
+    contextName[ 0 ].kind = (const char*) "parallel";
 
     CosNaming::NamingContext_var paraFoamContext;
     try {
@@ -140,7 +140,7 @@ bindObjectToName( CORBA::ORB_ptr orb, CORBA::Object_ptr objref )
 
     CosNaming::Name objectName;
     objectName.length( 1 );
-    objectName[ 0 ].id   = (const char*) "XXX";
+    objectName[ 0 ].id   = (const char*) "A";
     objectName[ 0 ].kind = (const char*) "object";
 
     try {

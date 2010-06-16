@@ -21,7 +21,7 @@
 
 
 //---------------------------------------------------------------------------
-#include <TaskFactory.hh>
+#include <TaskFactoryA.hh>
 
 #include <iostream>
 using namespace std;
@@ -39,9 +39,9 @@ int main( int argc, char **argv )
 
     CORBA::Object_var obj = getObjectReference( orb );
 
-    parallel::TaskFactory_var a_task_factory_ref = parallel::TaskFactory::_narrow( obj );
+    parallel::TaskFactoryA_var a_task_factory_ref = parallel::TaskFactoryA::_narrow( obj );
 
-    parallel::Task_var a_task = a_task_factory_ref->create();
+    parallel::TaskA_var a_task = a_task_factory_ref->create();
 
     orb->destroy();
   }
@@ -100,9 +100,9 @@ static CORBA::Object_ptr getObjectReference( CORBA::ORB_ptr orb )
   name.length( 2 );
 
   name[ 0 ].id   = (const char*) "TaskFactory";
-  name[ 0 ].kind = (const char*) "paraFoam";
+  name[ 0 ].kind = (const char*) "parallel";
 
-  name[ 1 ].id   = (const char*) "XXX";
+  name[ 1 ].id   = (const char*) "A";
   name[ 1 ].kind = (const char*) "object";
 
   try {
