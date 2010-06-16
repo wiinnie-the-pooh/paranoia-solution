@@ -1,0 +1,82 @@
+## VulaSHAKA (Simultaneous Neutronic, Fuel Performance, Heat And Kinetics Analysis)
+## Copyright (C) 2009-2010 Pebble Bed Modular Reactor (Pty) Limited (PBMR)
+## 
+## This program is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+## 
+## You should have received a copy of the GNU General Public License
+## along with this program.  If not, see <http://www.gnu.org/licenses/>.
+## 
+## See https://vulashaka.svn.sourceforge.net/svnroot/vulashaka
+##
+## Author : Alexey PETROV
+##
+
+
+#--------------------------------------------------------------------------------------
+# Process this file with autoconf to produce a configure script
+#--------------------------------------------------------------------------------------
+AC_INIT([paraFoam Project], [0.4], [alexey.petrov.nnov@gmail.com], [parafoam])
+
+# AC_CONFIG_AUX_DIR defines an alternative directory where to find the auxiliary
+# scripts such as config.guess, install-sh, ...
+AC_CONFIG_AUX_DIR(admin)
+AC_CONFIG_MACRO_DIR([admin])
+AM_INIT_AUTOMAKE([tar-pax -Wno-portability])
+
+
+echo "--------------------------------------------------------------------------------------"
+CONFFOAM_CHECK_LOKI
+echo 
+
+echo "--------------------------------------------------------------------------------------"
+CONFFOAM_CHECK_BOOST_SERIALIZATION
+echo 
+
+echo "--------------------------------------------------------------------------------------"
+CONFFOAM_CHECK_BOOST_THREAD
+echo 
+
+echo "--------------------------------------------------------------------------------------"
+CONFFOAM_CHECK_OMNIORB
+echo 
+
+echo "--------------------------------------------------------------------------------------"
+CONFFOAM_CHECK_OPENFOAM
+echo 
+
+echo "--------------------------------------------------------------------------------------"
+CONFFOAM_CHECK_DIFFUSIONFOAMLIB
+echo 
+
+
+echo "---------------------------- mandatory products --------------------------------"
+CONFFOAM_PRINT_SUMMURY( "loki_ok boost_serialization_ok boost_thread_ok" )
+echo
+echo "---------------------------- optional products ---------------------------------"
+CONFFOAM_PRINT_SUMMURY( "openfoam_ok diffusionfoamlib_ok" )
+echo
+echo "--------------------------------------------------------------------------------"
+CONFFOAM_CHECK_MANDATORY( "loki_ok boost_serialization_ok boost_thread_ok" )
+
+
+#--------------------------------------------------------------------------------------
+AC_OUTPUT( [ bashrc \
+	     include.makefile \
+	     parallel/base/include.makefile \
+	     parallel/dev/include.makefile \
+	     parallel/idl/Makefile \
+	     parallel/corba/Makefile \
+	     parallel/foam/Makefile \
+	     parallel/foam/diffusion/Makefile ] )
+
+
+echo "------------------------------------ OK -----------------------------------------"
+
