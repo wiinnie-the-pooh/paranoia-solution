@@ -72,7 +72,7 @@ AC_OUTPUT( [ bashrc \
 	     include.makefile \
 	     parallel/base/include.makefile \
 	     parallel/dev/include.makefile \
-	     parallel/idl/Makefile \
+	     parallel/corba/idl/Makefile \
 	     parallel/corba/Makefile \
 	     parallel/foam/Makefile \
 	     parallel/foam/diffusion/Makefile ] )
