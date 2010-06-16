@@ -28,11 +28,58 @@
 //---------------------------------------------------------------------------
 #include <CORBA.h>
 
+#include <iostream>
+
 
 //---------------------------------------------------------------------------
 namespace parallel 
 {
+  //---------------------------------------------------------------------------
   CORBA::Boolean bindObjectToName( CORBA::ORB_ptr, CORBA::Object_ptr );
+
+
+  //---------------------------------------------------------------------------
+  template< class TaskFactoryType, template< class > class TaskFactoryTieType >
+  int run( int argc, char** argv )
+  {
+    try {
+      CORBA::ORB_var orb = CORBA::ORB_init( argc, argv );
+  
+      CORBA::Object_var poa_obj = orb->resolve_initial_references( "RootPOA" );
+      PortableServer::POA_var poa = PortableServer::POA::_narrow( poa_obj );
+  
+      TaskFactoryType* a_task_factory_impl = new TaskFactoryType();
+      TaskFactoryTieType< TaskFactoryType > a_task_factory_tie( a_task_factory_impl );
+  
+      PortableServer::ObjectId_var a_task_factory_id = poa->activate_object( &a_task_factory_tie );
+  
+      // Obtain a reference to the object, and register it in the naming service.
+      CORBA::Object_var a_task_factory_obj = a_task_factory_tie._this();
+      if( !bindObjectToName( orb, a_task_factory_obj ) )
+        return 1;
+  
+      PortableServer::POAManager_var pman = poa->the_POAManager();
+      pman->activate();
+  
+      orb->run();
+    }
+    catch( CORBA::SystemException& ex ) {
+      std::cerr << "Caught CORBA::" << ex._name() << std::endl;
+    }
+    catch( CORBA::Exception& ex ) {
+      std::cerr << "Caught CORBA::Exception: " << ex._name() << std::endl;
+    }
+    catch( omniORB::fatalException& fe ) {
+      std::cerr << "Caught omniORB::fatalException:" << std::endl;
+      std::cerr << "  file: " << fe.file() << std::endl;
+      std::cerr << "  line: " << fe.line() << std::endl;
+      std::cerr << "  mesg: " << fe.errmsg() << std::endl;
+    }
+
+    return 0;
+  }
+
+  //---------------------------------------------------------------------------
 }
 
 

@@ -27,48 +27,11 @@
 
 #include <parallel/corba/server/TaskFactory_utilities.hpp>
 
-#include <iostream>
-using namespace std;
-
 
 //---------------------------------------------------------------------------
 int main( int argc, char** argv )
 {
-  try {
-    CORBA::ORB_var orb = CORBA::ORB_init( argc, argv );
-
-    CORBA::Object_var poa_obj = orb->resolve_initial_references( "RootPOA" );
-    PortableServer::POA_var poa = PortableServer::POA::_narrow( poa_obj );
-
-    using namespace parallel;
-    TaskFactoryA_i* a_task_factory_impl = new TaskFactoryA_i();
-    POA_parallel::TaskFactoryA_tie< TaskFactoryA_i > a_task_factory_tie( a_task_factory_impl );
-
-    PortableServer::ObjectId_var a_task_factory_id = poa->activate_object( &a_task_factory_tie );
-
-    // Obtain a reference to the object, and register it in the naming service.
-    CORBA::Object_var a_task_factory_obj = a_task_factory_tie._this();
-    if( !bindObjectToName( orb, a_task_factory_obj ) )
-      return 1;
-
-    PortableServer::POAManager_var pman = poa->the_POAManager();
-    pman->activate();
-
-    orb->run();
-  }
-  catch( CORBA::SystemException& ex ) {
-    cerr << "Caught CORBA::" << ex._name() << endl;
-  }
-  catch( CORBA::Exception& ex ) {
-    cerr << "Caught CORBA::Exception: " << ex._name() << endl;
-  }
-  catch( omniORB::fatalException& fe ) {
-    cerr << "Caught omniORB::fatalException:" << endl;
-    cerr << "  file: " << fe.file() << endl;
-    cerr << "  line: " << fe.line() << endl;
-    cerr << "  mesg: " << fe.errmsg() << endl;
-  }
-  return 0;
+  return parallel::run< parallel::TaskFactoryA_i, POA_parallel::TaskFactoryA_tie >( argc, argv );
 }
 
 
