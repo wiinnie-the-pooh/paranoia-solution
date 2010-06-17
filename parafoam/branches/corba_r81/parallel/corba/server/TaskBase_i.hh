@@ -21,32 +21,32 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef corba_server_TaskManager_i_hh
-#define corba_server_TaskManager_i_hh
+#ifndef corba_server_TaskBase_i_hh
+#define corba_server_TaskBase_i_hh
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/idl/TaskManager.hh"
-
-#include <iostream>
+#include "parallel/corba/idl/TaskBase.hh"
 
 
 //---------------------------------------------------------------------------
 namespace parallel 
 {
   //---------------------------------------------------------------------------
-  struct TaskManager_i
+  struct TaskBase_i 
   {
-    TaskManager_i();
-    
-    virtual ~TaskManager_i();
-    
-    void connect( TaskBase_ptr theOutputTask, 
-		  const char* theOutputPortName,
-                  TaskBase_ptr theInputTask, 
-		  const char* theInputPortName );
+    TaskBase_i();
 
-    CORBA::Boolean is_run();
+    virtual ~TaskBase_i();
+
+    virtual void invoke( TaskManager_ptr theTaskManager );
+      
+  protected:
+    virtual void init();
+
+    virtual CORBA::Boolean step();
+
+    virtual void destroy();
   };
 
 

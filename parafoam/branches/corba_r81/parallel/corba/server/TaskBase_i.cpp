@@ -21,38 +21,68 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef corba_server_TaskManager_i_hh
-#define corba_server_TaskManager_i_hh
+#include <parallel/corba/server/TaskBase_i.hh>
 
-
-//---------------------------------------------------------------------------
 #include "parallel/corba/idl/TaskManager.hh"
 
 #include <iostream>
 
+using namespace std;
+
 
 //---------------------------------------------------------------------------
-namespace parallel 
+namespace parallel
 {
   //---------------------------------------------------------------------------
-  struct TaskManager_i
+  TaskBase_i::TaskBase_i()
   {
-    TaskManager_i();
+    cout << "TaskBase_i::TaskBase_i() : " << this << endl;
+  }
+
+
+  //---------------------------------------------------------------------------
+  TaskBase_i::~TaskBase_i()
+  {
+    cout << "TaskBase_i::~TaskBase_i() : " << this << endl;
+  }
+
+
+  //---------------------------------------------------------------------------
+  void TaskBase_i::invoke( TaskManager_ptr theTaskManager )
+  {
+    this->init();
     
-    virtual ~TaskManager_i();
+    while( theTaskManager->is_run() && this->step() );
     
-    void connect( TaskBase_ptr theOutputTask, 
-		  const char* theOutputPortName,
-                  TaskBase_ptr theInputTask, 
-		  const char* theInputPortName );
-
-    CORBA::Boolean is_run();
-  };
-
-
+    this->destroy();
+  }
+    
+    
+  //---------------------------------------------------------------------------
+  void TaskBase_i::init()
+  {
+    cout << "TaskBase_i::init() : " << this << endl;
+  }
+    
+    
+  //---------------------------------------------------------------------------
+  CORBA::Boolean TaskBase_i::step()
+  {
+    cout << "TaskBase_i::step() : " << this << endl;
+    
+    return false;
+  }
+    
+    
+  //---------------------------------------------------------------------------
+  void TaskBase_i::destroy()
+  {
+    cout << "TaskBase_i::destroy() : " << this << endl;
+  }
+    
+    
   //---------------------------------------------------------------------------
 }
 
 
 //---------------------------------------------------------------------------
-#endif

@@ -21,38 +21,51 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef corba_server_TaskManager_i_hh
-#define corba_server_TaskManager_i_hh
-
-
-//---------------------------------------------------------------------------
-#include "parallel/corba/idl/TaskManager.hh"
+#include <parallel/corba/server/TaskManager_i.hh>
 
 #include <iostream>
 
+using namespace std;
+
 
 //---------------------------------------------------------------------------
-namespace parallel 
+namespace parallel
 {
   //---------------------------------------------------------------------------
-  struct TaskManager_i
+  TaskManager_i::TaskManager_i()
   {
-    TaskManager_i();
+    cout << "TaskManager_i::TaskManager_i() : " << this << endl;
+  }
+
+
+  //---------------------------------------------------------------------------
+  TaskManager_i::~TaskManager_i()
+  {
+    cout << "TaskManager_i::~TaskManager_i() : " << this << endl;
+  }
+
+
+  //---------------------------------------------------------------------------
+  void TaskManager_i::connect( TaskBase_ptr theOutputTask, 
+			       const char* theOutputPortName,
+			       TaskBase_ptr theInputTask, 
+			       const char* theInputPortName )
+  {
+    std::cout << "TaskManager_i::connect : " << this << " - '" << theOutputPortName << "'; '" << theInputPortName << "'" << std::endl;
+  }
     
-    virtual ~TaskManager_i();
     
-    void connect( TaskBase_ptr theOutputTask, 
-		  const char* theOutputPortName,
-                  TaskBase_ptr theInputTask, 
-		  const char* theInputPortName );
-
-    CORBA::Boolean is_run();
-  };
-
-
+  //---------------------------------------------------------------------------
+  CORBA::Boolean TaskManager_i::is_run()
+  {
+    cout << "TaskManager_i::is_run() : " << this << endl;
+    
+    return false;
+  }
+    
+    
   //---------------------------------------------------------------------------
 }
 
 
 //---------------------------------------------------------------------------
-#endif
