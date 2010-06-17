@@ -92,14 +92,14 @@ namespace parallel
         Foam::IStringStream an_ostream( a_string );
 
         Foam::fileName rootPath;
-	an_ostream >> rootPath;
+        an_ostream >> rootPath;
 
         Foam::fileName caseName;
-	an_ostream >> caseName;
+        an_ostream >> caseName;
 
-	this->runTime = createTime( rootPath, caseName );
+        this->runTime = createTime( rootPath, caseName );
 
-	this->value = createMesh( *this->runTime );
+        this->value = createMesh( *this->runTime );
       }
 
       template< class ArchiveType >

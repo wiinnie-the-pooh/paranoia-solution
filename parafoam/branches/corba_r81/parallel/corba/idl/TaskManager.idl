@@ -35,7 +35,7 @@ module parallel
   interface TaskManager
   {
     void connect( in TaskBase theOutputTask, in string theOutputPortName,
-		  in TaskBase theInputTask, in string theInputPortName );
+                  in TaskBase theInputTask, in string theInputPortName );
   };
 };
 

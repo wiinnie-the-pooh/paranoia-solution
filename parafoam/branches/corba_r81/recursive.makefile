@@ -24,26 +24,26 @@
 RECURSIVE_TARGETS = all-recursive clean-recursive
 
 $(RECURSIVE_TARGETS):
-	@failcom='exit 1'; \
-	for f in x $$MAKEFLAGS; do \
-	  case $$f in \
-	    *=* | --[!k]*);; \
-	    *k*) failcom='fail=yes';; \
-	  esac; \
-	done; \
-	target=`echo $@ | sed s/-recursive//`; \
-	list='$(SUBDIRS)'; for subdir in $$list; do \
-	  echo "Making $$target in $$subdir"; \
-	  if test "$$subdir" = "."; then \
-	    break; \
-	  fi; \
-	  if ! test -f "$$subdir/Makefile"; then \
-	    continue; \
-	  fi; \
-	  echo "(cd $$subdir && $(MAKE) $$target)"; \
-	  (cd $$subdir && $(MAKE) $$target) \
-	  || eval $$failcom; \
-	done;
+        @failcom='exit 1'; \
+        for f in x $$MAKEFLAGS; do \
+          case $$f in \
+            *=* | --[!k]*);; \
+            *k*) failcom='fail=yes';; \
+          esac; \
+        done; \
+        target=`echo $@ | sed s/-recursive//`; \
+        list='$(SUBDIRS)'; for subdir in $$list; do \
+          echo "Making $$target in $$subdir"; \
+          if test "$$subdir" = "."; then \
+            break; \
+          fi; \
+          if ! test -f "$$subdir/Makefile"; then \
+            continue; \
+          fi; \
+          echo "(cd $$subdir && $(MAKE) $$target)"; \
+          (cd $$subdir && $(MAKE) $$target) \
+          || eval $$failcom; \
+        done;
 
 
 #--------------------------------------------------------------------------------------

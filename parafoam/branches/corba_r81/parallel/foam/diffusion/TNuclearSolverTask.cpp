@@ -89,8 +89,8 @@ namespace parallel
         scalar residual = this->engine->solve();
         
         MSG( "TNuclearSolverTask[ " << this << " ]"
-	     << " | " << this->runTime.timeName().c_str()
-	     << " | " << residual << "\n" );
+             << " | " << this->runTime.timeName().c_str()
+             << " | " << residual << "\n" );
       
         this->m_residual_o.publish( residual );
 

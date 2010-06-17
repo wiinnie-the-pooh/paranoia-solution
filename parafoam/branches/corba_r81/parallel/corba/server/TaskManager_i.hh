@@ -42,7 +42,7 @@ namespace parallel
     inline ~TaskManager_i() {}
     
     void connect( TaskBase_ptr theOutputTask, const char* theOutputPortName,
-		  TaskBase_ptr theInputTask, const char* theInputPortName )
+                  TaskBase_ptr theInputTask, const char* theInputPortName )
     {
       std::cout << "TaskManager_i::connect - '" << theOutputPortName << "'; '" << theInputPortName << "'" << std::endl;
     }

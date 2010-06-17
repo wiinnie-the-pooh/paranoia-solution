@@ -33,9 +33,9 @@ namespace parallel
 {
   //---------------------------------------------------------------------------
   CORBA::Boolean bindObjectToName( CORBA::ORB_ptr orb,
-				   CORBA::Object_ptr objref, 
-				   const std::string& theObjectType, 
-				   const std::string& theObjectName )
+                                   CORBA::Object_ptr objref, 
+                                   const std::string& theObjectType, 
+                                   const std::string& theObjectName )
   {
     CosNaming::NamingContext_var rootContext;
     try {
@@ -50,8 +50,8 @@ namespace parallel
     }
     catch ( CORBA::NO_RESOURCES& ) {
       cerr << "Caught NO_RESOURCES exception. You must configure omniORB "
-  	 << "with the location" << endl
-  	 << "of the naming service." << endl;
+           << "with the location" << endl
+           << "of the naming service." << endl;
       return 0;
     }
     catch ( CORBA::ORB::InvalidName& ) {
@@ -95,14 +95,14 @@ namespace parallel
     catch( CORBA::TRANSIENT& ex ) {
       cerr << "Caught system exception TRANSIENT -- unable to contact the "
            << "naming service." << endl
-  	 << "Make sure the naming server is running and that omniORB is "
-  	 << "configured correctly." << endl;
+           << "Make sure the naming server is running and that omniORB is "
+           << "configured correctly." << endl;
   
       return 0;
     }
     catch( CORBA::SystemException& ex ) {
       cerr << "Caught a CORBA::" << ex._name()
-  	 << " while using the naming service." << endl;
+           << " while using the naming service." << endl;
       return 0;
     }
   

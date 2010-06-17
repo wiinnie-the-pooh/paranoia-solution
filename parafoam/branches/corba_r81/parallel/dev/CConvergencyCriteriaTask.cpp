@@ -101,10 +101,10 @@ namespace parallel
           this->iterationCounter = 0;
 
         MSG( "CConvergencyCriteriaTask::step[ " << this << " ]" 
-	     << " | satisfy_residual = " << satisfy_residual
-	     << " | exit_iterations_limit = " << exit_iterations_limit
-	     << " | m_stop_i = " << this->m_stop_i()
-	     << "\n" ); 
+             << " | satisfy_residual = " << satisfy_residual
+             << " | exit_iterations_limit = " << exit_iterations_limit
+             << " | m_stop_i = " << this->m_stop_i()
+             << "\n" ); 
       }
 
       this->m_result_o.publish( stop_iterations );

@@ -22,13 +22,13 @@
 
 #--------------------------------------------------------------------------------------
 $(libso): $(patsubst %.cpp, %.o, $(wildcard *.cpp))
-	gcc -shared $^ $(LDFLAGS) -o $(parallel_root_dir)/lib/$@
+        gcc -shared $^ $(LDFLAGS) -o $(parallel_root_dir)/lib/$@
 
 $(sexe): $(patsubst %.cpp, %.o, $(wildcard *.cpp))
-	gcc $(LDFLAGS) $^ -o $(parallel_root_dir)/bin/$@
+        gcc $(LDFLAGS) $^ -o $(parallel_root_dir)/bin/$@
 
 %.o: %.cpp
-	gcc -x c++ $(CPPFLAGS) -fPIC -c -MMD $<
+        gcc -x c++ $(CPPFLAGS) -fPIC -c -MMD $<
 
 ifneq "$(wildcard *.d)" "" # To avoid "include's" warning in case of empty folder
 include $(wildcard *.d)
@@ -41,7 +41,7 @@ include @abs_top_builddir@/recursive.makefile
 all: $(libso) $(sexe) all-recursive
 
 clean: clean-recursive
-	rm -f *.o *.d *~ 
+        rm -f *.o *.d *~ 
 
 
 #--------------------------------------------------------------------------------------

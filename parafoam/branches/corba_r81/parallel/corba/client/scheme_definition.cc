@@ -23,13 +23,16 @@
 //---------------------------------------------------------------------------
 #include "parallel/corba/idl/TaskFactoryA.hh"
 #include "parallel/corba/idl/TaskFactoryB.hh"
+#include "parallel/corba/idl/TaskManager.hh"
 
 #include <iostream>
 using namespace std;
 
 
 //---------------------------------------------------------------------------
-static CORBA::Object_ptr getObjectReference( CORBA::ORB_ptr orb, const std::string& theTaskFactoryName );
+static CORBA::Object_ptr getObjectReference( CORBA::ORB_ptr orb, 
+                                             const std::string& theObjectType, 
+                                             const std::string& theObjectName );
 
 
 //---------------------------------------------------------------------------
@@ -38,17 +41,17 @@ int main( int argc, char **argv )
   try {
     CORBA::ORB_var orb = CORBA::ORB_init( argc, argv );
 
-    {
-      CORBA::Object_var obj = getObjectReference( orb, "A" );
-      parallel::TaskFactoryA_var a_task_factory_ref = parallel::TaskFactoryA::_narrow( obj );
-      parallel::TaskA_var a_task = a_task_factory_ref->create();
-    }
+    CORBA::Object_var a_task_factory_A_obj = getObjectReference( orb, "TaskFactory", "A" );
+    parallel::TaskFactoryA_var a_task_factory_A_ref = parallel::TaskFactoryA::_narrow( a_task_factory_A_obj );
+    parallel::TaskA_var a_task_A = a_task_factory_A_ref->create();
 
-    {
-      CORBA::Object_var obj = getObjectReference( orb, "B" );
-      parallel::TaskFactoryB_var a_task_factory_ref = parallel::TaskFactoryB::_narrow( obj );
-      parallel::TaskB_var a_task = a_task_factory_ref->create();
-    }
+    CORBA::Object_var a_task_factory_B_obj = getObjectReference( orb, "TaskFactory", "B" );
+    parallel::TaskFactoryB_var a_task_factory_B_ref = parallel::TaskFactoryB::_narrow( a_task_factory_B_obj );
+    parallel::TaskB_var a_task_B = a_task_factory_B_ref->create();
+
+    CORBA::Object_var a_task_manager_obj = getObjectReference( orb, "TaskManager", "this" );
+    parallel::TaskManager_var a_task_manager_ref = parallel::TaskManager::_narrow( a_task_manager_obj );
+    a_task_manager_ref->connect( a_task_A, "A", a_task_B, "B" );
 
     orb->destroy();
   }
@@ -74,7 +77,9 @@ int main( int argc, char **argv )
 
 
 //---------------------------------------------------------------------------
-static CORBA::Object_ptr getObjectReference( CORBA::ORB_ptr orb, const std::string& theTaskFactoryName )
+static CORBA::Object_ptr getObjectReference( CORBA::ORB_ptr orb, 
+                                             const std::string& theObjectType, 
+                                             const std::string& theObjectName )
 {
   CosNaming::NamingContext_var rootContext;
   
@@ -90,8 +95,8 @@ static CORBA::Object_ptr getObjectReference( CORBA::ORB_ptr orb, const std::stri
   }
   catch ( CORBA::NO_RESOURCES& ) {
     cerr << "Caught NO_RESOURCES exception. You must configure omniORB "
-	 << "with the location" << endl
-	 << "of the naming service." << endl;
+         << "with the location" << endl
+         << "of the naming service." << endl;
 
     return 0;
   }
@@ -106,10 +111,10 @@ static CORBA::Object_ptr getObjectReference( CORBA::ORB_ptr orb, const std::stri
   CosNaming::Name name;
   name.length( 2 );
 
-  name[ 0 ].id   = (const char*) "TaskFactory";
+  name[ 0 ].id   = (const char*) theObjectType.c_str();
   name[ 0 ].kind = (const char*) "parallel";
 
-  name[ 1 ].id   = (const char*) theTaskFactoryName.c_str();
+  name[ 1 ].id   = (const char*) theObjectName.c_str();
   name[ 1 ].kind = (const char*) "object";
 
   try {
@@ -121,12 +126,12 @@ static CORBA::Object_ptr getObjectReference( CORBA::ORB_ptr orb, const std::stri
   catch( CORBA::TRANSIENT& ex ) {
     cerr << "Caught system exception TRANSIENT -- unable to contact the "
          << "naming service." << endl
-	 << "Make sure the naming server is running and that omniORB is "
-	 << "configured correctly." << endl;
+         << "Make sure the naming server is running and that omniORB is "
+         << "configured correctly." << endl;
   }
   catch( CORBA::SystemException& ex ) {
     cerr << "Caught a CORBA::" << ex._name()
-	 << " while using the naming service." << endl;
+         << " while using the naming service." << endl;
 
     return 0;
   }

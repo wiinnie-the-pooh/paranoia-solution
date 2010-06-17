@@ -29,19 +29,19 @@ all: scheme_definition
 LDFLAGS = @abs_top_builddir@/lib/libparallel_idl.so
 
 scheme_definition: scheme_definition.o
-	gcc $(LDFLAGS) $^ -o @abs_top_builddir@/bin/$@
+        gcc $(LDFLAGS) $^ -o @abs_top_builddir@/bin/$@
 
-CPPFLAGS=@OMNIORB_INCLUDES@ -I@abs_top_builddir@/parallel/corba/idl
+CPPFLAGS=@OMNIORB_INCLUDES@ -I@abs_top_builddir@ -I@abs_top_builddir@/parallel/corba/idl
 
 CXXFLAGS= @OMNIORB_CXXFLAGS@
 
 %.o: %.cc
-	gcc -x c++ $(CPPFLAGS) $(CXXFLAGS) -fPIC -c -MMD $<
+        gcc -x c++ $(CPPFLAGS) $(CXXFLAGS) -fPIC -c -MMD $<
 
 include $(wildcard *.d)
 
 clean: 
-	rm -f *.o *.d *~ 
+        rm -f *.o *.d *~ 
 
 
 #--------------------------------------------------------------------------------------

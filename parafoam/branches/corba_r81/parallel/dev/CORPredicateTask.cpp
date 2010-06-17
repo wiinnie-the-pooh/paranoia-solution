@@ -69,10 +69,10 @@ namespace parallel
       this->m_result_o.publish( this->m_left_i() && this->m_right_i() );
       
       MSG( "CORPredicateTask[ " << this << " ]"
-	   << " | m_result_o = " << this->m_result_o()
-	   << " | m_left_i = " << this->m_left_i()
-	   << " | m_right_i = " << this->m_right_i()
-	   << "\n" ); 
+           << " | m_result_o = " << this->m_result_o()
+           << " | m_left_i = " << this->m_left_i()
+           << " | m_right_i = " << this->m_right_i()
+           << "\n" ); 
 
       return ! this->m_finished_o();
     }

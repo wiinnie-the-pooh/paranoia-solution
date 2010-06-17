@@ -37,17 +37,17 @@ namespace parallel
 {
   //---------------------------------------------------------------------------
   CORBA::Boolean bindObjectToName( CORBA::ORB_ptr orb,
-				   CORBA::Object_ptr objref, 
-				   const std::string& theObjectType, 
-				   const std::string& theObjectName );
+                                   CORBA::Object_ptr objref, 
+                                   const std::string& theObjectType, 
+                                   const std::string& theObjectName );
 
 
   //---------------------------------------------------------------------------
   template< class TaskFactoryType, template< class > class TaskFactoryTieType >
   int run( int argc, 
-	   char** argv, 
-	   const std::string& theObjectType, 
-	   const std::string& theObjectName )
+           char** argv, 
+           const std::string& theObjectType, 
+           const std::string& theObjectName )
   {
     try {
       CORBA::ORB_var orb = CORBA::ORB_init( argc, argv );

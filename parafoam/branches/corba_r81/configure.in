@@ -69,14 +69,14 @@ CONFFOAM_CHECK_MANDATORY( "loki_ok boost_serialization_ok boost_thread_ok" )
 
 #--------------------------------------------------------------------------------------
 AC_OUTPUT( [ bashrc \
-	     include.makefile \
-	     parallel/base/include.makefile \
-	     parallel/dev/include.makefile \
-	     parallel/corba/idl/Makefile \
-	     parallel/corba/client/Makefile \
-	     parallel/corba/server/Makefile \
-	     parallel/foam/Makefile \
-	     parallel/foam/diffusion/Makefile ] )
+             include.makefile \
+             parallel/base/include.makefile \
+             parallel/dev/include.makefile \
+             parallel/corba/idl/Makefile \
+             parallel/corba/client/Makefile \
+             parallel/corba/server/Makefile \
+             parallel/foam/Makefile \
+             parallel/foam/diffusion/Makefile ] )
 
 
 echo "------------------------------------ OK -----------------------------------------"

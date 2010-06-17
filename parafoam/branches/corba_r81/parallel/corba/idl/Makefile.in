@@ -29,28 +29,28 @@ all: libparallel_idl.so
 IDL_FILES = TaskBase.idl TaskFactoryBase.idl TaskManager.idl TaskFactoryA.idl TaskFactoryB.idl
 
 libparallel_idl.so: $(patsubst %.idl, %SK.o, $(IDL_FILES))
-	gcc -shared $^ @OMNIORB_LIBS@ -o @abs_top_builddir@/lib/$@
+        gcc -shared $^ @OMNIORB_LIBS@ -o @abs_top_builddir@/lib/$@
 
 %SK.cc: %.idl
-	@IDL@ -bcxx -Wbtp -I@abs_top_builddir@/parallel/corba/idl @OMNIORB_IDLCXXFLAGS@ $<
+        @IDL@ -bcxx -Wbtp -I@abs_top_builddir@/parallel/corba/idl @OMNIORB_IDLCXXFLAGS@ $<
 
 %SK.o: %SK.cc
-	gcc -x c++ -I@abs_top_builddir@/parallel/corba/idl @OMNIORB_CXXFLAGS@ @OMNIORB_INCLUDES@ -fPIC -c $<
+        gcc -x c++ -I@abs_top_builddir@/parallel/corba/idl @OMNIORB_CXXFLAGS@ @OMNIORB_INCLUDES@ -fPIC -c $<
 
 .depidl: $(wildcard *.idl)
-	@echo "" > $@
-	@for dep in $^ dummy; do \
-	  if [ $${dep} != "dummy" ]; then \
-	    echo Building dependencies for $${dep}; \
-	    gcc  -MMD -x c $${dep} 2>/dev/null | \
-	    sed 's/\.o/\SK.cc/' >>$@; \
-	  fi; \
-	done ;
+        @echo "" > $@
+        @for dep in $^ dummy; do \
+          if [ $${dep} != "dummy" ]; then \
+            echo Building dependencies for $${dep}; \
+            gcc  -MMD -x c $${dep} 2>/dev/null | \
+            sed 's/\.o/\SK.cc/' >>$@; \
+          fi; \
+        done ;
 
 include .depidl
 
 clean:
-	-rm -f  *.o *.d *.hh .depidl
+        -rm -f  *.o *.d *.hh .depidl
 
 
 #--------------------------------------------------------------------------------------

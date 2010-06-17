@@ -74,10 +74,10 @@ namespace parallel
       this->m_finished_o.publish( is_time_exit && this->m_next_i() );
 
       MSG( "CTimeSourceTask[ " << this << " ]::step"
-	   << " | value = " << this->value().value()
-	   << " | is_time_exit = " << is_time_exit
-	   << " | m_finished_o = " << this->m_finished_o()
-	   << " | m_next_i = " << this->m_next_i() << "\n" ); 
+           << " | value = " << this->value().value()
+           << " | is_time_exit = " << is_time_exit
+           << " | m_finished_o = " << this->m_finished_o()
+           << " | m_next_i = " << this->m_next_i() << "\n" ); 
 
       this->m_time_o.publish();
       this->m_index_o.publish();

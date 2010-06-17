@@ -97,16 +97,16 @@ namespace parallel
       
       if ( aTargetIOobject().headerOk() ) {
         {
-	  SFoamMutex aMutex;
-	  aTargetField = TResult( new TGeometricField( aTargetIOobject(), meshTarget ) );
+          SFoamMutex aMutex;
+          aTargetField = TResult( new TGeometricField( aTargetIOobject(), meshTarget ) );
         }
         meshToMeshInterp.interpolate( aTargetField(), theSourceField, meshToMesh::INTERPOLATE );
       } else {
         aTargetIOobject().readOpt() = IOobject::NO_READ;
         TResult aPrototype = meshToMeshInterp.interpolate( theSourceField, meshToMesh::INTERPOLATE );
         {
-	  SFoamMutex aMutex;
-	  aTargetField = TResult( new TGeometricField( aTargetIOobject(), aPrototype ) );
+          SFoamMutex aMutex;
+          aTargetField = TResult( new TGeometricField( aTargetIOobject(), aPrototype ) );
         }
       }
       
