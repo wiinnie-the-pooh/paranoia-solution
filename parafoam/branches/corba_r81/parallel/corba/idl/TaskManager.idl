@@ -36,6 +36,7 @@ module parallel
   {
     void connect( in TaskBase theOutputTask, in string theOutputPortName,
                   in TaskBase theInputTask, in string theInputPortName );
+    boolean is_run();
   };
 };
 

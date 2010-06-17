@@ -28,8 +28,12 @@
 //---------------------------------------------------------------------------
 module parallel
 {
+  interface TaskManager;
+
   interface TaskBase
-  {};
+  {
+    void invoke( in TaskManager theTaskManager );
+  };
 };
 
 
