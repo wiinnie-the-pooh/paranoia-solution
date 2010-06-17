@@ -21,7 +21,7 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/server/TaskFactoryB_i.hh"
+#include "parallel/corba/server/TaskManager_i.hh"
 
 #include "parallel/corba/server/TaskFactory_utilities.hpp"
 
@@ -29,7 +29,7 @@
 //---------------------------------------------------------------------------
 int main( int argc, char** argv )
 {
-  return parallel::run< parallel::TaskFactoryB_i, POA_parallel::TaskFactoryB_tie >( argc, argv, "TaskFactory", "B" );
+  return parallel::run< parallel::TaskManager_i, POA_parallel::TaskManager_tie >( argc, argv, "TaskManager", "this" );
 }
 
 

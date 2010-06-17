@@ -21,16 +21,37 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/server/TaskFactoryB_i.hh"
-
-#include "parallel/corba/server/TaskFactory_utilities.hpp"
+#ifndef corba_server_TaskManager_i_hh
+#define corba_server_TaskManager_i_hh
 
 
 //---------------------------------------------------------------------------
-int main( int argc, char** argv )
+#include "parallel/corba/idl/TaskManager.hh"
+
+#include <iostream>
+
+
+//---------------------------------------------------------------------------
+namespace parallel 
 {
-  return parallel::run< parallel::TaskFactoryB_i, POA_parallel::TaskFactoryB_tie >( argc, argv, "TaskFactory", "B" );
+  //---------------------------------------------------------------------------
+  struct TaskManager_i
+  {
+    inline TaskManager_i() {}
+    
+    inline ~TaskManager_i() {}
+    
+    void connect( TaskBase_ptr theOutputTask, const char* theOutputPortName,
+		  TaskBase_ptr theInputTask, const char* theInputPortName )
+    {
+      std::cout << "TaskManager_i::connect - '" << theOutputPortName << "'; '" << theInputPortName << "'" << std::endl;
+    }
+  };
+
+
+  //---------------------------------------------------------------------------
 }
 
 
 //---------------------------------------------------------------------------
+#endif

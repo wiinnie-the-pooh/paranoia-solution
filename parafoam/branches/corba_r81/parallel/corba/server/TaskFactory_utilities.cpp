@@ -34,7 +34,8 @@ namespace parallel
   //---------------------------------------------------------------------------
   CORBA::Boolean bindObjectToName( CORBA::ORB_ptr orb,
 				   CORBA::Object_ptr objref, 
-				   const std::string& theTaskFactoryName )
+				   const std::string& theObjectType, 
+				   const std::string& theObjectName )
   {
     CosNaming::NamingContext_var rootContext;
     try {
@@ -62,7 +63,7 @@ namespace parallel
     try {
       CosNaming::Name contextName;
       contextName.length( 1 );
-      contextName[ 0 ].id   = (const char*) "TaskFactory";
+      contextName[ 0 ].id   = (const char*) theObjectType.c_str();
       contextName[ 0 ].kind = (const char*) "parallel";
   
       CosNaming::NamingContext_var paraFoamContext;
@@ -81,7 +82,7 @@ namespace parallel
   
       CosNaming::Name objectName;
       objectName.length( 1 );
-      objectName[ 0 ].id   = (const char*) theTaskFactoryName.c_str();
+      objectName[ 0 ].id   = (const char*) theObjectName.c_str();
       objectName[ 0 ].kind = (const char*) "object";
   
       try {
