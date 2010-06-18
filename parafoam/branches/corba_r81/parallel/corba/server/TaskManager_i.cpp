@@ -35,6 +35,7 @@ namespace parallel
   TaskManager_i::TaskManager_i( const CORBA::ORB_var& theORB, 
                                 const PortableServer::POA_var& thePOA )
     : SObjectBase( theORB, thePOA )
+    , m_is_run( false )
   {
     cout << "TaskManager_i::TaskManager_i : " << this << endl;
   }
@@ -79,6 +80,8 @@ namespace parallel
   {
     cout << "TaskManager_i::run() : " << this << endl;
     
+    this->m_is_run = true;
+
     TaskManager_var aSelf = this->_this();
 
     TTaskSet::const_iterator anIter = this->tasks.begin();
@@ -104,7 +107,7 @@ namespace parallel
   {
     cout << "TaskManager_i::is_run() : " << this << endl;
     
-    return false;
+    return this->m_is_run;
   }
     
     

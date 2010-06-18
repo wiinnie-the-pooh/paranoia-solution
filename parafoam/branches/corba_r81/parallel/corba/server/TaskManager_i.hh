@@ -59,6 +59,8 @@ namespace parallel
   protected:
     typedef std::set< std::string > TTaskSet;
     TTaskSet tasks;
+
+    bool m_is_run;
   };
 
 
