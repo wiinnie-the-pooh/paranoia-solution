@@ -21,11 +21,57 @@
 
 
 //---------------------------------------------------------------------------
-#include <parallel/corba/server/TaskFactoryA_i.hh>
+#include "parallel/corba/server/TaskFactoryA_i.hh"
+
+#include "parallel/corba/server/TaskBase_i.hh"
 
 #include <iostream>
 
 using namespace std;
+
+
+//---------------------------------------------------------------------------
+namespace parallel
+{
+  //---------------------------------------------------------------------------
+  struct TaskA_i : virtual POA_parallel::TaskA, virtual TaskBase_i
+  {
+    TaskA_i( const CORBA::ORB_var& theORB, 
+             const PortableServer::POA_var& thePOA );
+
+  protected:
+    virtual CORBA::Boolean step();
+  };
+
+
+  //---------------------------------------------------------------------------
+}
+
+
+//---------------------------------------------------------------------------
+namespace parallel
+{
+  //---------------------------------------------------------------------------
+  TaskA_i::TaskA_i( const CORBA::ORB_var& theORB, 
+                    const PortableServer::POA_var& thePOA )
+    : SObjectBase( theORB, thePOA )
+    , TaskBase_i( theORB, thePOA )
+  {
+    cout << "TaskA_i::TaskA_i : " << this << endl;
+  }
+
+
+  //---------------------------------------------------------------------------
+  CORBA::Boolean TaskA_i::step()
+  {
+    cout << "TaskA_i::step() : " << this << endl;
+    
+    return false;
+  }
+    
+    
+  //---------------------------------------------------------------------------
+}
 
 
 //---------------------------------------------------------------------------
@@ -52,7 +98,9 @@ namespace parallel
   {
     std::cout << "TaskFactoryA_i::create()" << std::endl;
     
-    return TaskA::_nil();
+    TaskA_i* a_task = new TaskA_i( this->ORB, this->POA );
+
+    return a_task->_this();
   }
     
     

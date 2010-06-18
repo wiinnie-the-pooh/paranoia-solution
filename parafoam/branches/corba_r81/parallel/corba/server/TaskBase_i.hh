@@ -35,19 +35,19 @@
 namespace parallel 
 {
   //---------------------------------------------------------------------------
-  struct TaskBase_i : virtual SObjectBase
+  struct TaskBase_i : virtual POA_parallel::TaskBase, virtual SObjectBase
   {
     TaskBase_i( const CORBA::ORB_var& theORB, 
                 const PortableServer::POA_var& thePOA );
 
-    virtual ~TaskBase_i();
+    ~TaskBase_i();
 
-    virtual void invoke( TaskManager_ptr theTaskManager );
+    void invoke( TaskManager_ptr theTaskManager );
       
   protected:
     virtual void init();
 
-    virtual CORBA::Boolean step();
+    virtual CORBA::Boolean step() = 0;
 
     virtual void destroy();
   };

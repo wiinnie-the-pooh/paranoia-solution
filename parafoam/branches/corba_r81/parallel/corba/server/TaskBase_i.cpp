@@ -21,7 +21,7 @@
 
 
 //---------------------------------------------------------------------------
-#include <parallel/corba/server/TaskBase_i.hh>
+#include "parallel/corba/server/TaskBase_i.hh"
 
 #include "parallel/corba/idl/TaskManager.hh"
 
@@ -64,15 +64,6 @@ namespace parallel
   void TaskBase_i::init()
   {
     cout << "TaskBase_i::init() : " << this << endl;
-  }
-    
-    
-  //---------------------------------------------------------------------------
-  CORBA::Boolean TaskBase_i::step()
-  {
-    cout << "TaskBase_i::step() : " << this << endl;
-    
-    return false;
   }
     
     
