@@ -63,13 +63,13 @@ namespace parallel
   //---------------------------------------------------------------------------
   void TaskManager_i::register_task( TaskBase_ptr theTask )
   {
-    std::cout << "TaskManager_i::add : " << this << std::endl;
+    if ( CORBA::is_nil( theTask ) )
+      return;
 
     CORBA::String_var anIOR = this->ORB->object_to_string( theTask );
-
     if ( this->tasks.insert( anIOR.in() ).second )
     {
-      std::cout << "TaskManager_i::add : " << this << " : '" << anIOR.in() << "'" << std::endl;
+      std::cout << "TaskManager_i::register_task : " << this << " : '" << anIOR.in() << "'" << std::endl;
     }
   }
     
