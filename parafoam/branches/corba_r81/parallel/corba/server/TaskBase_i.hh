@@ -30,12 +30,16 @@
 
 #include "parallel/corba/server/SObjectBase.hh"
 
+#include "parallel/corba/server/GenericObject_i.hh"
+
 
 //---------------------------------------------------------------------------
 namespace parallel 
 {
   //---------------------------------------------------------------------------
-  struct TaskBase_i : virtual POA_parallel::TaskBase, virtual SObjectBase
+  struct TaskBase_i : virtual POA_parallel::TaskBase, 
+                      virtual GenericObject_i,
+                      virtual SObjectBase
   {
     TaskBase_i( const CORBA::ORB_var& theORB, 
                 const PortableServer::POA_var& thePOA );

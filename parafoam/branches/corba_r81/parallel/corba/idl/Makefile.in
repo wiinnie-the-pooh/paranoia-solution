@@ -26,7 +26,7 @@
 #--------------------------------------------------------------------------------------
 all: libparallel_idl.so
 
-IDL_FILES = TaskBase.idl TaskFactoryBase.idl TaskManager.idl TaskFactoryA.idl TaskFactoryB.idl
+IDL_FILES = GenericObject.idl TaskBase.idl TaskFactoryBase.idl TaskManager.idl TaskFactoryA.idl TaskFactoryB.idl
 
 libparallel_idl.so: $(patsubst %.idl, %SK.o, $(IDL_FILES))
 	gcc -shared $^ @OMNIORB_LIBS@ -o @abs_top_builddir@/lib/$@

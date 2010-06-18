@@ -21,25 +21,21 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef __PARALELL_TASK_BASE_IDL__
-#define __PARALELL_TASK_BASE_IDL__
-
-
-//---------------------------------------------------------------------------
-#include "GenericObject.idl"
+#ifndef __PARALELL_GENERIC_OBJECT_IDL__
+#define __PARALELL_GENERIC_OBJECT_IDL__
 
 
 //---------------------------------------------------------------------------
 module parallel
 {
-  interface TaskManager;
-
-  interface TaskBase : GenericObject
+  interface GenericObject
   {
-    void invoke( in TaskManager theTaskManager );
+    void Register();
+
+    void Destroy();
   };
 };
 
 
 //---------------------------------------------------------------------------
-#endif  // __PARALELL_TASK_BASE_IDL__
+#endif  // __PARALELL_GENERIC_OBJECT_IDL__

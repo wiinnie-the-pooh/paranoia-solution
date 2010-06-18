@@ -21,9 +21,7 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/server/TaskBase_i.hh"
-
-#include "parallel/corba/idl/TaskManager.hh"
+#include "parallel/corba/server/GenericObject_i.hh"
 
 #include <iostream>
 
@@ -34,47 +32,53 @@ using namespace std;
 namespace parallel
 {
   //---------------------------------------------------------------------------
-  TaskBase_i::TaskBase_i( const CORBA::ORB_var& theORB, 
-                          const PortableServer::POA_var& thePOA )
-    : GenericObject_i( thePOA )
-    , SObjectBase( theORB, thePOA )
+  GenericObject_i::GenericObject_i( PortableServer::POA_ptr thePOA )
+    : m_ref_counter( 1 )
   {
-    cout << "TaskBase_i::TaskBase_i : " << this << endl;
+    cout << "GenericObject_i::GenericObject_i : " << this << endl;
+
+    if( CORBA::is_nil( thePOA ) )
+      this->m_POA = PortableServer::ServantBase::_default_POA();
+    else
+      this->m_POA = PortableServer::POA::_duplicate( thePOA );
+  }
+  
+
+  //---------------------------------------------------------------------------
+  GenericObject_i::~GenericObject_i()
+  {
+    cout << "GenericObject_i::~GenericObject_i() : " << this << endl;
   }
 
 
   //---------------------------------------------------------------------------
-  TaskBase_i::~TaskBase_i()
+  PortableServer::POA_ptr GenericObject_i::_default_POA()
   {
-    cout << "TaskBase_i::~TaskBase_i() : " << this << endl;
+    return PortableServer::POA::_duplicate( this->m_POA );
   }
 
 
   //---------------------------------------------------------------------------
-  void TaskBase_i::invoke( TaskManager_ptr theTaskManager )
+  void GenericObject_i::Register()
   {
-    this->init();
-    
-    while( theTaskManager->is_run() && this->step() );
-    
-    this->destroy();
+    ++this->m_ref_counter;
   }
-    
-    
+
+
   //---------------------------------------------------------------------------
-  void TaskBase_i::init()
+  void GenericObject_i::Destroy()
   {
-    cout << "TaskBase_i::init() : " << this << endl;
+    if ( --this->m_ref_counter <= 0 ) 
+    {
+      PortableServer::ObjectId_var anObjectId = this->m_POA->servant_to_id( this );
+
+      this->m_POA->deactivate_object( anObjectId.in() );
+
+      this->_remove_ref();
+    }
   }
-    
-    
-  //---------------------------------------------------------------------------
-  void TaskBase_i::destroy()
-  {
-    cout << "TaskBase_i::destroy() : " << this << endl;
-  }
-    
-    
+
+
   //---------------------------------------------------------------------------
 }
 

@@ -33,7 +33,7 @@
 namespace parallel 
 {
   //---------------------------------------------------------------------------
-  struct SObjectBase 
+  struct SObjectBase
   {
     SObjectBase( const CORBA::ORB_var& theORB, 
                  const PortableServer::POA_var& thePOA );

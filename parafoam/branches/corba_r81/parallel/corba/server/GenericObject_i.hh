@@ -21,25 +21,41 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef __PARALELL_TASK_BASE_IDL__
-#define __PARALELL_TASK_BASE_IDL__
+#ifndef corba_server_GenericObject_i_hh
+#define corba_server_GenericObject_i_hh
 
 
 //---------------------------------------------------------------------------
-#include "GenericObject.idl"
+#include "parallel/corba/idl/GenericObject.hh"
 
 
 //---------------------------------------------------------------------------
-module parallel
+namespace parallel 
 {
-  interface TaskManager;
-
-  interface TaskBase : GenericObject
+  //---------------------------------------------------------------------------
+  struct GenericObject_i : virtual POA_parallel::GenericObject, 
+                           virtual PortableServer::ServantBase
   {
-    void invoke( in TaskManager theTaskManager );
+    GenericObject_i( PortableServer::POA_ptr thePOA = PortableServer::POA::_nil() );
+
+    virtual ~GenericObject_i();
+
+    // The function is used implicetly in "_this" function
+    virtual PortableServer::POA_ptr _default_POA();
+
+    virtual void Register();
+
+    virtual void Destroy();
+
+  protected:
+    PortableServer::POA_var m_POA;
+    int m_ref_counter;
   };
-};
+
+
+  //---------------------------------------------------------------------------
+}
 
 
 //---------------------------------------------------------------------------
-#endif  // __PARALELL_TASK_BASE_IDL__
+#endif

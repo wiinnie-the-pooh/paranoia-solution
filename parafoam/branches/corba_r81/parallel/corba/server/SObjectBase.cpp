@@ -36,16 +36,12 @@ namespace parallel
                             const PortableServer::POA_var& thePOA )
     : ORB( theORB )
     , POA( thePOA )
-  {
-    cout << "SObjectBase::SObjectBase : " << this << endl;
-  }
+  {}
 
 
   //---------------------------------------------------------------------------
   SObjectBase::~SObjectBase()
-  {
-    cout << "SObjectBase::~SObjectBase() : " << this << endl;
-  }
+  {}
 
 
   //---------------------------------------------------------------------------
