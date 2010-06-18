@@ -55,7 +55,7 @@ namespace parallel
       CORBA::Object_var poa_obj = orb->resolve_initial_references( "RootPOA" );
       PortableServer::POA_var poa = PortableServer::POA::_narrow( poa_obj );
   
-      TaskFactoryType* a_task_factory_impl = new TaskFactoryType();
+      TaskFactoryType* a_task_factory_impl = new TaskFactoryType( orb, poa );
       TaskFactoryTieType< TaskFactoryType > a_task_factory_tie( a_task_factory_impl );
   
       PortableServer::ObjectId_var a_task_factory_id = poa->activate_object( &a_task_factory_tie );

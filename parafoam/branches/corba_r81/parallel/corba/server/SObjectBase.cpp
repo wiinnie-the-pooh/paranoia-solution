@@ -21,30 +21,35 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef __PARALELL_TASKMANAGER_IDL__
-#define __PARALELL_TASKMANAGER_IDL__
+#include <parallel/corba/server/SObjectBase.hh>
+
+#include <iostream>
+
+using namespace std;
 
 
 //---------------------------------------------------------------------------
-#include "TaskBase.idl"
-
-
-//---------------------------------------------------------------------------
-module parallel
+namespace parallel
 {
-  interface TaskManager
+  //---------------------------------------------------------------------------
+  SObjectBase::SObjectBase( const CORBA::ORB_var& theORB, 
+                            const PortableServer::POA_var& thePOA )
+    : ORB( theORB )
+    , POA( thePOA )
   {
-    void connect( in TaskBase theSourceTask, 
-                  in string theOutputPortName,
-                  in TaskBase theTargetTask, 
-                  in string theInputPortName );
+    cout << "SObjectBase::SObjectBase : " << this << endl;
+  }
 
-    void register_task( in TaskBase theTask );
 
-    boolean is_run();
-  };
-};
+  //---------------------------------------------------------------------------
+  SObjectBase::~SObjectBase()
+  {
+    cout << "SObjectBase::~SObjectBase() : " << this << endl;
+  }
+
+
+  //---------------------------------------------------------------------------
+}
 
 
 //---------------------------------------------------------------------------
-#endif  // __PARALELL_TASKMANAGER_IDL__

@@ -32,9 +32,11 @@ using namespace std;
 namespace parallel
 {
   //---------------------------------------------------------------------------
-  TaskManager_i::TaskManager_i()
+  TaskManager_i::TaskManager_i( const CORBA::ORB_var& theORB, 
+                                const PortableServer::POA_var& thePOA )
+    : SObjectBase( theORB, thePOA )
   {
-    cout << "TaskManager_i::TaskManager_i() : " << this << endl;
+    cout << "TaskManager_i::TaskManager_i : " << this << endl;
   }
 
 
@@ -46,12 +48,26 @@ namespace parallel
 
 
   //---------------------------------------------------------------------------
-  void TaskManager_i::connect( TaskBase_ptr theOutputTask, 
-			       const char* theOutputPortName,
-			       TaskBase_ptr theInputTask, 
-			       const char* theInputPortName )
+  void TaskManager_i::connect( TaskBase_ptr theSourceTask, 
+                               const char* theOutputPortName,
+                               TaskBase_ptr theTargetTask, 
+                               const char* theInputPortName )
   {
     std::cout << "TaskManager_i::connect : " << this << " - '" << theOutputPortName << "'; '" << theInputPortName << "'" << std::endl;
+
+    this->register_task( theSourceTask );
+    this->register_task( theTargetTask );
+  }
+    
+    
+  //---------------------------------------------------------------------------
+  void TaskManager_i::register_task( TaskBase_ptr theTask )
+  {
+    std::cout << "TaskManager_i::add : " << this << std::endl;
+
+    CORBA::String_var anIOR = this->ORB->object_to_string( theTask );
+
+    this->tasks.insert( anIOR.in() );
   }
     
     

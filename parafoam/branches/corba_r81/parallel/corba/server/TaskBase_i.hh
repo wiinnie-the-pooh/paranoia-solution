@@ -28,14 +28,17 @@
 //---------------------------------------------------------------------------
 #include "parallel/corba/idl/TaskBase.hh"
 
+#include "parallel/corba/server/SObjectBase.hh"
+
 
 //---------------------------------------------------------------------------
 namespace parallel 
 {
   //---------------------------------------------------------------------------
-  struct TaskBase_i 
+  struct TaskBase_i : virtual SObjectBase
   {
-    TaskBase_i();
+    TaskBase_i( const CORBA::ORB_var& theORB, 
+                const PortableServer::POA_var& thePOA );
 
     virtual ~TaskBase_i();
 

@@ -28,25 +28,35 @@
 //---------------------------------------------------------------------------
 #include "parallel/corba/idl/TaskManager.hh"
 
-#include <iostream>
+#include "parallel/corba/server/SObjectBase.hh"
+
+#include <set>
+#include <string>
 
 
 //---------------------------------------------------------------------------
 namespace parallel 
 {
   //---------------------------------------------------------------------------
-  struct TaskManager_i
+  struct TaskManager_i : virtual SObjectBase
   {
-    TaskManager_i();
+    TaskManager_i( const CORBA::ORB_var& theORB, 
+                   const PortableServer::POA_var& thePOA );
     
     virtual ~TaskManager_i();
     
-    void connect( TaskBase_ptr theOutputTask, 
-		  const char* theOutputPortName,
-                  TaskBase_ptr theInputTask, 
-		  const char* theInputPortName );
+    void connect( TaskBase_ptr theSourceTask, 
+                  const char* theOutputPortName,
+                  TaskBase_ptr theTargetTask, 
+                  const char* theInputPortName );
+
+    void register_task( TaskBase_ptr theTask );
 
     CORBA::Boolean is_run();
+
+  protected:
+    typedef std::set< std::string > TTaskSet;
+    TTaskSet tasks;
   };
 
 

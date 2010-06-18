@@ -48,7 +48,6 @@ include $(wildcard *.d)
 
 clean: 
 	rm -f *.o *.d *~ 
-	(cd @abs_top_builddir@/bin; rm -fr $(patsubst %.cc, %, $(wildcard *.cc)))
 
 
 #--------------------------------------------------------------------------------------
