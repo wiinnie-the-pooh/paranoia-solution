@@ -67,7 +67,35 @@ namespace parallel
 
     CORBA::String_var anIOR = this->ORB->object_to_string( theTask );
 
-    this->tasks.insert( anIOR.in() );
+    if ( this->tasks.insert( anIOR.in() ).second )
+    {
+      std::cout << "TaskManager_i::add : " << this << " : '" << anIOR.in() << "'" << std::endl;
+    }
+  }
+    
+    
+  //---------------------------------------------------------------------------
+  void TaskManager_i::run()
+  {
+    cout << "TaskManager_i::run() : " << this << endl;
+    
+    //TaskManager_var aSelf = this->_this();
+
+    TTaskSet::const_iterator anIter = this->tasks.begin();
+    TTaskSet::const_iterator anEnd = this->tasks.end();
+    for ( ; anIter != anEnd; anIter++ )
+    {
+      const std::string& anIOR = *anIter;
+      
+      CORBA::Object_var anObject = this->ORB->string_to_object( anIOR.c_str() );
+      
+      TaskBase_var aTask = TaskBase::_narrow( anObject.in() );
+
+      if ( !CORBA::is_nil( aTask.in() ) )
+      {
+        //aTask->invoke( aSelf );
+      }
+    }
   }
     
     

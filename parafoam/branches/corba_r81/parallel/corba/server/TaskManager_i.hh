@@ -52,6 +52,8 @@ namespace parallel
 
     void register_task( TaskBase_ptr theTask );
 
+    void run();
+
     CORBA::Boolean is_run();
 
   protected:
