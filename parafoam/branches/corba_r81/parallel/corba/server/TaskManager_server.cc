@@ -29,7 +29,7 @@
 //---------------------------------------------------------------------------
 int main( int argc, char** argv )
 {
-  return parallel::run< parallel::TaskManager_i, POA_parallel::TaskManager_tie >( argc, argv, "TaskManager", "this" );
+  return parallel::run< parallel::TaskManager_i >( argc, argv, "TaskManager", "this" );
 }
 
 

@@ -29,7 +29,7 @@
 //---------------------------------------------------------------------------
 int main( int argc, char** argv )
 {
-  return parallel::run< parallel::TaskFactoryA_i, POA_parallel::TaskFactoryA_tie >( argc, argv, "TaskFactory", "A" );
+  return parallel::run< parallel::TaskFactoryA_i >( argc, argv, "TaskFactory", "A" );
 }
 
 

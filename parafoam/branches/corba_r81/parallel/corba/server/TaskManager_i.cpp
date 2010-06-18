@@ -79,7 +79,7 @@ namespace parallel
   {
     cout << "TaskManager_i::run() : " << this << endl;
     
-    //TaskManager_var aSelf = this->_this();
+    TaskManager_var aSelf = this->_this();
 
     TTaskSet::const_iterator anIter = this->tasks.begin();
     TTaskSet::const_iterator anEnd = this->tasks.end();
@@ -93,7 +93,7 @@ namespace parallel
 
       if ( !CORBA::is_nil( aTask.in() ) )
       {
-        //aTask->invoke( aSelf );
+        aTask->invoke( aSelf );
       }
     }
   }

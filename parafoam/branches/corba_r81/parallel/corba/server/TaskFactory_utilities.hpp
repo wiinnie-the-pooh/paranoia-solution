@@ -43,7 +43,7 @@ namespace parallel
 
 
   //---------------------------------------------------------------------------
-  template< class TaskFactoryType, template< class > class TaskFactoryTieType >
+  template< class InterfaceType >
   int run( int argc, 
            char** argv, 
            const std::string& theObjectType, 
@@ -55,14 +55,13 @@ namespace parallel
       CORBA::Object_var poa_obj = orb->resolve_initial_references( "RootPOA" );
       PortableServer::POA_var poa = PortableServer::POA::_narrow( poa_obj );
   
-      TaskFactoryType* a_task_factory_impl = new TaskFactoryType( orb, poa );
-      TaskFactoryTieType< TaskFactoryType > a_task_factory_tie( a_task_factory_impl );
+      InterfaceType a_interface( orb, poa );
   
-      PortableServer::ObjectId_var a_task_factory_id = poa->activate_object( &a_task_factory_tie );
+      PortableServer::ObjectId_var a_task_factory_id = poa->activate_object( &a_interface );
   
       // Obtain a reference to the object, and register it in the naming service.
-      CORBA::Object_var a_task_factory_obj = a_task_factory_tie._this();
-      if( !bindObjectToName( orb, a_task_factory_obj, theObjectType, theObjectName ) )
+      CORBA::Object_var a_interface_obj = a_interface._this();
+      if( !bindObjectToName( orb, a_interface_obj, theObjectType, theObjectName ) )
         return 1;
   
       PortableServer::POAManager_var pman = poa->the_POAManager();

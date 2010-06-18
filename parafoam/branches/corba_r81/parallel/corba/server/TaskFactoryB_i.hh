@@ -35,7 +35,7 @@
 namespace parallel 
 {
   //---------------------------------------------------------------------------
-  struct TaskFactoryB_i : virtual SObjectBase
+  struct TaskFactoryB_i : virtual POA_parallel::TaskFactoryB, virtual SObjectBase
   {
     TaskFactoryB_i( const CORBA::ORB_var& theORB, 
                     const PortableServer::POA_var& thePOA );

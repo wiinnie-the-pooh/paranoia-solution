@@ -38,7 +38,7 @@
 namespace parallel 
 {
   //---------------------------------------------------------------------------
-  struct TaskManager_i : virtual SObjectBase
+  struct TaskManager_i : virtual POA_parallel::TaskManager, virtual SObjectBase
   {
     TaskManager_i( const CORBA::ORB_var& theORB, 
                    const PortableServer::POA_var& thePOA );
