@@ -48,7 +48,7 @@ namespace parallel
     //---------------------------------------------------------------------------
     base::TTaskPtr TPort::task()
     {
-      m_task.Register();
+      m_task.AddRef();
       return &m_task;
     }
 
@@ -56,7 +56,7 @@ namespace parallel
     //---------------------------------------------------------------------------
     TTaskPtr TPort::dev_task()
     {
-      m_task.Register();
+      m_task.AddRef();
       return dynamic_cast< TTask* >( &m_task );
     }
 

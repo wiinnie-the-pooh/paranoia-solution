@@ -79,7 +79,8 @@ namespace parallel
           return NULL;
         
         typename base::TDataHolder* aHolder = aDataHolder.GetPointer( aDataHolder );
-        return dynamic_cast< DataHolderType* >( aHolder->Register() );
+        aHolder->AddRef();
+        return dynamic_cast< DataHolderType* >( aHolder );
       }
 
       void init_port( const std::string& theName, const base::TDataHolderPtr& theDataHolder );

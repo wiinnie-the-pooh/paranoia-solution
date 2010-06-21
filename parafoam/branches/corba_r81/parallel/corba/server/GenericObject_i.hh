@@ -43,9 +43,9 @@ namespace parallel
     // The function is used implicetly in "_this" function
     virtual PortableServer::POA_ptr _default_POA();
 
-    virtual void Register();
+    virtual void AddRef();
 
-    virtual void Destroy();
+    virtual void Release();
 
   protected:
     PortableServer::POA_var m_POA;

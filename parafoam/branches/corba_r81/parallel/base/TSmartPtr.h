@@ -28,7 +28,7 @@
 //---------------------------------------------------------------------------
 #include "parallel/base/TGenericObj.h"
 
-#include <loki/SmartPtr.h>
+#include "parallel/SmartPointer.hh"
 
 
 //---------------------------------------------------------------------------
@@ -38,58 +38,42 @@ namespace parallel
   {
     //---------------------------------------------------------------------------
     template< class P >
-    struct TOwnershipPolicy
+    struct DirectComparision
     {
-      TOwnershipPolicy()
-      {}
-      
-      template< class U >
-      TOwnershipPolicy( const TOwnershipPolicy< U >& )
-      {}
-
-      static P Clone( const P& val )
+      static bool Equal( const P& theLeft, const P& theRight )
       {
-        if ( val != 0 )
-          val->Register();
-        
-        return val;
+	return theLeft == theRight;
       }
 
-      static bool Release( const P& val )
+      static bool Less( const P& theLeft, const P& theRight )
       {
-        if ( val != 0 )
-          val->Destroy();
-        
-        return false;
+	return theLeft < theRight;
       }
-      
-      enum { destructiveCopy = false };
-      
-      static void Swap( TOwnershipPolicy& )
-      {}
     };
 
 
-    //---------------------------------------------------------------------------
+   //---------------------------------------------------------------------------
     template
     <
       typename T,
-      template <class> class OwnershipPolicy = TOwnershipPolicy,
+      template <class> class OwnershipPolicy = Loki::COMRefCounted,
       class ConversionPolicy = Loki::DisallowConversion,
       template <class> class CheckingPolicy = Loki::AssertCheck,
       template <class> class StoragePolicy = Loki::DefaultSPStorage,
-      template<class> class ConstnessPolicy = LOKI_DEFAULT_CONSTNESS
+      template<class> class ConstnessPolicy = LOKI_DEFAULT_CONSTNESS,
+      template <class> class ComparisionPolicy = DirectComparision
     >
     struct SmartPtrDef
     {
-      typedef Loki::SmartPtr
+      typedef ::parallel::SmartPointer
       <
         T,
         OwnershipPolicy,
         ConversionPolicy,
         CheckingPolicy,
         StoragePolicy,
-        ConstnessPolicy
+        ConstnessPolicy,
+	ComparisionPolicy
       >
       type;
     };

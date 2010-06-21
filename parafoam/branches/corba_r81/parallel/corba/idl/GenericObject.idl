@@ -30,9 +30,9 @@ module parallel
 {
   interface GenericObject
   {
-    void Register();
+    void AddRef();
 
-    void Destroy();
+    void Release();
   };
 };
 

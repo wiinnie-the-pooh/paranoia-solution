@@ -40,8 +40,8 @@ namespace parallel
     
     struct TGenericObj : Loki::ObjectLevelLockable< TGenericObj >
     {
-      TGenericObj* Register();
-      void Destroy();
+      void AddRef();
+      void Release();
       
       unsigned long GetRefCount();
       

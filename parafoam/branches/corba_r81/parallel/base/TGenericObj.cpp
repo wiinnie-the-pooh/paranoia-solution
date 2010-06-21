@@ -33,24 +33,25 @@ namespace parallel
     TGenericObj::TGenericObj()
     {
       Lock a_lock( *this );
+
       m_ref_counter = 1;
     }
 
     //---------------------------------------------------------------------------
-    TGenericObj* TGenericObj::Register()
+    void TGenericObj::AddRef()
     {
       Lock a_lock( *this );
+
       ++m_ref_counter;
-      
-      return this;
     }
 
     //---------------------------------------------------------------------------
-    void TGenericObj::Destroy()
+    void TGenericObj::Release()
     {
       bool an_is_zero = false;
       {
         Lock a_lock( *this );
+
         an_is_zero = ( --m_ref_counter == 0 );
       }
       

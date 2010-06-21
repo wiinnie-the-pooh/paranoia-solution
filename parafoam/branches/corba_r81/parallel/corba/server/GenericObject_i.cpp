@@ -59,14 +59,14 @@ namespace parallel
 
 
   //---------------------------------------------------------------------------
-  void GenericObject_i::Register()
+  void GenericObject_i::AddRef()
   {
     ++this->m_ref_counter;
   }
 
 
   //---------------------------------------------------------------------------
-  void GenericObject_i::Destroy()
+  void GenericObject_i::Release()
   {
     if ( --this->m_ref_counter <= 0 ) 
     {
