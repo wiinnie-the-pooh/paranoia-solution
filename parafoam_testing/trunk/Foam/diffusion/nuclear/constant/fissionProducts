@@ -1,0 +1,97 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.3                                   |
+|   \\  /    A nd           | Web:      http://www.openfoam.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version         2.0;
+    format          ascii;
+
+    root            "";
+    case            "";
+    instance        "";
+    local           "";
+
+    class           dictionary;
+    object          fissionProductDict;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+
+// ************************************************************************* //
+
+isotopes
+(
+    _135Xe
+    {
+        lambda      lambda  [0 0 -1 0 0 0 0] 2.116E-5;
+        yieldName   yield_135Xe;
+    }
+    _135I
+    {
+        lambda      lambda  [0 0 -1 0 0 0 0] 2.883E-5;
+        yieldName   yield_135I;
+    }
+    _149Sm
+    {
+        lambda      lambda  [0 0 -1 0 0 0 0] 1E-30;
+        yieldName   yield_149Sm;
+    }
+    _149Pm
+    {
+        lambda      lambda  [0 0 -1 0 0 0 0] 3.626E-6;
+        yieldName   yield_149Pm;
+    }
+    _151Sm
+    {
+        lambda      lambda  [0 0 -1 0 0 0 0] 5.751E-9;
+        yieldName   yield_151Sm;
+    }
+    _151Pm
+    {
+        lambda      lambda  [0 0 -1 0 0 0 0] 6.876E-6;
+        yieldName   yield_151Pm;
+    }
+    _157Gd
+    {
+        lambda      lambda  [0 0 -1 0 0 0 0] 1E-30;
+        yieldName   yield_157Gd;
+    }
+    _157Eu
+    {
+        lambda      lambda  [0 0 -1 0 0 0 0] 1.26E-5;
+        yieldName   yield_157Eu;
+    }
+);
+
+decayChains
+(
+    _135I->_135Xe
+    {
+        parent      _135I;
+        daughter    _135Xe;
+    }
+    _149Pm->_149Sm
+    {
+        parent      _149Pm;
+        daughter    _149Sm;
+    }
+    _151Pm->_151Sm
+    {
+        parent      _151Pm;
+        daughter    _151Sm;
+    }
+    _157Eu->_157Gd
+    {
+        parent      _157Eu;
+        daughter    _157Gd;
+    }
+);
+
+
+// ************************************************************************* //

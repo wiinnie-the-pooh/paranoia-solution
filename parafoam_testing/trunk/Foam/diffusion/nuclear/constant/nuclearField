@@ -1,0 +1,47 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.3                                   |
+|   \\  /    A nd           | Web:      http://www.openfoam.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version         2.0;
+    format          ascii;
+
+    root            "";
+    case            "";
+    instance        "";
+    local           "";
+
+    class           dictionary;
+    object          nuclearFieldDict;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+fixedSource             fixedSource  [0 -3 -1 0 0 0 0]  1e-6;
+
+groups
+(
+    fast
+    {
+        neutronFlux             phi1;
+        leakage                 Leakage1;
+	buckling		Buckling1;
+    }
+    thermal
+    {
+        neutronFlux             phi2;
+        leakage                 Leakage2;
+	buckling		Buckling2;
+    }
+);
+
+globalParametersDict            globalNuclearParameters;
+
+heatProductionDict              heatProduction;
+
+// ************************************************************************* //

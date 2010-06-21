@@ -1,0 +1,32 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.4.1-dev                             |
+|   \\  /    A nd           | Web:      http://www.openfoam.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version 2.0;
+    format ascii;
+
+    root ".";
+    case "nuclear";
+    instance "constant";
+    local "";
+
+    class dictionary;
+    object nuclearCalculation;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+requestedPower  power [ 1 2 -3 0 0 0 0 ] 1111111.1;
+powerIsFixed    false;
+insertReactivity 0;
+maxIterations   10;
+tolerance       1e-07;
+
+
+// ************************************************************************* //

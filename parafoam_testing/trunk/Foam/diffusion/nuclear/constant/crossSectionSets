@@ -1,0 +1,88 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.3                                   |
+|   \\  /    A nd           | Web:      http://www.openfoam.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version         2.0;
+    format          ascii;
+
+    root            "";
+    case            "";
+    instance        "";
+    local           "";
+
+    class           dictionary;
+    object          crossSectionsSets;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+type polyMaterial;
+
+materialID materialID;
+
+groups 
+( 
+    group1
+    {
+        meanNeutronVelocity sigma_v1;
+        transport sigma_tr1;
+        absorption sigma_a1;
+        scattering sigma_s1;
+        nuFission sigma_nuF1;
+        fission sigma_f1;
+        fissionSpectrum sigma_chi1;
+// Neutron poison isotopes
+        _135Xe sigma_135Xe1;
+        _135I sigma_135I1;
+        _149Sm sigma_149Sm1;
+        _149Pm sigma_149Pm1;
+        _151Sm sigma_151Sm1;
+        _151Pm sigma_151Pm1;
+        _157Gd sigma_157Gd1;
+        _157Eu sigma_157Eu1;
+    }
+    group2
+    {
+        meanNeutronVelocity sigma_v2;
+        transport sigma_tr2;
+        absorption sigma_a2;
+        scattering sigma_s2;
+        nuFission sigma_nuF2;
+        fission sigma_f2;
+        fissionSpectrum sigma_chi2;
+// Neutron poison isotopes
+        _135Xe sigma_135Xe2;
+        _135I sigma_135I2;
+        _149Sm sigma_149Sm2;
+        _149Pm sigma_149Pm2;
+        _151Sm sigma_151Sm2;
+        _151Pm sigma_151Pm2;
+        _157Gd sigma_157Gd2;
+        _157Eu sigma_157Eu2;
+    }
+);
+
+referenceFields
+(
+    Tmod List<scalar> 3
+    (
+        1091.2
+        731.4
+        934.37
+    );
+    Tfuel List<scalar> 3
+    (
+        1127.1
+        0
+        0
+    );
+);
+
+// ************************************************************************* //
+

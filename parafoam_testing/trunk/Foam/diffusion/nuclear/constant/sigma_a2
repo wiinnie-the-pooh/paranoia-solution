@@ -1,0 +1,56 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.3                                   |
+|   \\  /    A nd           | Web:      http://www.openfoam.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version         2.0;
+    format          ascii;
+
+    root            "";
+    case            "";
+    instance        "";
+    local           "";
+
+    class           dictionary;
+    object          sigma_a2;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+materials
+(
+    material0
+    {
+        index 0;
+        zeroValue 0.27069;
+        Tmod List<scalar> 1
+        (
+            -0.000037806
+        );
+    }
+    material1
+    {
+        index 1;
+        zeroValue 0.018935;
+        Tmod List<scalar> 1
+        (
+            -0.000012374
+        );
+    }
+    material2
+    {
+        index 2;
+        zeroValue 0.82067;
+        Tmod List<scalar> 1
+        (
+            -0.00017775
+        );
+    }
+);
+// ************************************************************************* //
+
