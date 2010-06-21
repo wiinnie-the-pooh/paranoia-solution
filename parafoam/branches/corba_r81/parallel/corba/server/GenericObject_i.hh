@@ -36,7 +36,8 @@ namespace parallel
   struct GenericObject_i : virtual POA_parallel::GenericObject, 
                            virtual PortableServer::ServantBase
   {
-    GenericObject_i( PortableServer::POA_ptr thePOA = PortableServer::POA::_nil() );
+    GenericObject_i( const CORBA::ORB_var& theORB, 
+                     PortableServer::POA_ptr thePOA = PortableServer::POA::_nil() );
 
     virtual ~GenericObject_i();
 
@@ -47,9 +48,12 @@ namespace parallel
 
     virtual void Release();
 
+    char* IOR();
+
   protected:
-    PortableServer::POA_var m_POA;
-    int m_ref_counter;
+    int ref_counter;
+    PortableServer::POA_var POA;
+    CORBA::ORB_var ORB;
   };
 
 

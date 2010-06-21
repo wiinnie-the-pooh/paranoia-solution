@@ -83,11 +83,11 @@ namespace parallel
     typedef ComparisionPolicy< typename StoragePolicy< T >::StoredType > CMP;
     
     typedef Loki::SmartPtr< T,
-			    OwnershipPolicy,
-			    ConversionPolicy,
-			    CheckingPolicy,
-			    StoragePolicy,
-			    ConstnessPolicy > TSmartPtr;
+                            OwnershipPolicy,
+                            ConversionPolicy,
+                            CheckingPolicy,
+                            StoragePolicy,
+                            ConstnessPolicy > TSmartPtr;
     
     SmartPointer()
     {}
@@ -250,10 +250,10 @@ namespace std
   >
   struct less< parallel::SmartPointer< T, OP, CP, KP, SP, CNP, CMP > >
     : public binary_function< parallel::SmartPointer< T, OP, CP, KP, SP, CNP, CMP >,
-			      parallel::SmartPointer< T, OP, CP, KP, SP, CNP, CMP >, bool >
+                              parallel::SmartPointer< T, OP, CP, KP, SP, CNP, CMP >, bool >
   {
     bool operator()( const parallel::SmartPointer< T, OP, CP, KP, SP, CNP, CMP >& lhs,
-		     const parallel::SmartPointer< T, OP, CP, KP, SP, CNP, CMP >& rhs ) const
+                     const parallel::SmartPointer< T, OP, CP, KP, SP, CNP, CMP >& rhs ) const
     { 
       return lhs.operator < ( rhs ); 
     }

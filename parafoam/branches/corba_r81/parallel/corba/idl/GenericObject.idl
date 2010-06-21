@@ -33,6 +33,8 @@ module parallel
     void AddRef();
 
     void Release();
+
+    string IOR();
   };
 };
 

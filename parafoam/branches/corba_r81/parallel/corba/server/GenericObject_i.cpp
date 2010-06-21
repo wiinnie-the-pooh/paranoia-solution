@@ -32,15 +32,17 @@ using namespace std;
 namespace parallel
 {
   //---------------------------------------------------------------------------
-  GenericObject_i::GenericObject_i( PortableServer::POA_ptr thePOA )
-    : m_ref_counter( 1 )
+  GenericObject_i::GenericObject_i( const CORBA::ORB_var& theORB, 
+                                    PortableServer::POA_ptr thePOA )
+    : ref_counter( 1 )
+    , ORB( theORB )
   {
     cout << "GenericObject_i::GenericObject_i : " << this << endl;
 
     if( CORBA::is_nil( thePOA ) )
-      this->m_POA = PortableServer::ServantBase::_default_POA();
+      this->POA = PortableServer::ServantBase::_default_POA();
     else
-      this->m_POA = PortableServer::POA::_duplicate( thePOA );
+      this->POA = PortableServer::POA::_duplicate( thePOA );
   }
   
 
@@ -54,28 +56,38 @@ namespace parallel
   //---------------------------------------------------------------------------
   PortableServer::POA_ptr GenericObject_i::_default_POA()
   {
-    return PortableServer::POA::_duplicate( this->m_POA );
+    return PortableServer::POA::_duplicate( this->POA );
   }
 
 
   //---------------------------------------------------------------------------
   void GenericObject_i::AddRef()
   {
-    ++this->m_ref_counter;
+    ++this->ref_counter;
   }
 
 
   //---------------------------------------------------------------------------
   void GenericObject_i::Release()
   {
-    if ( --this->m_ref_counter <= 0 ) 
+    if ( --this->ref_counter <= 0 ) 
     {
-      PortableServer::ObjectId_var anObjectId = this->m_POA->servant_to_id( this );
+      PortableServer::ObjectId_var anObjectId = this->POA->servant_to_id( this );
 
-      this->m_POA->deactivate_object( anObjectId.in() );
+      this->POA->deactivate_object( anObjectId.in() );
 
       this->_remove_ref();
     }
+  }
+
+
+  //---------------------------------------------------------------------------
+  char* GenericObject_i::IOR()
+  {
+    CORBA::Object_var anObject = this->_this();
+    CORBA::String_var anIOR = this->ORB->object_to_string( anObject );
+
+    return anIOR._retn();
   }
 
 

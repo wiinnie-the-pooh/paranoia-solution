@@ -36,8 +36,7 @@ namespace parallel
   //---------------------------------------------------------------------------
   TaskBase_i::TaskBase_i( const CORBA::ORB_var& theORB, 
                           const PortableServer::POA_var& thePOA )
-    : GenericObject_i( thePOA )
-    , SObjectBase( theORB, thePOA )
+    : GenericObject_i( theORB, thePOA )
   {
     cout << "TaskBase_i::TaskBase_i : " << this << endl;
   }
