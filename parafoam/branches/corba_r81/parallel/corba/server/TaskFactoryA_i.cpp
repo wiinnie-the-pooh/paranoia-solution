@@ -39,6 +39,8 @@ namespace parallel
     TaskA_i( const CORBA::ORB_var& theORB, 
              const PortableServer::POA_var& thePOA );
 
+    ~TaskA_i();
+
   protected:
     virtual CORBA::Boolean step();
   };
@@ -58,6 +60,13 @@ namespace parallel
     , TaskBase_i( theORB, thePOA )
   {
     cout << "TaskA_i::TaskA_i : " << this << endl;
+  }
+
+
+  //---------------------------------------------------------------------------
+  TaskA_i::~TaskA_i()
+  {
+    cout << "TaskA_i::~TaskA_i() : " << this << endl;
   }
 
 

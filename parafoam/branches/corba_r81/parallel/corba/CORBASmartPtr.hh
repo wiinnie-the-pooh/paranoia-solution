@@ -28,12 +28,110 @@
 //---------------------------------------------------------------------------
 #include "parallel/SmartPointer.hh"
 
+#include <CORBA.h>
+
 
 //---------------------------------------------------------------------------
 namespace parallel
 {
   namespace corba
   {
+    //---------------------------------------------------------------------------
+    template < class T >
+    class CORBAStorage
+    {
+    public:
+      typedef T StoredType;    // the type of the pointee_ object
+      typedef T InitPointerType; /// type used to declare OwnershipPolicy type.
+      typedef T PointerType;   // type returned by operator->
+      typedef T& ReferenceType; // type returned by operator*
+
+      CORBAStorage() : pointee_( Default() )
+      {}
+
+      // The storage policy doesn't initialize the stored pointer
+      //     which will be initialized by the OwnershipPolicy's Clone fn
+      CORBAStorage( const CORBAStorage& ) 
+	: pointee_( 0 )
+      {}
+
+      template < class U >
+      CORBAStorage( const CORBAStorage< U >& ) 
+	: pointee_( 0 )
+      {}
+
+      CORBAStorage( const StoredType& p ) 
+	: pointee_( p ) 
+      {}
+
+      PointerType operator->() const 
+      { 
+	return pointee_; 
+      }
+
+      ReferenceType operator*() const 
+      {
+	return *pointee_; 
+      }
+
+      void Swap( CORBAStorage& rhs )
+      {
+	std::swap( pointee_, rhs.pointee_ ); 
+      }
+
+      // Accessors
+      template < class F >
+      friend typename CORBAStorage< F >::PointerType GetImpl( const CORBAStorage< F >& sp );
+
+      template < class F >
+      friend const typename CORBAStorage< F >::StoredType& GetImplRef( const CORBAStorage< F >& sp );
+
+      template < class F >
+      friend typename CORBAStorage< F >::StoredType& GetImplRef( CORBAStorage<F>& sp );
+
+    protected:
+      // Destroys the data stored
+      // (Destruction might be taken over by the OwnershipPolicy)
+      //
+      // If your compiler gives you a warning in this area while
+      // compiling the tests, it is on purpose, please ignore it.
+      void Destroy()
+      {
+	//delete pointee_;
+      }
+
+      // Default value to initialize the pointer
+      static StoredType Default()
+      { 
+	return StoredType::_nil(); 
+      }
+
+    private:
+        // Data
+        StoredType pointee_;
+    };
+    
+    
+    //---------------------------------------------------------------------------
+    template < class T >
+    inline typename CORBAStorage< T >::PointerType GetImpl( const CORBAStorage< T >& sp )
+    { 
+      return sp.pointee_; 
+    }
+
+    template < class T >
+    inline const typename CORBAStorage< T >::StoredType& GetImplRef( const CORBAStorage< T >& sp )
+    {
+      return sp.pointee_; 
+    }
+
+    template < class T >
+    inline typename CORBAStorage< T >::StoredType& GetImplRef( CORBAStorage< T >& sp )
+    {
+      return sp.pointee_; 
+    }
+
+
     //---------------------------------------------------------------------------
     template< class P >
     struct CORBAComparision
@@ -57,7 +155,7 @@ namespace parallel
       template <class> class OwnershipPolicy = Loki::COMRefCounted,
       class ConversionPolicy = Loki::DisallowConversion,
       template <class> class CheckingPolicy = Loki::AssertCheck,
-      template <class> class StoragePolicy = Loki::DefaultSPStorage,
+      template <class> class StoragePolicy = CORBAStorage,
       template<class> class ConstnessPolicy = LOKI_DEFAULT_CONSTNESS,
       template <class> class ComparisionPolicy = CORBAComparision
     >

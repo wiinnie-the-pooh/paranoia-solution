@@ -25,6 +25,8 @@
 #include "parallel/corba/idl/TaskFactoryB.hh"
 #include "parallel/corba/idl/TaskManager.hh"
 
+#include "parallel/corba/CORBASmartPtr.hh"
+
 #include <iostream>
 using namespace std;
 
@@ -52,6 +54,10 @@ int main( int argc, char **argv )
     CORBA::Object_var a_task_manager_obj = getObjectReference( orb, "TaskManager", "this" );
     parallel::TaskManager_var a_task_manager_ref = parallel::TaskManager::_narrow( a_task_manager_obj );
     a_task_manager_ref->connect( a_task_A, "A", a_task_B, "B" );
+    
+    {
+      parallel::corba::SmartPtrDef< parallel::TaskA_var >::type a_task_A( a_task_factory_A_ref->create() );
+    }
 
     a_task_manager_ref->run();
 
