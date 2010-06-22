@@ -26,7 +26,7 @@
 #--------------------------------------------------------------------------------------
 all: libparallel_idl.so
 
-IDL_FILES = GenericObject.idl TaskBase.idl Port.idl TaskFactoryBase.idl TaskManager.idl TaskFactoryA.idl TaskFactoryB.idl
+IDL_FILES = GenericObject.idl TaskBase.idl PortBase.idl TaskFactoryBase.idl TaskManager.idl TaskFactoryA.idl TaskFactoryB.idl
 
 .PRECIOUS: %SK.cc
 

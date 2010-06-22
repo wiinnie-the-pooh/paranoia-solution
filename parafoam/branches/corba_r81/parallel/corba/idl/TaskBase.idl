@@ -34,15 +34,15 @@ module parallel
 {
   interface TaskManager;
 
-  interface Port;
+  interface PortBase;
 
-  typedef sequence< Port > Ports;
+  typedef sequence< PortBase > Ports;
 
   interface TaskBase : GenericObject
   {
     void invoke( in TaskManager theTaskManager );
 
-    Port get_input_port( in string theName );
+    PortBase get_input_port( in string theName );
 
     Ports get_input_ports();
   };

@@ -21,58 +21,23 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef corba_server_TaskBase_i_hh
-#define corba_server_TaskBase_i_hh
+#ifndef __PARALELL_PORT_BASE_IDL__
+#define __PARALELL_PORT_BASE_IDL__
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/idl/TaskBase.hh"
-
-#include "parallel/corba/server/SObjectBase.hh"
-
-#include "parallel/corba/server/GenericObject_i.hh"
-
-#include "parallel/corba/server/PortBase_i.hh"
-
-#include <set>
-
-
-//---------------------------------------------------------------------------
-namespace parallel 
+module parallel
 {
-  //---------------------------------------------------------------------------
-  struct TaskBase_i : virtual POA_parallel::TaskBase, 
-                      virtual GenericObject_i
+  interface Task;
+
+  interface PortBase
   {
-    TaskBase_i( const CORBA::ORB_var& theORB, 
-                const PortableServer::POA_var& thePOA );
+    string name();
 
-    ~TaskBase_i();
-
-    void invoke( TaskManager_ptr theTaskManager );
-
-    PortBase_ptr get_input_port( const char* theName );
-
-    Ports* get_input_ports();
-      
-  protected:
-    virtual void init();
-
-    virtual CORBA::Boolean step() = 0;
-
-    virtual void destroy();
-
-  protected:
-    typedef PortBase_i* TPortPtr;
-    typedef std::set< TPortPtr > TPorts;
-
-    TPorts ports;
+    boolean is_compatible( in PortBase theArg );
   };
-
-
-  //---------------------------------------------------------------------------
-}
+};
 
 
 //---------------------------------------------------------------------------
-#endif
+#endif  // __PARALELL_PORT_BASE_IDL__

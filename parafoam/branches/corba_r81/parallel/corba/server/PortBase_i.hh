@@ -21,52 +21,34 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef corba_server_TaskBase_i_hh
-#define corba_server_TaskBase_i_hh
+#ifndef corba_server_PortBase_i_hh
+#define corba_server_PortBase_i_hh
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/idl/TaskBase.hh"
+#include "parallel/corba/idl/PortBase.hh"
 
 #include "parallel/corba/server/SObjectBase.hh"
 
-#include "parallel/corba/server/GenericObject_i.hh"
-
-#include "parallel/corba/server/PortBase_i.hh"
-
-#include <set>
+#include <string>
 
 
 //---------------------------------------------------------------------------
 namespace parallel 
 {
   //---------------------------------------------------------------------------
-  struct TaskBase_i : virtual POA_parallel::TaskBase, 
-                      virtual GenericObject_i
+  struct PortBase_i : virtual POA_parallel::PortBase, virtual SObjectBase
   {
-    TaskBase_i( const CORBA::ORB_var& theORB, 
+    PortBase_i( const std::string& theName,
+		const CORBA::ORB_var& theORB, 
                 const PortableServer::POA_var& thePOA );
 
-    ~TaskBase_i();
+    ~PortBase_i();
 
-    void invoke( TaskManager_ptr theTaskManager );
-
-    PortBase_ptr get_input_port( const char* theName );
-
-    Ports* get_input_ports();
-      
-  protected:
-    virtual void init();
-
-    virtual CORBA::Boolean step() = 0;
-
-    virtual void destroy();
+    char* name();
 
   protected:
-    typedef PortBase_i* TPortPtr;
-    typedef std::set< TPortPtr > TPorts;
-
-    TPorts ports;
+    std::string m_name;
   };
 
 

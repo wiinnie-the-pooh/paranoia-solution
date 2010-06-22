@@ -24,7 +24,7 @@
 #include "parallel/corba/server/TaskBase_i.hh"
 
 #include "parallel/corba/idl/TaskManager.hh"
-#include "parallel/corba/idl/Port.hh"
+#include "parallel/corba/idl/PortBase.hh"
 
 #include <iostream>
 
@@ -62,7 +62,7 @@ namespace parallel
     
     
   //---------------------------------------------------------------------------
-  Port_ptr TaskBase_i::get_input_port( const char* theName )
+  PortBase_ptr TaskBase_i::get_input_port( const char* theName )
   {
     cout << "TaskBase_i::get_input_port[ " << this << " ]" << endl;
 
@@ -75,10 +75,10 @@ namespace parallel
       CORBA::String_var a_name = a_port->name();
       
       if ( strcmp( a_name.in(), theName ) == 0 )
-	return Port::_duplicate( a_port );
+	return a_port->_this();
     }
 
-    return Port::_nil();
+    return PortBase::_nil();
   }
     
     
@@ -96,7 +96,7 @@ namespace parallel
     {
       const TPortPtr& a_port = *anIter;
       
-      a_ports[ anId ] = Port::_duplicate( a_port );
+      a_ports[ anId ] = a_port->_this();
     }
 
     return &a_ports;
@@ -106,14 +106,14 @@ namespace parallel
   //---------------------------------------------------------------------------
   void TaskBase_i::init()
   {
-    cout << "TaskBase_i::init() : " << this << endl;
+    cout << "TaskBase_i::init[ " << this << " ]" << endl;
   }
     
     
   //---------------------------------------------------------------------------
   void TaskBase_i::destroy()
   {
-    cout << "TaskBase_i::destroy() : " << this << endl;
+    cout << "TaskBase_i::destroy[ " << this << " ]" << endl;
   }
     
     

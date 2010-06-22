@@ -21,21 +21,43 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef __PARALELL_PORT_IDL__
-#define __PARALELL_PORT_IDL__
+#include "parallel/corba/server/PortBase_i.hh"
+
+#include <iostream>
+
+using namespace std;
 
 
 //---------------------------------------------------------------------------
-module parallel
+namespace parallel
 {
-  interface Task;
-
-  interface Port
+  //---------------------------------------------------------------------------
+  PortBase_i::PortBase_i( const std::string& theName,
+			  const CORBA::ORB_var& theORB, 
+			  const PortableServer::POA_var& thePOA )
+    : SObjectBase( theORB, thePOA )
+    , m_name( theName )
   {
-    string name();
-  };
-};
+    cout << "PortBase_i::PortBase_i[ " << this << " ]" << endl;
+  }
+
+
+  //---------------------------------------------------------------------------
+  PortBase_i::~PortBase_i()
+  {
+    cout << "PortBase_i::~PortBase_i[ " << this << " ]" << endl;
+  }
+
+
+  //---------------------------------------------------------------------------
+  char* PortBase_i::name()
+  {
+    return CORBA::string_dup( this->m_name.c_str() );
+  }
+    
+    
+  //---------------------------------------------------------------------------
+}
 
 
 //---------------------------------------------------------------------------
-#endif  // __PARALELL_PORT_IDL__
