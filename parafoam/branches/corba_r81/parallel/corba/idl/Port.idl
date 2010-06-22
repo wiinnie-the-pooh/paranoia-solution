@@ -21,46 +21,21 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef corba_server_TaskBase_i_hh
-#define corba_server_TaskBase_i_hh
+#ifndef __PARALELL_PORT_IDL__
+#define __PARALELL_PORT_IDL__
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/idl/TaskBase.hh"
-
-#include "parallel/corba/server/SObjectBase.hh"
-
-#include "parallel/corba/server/GenericObject_i.hh"
-
-
-//---------------------------------------------------------------------------
-namespace parallel 
+module parallel
 {
-  //---------------------------------------------------------------------------
-  struct TaskBase_i : virtual POA_parallel::TaskBase, 
-                      virtual GenericObject_i
+  interface Task;
+
+  interface Port
   {
-    TaskBase_i( const CORBA::ORB_var& theORB, 
-                const PortableServer::POA_var& thePOA );
-
-    ~TaskBase_i();
-
-    void invoke( TaskManager_ptr theTaskManager );
-
-    Port_ptr get_input_port( const char* theName );
-      
-  protected:
-    virtual void init();
-
-    virtual CORBA::Boolean step() = 0;
-
-    virtual void destroy();
+    string name();
   };
-
-
-  //---------------------------------------------------------------------------
-}
+};
 
 
 //---------------------------------------------------------------------------
-#endif
+#endif  // __PARALELL_PORT_IDL__

@@ -34,9 +34,13 @@ module parallel
 {
   interface TaskManager;
 
+  interface Port;
+
   interface TaskBase : GenericObject
   {
     void invoke( in TaskManager theTaskManager );
+
+    Port get_input_port( in string theName );
   };
 };
 

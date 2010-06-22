@@ -24,6 +24,7 @@
 #include "parallel/corba/server/TaskBase_i.hh"
 
 #include "parallel/corba/idl/TaskManager.hh"
+#include "parallel/corba/idl/Port.hh"
 
 #include <iostream>
 
@@ -38,14 +39,14 @@ namespace parallel
                           const PortableServer::POA_var& thePOA )
     : GenericObject_i( theORB, thePOA )
   {
-    cout << "TaskBase_i::TaskBase_i : " << this << endl;
+    cout << "TaskBase_i::TaskBase_i[ " << this << " ]" << endl;
   }
 
 
   //---------------------------------------------------------------------------
   TaskBase_i::~TaskBase_i()
   {
-    cout << "TaskBase_i::~TaskBase_i() : " << this << endl;
+    cout << "TaskBase_i::~TaskBase_i[ " << this << " ]" << endl;
   }
 
 
@@ -57,6 +58,15 @@ namespace parallel
     while( theTaskManager->is_run() && this->step() );
     
     this->destroy();
+  }
+    
+    
+  //---------------------------------------------------------------------------
+  Port_ptr TaskBase_i::get_input_port( const char* theName )
+  {
+    cout << "TaskBase_i::get_input_port[ " << this << " ]" << endl;
+
+    return Port::_nil();
   }
     
     
