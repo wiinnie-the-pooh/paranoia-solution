@@ -32,6 +32,8 @@
 
 #include "parallel/corba/server/GenericObject_i.hh"
 
+#include <set>
+
 
 //---------------------------------------------------------------------------
 namespace parallel 
@@ -48,6 +50,8 @@ namespace parallel
     void invoke( TaskManager_ptr theTaskManager );
 
     Port_ptr get_input_port( const char* theName );
+
+    Ports* get_input_ports();
       
   protected:
     virtual void init();
@@ -55,6 +59,12 @@ namespace parallel
     virtual CORBA::Boolean step() = 0;
 
     virtual void destroy();
+
+  protected:
+    typedef parallel::Port_var TPortPtr;
+    typedef std::set< TPortPtr > TPorts;
+
+    TPorts ports;
   };
 
 

@@ -90,7 +90,9 @@ namespace parallel
     for ( ; anIter != anEnd; anIter++ )
     {
       const TTaskBasePtr& aTaskBase = *anIter;
-      
+
+      Ports_var a_ports = aTaskBase->get_input_ports();
+
       aTaskBase->invoke( aSelf );
     }
   }

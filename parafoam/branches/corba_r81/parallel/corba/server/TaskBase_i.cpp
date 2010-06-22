@@ -71,6 +71,27 @@ namespace parallel
     
     
   //---------------------------------------------------------------------------
+  Ports* TaskBase_i::get_input_ports()
+  {
+    cout << "TaskBase_i::get_input_ports[ " << this << " ]" << endl;
+
+    Ports& a_ports = * new Ports;
+    a_ports.length( ports.size() );
+
+    TPorts::const_iterator anIter = this->ports.begin();
+    TPorts::const_iterator anEnd = this->ports.end();
+    for ( int anId = 0; anIter != anEnd; anIter++, anId++ )
+    {
+      const TPortPtr& a_port = *anIter;
+      
+      a_ports[ anId ] = Port::_duplicate( a_port );
+    }
+
+    return &a_ports;
+  }
+    
+    
+  //---------------------------------------------------------------------------
   void TaskBase_i::init()
   {
     cout << "TaskBase_i::init() : " << this << endl;
