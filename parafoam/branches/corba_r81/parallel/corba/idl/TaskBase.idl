@@ -51,6 +51,14 @@ module parallel
     void connect_input( in PortBase thePort, 
                         in Link theLink, 
                         in PortBase theOppositePort );
+
+    PortBase get_output_port( in string theName );
+
+    Ports get_output_ports();
+
+    void connect_output( in PortBase thePort, 
+			 in Link theLink, 
+			 in PortBase theOppositePort );
   };
 };
 

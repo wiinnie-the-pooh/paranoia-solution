@@ -35,6 +35,55 @@ using namespace std;
 
 
 //---------------------------------------------------------------------------
+namespace
+{
+  //---------------------------------------------------------------------------
+  using namespace parallel;
+
+
+  //---------------------------------------------------------------------------
+  PortBase_ptr get_port( const char* theName, const TaskBase_i::TPorts& thePorts )
+  {
+    TaskBase_i::TPorts::const_iterator anIter = thePorts.begin();
+    TaskBase_i::TPorts::const_iterator anEnd = thePorts.end();
+    for ( int anId = 0; anIter != anEnd; anIter++, anId++ )
+    {
+      const TaskBase_i::TPortPtr& a_port = anIter->first;
+
+      CORBA::String_var a_name = a_port->name();
+      
+      if ( strcmp( a_name.in(), theName ) == 0 )
+        return a_port->_this();
+    }
+
+    return PortBase::_nil();
+  }
+
+
+  //---------------------------------------------------------------------------
+  Ports* get_ports( const TaskBase_i::TPorts& thePorts )
+  {
+    Ports& a_ports = * new Ports;
+    a_ports.length( thePorts.size() );
+
+    TaskBase_i::TPorts::const_iterator anIter = thePorts.begin();
+    TaskBase_i::TPorts::const_iterator anEnd = thePorts.end();
+    for ( int anId = 0; anIter != anEnd; anIter++, anId++ )
+    {
+      const TaskBase_i::TPortPtr& a_port = anIter->first;
+      
+      a_ports[ anId ] = a_port->_this();
+    }
+
+    return &a_ports;
+  }
+    
+    
+  //---------------------------------------------------------------------------
+}    
+
+
+//---------------------------------------------------------------------------
 namespace parallel
 {
   //---------------------------------------------------------------------------
@@ -67,42 +116,14 @@ namespace parallel
   //---------------------------------------------------------------------------
   PortBase_ptr TaskBase_i::get_input_port( const char* theName )
   {
-    cout << "TaskBase_i::get_input_port[ " << this << " ]" << endl;
-
-    TPorts::const_iterator anIter = this->m_input_ports.begin();
-    TPorts::const_iterator anEnd = this->m_input_ports.end();
-    for ( int anId = 0; anIter != anEnd; anIter++, anId++ )
-    {
-      const TPortPtr& a_port = anIter->first;
-
-      CORBA::String_var a_name = a_port->name();
-      
-      if ( strcmp( a_name.in(), theName ) == 0 )
-        return a_port->_this();
-    }
-
-    return PortBase::_nil();
+    return ::get_port( theName, this->m_input_ports );
   }
     
     
   //---------------------------------------------------------------------------
   Ports* TaskBase_i::get_input_ports()
   {
-    cout << "TaskBase_i::get_input_ports[ " << this << " ]" << endl;
-
-    Ports& a_ports = * new Ports;
-    a_ports.length( this->m_input_ports.size() );
-
-    TPorts::const_iterator anIter = this->m_input_ports.begin();
-    TPorts::const_iterator anEnd = this->m_input_ports.end();
-    for ( int anId = 0; anIter != anEnd; anIter++, anId++ )
-    {
-      const TPortPtr& a_port = anIter->first;
-      
-      a_ports[ anId ] = a_port->_this();
-    }
-
-    return &a_ports;
+    return ::get_ports( this->m_input_ports );
   }
     
     
@@ -118,6 +139,35 @@ namespace parallel
     TLinkPtr aLink( Link::_duplicate( theLink ) );
 
     this->m_input_ports[ aPort ] = aLink;
+  }
+    
+    
+  //---------------------------------------------------------------------------
+  PortBase_ptr TaskBase_i::get_output_port( const char* theName )
+  {
+    return ::get_port( theName, this->m_output_ports );
+  }
+    
+    
+  //---------------------------------------------------------------------------
+  Ports* TaskBase_i::get_output_ports()
+  {
+    return ::get_ports( this->m_output_ports );
+  }
+    
+    
+  //---------------------------------------------------------------------------
+  void TaskBase_i::connect_output( PortBase_ptr thePort, 
+				   Link_ptr theLink, 
+				   PortBase_ptr theOppositePort )
+  {
+    thePort->is_compatible( theOppositePort );
+      
+    PortBase_i* aPort = get_servant< PortBase_i* >( thePort, this->POA );
+
+    TLinkPtr aLink( Link::_duplicate( theLink ) );
+
+    this->m_output_ports[ aPort ] = aLink;
   }
     
     

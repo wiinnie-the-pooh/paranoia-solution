@@ -21,7 +21,9 @@
 
 
 //---------------------------------------------------------------------------
-#include <parallel/corba/server/TaskManager_i.hh>
+#include "parallel/corba/server/TaskManager_i.hh"
+
+#include "parallel/corba/server/Link_i.hh"
 
 #include <iostream>
 
@@ -56,7 +58,16 @@ namespace parallel
   {
     std::cout << "TaskManager_i::connect : " << this << " - '" << theOutputPortName << "'; '" << theInputPortName << "'" << std::endl;
 
-    this->register_task( theSourceTask );
+    Link_i* a_link( new Link_i( this->ORB, this->POA ) );
+    Link_var a_link_ref( a_link->_this() );
+
+    PortBase_var an_output_port = theSourceTask->get_output_port( theInputPortName );
+    PortBase_var an_input_port = theTargetTask->get_input_port( theInputPortName );
+
+    theSourceTask->connect_output( an_output_port, a_link_ref, an_input_port );
+    this->register_task( theTargetTask );
+
+    theTargetTask->connect_input( an_input_port, a_link_ref, an_output_port );
     this->register_task( theTargetTask );
   }
     
