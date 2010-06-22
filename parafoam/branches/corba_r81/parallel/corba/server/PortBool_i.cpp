@@ -21,27 +21,47 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef __PARALELL_LINK_IDL__
-#define __PARALELL_LINK_IDL__
+#include "parallel/corba/server/PortBool_i.hh"
+
+#include <iostream>
+
+using namespace std;
 
 
 //---------------------------------------------------------------------------
-#include "GenericObject.idl"
-
-
-//---------------------------------------------------------------------------
-module parallel
+namespace parallel
 {
-  interface DataHolderBase;
-
-  interface Link : GenericObject
+  //---------------------------------------------------------------------------
+  PortBool_i::PortBool_i( const std::string& theName,
+			  const CORBA::ORB_var& theORB, 
+			  const PortableServer::POA_var& thePOA )
+    : SObjectBase( theORB, thePOA )
+    , PortBase_i( theName, theORB, thePOA )
   {
-    void publish( in DataHolderBase theDataHolder );
+    cout << "PortBool_i::PortBool_i[ " << this << " ]" << endl;
+  }
 
-    DataHolderBase retrive();
-  };
-};
+
+  //---------------------------------------------------------------------------
+  PortBool_i::~PortBool_i()
+  {
+    cout << "PortBool_i::~PortBool_i[ " << this << " ]" << endl;
+  }
+
+
+  //---------------------------------------------------------------------------
+  CORBA::Boolean PortBool_i::is_compatible( PortBase_ptr theArg )
+  {
+    cout << "PortBool_i::is_compatible[ " << this << " ]" << endl;
+
+    PortBool_var aPort = parallel::PortBool::_narrow( theArg );
+    
+    return ! CORBA::is_nil( aPort );
+  }
+
+
+  //---------------------------------------------------------------------------
+}
 
 
 //---------------------------------------------------------------------------
-#endif  // __PARALELL_PORT_BASE_IDL__

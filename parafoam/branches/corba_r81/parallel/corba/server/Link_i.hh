@@ -21,27 +21,49 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef __PARALELL_LINK_IDL__
-#define __PARALELL_LINK_IDL__
+#ifndef corba_server_Link_i_hh
+#define corba_server_Link_i_hh
 
 
 //---------------------------------------------------------------------------
-#include "GenericObject.idl"
+#include "parallel/corba/idl/Link.hh"
+
+#include "parallel/corba/server/GenericObject_i.hh"
+
+#include "parallel/corba/CORBASmartPtr.hh"
+
+#include <omnithread.h>
+#include <queue>
 
 
 //---------------------------------------------------------------------------
-module parallel
+namespace parallel 
 {
-  interface DataHolderBase;
-
-  interface Link : GenericObject
+  //---------------------------------------------------------------------------
+  struct Link_i : virtual POA_parallel::Link, 
+		  virtual GenericObject_i
   {
-    void publish( in DataHolderBase theDataHolder );
+    Link_i( const CORBA::ORB_var& theORB, 
+	    const PortableServer::POA_var& thePOA );
 
-    DataHolderBase retrive();
+    ~Link_i();
+
+    void publish( DataHolderBase_ptr theDataHolder );
+
+    DataHolderBase_ptr retrive();
+
+  protected:
+    typedef corba::SmartPtrDef< DataHolderBase_var >::type TDataHolderPtr;
+    std::queue< TDataHolderPtr > m_data_holders;
+
+    omni_mutex m_read_mutex;
+    omni_mutex m_list_mutex;
   };
-};
+
+
+  //---------------------------------------------------------------------------
+}
 
 
 //---------------------------------------------------------------------------
-#endif  // __PARALELL_PORT_BASE_IDL__
+#endif

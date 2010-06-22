@@ -69,7 +69,7 @@ namespace parallel
 	return pointee_; 
       }
 
-      ReferenceType operator*() const 
+      ReferenceType operator*() 
       {
 	return pointee_; 
       }
