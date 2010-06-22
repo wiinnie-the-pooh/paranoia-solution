@@ -21,9 +21,7 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/server/Link_i.hh"
-
-#include "parallel/corba/idl/DataHolderBase.hh"
+#include "parallel/corba/server/DataHolderBase_i.hh"
 
 #include <iostream>
 
@@ -34,61 +32,21 @@ using namespace std;
 namespace parallel
 {
   //---------------------------------------------------------------------------
-  Link_i::Link_i( const CORBA::ORB_var& theORB, 
-		  const PortableServer::POA_var& thePOA )
+  DataHolderBase_i::DataHolderBase_i( const CORBA::ORB_var& theORB, 
+				      const PortableServer::POA_var& thePOA )
     : GenericObject_i( theORB, thePOA )
   {
-    cout << "Link_i::Link_i[ " << this << " ]" << endl;
-
-    this->m_read_mutex.lock();
+    cout << "DataHolderBase_i::DataHolderBase_i[ " << this << " ]" << endl;
   }
 
 
   //---------------------------------------------------------------------------
-  Link_i::~Link_i()
+  DataHolderBase_i::~DataHolderBase_i()
   {
-    cout << "Link_i::~Link_i[ " << this << " ]" << endl;
+    cout << "DataHolderBase_i::~DataHolderBase_i[ " << this << " ]" << endl;
   }
 
 
-  //---------------------------------------------------------------------------
-  void Link_i::publish( DataHolderBase_ptr theDataHolder )
-  {
-    this->m_list_mutex.lock();
-      
-    TDataHolderPtr aDataHolder( DataHolderBase::_duplicate( theDataHolder ) );
-
-    this->m_data_holders.push( aDataHolder );
-      
-    this->m_list_mutex.unlock();
-    this->m_read_mutex.unlock();
-  }
-    
-    
-  //---------------------------------------------------------------------------
-  DataHolderBase_ptr Link_i::retrive()
-  {
-    this->m_read_mutex.lock();
-    this->m_list_mutex.lock();
-      
-    TDataHolderPtr aDataHolder;
-    if ( !this->m_data_holders.empty() )
-    {
-      aDataHolder = this->m_data_holders.front();
-      this->m_data_holders.pop();
-    }
-      
-    // "Publish" could be called many times before first "retrive" will be called
-    // So, we should be able "publish" all the available data
-    if ( !this->m_data_holders.empty() )
-      this->m_read_mutex.unlock();
-      
-    this->m_list_mutex.unlock();
-      
-    return DataHolderBase::_duplicate( *aDataHolder );
-  }
-    
-    
   //---------------------------------------------------------------------------
 }
 
