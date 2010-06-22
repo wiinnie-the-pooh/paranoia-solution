@@ -25,6 +25,9 @@
 
 #include "parallel/corba/idl/TaskManager.hh"
 #include "parallel/corba/idl/PortBase.hh"
+#include "parallel/corba/idl/Link.hh"
+
+#include "parallel/corba/server/TaskFactory_utilities.hpp"
 
 #include <iostream>
 
@@ -70,12 +73,12 @@ namespace parallel
     TPorts::const_iterator anEnd = this->m_input_ports.end();
     for ( int anId = 0; anIter != anEnd; anIter++, anId++ )
     {
-      const TPortPtr& a_port = *anIter;
+      const TPortPtr& a_port = anIter->first;
 
       CORBA::String_var a_name = a_port->name();
       
       if ( strcmp( a_name.in(), theName ) == 0 )
-	return a_port->_this();
+        return a_port->_this();
     }
 
     return PortBase::_nil();
@@ -94,12 +97,27 @@ namespace parallel
     TPorts::const_iterator anEnd = this->m_input_ports.end();
     for ( int anId = 0; anIter != anEnd; anIter++, anId++ )
     {
-      const TPortPtr& a_port = *anIter;
+      const TPortPtr& a_port = anIter->first;
       
       a_ports[ anId ] = a_port->_this();
     }
 
     return &a_ports;
+  }
+    
+    
+  //---------------------------------------------------------------------------
+  void TaskBase_i::connect_input( PortBase_ptr thePort, 
+                                  Link_ptr theLink, 
+                                  PortBase_ptr theOppositePort )
+  {
+    thePort->is_compatible( theOppositePort );
+      
+    PortBase_i* aPort = get_servant< PortBase_i* >( thePort, this->POA );
+
+    TLinkPtr aLink( Link::_duplicate( theLink ) );
+
+    this->m_input_ports[ aPort ] = aLink;
   }
     
     

@@ -33,7 +33,7 @@ namespace parallel
 {
   //---------------------------------------------------------------------------
   DataHolderBase_i::DataHolderBase_i( const CORBA::ORB_var& theORB, 
-				      const PortableServer::POA_var& thePOA )
+                                      const PortableServer::POA_var& thePOA )
     : GenericObject_i( theORB, thePOA )
   {
     cout << "DataHolderBase_i::DataHolderBase_i[ " << this << " ]" << endl;

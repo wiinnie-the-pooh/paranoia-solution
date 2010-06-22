@@ -32,7 +32,9 @@
 
 #include "parallel/corba/server/PortBase_i.hh"
 
-#include <set>
+#include "parallel/corba/CORBASmartPtr.hh"
+
+#include <map>
 
 
 //---------------------------------------------------------------------------
@@ -52,6 +54,10 @@ namespace parallel
     PortBase_ptr get_input_port( const char* theName );
 
     Ports* get_input_ports();
+
+    void connect_input( PortBase_ptr thePort, 
+                        Link_ptr theLink, 
+                        PortBase_ptr theOppositePort );
       
   protected:
     virtual void init();
@@ -62,7 +68,8 @@ namespace parallel
 
   protected:
     typedef PortBase_i* TPortPtr;
-    typedef std::set< TPortPtr > TPorts;
+    typedef corba::SmartPtrDef< Link_var >::type TLinkPtr;
+    typedef std::map< TPortPtr, TLinkPtr > TPorts;
 
     TPorts m_input_ports;
   };

@@ -36,10 +36,10 @@ namespace parallel
 {
   //---------------------------------------------------------------------------
   struct DataHolderBase_i : virtual POA_parallel::DataHolderBase, 
-			    virtual GenericObject_i
+                            virtual GenericObject_i
   {
     DataHolderBase_i( const CORBA::ORB_var& theORB, 
-		      const PortableServer::POA_var& thePOA );
+                      const PortableServer::POA_var& thePOA );
 
     ~DataHolderBase_i();
   };

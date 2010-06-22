@@ -41,10 +41,10 @@ namespace parallel
 {
   //---------------------------------------------------------------------------
   struct Link_i : virtual POA_parallel::Link, 
-		  virtual GenericObject_i
+                  virtual GenericObject_i
   {
     Link_i( const CORBA::ORB_var& theORB, 
-	    const PortableServer::POA_var& thePOA );
+            const PortableServer::POA_var& thePOA );
 
     ~Link_i();
 

@@ -36,6 +36,20 @@
 namespace parallel 
 {
   //---------------------------------------------------------------------------
+  PortableServer::ServantBase_var _get_servant( CORBA::Object_ptr theObject,
+						const PortableServer::POA_var& thePOA );
+
+
+  //---------------------------------------------------------------------------
+  template< class Type > 
+  Type get_servant( CORBA::Object_ptr theObject,
+		    const PortableServer::POA_var& thePOA )
+  {
+    return dynamic_cast< Type >( _get_servant( theObject, thePOA ).in() );
+  }
+
+
+  //---------------------------------------------------------------------------
   CORBA::Boolean bindObjectToName( CORBA::ORB_ptr orb,
                                    CORBA::Object_ptr objref, 
                                    const std::string& theObjectType, 
@@ -84,6 +98,7 @@ namespace parallel
 
     return 0;
   }
+
 
   //---------------------------------------------------------------------------
 }

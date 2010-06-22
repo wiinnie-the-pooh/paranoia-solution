@@ -52,31 +52,31 @@ namespace parallel
       // The storage policy doesn't initialize the stored pointer
       //     which will be initialized by the OwnershipPolicy's Clone fn
       CORBAStorage( const CORBAStorage& ) 
-	: pointee_( Default() )
+        : pointee_( Default() )
       {}
 
       template < class U >
       CORBAStorage( const CORBAStorage< U >& ) 
-	: pointee_( Default() )
+        : pointee_( Default() )
       {}
 
       CORBAStorage( const StoredType& p ) 
-	: pointee_( p ) 
+        : pointee_( p ) 
       {}
 
       PointerType operator->() const 
       { 
-	return pointee_; 
+        return pointee_; 
       }
 
       ReferenceType operator*() 
       {
-	return pointee_; 
+        return pointee_; 
       }
 
       void Swap( CORBAStorage& rhs )
       {
-	std::swap( pointee_, rhs.pointee_ ); 
+        std::swap( pointee_, rhs.pointee_ ); 
       }
 
       // Accessors
@@ -97,13 +97,13 @@ namespace parallel
       // compiling the tests, it is on purpose, please ignore it.
       void Destroy()
       {
-	//delete pointee_;
+        //delete pointee_;
       }
 
       // Default value to initialize the pointer
       static StoredType Default()
       { 
-	return StoredType(); 
+        return StoredType(); 
       }
 
     private:
@@ -145,18 +145,18 @@ namespace parallel
 
       static P Clone( const P& val )
       {
-	if ( ! CORBA::is_nil( val ) )
-	  val->AddRef();
+        if ( ! CORBA::is_nil( val ) )
+          val->AddRef();
 
-	return val;
+        return val;
       }
 
       static bool Release( const P& val )
       {
-	if ( ! CORBA::is_nil( val ) )
-	  val->Release();
+        if ( ! CORBA::is_nil( val ) )
+          val->Release();
 
-	return false;
+        return false;
       }
 
       enum { destructiveCopy = false };

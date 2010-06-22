@@ -33,8 +33,8 @@ namespace parallel
 {
   //---------------------------------------------------------------------------
   PortBase_i::PortBase_i( const std::string& theName,
-			  const CORBA::ORB_var& theORB, 
-			  const PortableServer::POA_var& thePOA )
+                          const CORBA::ORB_var& theORB, 
+                          const PortableServer::POA_var& thePOA )
     : SObjectBase( theORB, thePOA )
     , m_name( theName )
   {

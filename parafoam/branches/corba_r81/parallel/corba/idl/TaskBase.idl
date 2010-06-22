@@ -38,6 +38,8 @@ module parallel
 
   typedef sequence< PortBase > Ports;
 
+  interface Link;
+
   interface TaskBase : GenericObject
   {
     void invoke( in TaskManager theTaskManager );
@@ -45,6 +47,10 @@ module parallel
     PortBase get_input_port( in string theName );
 
     Ports get_input_ports();
+
+    void connect_input( in PortBase thePort, 
+                        in Link theLink, 
+                        in PortBase theOppositePort );
   };
 };
 

@@ -40,7 +40,7 @@ namespace parallel
   struct PortBase_i : virtual POA_parallel::PortBase, virtual SObjectBase
   {
     PortBase_i( const std::string& theName,
-		const CORBA::ORB_var& theORB, 
+                const CORBA::ORB_var& theORB, 
                 const PortableServer::POA_var& thePOA );
 
     ~PortBase_i();

@@ -21,7 +21,7 @@
 
 
 //---------------------------------------------------------------------------
-#include <parallel/corba/server/TaskFactory_utilities.hpp>
+#include "parallel/corba/server/TaskFactory_utilities.hpp"
 
 #include <string>
 #include <iostream>
@@ -31,6 +31,23 @@ using namespace std;
 //---------------------------------------------------------------------------
 namespace parallel
 {
+  //---------------------------------------------------------------------------
+  PortableServer::ServantBase_var _get_servant( CORBA::Object_ptr theObject,
+                                               const PortableServer::POA_var& thePOA )
+  {
+    if ( CORBA::is_nil( theObject ) )  
+      return NULL;
+
+    try {
+      return thePOA->reference_to_servant( theObject );
+    } catch (...) {
+      return NULL;
+    }
+
+    return NULL;
+  }
+
+
   //---------------------------------------------------------------------------
   CORBA::Boolean bindObjectToName( CORBA::ORB_ptr orb,
                                    CORBA::Object_ptr objref, 

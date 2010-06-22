@@ -39,7 +39,7 @@ namespace parallel
                       virtual PortBase_i
   {
     PortBool_i( const std::string& theName,
-		const CORBA::ORB_var& theORB, 
+                const CORBA::ORB_var& theORB, 
                 const PortableServer::POA_var& thePOA );
 
     ~PortBool_i();
