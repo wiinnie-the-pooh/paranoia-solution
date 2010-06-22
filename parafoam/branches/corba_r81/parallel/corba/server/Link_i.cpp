@@ -85,7 +85,7 @@ namespace parallel
       
     this->m_list_mutex.unlock();
       
-    return DataHolderBase::_duplicate( (*aDataHolder).in() );
+    return DataHolderBase::_duplicate( *aDataHolder );
   }
     
     
