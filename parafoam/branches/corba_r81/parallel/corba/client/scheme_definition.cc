@@ -55,11 +55,11 @@ int main( int argc, char **argv )
     parallel::TaskManager_var a_task_manager_ref = parallel::TaskManager::_narrow( a_task_manager_obj );
     a_task_manager_ref->connect( a_task_A, "A", a_task_B, "B" );
     
+    a_task_manager_ref->run();
+
     {
       parallel::corba::SmartPtrDef< parallel::TaskA_var >::type a_task_A( a_task_factory_A_ref->create() );
     }
-
-    a_task_manager_ref->run();
 
     orb->destroy();
   }

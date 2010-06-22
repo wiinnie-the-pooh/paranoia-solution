@@ -28,6 +28,8 @@ all: libparallel_idl.so
 
 IDL_FILES = GenericObject.idl TaskBase.idl TaskFactoryBase.idl TaskManager.idl TaskFactoryA.idl TaskFactoryB.idl
 
+.PRECIOUS: %SK.cc
+
 libparallel_idl.so: $(patsubst %.idl, %SK.o, $(IDL_FILES))
 	gcc -shared $^ @OMNIORB_LIBS@ -o @abs_top_builddir@/lib/$@
 
@@ -35,7 +37,7 @@ libparallel_idl.so: $(patsubst %.idl, %SK.o, $(IDL_FILES))
 	@IDL@ -bcxx -Wbtp -I@abs_top_builddir@/parallel/corba/idl @OMNIORB_IDLCXXFLAGS@ $<
 
 %SK.o: %SK.cc
-	gcc -x c++ -I@abs_top_builddir@/parallel/corba/idl @OMNIORB_CXXFLAGS@ @OMNIORB_INCLUDES@ -fPIC -c $<
+	gcc -g -x c++ -I@abs_top_builddir@/parallel/corba/idl @OMNIORB_CXXFLAGS@ @OMNIORB_INCLUDES@ -fPIC -c $<
 
 .depidl: $(wildcard *.idl)
 	@echo "" > $@
@@ -50,7 +52,7 @@ libparallel_idl.so: $(patsubst %.idl, %SK.o, $(IDL_FILES))
 include .depidl
 
 clean:
-	rm -f  *.o *.d *.hh .depidl
+	rm -f  *.o *.d *.hh *.cc .depidl
 
 
 #--------------------------------------------------------------------------------------

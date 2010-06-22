@@ -67,10 +67,11 @@ namespace parallel
     if ( CORBA::is_nil( theTask ) )
       return;
 
-    CORBA::String_var anIOR = this->ORB->object_to_string( theTask );
-    if ( this->tasks.insert( anIOR.in() ).second )
+    TaskBase::_duplicate( theTask );
+
+    if ( this->tasks.insert( TTaskBasePtr( theTask ) ).second )
     {
-      std::cout << "TaskManager_i::register_task : " << this << " : '" << anIOR.in() << "'" << std::endl;
+      std::cout << "TaskManager_i::register_task : " << this << std::endl;
     }
   }
     
@@ -88,16 +89,9 @@ namespace parallel
     TTaskSet::const_iterator anEnd = this->tasks.end();
     for ( ; anIter != anEnd; anIter++ )
     {
-      const std::string& anIOR = *anIter;
+      const TTaskBasePtr& aTaskBase = *anIter;
       
-      CORBA::Object_var anObject = this->ORB->string_to_object( anIOR.c_str() );
-      
-      TaskBase_var aTask = TaskBase::_narrow( anObject.in() );
-
-      if ( !CORBA::is_nil( aTask.in() ) )
-      {
-        aTask->invoke( aSelf );
-      }
+      aTaskBase->invoke( aSelf );
     }
   }
     

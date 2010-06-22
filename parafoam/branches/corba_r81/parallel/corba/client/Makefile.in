@@ -36,7 +36,7 @@ CPPFLAGS=@OMNIORB_INCLUDES@ -I@abs_top_builddir@ -I@abs_top_builddir@/parallel/c
 CXXFLAGS= @OMNIORB_CXXFLAGS@
 
 %.o: %.cc
-	gcc -x c++ $(CPPFLAGS) $(CXXFLAGS) -fPIC -c -MMD $<
+	gcc -g -x c++ $(CPPFLAGS) $(CXXFLAGS) -fPIC -c -MMD $<
 
 include $(wildcard *.d)
 

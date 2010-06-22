@@ -34,6 +34,10 @@ module parallel
 
     void Release();
 
+    boolean equal( in GenericObject theArg );
+
+    boolean less( in GenericObject theArg );
+
     string IOR();
   };
 };

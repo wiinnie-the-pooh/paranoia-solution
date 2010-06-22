@@ -37,7 +37,7 @@ namespace parallel
     : ref_counter( 1 )
     , ORB( theORB )
   {
-    cout << "GenericObject_i::GenericObject_i : " << this << endl;
+    cout << "GenericObject_i::GenericObject_i[ " << this << " ]" << endl;
 
     if( CORBA::is_nil( thePOA ) )
       this->POA = PortableServer::ServantBase::_default_POA();
@@ -49,7 +49,7 @@ namespace parallel
   //---------------------------------------------------------------------------
   GenericObject_i::~GenericObject_i()
   {
-    cout << "GenericObject_i::~GenericObject_i() : " << this << endl;
+    cout << "GenericObject_i::~GenericObject_i[ " << this << " ]" << endl;
   }
 
 
@@ -63,6 +63,8 @@ namespace parallel
   //---------------------------------------------------------------------------
   void GenericObject_i::AddRef()
   {
+    cout << "GenericObject_i::AddRef[ " << this << " ] : " << this->ref_counter << endl;
+
     ++this->ref_counter;
   }
 
@@ -70,6 +72,8 @@ namespace parallel
   //---------------------------------------------------------------------------
   void GenericObject_i::Release()
   {
+    cout << "GenericObject_i::Release[ " << this << " ] : " << this->ref_counter << endl;
+
     if ( --this->ref_counter <= 0 ) 
     {
       PortableServer::ObjectId_var anObjectId = this->POA->servant_to_id( this );
@@ -82,9 +86,36 @@ namespace parallel
 
 
   //---------------------------------------------------------------------------
+  CORBA::Boolean GenericObject_i::equal( GenericObject_ptr theArg )
+  {
+    if ( CORBA::is_nil( theArg ) )
+      return false;
+
+    CORBA::String_var anArg = theArg->IOR();
+    CORBA::String_var aSelf = this->IOR();
+
+    return strcmp( aSelf.in(), anArg.in() ) == 0;
+  }
+
+
+  //---------------------------------------------------------------------------
+  CORBA::Boolean GenericObject_i::less( GenericObject_ptr theArg )
+  {
+    if ( CORBA::is_nil( theArg ) )
+      return false;
+
+    CORBA::String_var anArg = theArg->IOR();
+    CORBA::String_var aSelf = this->IOR();
+
+    return strcmp( aSelf.in(), anArg.in() ) < 0;
+  }
+
+
+  //---------------------------------------------------------------------------
   char* GenericObject_i::IOR()
   {
     CORBA::Object_var anObject = this->_this();
+
     CORBA::String_var anIOR = this->ORB->object_to_string( anObject );
 
     return anIOR._retn();

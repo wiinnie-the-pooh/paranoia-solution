@@ -30,8 +30,9 @@
 
 #include "parallel/corba/server/SObjectBase.hh"
 
+#include "parallel/corba/CORBASmartPtr.hh"
+
 #include <set>
-#include <string>
 
 
 //---------------------------------------------------------------------------
@@ -57,7 +58,8 @@ namespace parallel
     CORBA::Boolean is_run();
 
   protected:
-    typedef std::set< std::string > TTaskSet;
+    typedef corba::SmartPtrDef< TaskBase_var >::type TTaskBasePtr;
+    typedef std::set< TTaskBasePtr > TTaskSet;
     TTaskSet tasks;
 
     bool m_is_run;

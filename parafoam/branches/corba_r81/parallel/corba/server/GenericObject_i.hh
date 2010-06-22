@@ -48,6 +48,10 @@ namespace parallel
 
     virtual void Release();
 
+    CORBA::Boolean equal( GenericObject_ptr theArg );
+
+    CORBA::Boolean less( GenericObject_ptr theArg );
+
     char* IOR();
 
   protected:

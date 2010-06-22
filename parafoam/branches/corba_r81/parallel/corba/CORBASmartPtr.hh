@@ -52,12 +52,12 @@ namespace parallel
       // The storage policy doesn't initialize the stored pointer
       //     which will be initialized by the OwnershipPolicy's Clone fn
       CORBAStorage( const CORBAStorage& ) 
-	: pointee_( 0 )
+	: pointee_( Default() )
       {}
 
       template < class U >
       CORBAStorage( const CORBAStorage< U >& ) 
-	: pointee_( 0 )
+	: pointee_( Default() )
       {}
 
       CORBAStorage( const StoredType& p ) 
@@ -71,7 +71,7 @@ namespace parallel
 
       ReferenceType operator*() const 
       {
-	return *pointee_; 
+	return pointee_; 
       }
 
       void Swap( CORBAStorage& rhs )
@@ -103,7 +103,7 @@ namespace parallel
       // Default value to initialize the pointer
       static StoredType Default()
       { 
-	return StoredType::_nil(); 
+	return StoredType(); 
       }
 
     private:
@@ -133,17 +133,51 @@ namespace parallel
 
 
     //---------------------------------------------------------------------------
+    template <class P>
+    struct CORBARefCounted
+    {
+      CORBARefCounted()
+      {}
+
+      template < class U >
+      CORBARefCounted( const CORBARefCounted< U >& )
+      {}
+
+      static P Clone( const P& val )
+      {
+	if ( ! CORBA::is_nil( val ) )
+	  val->AddRef();
+
+	return val;
+      }
+
+      static bool Release( const P& val )
+      {
+	if ( ! CORBA::is_nil( val ) )
+	  val->Release();
+
+	return false;
+      }
+
+      enum { destructiveCopy = false };
+      
+      static void Swap(CORBARefCounted&)
+      {}
+    };
+
+
+    //---------------------------------------------------------------------------
     template< class P >
     struct CORBAComparision
     {
       static P Equal( const P& theLeft, const P& theRight )
       {
-        return strcmp( theLeft->IOR().in(), theRight->IOR().in() ) == 0;
+        return theLeft->equal( theRight );
       }
       
       static bool Less( const P& theLeft, const P& theRight )
       {
-        return strcmp( theLeft->IOR().in(), theRight->IOR().in() ) < 0;
+        return theLeft->less( theRight );
       }
     };
 
@@ -152,7 +186,7 @@ namespace parallel
     template
     <
       typename T,
-      template <class> class OwnershipPolicy = Loki::COMRefCounted,
+      template <class> class OwnershipPolicy = CORBARefCounted,
       class ConversionPolicy = Loki::DisallowConversion,
       template <class> class CheckingPolicy = Loki::AssertCheck,
       template <class> class StoragePolicy = CORBAStorage,

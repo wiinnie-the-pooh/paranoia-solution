@@ -33,22 +33,6 @@
 namespace parallel
 {
   //---------------------------------------------------------------------------
-  template< class P >
-  struct CORBAComparision
-  {
-    static P Equal( const P& theLeft, const P& theRight )
-    {
-      return strcmp( theLeft->str().in(), theRight->str().in() ) == 0;
-    }
-
-    static bool Less( const P& theLeft, const P& theRight )
-    {
-      return strcmp( theLeft->str().in(), theRight->str().in() ) < 0;
-    }
-  };
-
-
-  //---------------------------------------------------------------------------
   template
   <
     typename T,
@@ -136,6 +120,18 @@ namespace parallel
     SmartPointer( Loki::RefToValue< SmartPointer > rhs )
       : TSmartPtr( rhs )
     {}
+
+
+    //---------------------------------------------------------------------------
+    typedef typename ConstnessPolicy< typename SP::PointerType >::Type ConstPointerType;
+
+    ConstPointerType operator -> () const
+    {
+      typedef CheckingPolicy< typename StoragePolicy< T >::StoredType > KP;
+      KP::OnDereference( GetImplRef( *this ) );
+      
+      return SP::operator->();
+    }
 
 
     //---------------------------------------------------------------------------
