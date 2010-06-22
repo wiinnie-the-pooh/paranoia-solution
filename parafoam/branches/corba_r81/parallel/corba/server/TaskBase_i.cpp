@@ -66,6 +66,18 @@ namespace parallel
   {
     cout << "TaskBase_i::get_input_port[ " << this << " ]" << endl;
 
+    TPorts::const_iterator anIter = this->ports.begin();
+    TPorts::const_iterator anEnd = this->ports.end();
+    for ( int anId = 0; anIter != anEnd; anIter++, anId++ )
+    {
+      const TPortPtr& a_port = *anIter;
+
+      CORBA::String_var a_name = a_port->name();
+      
+      if ( strcmp( a_name.in(), theName ) == 0 )
+	return Port::_duplicate( a_port );
+    }
+
     return Port::_nil();
   }
     
