@@ -66,8 +66,8 @@ namespace parallel
   {
     cout << "TaskBase_i::get_input_port[ " << this << " ]" << endl;
 
-    TPorts::const_iterator anIter = this->ports.begin();
-    TPorts::const_iterator anEnd = this->ports.end();
+    TPorts::const_iterator anIter = this->m_input_ports.begin();
+    TPorts::const_iterator anEnd = this->m_input_ports.end();
     for ( int anId = 0; anIter != anEnd; anIter++, anId++ )
     {
       const TPortPtr& a_port = *anIter;
@@ -88,10 +88,10 @@ namespace parallel
     cout << "TaskBase_i::get_input_ports[ " << this << " ]" << endl;
 
     Ports& a_ports = * new Ports;
-    a_ports.length( ports.size() );
+    a_ports.length( this->m_input_ports.size() );
 
-    TPorts::const_iterator anIter = this->ports.begin();
-    TPorts::const_iterator anEnd = this->ports.end();
+    TPorts::const_iterator anIter = this->m_input_ports.begin();
+    TPorts::const_iterator anEnd = this->m_input_ports.end();
     for ( int anId = 0; anIter != anEnd; anIter++, anId++ )
     {
       const TPortPtr& a_port = *anIter;
