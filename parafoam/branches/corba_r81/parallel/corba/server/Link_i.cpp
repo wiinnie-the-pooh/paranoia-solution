@@ -78,8 +78,8 @@ namespace parallel
       this->m_data_holders.pop();
     }
       
-    // "publish" could be called many times before first "retrive" will be called
-    // we should be able read all the available data
+    // "Publish" could be called many times before first "retrive" will be called
+    // So, we should be able "publish" all the available data
     if ( !this->m_data_holders.empty() )
       this->m_read_mutex.unlock();
       
