@@ -26,7 +26,7 @@
 
 
 //---------------------------------------------------------------------------
-#include "GenericObject.idl"
+#include "TransientObject.idl"
 
 
 //---------------------------------------------------------------------------
@@ -34,7 +34,7 @@ module parallel
 {
   interface DataHolderBase;
 
-  interface Link : GenericObject
+  interface Link : TransientObject
   {
     void publish( in DataHolderBase theDataHolder );
 

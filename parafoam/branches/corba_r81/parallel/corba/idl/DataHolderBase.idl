@@ -26,13 +26,13 @@
 
 
 //---------------------------------------------------------------------------
-#include "GenericObject.idl"
+#include "TransientObject.idl"
 
 
 //---------------------------------------------------------------------------
 module parallel
 {
-  interface DataHolderBase : GenericObject {};
+  interface DataHolderBase : TransientObject {};
 };
 
 

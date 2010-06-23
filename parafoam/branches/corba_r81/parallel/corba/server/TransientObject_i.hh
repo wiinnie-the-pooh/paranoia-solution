@@ -21,25 +21,25 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef corba_server_GenericObject_i_hh
-#define corba_server_GenericObject_i_hh
+#ifndef corba_server_TransientObject_i_hh
+#define corba_server_TransientObject_i_hh
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/idl/GenericObject.hh"
+#include "parallel/corba/idl/TransientObject.hh"
 
 
 //---------------------------------------------------------------------------
 namespace parallel 
 {
   //---------------------------------------------------------------------------
-  struct GenericObject_i : virtual POA_parallel::GenericObject, 
+  struct TransientObject_i : virtual POA_parallel::TransientObject, 
                            virtual PortableServer::ServantBase
   {
-    GenericObject_i( const CORBA::ORB_var& theORB, 
+    TransientObject_i( const CORBA::ORB_var& theORB, 
                      PortableServer::POA_ptr thePOA = PortableServer::POA::_nil() );
 
-    virtual ~GenericObject_i();
+    virtual ~TransientObject_i();
 
     // The function is used implicetly in "_this" function
     virtual PortableServer::POA_ptr _default_POA();
@@ -48,9 +48,9 @@ namespace parallel
 
     virtual void Release();
 
-    CORBA::Boolean equal( GenericObject_ptr theArg );
+    CORBA::Boolean equal( TransientObject_ptr theArg );
 
-    CORBA::Boolean less( GenericObject_ptr theArg );
+    CORBA::Boolean less( TransientObject_ptr theArg );
 
     char* IOR();
 

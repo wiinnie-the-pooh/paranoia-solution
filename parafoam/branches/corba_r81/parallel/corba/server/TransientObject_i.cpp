@@ -21,7 +21,7 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/server/GenericObject_i.hh"
+#include "parallel/corba/server/TransientObject_i.hh"
 
 #include <iostream>
 
@@ -32,12 +32,12 @@ using namespace std;
 namespace parallel
 {
   //---------------------------------------------------------------------------
-  GenericObject_i::GenericObject_i( const CORBA::ORB_var& theORB, 
+  TransientObject_i::TransientObject_i( const CORBA::ORB_var& theORB, 
                                     PortableServer::POA_ptr thePOA )
     : ref_counter( 1 )
     , ORB( theORB )
   {
-    cout << "GenericObject_i::GenericObject_i[ " << this << " ]" << endl;
+    cout << "TransientObject_i::TransientObject_i[ " << this << " ]" << endl;
 
     if( CORBA::is_nil( thePOA ) )
       this->POA = PortableServer::ServantBase::_default_POA();
@@ -47,32 +47,32 @@ namespace parallel
   
 
   //---------------------------------------------------------------------------
-  GenericObject_i::~GenericObject_i()
+  TransientObject_i::~TransientObject_i()
   {
-    cout << "GenericObject_i::~GenericObject_i[ " << this << " ]" << endl;
+    cout << "TransientObject_i::~TransientObject_i[ " << this << " ]" << endl;
   }
 
 
   //---------------------------------------------------------------------------
-  PortableServer::POA_ptr GenericObject_i::_default_POA()
+  PortableServer::POA_ptr TransientObject_i::_default_POA()
   {
     return PortableServer::POA::_duplicate( this->POA );
   }
 
 
   //---------------------------------------------------------------------------
-  void GenericObject_i::AddRef()
+  void TransientObject_i::AddRef()
   {
-    cout << "GenericObject_i::AddRef[ " << this << " ] : " << this->ref_counter << endl;
+    cout << "TransientObject_i::AddRef[ " << this << " ] : " << this->ref_counter << endl;
 
     ++this->ref_counter;
   }
 
 
   //---------------------------------------------------------------------------
-  void GenericObject_i::Release()
+  void TransientObject_i::Release()
   {
-    cout << "GenericObject_i::Release[ " << this << " ] : " << this->ref_counter << endl;
+    cout << "TransientObject_i::Release[ " << this << " ] : " << this->ref_counter << endl;
 
     if ( --this->ref_counter <= 0 ) 
     {
@@ -86,7 +86,7 @@ namespace parallel
 
 
   //---------------------------------------------------------------------------
-  CORBA::Boolean GenericObject_i::equal( GenericObject_ptr theArg )
+  CORBA::Boolean TransientObject_i::equal( TransientObject_ptr theArg )
   {
     if ( CORBA::is_nil( theArg ) )
       return false;
@@ -99,7 +99,7 @@ namespace parallel
 
 
   //---------------------------------------------------------------------------
-  CORBA::Boolean GenericObject_i::less( GenericObject_ptr theArg )
+  CORBA::Boolean TransientObject_i::less( TransientObject_ptr theArg )
   {
     if ( CORBA::is_nil( theArg ) )
       return false;
@@ -112,7 +112,7 @@ namespace parallel
 
 
   //---------------------------------------------------------------------------
-  char* GenericObject_i::IOR()
+  char* TransientObject_i::IOR()
   {
     CORBA::Object_var anObject = this->_this();
 

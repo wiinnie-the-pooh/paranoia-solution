@@ -28,15 +28,15 @@
 //---------------------------------------------------------------------------
 module parallel
 {
-  interface GenericObject
+  interface TransientObject
   {
     void AddRef();
 
     void Release();
 
-    boolean equal( in GenericObject theArg );
+    boolean equal( in TransientObject theArg );
 
-    boolean less( in GenericObject theArg );
+    boolean less( in TransientObject theArg );
 
     string IOR();
   };

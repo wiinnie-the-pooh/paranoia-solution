@@ -28,7 +28,7 @@
 //---------------------------------------------------------------------------
 #include "parallel/corba/idl/TaskBase.hh"
 
-#include "parallel/corba/server/GenericObject_i.hh"
+#include "parallel/corba/server/TransientObject_i.hh"
 
 #include "parallel/corba/server/PortBase_i.hh"
 
@@ -42,7 +42,7 @@ namespace parallel
 {
   //---------------------------------------------------------------------------
   struct TaskBase_i : virtual POA_parallel::TaskBase, 
-                      virtual GenericObject_i
+                      virtual TransientObject_i
   {
     TaskBase_i( const CORBA::ORB_var& theORB, 
                 const PortableServer::POA_var& thePOA );

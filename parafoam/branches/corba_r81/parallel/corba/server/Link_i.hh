@@ -28,7 +28,7 @@
 //---------------------------------------------------------------------------
 #include "parallel/corba/idl/Link.hh"
 
-#include "parallel/corba/server/GenericObject_i.hh"
+#include "parallel/corba/server/TransientObject_i.hh"
 
 #include "parallel/corba/CORBASmartPtr.hh"
 
@@ -41,7 +41,7 @@ namespace parallel
 {
   //---------------------------------------------------------------------------
   struct Link_i : virtual POA_parallel::Link, 
-                  virtual GenericObject_i
+                  virtual TransientObject_i
   {
     Link_i( const CORBA::ORB_var& theORB, 
             const PortableServer::POA_var& thePOA );

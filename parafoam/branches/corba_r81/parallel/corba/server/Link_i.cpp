@@ -36,7 +36,7 @@ namespace parallel
   //---------------------------------------------------------------------------
   Link_i::Link_i( const CORBA::ORB_var& theORB, 
                   const PortableServer::POA_var& thePOA )
-    : GenericObject_i( theORB, thePOA )
+    : TransientObject_i( theORB, thePOA )
   {
     cout << "Link_i::Link_i[ " << this << " ]" << endl;
 

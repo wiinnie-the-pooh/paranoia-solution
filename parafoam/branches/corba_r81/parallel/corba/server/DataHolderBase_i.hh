@@ -28,7 +28,7 @@
 //---------------------------------------------------------------------------
 #include "parallel/corba/idl/DataHolderBase.hh"
 
-#include "parallel/corba/server/GenericObject_i.hh"
+#include "parallel/corba/server/TransientObject_i.hh"
 
 
 //---------------------------------------------------------------------------
@@ -36,7 +36,7 @@ namespace parallel
 {
   //---------------------------------------------------------------------------
   struct DataHolderBase_i : virtual POA_parallel::DataHolderBase, 
-                            virtual GenericObject_i
+                            virtual TransientObject_i
   {
     DataHolderBase_i( const CORBA::ORB_var& theORB, 
                       const PortableServer::POA_var& thePOA );
