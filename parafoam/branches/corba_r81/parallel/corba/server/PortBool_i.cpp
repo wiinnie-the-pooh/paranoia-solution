@@ -61,6 +61,45 @@ namespace parallel
 
 
   //---------------------------------------------------------------------------
+  DataHolderBool_i::DataHolderBool_i( bool theValue,
+				      const CORBA::ORB_var& theORB, 
+				      const PortableServer::POA_var& thePOA )
+    : TransientObject_i( theORB, thePOA )
+    , DataHolderBase_i( theORB, thePOA )
+    , m_value( theValue )
+  {
+    cout << "DataHolderBool_i::DataHolderBool_i[ " << this << " ]" << endl;
+  }
+
+
+  //---------------------------------------------------------------------------
+  DataHolderBool_ptr DataHolderBool_i::create( bool theValue,
+					       const CORBA::ORB_var& theORB, 
+					       const PortableServer::POA_var& thePOA )
+  {
+    DataHolderBool_i* an_item( new DataHolderBool_i( theValue, theORB, thePOA ) );
+    
+    return an_item->_this();
+  }
+
+
+  //---------------------------------------------------------------------------
+  DataHolderBool_i::~DataHolderBool_i()
+  {
+    cout << "DataHolderBool_i::~DataHolderBool_i[ " << this << " ]" << endl;
+  }
+
+
+  //---------------------------------------------------------------------------
+  CORBA::Boolean DataHolderBool_i::value()
+  {
+    cout << "DataHolderBool_i::value[ " << this << " ]" << endl;
+
+    return this->m_value;
+  }
+
+
+  //---------------------------------------------------------------------------
 }
 
 

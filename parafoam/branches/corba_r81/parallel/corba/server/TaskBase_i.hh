@@ -95,13 +95,33 @@ namespace parallel
     bool define_input_port( const TPortPtr& thePort );
     bool define_output_port( const TPortPtr& thePort );
       
-    void init_port( const std::string& thePortName, const TDataHolderPtr& theDataHolder );
+    void init_port( const std::string& thePortName, const DataHolderBase_var& theDataHolder );
 
-    void publish( const std::string& thePortName, const TDataHolderPtr& theDataHolder );
+    void publish( const std::string& thePortName, const DataHolderBase_var& theDataHolder );
 
     TDataHolderPtr wait_for( const std::string& thePortName );
 
-  protected:
+    template< class DataHolderType >
+    typename corba::SmartPtrDef< typename DataHolderType::var_type >::type 
+    retrieve( const std::string& theName )
+    {
+      TDataHolderPtr aDataHolderBase = this->wait_for( theName );
+      if ( !aDataHolderBase )
+	return DataHolderType::_nil();
+        
+      typedef typename DataHolderType::var_type DataHolderVarType;
+      typedef typename corba::SmartPtrDef< DataHolderVarType >::type DataHolderPtrType;
+
+      DataHolderVarType aDataHolder( DataHolderType::_narrow( *aDataHolder ) );
+      if ( CORBA::is_nil( aDataHolder ) )
+	return DataHolderType::_nil();
+      
+      aDataHolder->AddRef();
+
+      return DataHolderPtrType( aDataHolder );
+    }
+
+ protected:
     TInputPorts m_input_ports;
     TOutputPorts m_output_ports;
   };

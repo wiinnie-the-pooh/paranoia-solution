@@ -76,6 +76,7 @@ namespace parallel
     {
       aDataHolder = this->m_data_holders.front();
       this->m_data_holders.pop();
+      aDataHolder->AddRef();
     }
       
     // "Publish" could be called many times before first "retrieve" will be called

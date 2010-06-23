@@ -46,7 +46,7 @@ namespace parallel
     ~TaskA_i();
 
   protected:
-    virtual CORBA::Boolean step();
+    CORBA::Boolean step();
   };
 
 
@@ -79,6 +79,8 @@ namespace parallel
   //---------------------------------------------------------------------------
   CORBA::Boolean TaskA_i::step()
   {
+    this->publish( "x", DataHolderBool_i::create( false, this->ORB, this->POA ) );
+
     cout << "TaskA_i::step[ " << this << " ]" << endl;
     
     return false;

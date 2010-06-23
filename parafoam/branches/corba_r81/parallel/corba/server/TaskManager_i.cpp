@@ -43,9 +43,9 @@ namespace
   Link_ptr create_link( const CORBA::ORB_var& theORB, 
                         const PortableServer::POA_var& thePOA )
   {
-    Link_i* a_link( new Link_i( theORB, thePOA ) );
+    Link_i* an_item( new Link_i( theORB, thePOA ) );
 
-    return a_link->_this();
+    return an_item->_this();
   }
 
 

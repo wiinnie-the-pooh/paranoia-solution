@@ -46,7 +46,9 @@ namespace parallel
     ~TaskB_i();
 
   protected:
-    virtual CORBA::Boolean step();
+    void init();
+
+    CORBA::Boolean step();
   };
 
 
@@ -77,11 +79,28 @@ namespace parallel
 
 
   //---------------------------------------------------------------------------
+  void TaskB_i::init()
+  {
+    this->init_port( "y", DataHolderBool_i::create( true, this->ORB, this->POA ) );
+    
+    cout << "TaskB_i::init[ " << this << " ]" << endl;
+  }
+    
+    
+  //---------------------------------------------------------------------------
   CORBA::Boolean TaskB_i::step()
   {
-    cout << "TaskB_i::step[ " << this << " ]" << endl;
+    //typedef corba::SmartPtrDef< DataHolderBool_var >::type DataHolderBoolPtr;
+    //DataHolderBoolPtr aDataHolder = this->retrieve< DataHolderBool >( "y" );
+
+    TDataHolderPtr aDataHolder = this->wait_for( "y" );
+
+    if ( !CORBA::is_nil( *aDataHolder ) )
+    {
+      cout << "TaskB_i::step[ " << this << " ]" << endl;
+    }
     
-    return false;
+    return true;
   }
     
     

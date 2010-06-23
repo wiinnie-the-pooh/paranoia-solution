@@ -30,6 +30,8 @@
 
 #include "parallel/corba/server/PortBase_i.hh"
 
+#include "parallel/corba/server/DataHolderBase_i.hh"
+
 
 //---------------------------------------------------------------------------
 namespace parallel 
@@ -45,6 +47,27 @@ namespace parallel
     ~PortBool_i();
 
     CORBA::Boolean is_compatible( PortBase_ptr theArg );
+  };
+
+
+  //---------------------------------------------------------------------------
+  struct DataHolderBool_i : virtual POA_parallel::DataHolderBool, 
+			    virtual DataHolderBase_i
+  {
+    DataHolderBool_i( bool theValue,
+		      const CORBA::ORB_var& theORB, 
+		      const PortableServer::POA_var& thePOA );
+
+    static DataHolderBool_ptr create( bool theValue,
+				      const CORBA::ORB_var& theORB, 
+				      const PortableServer::POA_var& thePOA );
+
+    ~DataHolderBool_i();
+
+    CORBA::Boolean value();
+
+  protected:
+    bool m_value;
   };
 
 

@@ -28,11 +28,18 @@
 //---------------------------------------------------------------------------
 #include "PortBase.idl"
 
+#include "DataHolderBase.idl"
+
 
 //---------------------------------------------------------------------------
 module parallel
 {
   interface PortBool : PortBase {};
+
+  interface DataHolderBool : DataHolderBase 
+  {
+    boolean value();
+  };
 };
 
 

@@ -265,7 +265,7 @@ namespace parallel
 
     
   //---------------------------------------------------------------------------
-  void TaskBase_i::init_port( const std::string& thePortName, const TDataHolderPtr& theDataHolder )
+  void TaskBase_i::init_port( const std::string& thePortName, const DataHolderBase_var& theDataHolder )
   {
     ::TName2Port aName2Port;
     ::_get_input_ports_( this->m_input_ports, aName2Port );
@@ -278,7 +278,7 @@ namespace parallel
     TDataFactrory& aDataFactrory = this->m_input_ports[ aPort ];
     if ( const TLinkPtr& aLink = aDataFactrory.first )
     {
-      aLink->publish( *theDataHolder );
+      aLink->publish( theDataHolder );
     }
     else
     {
@@ -286,16 +286,16 @@ namespace parallel
       // this "theDataHolder" value will be used by default during 
       // the simulation time
       TDataHolderPtr& aDataHolderPtr = aDataFactrory.second;
-      aDataHolderPtr = theDataHolder;
+      aDataHolderPtr = TDataHolderPtr( theDataHolder );
     }
   }
     
     
   //---------------------------------------------------------------------------
-  void TaskBase_i::publish( const std::string& thePortName, const TDataHolderPtr& theDataHolder )
+  void TaskBase_i::publish( const std::string& thePortName, const DataHolderBase_var& theDataHolder )
   {
     ::TName2Port aName2Port;
-    ::_get_input_ports_( this->m_input_ports, aName2Port );
+    ::_get_output_ports_( this->m_output_ports, aName2Port );
     
     TName2Port::const_iterator anIter = aName2Port.find( thePortName );
     if ( anIter == aName2Port.end() )
@@ -308,7 +308,7 @@ namespace parallel
       TLinks::const_iterator anEnd = a_links.end();
       for ( ; anIter != anEnd; anIter++ ) {
         const TLinkPtr& a_link = *anIter;
-        a_link->publish( *theDataHolder );
+        a_link->publish( theDataHolder );
       }
     }
   }
