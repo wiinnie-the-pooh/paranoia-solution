@@ -66,7 +66,7 @@ namespace parallel
     
     
   //---------------------------------------------------------------------------
-  DataHolderBase_ptr Link_i::retrive()
+  DataHolderBase_ptr Link_i::retrieve()
   {
     this->m_read_mutex.lock();
     this->m_list_mutex.lock();
@@ -78,7 +78,7 @@ namespace parallel
       this->m_data_holders.pop();
     }
       
-    // "Publish" could be called many times before first "retrive" will be called
+    // "Publish" could be called many times before first "retrieve" will be called
     // So, we should be able "publish" all the available data
     if ( !this->m_data_holders.empty() )
       this->m_read_mutex.unlock();

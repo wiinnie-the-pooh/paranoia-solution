@@ -38,7 +38,7 @@ module parallel
   {
     void publish( in DataHolderBase theDataHolder );
 
-    DataHolderBase retrive();
+    DataHolderBase retrieve();
   };
 };
 

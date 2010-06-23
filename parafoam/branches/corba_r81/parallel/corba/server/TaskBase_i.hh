@@ -96,7 +96,10 @@ namespace parallel
     bool define_output_port( const TPortPtr& thePort );
       
     void init_port( const std::string& thePortName, const TDataHolderPtr& theDataHolder );
+
     void publish( const std::string& thePortName, const TDataHolderPtr& theDataHolder );
+
+    TDataHolderPtr wait_for( const std::string& thePortName );
 
   protected:
     TInputPorts m_input_ports;

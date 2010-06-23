@@ -314,6 +314,32 @@ namespace parallel
   }
       
       
+    
+    
+  //---------------------------------------------------------------------------
+  TaskBase_i::TDataHolderPtr TaskBase_i::wait_for( const std::string& thePortName )
+  {
+    ::TName2Port aName2Port;
+    ::_get_input_ports_( this->m_input_ports, aName2Port );
+    
+    TName2Port::const_iterator anIter = aName2Port.find( thePortName );
+    if ( anIter == aName2Port.end() )
+      return TDataHolderPtr();
+
+    const TPortPtr& aPort = anIter->second;
+    TDataFactrory& aDataFactrory = this->m_input_ports[ aPort ];
+    if ( const TLinkPtr& aLink = aDataFactrory.first )
+    {
+      return TDataHolderPtr( aLink->retrieve() );
+    }
+    else
+    {
+      const TDataHolderPtr& aDataHolder = aDataFactrory.second;
+      return aDataHolder;
+    }
+  }
+      
+      
   //---------------------------------------------------------------------------
 }
 

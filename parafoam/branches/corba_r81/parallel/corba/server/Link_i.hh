@@ -50,7 +50,7 @@ namespace parallel
 
     void publish( DataHolderBase_ptr theDataHolder );
 
-    DataHolderBase_ptr retrive();
+    DataHolderBase_ptr retrieve();
 
   protected:
     typedef corba::SmartPtrDef< DataHolderBase_var >::type TDataHolderPtr;
