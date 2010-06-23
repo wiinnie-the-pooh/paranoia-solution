@@ -90,17 +90,12 @@ namespace parallel
   //---------------------------------------------------------------------------
   CORBA::Boolean TaskB_i::step()
   {
-    //typedef corba::SmartPtrDef< DataHolderBool_var >::type DataHolderBoolPtr;
-    //DataHolderBoolPtr aDataHolder = this->retrieve< DataHolderBool >( "y" );
+    typedef corba::SmartPtrDef< DataHolderBool_var >::type DataHolderBoolPtr;
+    DataHolderBoolPtr aDataHolder = this->retrieve< DataHolderBool, DataHolderBool_var >( "y" );
 
-    TDataHolderPtr aDataHolder = this->wait_for( "y" );
-
-    if ( !CORBA::is_nil( *aDataHolder ) )
-    {
-      cout << "TaskB_i::step[ " << this << " ]" << endl;
-    }
+    cout << "TaskB_i::step[ " << this << " ]" << endl;
     
-    return true;
+    return aDataHolder->value();
   }
     
     

@@ -101,20 +101,19 @@ namespace parallel
 
     TDataHolderPtr wait_for( const std::string& thePortName );
 
-    template< class DataHolderType >
-    typename corba::SmartPtrDef< typename DataHolderType::var_type >::type 
+    template< class DataHolderType, class DataHolderVarType >
+    typename corba::SmartPtrDef< DataHolderVarType >::type 
     retrieve( const std::string& theName )
     {
-      TDataHolderPtr aDataHolderBase = this->wait_for( theName );
-      if ( !aDataHolderBase )
-	return DataHolderType::_nil();
-        
-      typedef typename DataHolderType::var_type DataHolderVarType;
       typedef typename corba::SmartPtrDef< DataHolderVarType >::type DataHolderPtrType;
 
-      DataHolderVarType aDataHolder( DataHolderType::_narrow( *aDataHolder ) );
+      TDataHolderPtr aDataHolderBase = this->wait_for( theName );
+      if ( !aDataHolderBase )
+	return DataHolderPtrType();
+        
+      DataHolderVarType aDataHolder( DataHolderType::_narrow( *aDataHolderBase ) );
       if ( CORBA::is_nil( aDataHolder ) )
-	return DataHolderType::_nil();
+	return DataHolderPtrType();
       
       aDataHolder->AddRef();
 
