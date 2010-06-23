@@ -59,6 +59,8 @@ namespace parallel
     TDataHolderPtr aDataHolder( DataHolderBase::_duplicate( theDataHolder ) );
 
     this->m_data_holders.push( aDataHolder );
+
+    cout << "Link_i::publish[ " << this << " ]" << endl;
       
     this->m_list_mutex.unlock();
     this->m_read_mutex.unlock();
@@ -77,6 +79,8 @@ namespace parallel
       aDataHolder = this->m_data_holders.front();
       this->m_data_holders.pop();
       aDataHolder->AddRef();
+
+      cout << "Link_i::retrieve[ " << this << " ]" << endl;
     }
       
     // "Publish" could be called many times before first "retrieve" will be called

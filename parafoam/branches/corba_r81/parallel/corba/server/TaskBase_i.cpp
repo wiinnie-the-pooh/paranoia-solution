@@ -276,7 +276,8 @@ namespace parallel
 
     const TPortPtr& aPort = anIter->second;
     TDataFactrory& aDataFactrory = this->m_input_ports[ aPort ];
-    if ( const TLinkPtr& aLink = aDataFactrory.first )
+    const TLinkPtr& aLink = aDataFactrory.first;
+    if ( !CORBA::is_nil( *aLink ) )
     {
       aLink->publish( theDataHolder );
     }
@@ -328,7 +329,8 @@ namespace parallel
 
     const TPortPtr& aPort = anIter->second;
     TDataFactrory& aDataFactrory = this->m_input_ports[ aPort ];
-    if ( const TLinkPtr& aLink = aDataFactrory.first )
+    const TLinkPtr& aLink = aDataFactrory.first;
+    if ( !CORBA::is_nil( *aLink ) )
     {
       return TDataHolderPtr( aLink->retrieve() );
     }
