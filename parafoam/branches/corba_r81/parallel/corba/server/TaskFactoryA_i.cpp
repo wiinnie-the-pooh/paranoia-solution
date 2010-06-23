@@ -25,6 +25,10 @@
 
 #include "parallel/corba/server/TaskBase_i.hh"
 
+#include "parallel/corba/server/PortBool_i.hh"
+
+#include "parallel/corba/idl/Link.hh"
+
 #include <iostream>
 
 using namespace std;
@@ -59,21 +63,23 @@ namespace parallel
     : GenericObject_i( theORB, thePOA )
     , TaskBase_i( theORB, thePOA )
   {
-    cout << "TaskA_i::TaskA_i : " << this << endl;
+    cout << "TaskA_i::TaskA_i[ " << this << " ]" << endl;
+
+    this->m_output_ports[ new PortBool_i( "x", this->ORB, this->POA ) ] = TLinkPtr();
   }
 
 
   //---------------------------------------------------------------------------
   TaskA_i::~TaskA_i()
   {
-    cout << "TaskA_i::~TaskA_i() : " << this << endl;
+    cout << "TaskA_i::~TaskA_i[ " << this << " ]" << endl;
   }
 
 
   //---------------------------------------------------------------------------
   CORBA::Boolean TaskA_i::step()
   {
-    cout << "TaskA_i::step() : " << this << endl;
+    cout << "TaskA_i::step[ " << this << " ]" << endl;
     
     return false;
   }
@@ -91,21 +97,21 @@ namespace parallel
                                   const PortableServer::POA_var& thePOA )
     : SObjectBase( theORB, thePOA )
   {
-    cout << "TaskFactoryA_i::TaskFactoryA_i : " << this << endl;
+    cout << "TaskFactoryA_i::TaskFactoryA_i[ " << this << " ]" << endl;
   }
 
 
   //---------------------------------------------------------------------------
   TaskFactoryA_i::~TaskFactoryA_i()
   {
-    cout << "TaskFactoryA_i::~TaskFactoryA_i() : " << this << endl;
+    cout << "TaskFactoryA_i::~TaskFactoryA_i[ " << this << " ]" << endl;
   }
 
 
   //---------------------------------------------------------------------------
   TaskA_ptr TaskFactoryA_i::create()
   {
-    std::cout << "TaskFactoryA_i::create()" << std::endl;
+    cout << "TaskFactoryA_i::create[ " << this << " ]" << endl;
     
     TaskA_i* a_task = new TaskA_i( this->ORB, this->POA );
 

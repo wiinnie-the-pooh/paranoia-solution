@@ -44,13 +44,6 @@ namespace parallel
   struct TaskBase_i : virtual POA_parallel::TaskBase, 
                       virtual GenericObject_i
   {
-    typedef PortBase_i* TPortPtr;
-
-    typedef corba::SmartPtrDef< Link_var >::type TLinkPtr;
-
-    typedef std::map< TPortPtr, TLinkPtr > TPorts;
-
-    //---------------------------------------------------------------------------
     TaskBase_i( const CORBA::ORB_var& theORB, 
                 const PortableServer::POA_var& thePOA );
 
@@ -83,6 +76,11 @@ namespace parallel
     virtual CORBA::Boolean step() = 0;
 
     virtual void destroy();
+
+  public:
+    typedef PortBase_i* TPortPtr;
+    typedef corba::SmartPtrDef< Link_var >::type TLinkPtr;
+    typedef std::map< TPortPtr, TLinkPtr > TPorts;
 
   protected:
     TPorts m_input_ports;

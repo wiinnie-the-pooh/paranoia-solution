@@ -23,9 +23,70 @@
 //---------------------------------------------------------------------------
 #include <parallel/corba/server/TaskFactoryB_i.hh>
 
+#include "parallel/corba/server/TaskBase_i.hh"
+
+#include "parallel/corba/server/PortBool_i.hh"
+
+#include "parallel/corba/idl/Link.hh"
+
 #include <iostream>
 
 using namespace std;
+
+
+//---------------------------------------------------------------------------
+namespace parallel
+{
+  //---------------------------------------------------------------------------
+  struct TaskB_i : virtual POA_parallel::TaskB, virtual TaskBase_i
+  {
+    TaskB_i( const CORBA::ORB_var& theORB, 
+             const PortableServer::POA_var& thePOA );
+
+    ~TaskB_i();
+
+  protected:
+    virtual CORBA::Boolean step();
+  };
+
+
+  //---------------------------------------------------------------------------
+}
+
+
+//---------------------------------------------------------------------------
+namespace parallel
+{
+  //---------------------------------------------------------------------------
+  TaskB_i::TaskB_i( const CORBA::ORB_var& theORB, 
+                    const PortableServer::POA_var& thePOA )
+    : GenericObject_i( theORB, thePOA )
+    , TaskBase_i( theORB, thePOA )
+  {
+    cout << "TaskB_i::TaskB_i[ " << this << " ]" << endl;
+
+    this->m_input_ports[ new PortBool_i( "y", this->ORB, this->POA ) ] = TLinkPtr();
+  }
+
+
+  //---------------------------------------------------------------------------
+  TaskB_i::~TaskB_i()
+  {
+    cout << "TaskB_i::~TaskB_i[ " << this << " ]" << endl;
+  }
+
+
+  //---------------------------------------------------------------------------
+  CORBA::Boolean TaskB_i::step()
+  {
+    cout << "TaskB_i::step[ " << this << " ]" << endl;
+    
+    return false;
+  }
+    
+    
+  //---------------------------------------------------------------------------
+}
 
 
 //---------------------------------------------------------------------------
@@ -36,23 +97,25 @@ namespace parallel
                                   const PortableServer::POA_var& thePOA )
     : SObjectBase( theORB, thePOA )
   {
-    cout << "TaskFactoryB_i::TaskFactoryB_i : " << this << endl;
+    cout << "TaskFactoryB_i::TaskFactoryB_i[ " << this << " ]" << endl;
   }
 
 
   //---------------------------------------------------------------------------
   TaskFactoryB_i::~TaskFactoryB_i()
   {
-    cout << "TaskFactoryB_i::~TaskFactoryB_i() : " << this << endl;
+    cout << "TaskFactoryB_i::~TaskFactoryB_i[ " << this << " ]" << endl;
   }
 
 
   //---------------------------------------------------------------------------
   TaskB_ptr TaskFactoryB_i::create()
   {
-    std::cout << "TaskFactoryB_i::create()" << std::endl;
+    cout << "TaskFactoryB_i::create[ " << this << " ]" << endl;
     
-    return TaskB::_nil();
+    TaskB_i* a_task = new TaskB_i( this->ORB, this->POA );
+
+    return a_task->_this();
   }
     
     

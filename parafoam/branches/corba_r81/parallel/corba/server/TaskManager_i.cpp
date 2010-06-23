@@ -31,6 +31,27 @@ using namespace std;
 
 
 //---------------------------------------------------------------------------
+namespace
+{
+  //---------------------------------------------------------------------------
+  using namespace parallel;
+
+
+  //---------------------------------------------------------------------------
+  Link_ptr create_link( const CORBA::ORB_var& theORB, 
+			const PortableServer::POA_var& thePOA )
+  {
+    Link_i* a_link( new Link_i( theORB, thePOA ) );
+
+    return a_link->_this();
+  }
+
+
+  //---------------------------------------------------------------------------
+}
+
+
+//---------------------------------------------------------------------------
 namespace parallel
 {
   //---------------------------------------------------------------------------
@@ -39,14 +60,14 @@ namespace parallel
     : SObjectBase( theORB, thePOA )
     , m_is_run( false )
   {
-    cout << "TaskManager_i::TaskManager_i : " << this << endl;
+    cout << "TaskManager_i::TaskManager_i[ " << this << " ]" << endl;
   }
 
 
   //---------------------------------------------------------------------------
   TaskManager_i::~TaskManager_i()
   {
-    cout << "TaskManager_i::~TaskManager_i() : " << this << endl;
+    cout << "TaskManager_i::~TaskManager_i[ " << this << " ]" << endl;
   }
 
 
@@ -56,18 +77,17 @@ namespace parallel
                                TaskBase_ptr theTargetTask, 
                                const char* theInputPortName )
   {
-    std::cout << "TaskManager_i::connect : " << this << " - '" << theOutputPortName << "'; '" << theInputPortName << "'" << std::endl;
+    cout << "TaskManager_i::connect[ " << this << " ] : '" << theOutputPortName << "'; '" << theInputPortName << "'" << endl;
 
-    Link_i* a_link( new Link_i( this->ORB, this->POA ) );
-    Link_var a_link_ref( a_link->_this() );
+    Link_var a_link( ::create_link( this->ORB, this->POA ) );
 
-    PortBase_var an_output_port = theSourceTask->get_output_port( theInputPortName );
+    PortBase_var an_output_port = theSourceTask->get_output_port( theOutputPortName );
     PortBase_var an_input_port = theTargetTask->get_input_port( theInputPortName );
 
-    theSourceTask->connect_output( an_output_port, a_link_ref, an_input_port );
-    this->register_task( theTargetTask );
+    theSourceTask->connect_output( an_output_port, a_link, an_input_port );
+    this->register_task( theSourceTask );
 
-    theTargetTask->connect_input( an_input_port, a_link_ref, an_output_port );
+    theTargetTask->connect_input( an_input_port, a_link, an_output_port );
     this->register_task( theTargetTask );
   }
     
@@ -82,7 +102,7 @@ namespace parallel
 
     if ( this->tasks.insert( TTaskBasePtr( theTask ) ).second )
     {
-      std::cout << "TaskManager_i::register_task : " << this << std::endl;
+      cout << "TaskManager_i::register_task[ " << this << " ]" << endl;
     }
   }
     
@@ -90,7 +110,7 @@ namespace parallel
   //---------------------------------------------------------------------------
   void TaskManager_i::run()
   {
-    cout << "TaskManager_i::run() : " << this << endl;
+    cout << "TaskManager_i::run[ " << this << " ]" << endl;
     
     this->m_is_run = true;
 
@@ -112,7 +132,7 @@ namespace parallel
   //---------------------------------------------------------------------------
   CORBA::Boolean TaskManager_i::is_run()
   {
-    cout << "TaskManager_i::is_run() : " << this << endl;
+    cout << "TaskManager_i::is_run[ " << this << " ]" << endl;
     
     return this->m_is_run;
   }
