@@ -45,6 +45,7 @@ namespace parallel
       typedef T InitPointerType; /// type used to declare OwnershipPolicy type.
       typedef T PointerType;   // type returned by operator->
       typedef T& ReferenceType; // type returned by operator*
+      typedef const T& ConstReferenceType; // type returned by operator*
 
       CORBAStorage() : pointee_( Default() )
       {}
@@ -70,6 +71,11 @@ namespace parallel
       }
 
       ReferenceType operator*() 
+      {
+        return pointee_; 
+      }
+
+      ConstReferenceType operator*() const
       {
         return pointee_; 
       }
@@ -190,7 +196,7 @@ namespace parallel
       class ConversionPolicy = Loki::DisallowConversion,
       template <class> class CheckingPolicy = Loki::AssertCheck,
       template <class> class StoragePolicy = CORBAStorage,
-      template<class> class ConstnessPolicy = LOKI_DEFAULT_CONSTNESS,
+      template<class> class ConstnessPolicy = Loki::PropagateConst,
       template <class> class ComparisionPolicy = CORBAComparision
     >
     struct SmartPtrDef

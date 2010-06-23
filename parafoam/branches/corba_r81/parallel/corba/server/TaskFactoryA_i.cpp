@@ -65,7 +65,7 @@ namespace parallel
   {
     cout << "TaskA_i::TaskA_i[ " << this << " ]" << endl;
 
-    this->m_output_ports[ new PortBool_i( "x", this->ORB, this->POA ) ] = TLinkPtr();
+    this->define_output_port( new PortBool_i( "x", this->ORB, this->POA ) );
   }
 
 

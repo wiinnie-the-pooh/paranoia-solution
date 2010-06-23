@@ -34,7 +34,10 @@
 
 #include "parallel/corba/CORBASmartPtr.hh"
 
+#include "parallel/corba/idl/DataHolderBase.hh"
+
 #include <map>
+#include <set>
 
 
 //---------------------------------------------------------------------------
@@ -56,18 +59,18 @@ namespace parallel
 
     Ports* get_input_ports();
 
-    void connect_input( PortBase_ptr thePort, 
-                        Link_ptr theLink, 
-                        PortBase_ptr theOppositePort );
-      
+    CORBA::Boolean connect_input( PortBase_ptr thePort, 
+                                  Link_ptr theLink, 
+                                  PortBase_ptr theOppositePort );
+    
     //---------------------------------------------------------------------------
     PortBase_ptr get_output_port( const char* theName );
 
     Ports* get_output_ports();
 
-    void connect_output( PortBase_ptr thePort, 
-			 Link_ptr theLink, 
-			 PortBase_ptr theOppositePort );
+    CORBA::Boolean connect_output( PortBase_ptr thePort, 
+                                   Link_ptr theLink, 
+                                   PortBase_ptr theOppositePort );
 
     //---------------------------------------------------------------------------
   protected:
@@ -80,11 +83,24 @@ namespace parallel
   public:
     typedef PortBase_i* TPortPtr;
     typedef corba::SmartPtrDef< Link_var >::type TLinkPtr;
-    typedef std::map< TPortPtr, TLinkPtr > TPorts;
+    typedef corba::SmartPtrDef< DataHolderBase_var >::type TDataHolderPtr;
+
+    typedef std::pair< TLinkPtr, TDataHolderPtr > TDataFactrory;
+    typedef std::map< TPortPtr, TDataFactrory > TInputPorts;
+
+    typedef std::set< TLinkPtr > TLinks;
+    typedef std::map< TPortPtr, TLinks > TOutputPorts;
 
   protected:
-    TPorts m_input_ports;
-    TPorts m_output_ports;
+    bool define_input_port( const TPortPtr& thePort );
+    bool define_output_port( const TPortPtr& thePort );
+      
+    void init_port( const std::string& thePortName, const TDataHolderPtr& theDataHolder );
+    void publish( const std::string& thePortName, const TDataHolderPtr& theDataHolder );
+
+  protected:
+    TInputPorts m_input_ports;
+    TOutputPorts m_output_ports;
   };
 
 

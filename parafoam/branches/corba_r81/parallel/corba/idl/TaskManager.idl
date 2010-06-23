@@ -34,10 +34,10 @@ module parallel
 {
   interface TaskManager
   {
-    void connect( in TaskBase theSourceTask, 
-                  in string theOutputPortName,
-                  in TaskBase theTargetTask, 
-                  in string theInputPortName );
+    boolean connect( in TaskBase theSourceTask, 
+                     in string theOutputPortName,
+                     in TaskBase theTargetTask, 
+                     in string theInputPortName );
 
     void register_task( in TaskBase theTask );
 

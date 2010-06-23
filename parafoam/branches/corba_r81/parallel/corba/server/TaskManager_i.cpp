@@ -25,6 +25,8 @@
 
 #include "parallel/corba/server/Link_i.hh"
 
+#include "parallel/corba/idl/PortBase.hh"
+
 #include <iostream>
 
 using namespace std;
@@ -39,7 +41,7 @@ namespace
 
   //---------------------------------------------------------------------------
   Link_ptr create_link( const CORBA::ORB_var& theORB, 
-			const PortableServer::POA_var& thePOA )
+                        const PortableServer::POA_var& thePOA )
   {
     Link_i* a_link( new Link_i( theORB, thePOA ) );
 
@@ -72,23 +74,33 @@ namespace parallel
 
 
   //---------------------------------------------------------------------------
-  void TaskManager_i::connect( TaskBase_ptr theSourceTask, 
-                               const char* theOutputPortName,
-                               TaskBase_ptr theTargetTask, 
-                               const char* theInputPortName )
+  CORBA::Boolean TaskManager_i::connect( TaskBase_ptr theSourceTask, 
+                                         const char* theOutputPortName,
+                                         TaskBase_ptr theTargetTask, 
+                                         const char* theInputPortName )
   {
     cout << "TaskManager_i::connect[ " << this << " ] : '" << theOutputPortName << "'; '" << theInputPortName << "'" << endl;
 
     Link_var a_link( ::create_link( this->ORB, this->POA ) );
 
     PortBase_var an_output_port = theSourceTask->get_output_port( theOutputPortName );
+    if ( CORBA::is_nil( an_output_port ) )
+      return false;
+
     PortBase_var an_input_port = theTargetTask->get_input_port( theInputPortName );
+    if ( CORBA::is_nil( an_input_port ) )
+      return false;
 
-    theSourceTask->connect_output( an_output_port, a_link, an_input_port );
+    if ( !theSourceTask->connect_output( an_output_port, a_link, an_input_port ) )
+      return false;
+
+    if ( !theTargetTask->connect_input( an_input_port, a_link, an_output_port ) )
+      return false;
+
     this->register_task( theSourceTask );
-
-    theTargetTask->connect_input( an_input_port, a_link, an_output_port );
     this->register_task( theTargetTask );
+
+    return true;
   }
     
     

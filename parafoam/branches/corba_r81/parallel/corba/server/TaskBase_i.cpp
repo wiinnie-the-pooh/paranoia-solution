@@ -40,37 +40,64 @@ namespace
   //---------------------------------------------------------------------------
   using namespace parallel;
 
+  typedef std::map< std::string, TaskBase_i::TPortPtr > TName2Port;
+
 
   //---------------------------------------------------------------------------
-  PortBase_ptr get_port( const char* theName, const TaskBase_i::TPorts& thePorts )
+  void _get_input_ports_( const TaskBase_i::TInputPorts& theInputPorts,
+                          TName2Port& theName2Port )
   {
-    TaskBase_i::TPorts::const_iterator anIter = thePorts.begin();
-    TaskBase_i::TPorts::const_iterator anEnd = thePorts.end();
-    for ( int anId = 0; anIter != anEnd; anIter++, anId++ )
+    TaskBase_i::TInputPorts::const_iterator anIter = theInputPorts.begin();
+    TaskBase_i::TInputPorts::const_iterator anEnd = theInputPorts.end();
+    for ( ; anIter != anEnd; anIter++ )
     {
       const TaskBase_i::TPortPtr& a_port = anIter->first;
-
       CORBA::String_var a_name = a_port->name();
-      
-      if ( strcmp( a_name.in(), theName ) == 0 )
-        return a_port->_this();
+      theName2Port[ a_name.in() ] = a_port;
     }
+  }
+    
+    
+  //---------------------------------------------------------------------------
+  void _get_output_ports_( const TaskBase_i::TOutputPorts& theOutputPorts,
+                           TName2Port& theName2Port )
+  {
+    TaskBase_i::TOutputPorts::const_iterator anIter = theOutputPorts.begin();
+    TaskBase_i::TOutputPorts::const_iterator anEnd = theOutputPorts.end();
+    for ( ; anIter != anEnd; anIter++ )
+    {
+      const TaskBase_i::TPortPtr& a_port = anIter->first;
+      CORBA::String_var a_name = a_port->name();
+      theName2Port[ a_name.in() ] = a_port;
+    }
+  }
+    
+    
+  //---------------------------------------------------------------------------
+  PortBase_ptr get_port( const char* theName, const TName2Port& theName2Port )
+  {
+    TName2Port::const_iterator anIter = theName2Port.find( theName );
 
-    return PortBase::_nil();
+    if ( anIter == theName2Port.end() )
+      return PortBase::_nil();
+
+    const TaskBase_i::TPortPtr& a_port = anIter->second;
+
+    return a_port->_this();
   }
 
 
   //---------------------------------------------------------------------------
-  Ports* get_ports( const TaskBase_i::TPorts& thePorts )
+  Ports* get_ports( const TName2Port& theName2Port )
   {
     Ports& a_ports = * new Ports;
-    a_ports.length( thePorts.size() );
+    a_ports.length( theName2Port.size() );
 
-    TaskBase_i::TPorts::const_iterator anIter = thePorts.begin();
-    TaskBase_i::TPorts::const_iterator anEnd = thePorts.end();
+    TName2Port::const_iterator anIter = theName2Port.begin();
+    TName2Port::const_iterator anEnd = theName2Port.end();
     for ( int anId = 0; anIter != anEnd; anIter++, anId++ )
     {
-      const TaskBase_i::TPortPtr& a_port = anIter->first;
+      const TaskBase_i::TPortPtr& a_port = anIter->second;
       
       a_ports[ anId ] = a_port->_this();
     }
@@ -116,58 +143,86 @@ namespace parallel
   //---------------------------------------------------------------------------
   PortBase_ptr TaskBase_i::get_input_port( const char* theName )
   {
-    return ::get_port( theName, this->m_input_ports );
+    ::TName2Port aName2Port;
+    ::_get_input_ports_( this->m_input_ports, aName2Port );
+
+    return ::get_port( theName, aName2Port );
   }
     
     
   //---------------------------------------------------------------------------
   Ports* TaskBase_i::get_input_ports()
   {
-    return ::get_ports( this->m_input_ports );
+    ::TName2Port aName2Port;
+    ::_get_input_ports_( this->m_input_ports, aName2Port );
+
+    return ::get_ports( aName2Port );
   }
     
     
   //---------------------------------------------------------------------------
-  void TaskBase_i::connect_input( PortBase_ptr thePort, 
-                                  Link_ptr theLink, 
-                                  PortBase_ptr theOppositePort )
+  CORBA::Boolean TaskBase_i::connect_input( PortBase_ptr thePort, 
+                                            Link_ptr theLink, 
+                                            PortBase_ptr theOppositePort )
   {
-    thePort->is_compatible( theOppositePort );
+    if ( !thePort->is_compatible( theOppositePort ) )
+      return false;
       
     PortBase_i* aPort = get_servant< PortBase_i* >( thePort, this->POA );
+    if ( !aPort )
+      return false;
 
-    TLinkPtr aLink( Link::_duplicate( theLink ) );
+    if ( this->m_input_ports.find( aPort ) == this->m_input_ports.end() )
+      return false;
 
-    this->m_input_ports[ aPort ] = aLink;
+    TaskBase_i::TLinkPtr aLink( Link::_duplicate( theLink ) );
+    TDataFactrory& a_data_factory = this->m_input_ports[ aPort ];
+    a_data_factory.first = aLink;
+
+    return true;
   }
     
     
   //---------------------------------------------------------------------------
   PortBase_ptr TaskBase_i::get_output_port( const char* theName )
   {
-    return ::get_port( theName, this->m_output_ports );
+    ::TName2Port aName2Port;
+    ::_get_output_ports_( this->m_output_ports, aName2Port );
+
+    return ::get_port( theName, aName2Port );
   }
     
     
   //---------------------------------------------------------------------------
   Ports* TaskBase_i::get_output_ports()
   {
-    return ::get_ports( this->m_output_ports );
+    ::TName2Port aName2Port;
+    ::_get_output_ports_( this->m_output_ports, aName2Port );
+
+    return ::get_ports( aName2Port );
   }
     
     
   //---------------------------------------------------------------------------
-  void TaskBase_i::connect_output( PortBase_ptr thePort, 
-				   Link_ptr theLink, 
-				   PortBase_ptr theOppositePort )
+  CORBA::Boolean TaskBase_i::connect_output( PortBase_ptr thePort, 
+                                             Link_ptr theLink, 
+                                             PortBase_ptr theOppositePort )
   {
-    thePort->is_compatible( theOppositePort );
+    if ( !thePort->is_compatible( theOppositePort ) )
+      return false;
       
     PortBase_i* aPort = get_servant< PortBase_i* >( thePort, this->POA );
+    if ( !aPort )
+      return false;
 
-    TLinkPtr aLink( Link::_duplicate( theLink ) );
+    if ( this->m_output_ports.find( aPort ) == this->m_output_ports.end() )
+      return false;
 
-    this->m_output_ports[ aPort ] = aLink;
+    TaskBase_i::TLinkPtr aLink( Link::_duplicate( theLink ) );
+    TLinks& a_links = this->m_output_ports[ aPort ];
+    a_links.insert( aLink );
+
+    return true;
   }
     
     
@@ -185,6 +240,80 @@ namespace parallel
   }
     
     
+  //---------------------------------------------------------------------------
+  bool TaskBase_i::define_input_port( const TPortPtr& thePort )
+  {
+    if ( this->m_input_ports.find( thePort ) != this->m_input_ports.end() )
+      return false;
+      
+    this->m_input_ports[ thePort ];
+      
+    return true;
+  }
+
+    
+  //---------------------------------------------------------------------------
+  bool TaskBase_i::define_output_port( const TPortPtr& thePort )
+  {
+    if ( this->m_output_ports.find( thePort ) != this->m_output_ports.end() )
+      return false;
+      
+    this->m_output_ports[ thePort ];
+      
+    return true;
+  }
+
+    
+  //---------------------------------------------------------------------------
+  void TaskBase_i::init_port( const std::string& thePortName, const TDataHolderPtr& theDataHolder )
+  {
+    ::TName2Port aName2Port;
+    ::_get_input_ports_( this->m_input_ports, aName2Port );
+    
+    TName2Port::const_iterator anIter = aName2Port.find( thePortName );
+    if ( anIter == aName2Port.end() )
+      return;
+
+    const TPortPtr& aPort = anIter->second;
+    TDataFactrory& aDataFactrory = this->m_input_ports[ aPort ];
+    if ( const TLinkPtr& aLink = aDataFactrory.first )
+    {
+      aLink->publish( *theDataHolder );
+    }
+    else
+    {
+      // In case if there is no link connected to this input port
+      // this "theDataHolder" value will be used by default during 
+      // the simulation time
+      TDataHolderPtr& aDataHolderPtr = aDataFactrory.second;
+      aDataHolderPtr = theDataHolder;
+    }
+  }
+    
+    
+  //---------------------------------------------------------------------------
+  void TaskBase_i::publish( const std::string& thePortName, const TDataHolderPtr& theDataHolder )
+  {
+    ::TName2Port aName2Port;
+    ::_get_input_ports_( this->m_input_ports, aName2Port );
+    
+    TName2Port::const_iterator anIter = aName2Port.find( thePortName );
+    if ( anIter == aName2Port.end() )
+      return;
+
+    const TPortPtr& aPort = anIter->second;
+    const TLinks& a_links = this->m_output_ports[ aPort ];
+    {
+      TLinks::const_iterator anIter = a_links.begin();
+      TLinks::const_iterator anEnd = a_links.end();
+      for ( ; anIter != anEnd; anIter++ ) {
+        const TLinkPtr& a_link = *anIter;
+        a_link->publish( *theDataHolder );
+      }
+    }
+  }
+      
+      
   //---------------------------------------------------------------------------
 }
 

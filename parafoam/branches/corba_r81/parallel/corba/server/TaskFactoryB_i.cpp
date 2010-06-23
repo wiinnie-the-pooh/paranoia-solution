@@ -65,7 +65,7 @@ namespace parallel
   {
     cout << "TaskB_i::TaskB_i[ " << this << " ]" << endl;
 
-    this->m_input_ports[ new PortBool_i( "y", this->ORB, this->POA ) ] = TLinkPtr();
+    this->define_input_port( new PortBool_i( "y", this->ORB, this->POA ) );
   }
 
 
