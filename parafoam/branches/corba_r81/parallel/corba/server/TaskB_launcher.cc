@@ -21,15 +21,15 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/server/TaskFactoryA_i.hh"
+#include "parallel/corba/server/TaskB_i.hh"
 
-#include "parallel/corba/common/FactoryLauncher.hh"
+#include "parallel/corba/common/TaskLauncher.hh"
 
 
 //---------------------------------------------------------------------------
 int main( int argc, char** argv )
 {
-  return parallel::run< parallel::TaskFactoryA_i >( argc, argv, "TaskFactory", "A" );
+  return parallel::run< parallel::TaskB_i, parallel::TaskB, parallel::TaskFactoryB >( argc, argv, "TaskFactory", "B" );
 }
 
 

@@ -41,9 +41,9 @@ module parallel
   //---------------------------------------------------------------------------
   interface TaskFactoryA : TaskFactoryBase
   {
-    TaskA create( in string theHostName );
+    TaskA create( in string theInvocationShellScript );
 
-    TaskA publish( in TaskA theTask );
+    void publish( in TaskA theTask );
   };
 
 

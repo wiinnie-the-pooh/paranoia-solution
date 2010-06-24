@@ -23,7 +23,7 @@
 //---------------------------------------------------------------------------
 #include "parallel/corba/server/TaskManager_i.hh"
 
-#include "parallel/corba/server/TaskFactory_utilities.hpp"
+#include "parallel/corba/common/FactoryLauncher.hh"
 
 
 //---------------------------------------------------------------------------

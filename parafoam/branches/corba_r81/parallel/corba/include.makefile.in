@@ -1,6 +1,3 @@
-#  Copyright (C) 2007-2008  CEA/DEN, EDF R&D, OPEN CASCADE
-#
-#  Copyright (C) 2003-2007  OPEN CASCADE, EADS/CCR, LIP6, CEA/DEN,
 ## VulaSHAKA (Simultaneous Neutronic, Fuel Performance, Heat And Kinetics Analysis)
 ## Copyright (C) 2009-2010 Pebble Bed Modular Reactor (Pty) Limited (PBMR)
 ## 
@@ -23,16 +20,30 @@
 ##
 
 
-##--------------------------------------------------------------------------------------
-exe_targets = $(patsubst %.cc, @abs_top_builddir@/bin/%, $(wildcard *.cc))
+#------------------------------------------------------------------------------
+CPPFLAGS += @OMNIORB_INCLUDES@ @OMNIORB_CXXFLAGS@ -I@abs_top_builddir@
 
-lib_target = @abs_top_builddir@/lib/libparallel_corba_server.so
+CXXFLAGS += @OMNIORB_CXXFLAGS@ -fPIC -g
 
-all: $(lib_target) $(exe_targets)
+LDFLAGS += @OMNIORB_LIBS@ -L@abs_top_builddir@/lib
 
-parallel_corba_server_root_dir = .
+%.o: %.cc
+	gcc -x c++ $(CPPFLAGS) $(CXXFLAGS) -c $<
 
-include $(parallel_corba_server_root_dir)/include.makefile
+%.o: %.cpp
+	gcc -x c++ $(CPPFLAGS) $(CXXFLAGS) -c $<
+
+include $(wildcard *.d)
+
+
+#--------------------------------------------------------------------------------------
+$(lib_target): $(patsubst %.cpp, %.o, $(wildcard *.cpp))
+	gcc -shared $^ $(LDFLAGS) -o $@
+
+.PRECIOUS: %.o
+
+@abs_top_builddir@/bin/%: %.o
+	gcc $(LDFLAGS) $(lib_target) $^ -o $@
 
 
 #--------------------------------------------------------------------------------------

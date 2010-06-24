@@ -21,35 +21,50 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef __PARALELL_TASKFACTORY_B_IDL__
-#define __PARALELL_TASKFACTORY_B_IDL__
+#ifndef corba_common_corba_utilities_hh
+#define corba_common_corba_utilities_hh
 
 
 //---------------------------------------------------------------------------
-#include "TaskFactoryBase.idl"
-#include "TaskBase.idl"
+#include <CORBA.h>
+
+#include <string>
+#include <iostream>
 
 
 //---------------------------------------------------------------------------
-module parallel
+namespace parallel 
 {
   //---------------------------------------------------------------------------
-  interface TaskB : TaskBase
-  {};
+  PortableServer::ServantBase_var _get_servant( CORBA::Object_ptr theObject,
+						const PortableServer::POA_var& thePOA );
 
 
   //---------------------------------------------------------------------------
-  interface TaskFactoryB : TaskFactoryBase
+  template< class Type > 
+  Type get_servant( CORBA::Object_ptr theObject,
+		    const PortableServer::POA_var& thePOA )
   {
-    TaskB create( in string theInvocationShellScript );
-
-    void publish( in TaskB theTask );
-  };
+    return dynamic_cast< Type >( _get_servant( theObject, thePOA ).in() );
+  }
 
 
   //---------------------------------------------------------------------------
-};
+  CORBA::Boolean bindObjectToName( CORBA::ORB_ptr orb,
+                                   CORBA::Object_ptr objref, 
+                                   const std::string& theObjectType, 
+                                   const std::string& theObjectName );
+
+
+  //---------------------------------------------------------------------------
+  CORBA::Object_ptr getObjectReference( CORBA::ORB_ptr orb, 
+					const std::string& theObjectType, 
+					const std::string& theObjectName );
+
+
+  //---------------------------------------------------------------------------
+}
 
 
 //---------------------------------------------------------------------------
-#endif  // __PARALELL_TASKFACTORY_B_IDL__
+#endif

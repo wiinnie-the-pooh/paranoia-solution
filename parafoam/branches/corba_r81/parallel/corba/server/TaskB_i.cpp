@@ -21,37 +21,13 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/server/TaskFactoryB_i.hh"
-
-#include "parallel/corba/server/TaskBase_i.hh"
+#include "parallel/corba/server/TaskB_i.hh"
 
 #include "parallel/corba/server/PortBool_i.hh"
 
 #include <iostream>
 
 using namespace std;
-
-
-//---------------------------------------------------------------------------
-namespace parallel
-{
-  //---------------------------------------------------------------------------
-  struct TaskB_i : virtual POA_parallel::TaskB, virtual TaskBase_i
-  {
-    TaskB_i( const CORBA::ORB_var& theORB, 
-             const PortableServer::POA_var& thePOA );
-
-    ~TaskB_i();
-
-  protected:
-    void init();
-
-    CORBA::Boolean step();
-  };
-
-
-  //---------------------------------------------------------------------------
-}
 
 
 //---------------------------------------------------------------------------
@@ -94,43 +70,6 @@ namespace parallel
     cout << "TaskB_i::step[ " << this << " ]" << endl;
     
     return aDataHolder->value();
-  }
-    
-    
-  //---------------------------------------------------------------------------
-}
-
-
-//---------------------------------------------------------------------------
-namespace parallel
-{
-  //---------------------------------------------------------------------------
-  TaskFactoryB_i::TaskFactoryB_i( const CORBA::ORB_var& theORB, 
-                                  const PortableServer::POA_var& thePOA )
-    : SObjectBase( theORB, thePOA )
-    , TaskFactoryBase_i< POA_parallel::TaskFactoryB, TaskB >( theORB, thePOA )
-  {
-    cout << "TaskFactoryB_i::TaskFactoryB_i[ " << this << " ]" << endl;
-  }
-
-
-  //---------------------------------------------------------------------------
-  TaskFactoryB_i::~TaskFactoryB_i()
-  {
-    cout << "TaskFactoryB_i::~TaskFactoryB_i[ " << this << " ]" << endl;
-  }
-
-
-  //---------------------------------------------------------------------------
-  TaskB_ptr TaskFactoryB_i::create( const char* theHostName )
-  {
-    cout << "TaskFactoryB_i::create[ " << this << " ]" << endl;
-    
-    this->m_register_mutex.lock();
-      
-    TaskB_i* a_task = new TaskB_i( this->ORB, this->POA );
-
-    return a_task->_this();
   }
     
     

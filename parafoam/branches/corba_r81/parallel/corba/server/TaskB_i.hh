@@ -21,16 +21,37 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/server/TaskFactoryA_i.hh"
-
-#include "parallel/corba/common/FactoryLauncher.hh"
+#ifndef corba_server_TaskB_i_hh
+#define corba_server_TaskB_i_hh
 
 
 //---------------------------------------------------------------------------
-int main( int argc, char** argv )
+#include "parallel/corba/idl/TaskFactoryB.hh"
+
+#include "parallel/corba/server/TaskBase_i.hh"
+
+
+//---------------------------------------------------------------------------
+namespace parallel 
 {
-  return parallel::run< parallel::TaskFactoryA_i >( argc, argv, "TaskFactory", "A" );
+  //---------------------------------------------------------------------------
+  struct TaskB_i : virtual POA_parallel::TaskB, virtual TaskBase_i
+  {
+    TaskB_i( const CORBA::ORB_var& theORB, 
+             const PortableServer::POA_var& thePOA );
+
+    ~TaskB_i();
+
+    void init();
+
+  protected:
+    CORBA::Boolean step();
+  };
+
+
+  //---------------------------------------------------------------------------
 }
 
 
 //---------------------------------------------------------------------------
+#endif

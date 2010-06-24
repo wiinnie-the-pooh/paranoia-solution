@@ -35,15 +35,7 @@
 namespace parallel 
 {
   //---------------------------------------------------------------------------
-  struct TaskFactoryA_i : virtual TaskFactoryBase_i< POA_parallel::TaskFactoryA, TaskA >
-  {
-    TaskFactoryA_i( const CORBA::ORB_var& theORB, 
-                    const PortableServer::POA_var& thePOA );
-    
-    virtual ~TaskFactoryA_i();
-    
-    TaskA_ptr create( const char* theHostName );
-  };
+  typedef TaskFactoryBase_i< POA_parallel::TaskFactoryA, TaskA > TaskFactoryA_i;
 
 
   //---------------------------------------------------------------------------

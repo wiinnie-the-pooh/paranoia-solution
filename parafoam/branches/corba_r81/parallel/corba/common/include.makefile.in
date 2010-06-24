@@ -1,6 +1,3 @@
-#  Copyright (C) 2007-2008  CEA/DEN, EDF R&D, OPEN CASCADE
-#
-#  Copyright (C) 2003-2007  OPEN CASCADE, EADS/CCR, LIP6, CEA/DEN,
 ## VulaSHAKA (Simultaneous Neutronic, Fuel Performance, Heat And Kinetics Analysis)
 ## Copyright (C) 2009-2010 Pebble Bed Modular Reactor (Pty) Limited (PBMR)
 ## 
@@ -23,16 +20,24 @@
 ##
 
 
-##--------------------------------------------------------------------------------------
-exe_targets = $(patsubst %.cc, @abs_top_builddir@/bin/%, $(wildcard *.cc))
+#--------------------------------------------------------------------------------------
+parallel_corba_idl_root_dir := $(parallel_corba_common_root_dir)/../idl
 
-lib_target = @abs_top_builddir@/lib/libparallel_corba_server.so
+include $(parallel_corba_idl_root_dir)/include.makefile
 
-all: $(lib_target) $(exe_targets)
 
-parallel_corba_server_root_dir = .
+#------------------------------------------------------------------------------
+CPPFLAGS += @LOKI_CPPFLAGS@ -I@abs_top_builddir@ -MMD
+CXXFLAGS += @LOKI_CXXFLAGS@ -D_DEBUG_ -Wno-deprecated -Wparentheses -Wreturn-type -Wunused
 
-include $(parallel_corba_server_root_dir)/include.makefile
+LDFLAGS += @LOKI_LDFLAGS@ @LOKI_LIBS@
+
+ifneq "$(parallel_corba_common_root_dir)" "."
+  LDFLAGS += -lparallel_corba_common
+endif
+
+clean: 
+	rm -f *.o *.d *~ $(lib_target) $(exe_targets)
 
 
 #--------------------------------------------------------------------------------------

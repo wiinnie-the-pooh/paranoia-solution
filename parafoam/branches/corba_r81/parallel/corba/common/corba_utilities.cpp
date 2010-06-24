@@ -21,10 +21,11 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/server/TaskFactory_utilities.hpp"
+#include "parallel/corba/common/corba_utilities.hh"
 
 #include <string>
 #include <iostream>
+
 using namespace std;
 
 
@@ -127,6 +128,70 @@ namespace parallel
   }
 
 
+  //---------------------------------------------------------------------------
+  CORBA::Object_ptr getObjectReference( CORBA::ORB_ptr orb, 
+					const std::string& theObjectType, 
+					const std::string& theObjectName )
+  {
+    CosNaming::NamingContext_var rootContext;
+    
+    try {
+      // Obtain a reference to the root context of the Name service:
+      CORBA::Object_var obj;
+      obj = orb->resolve_initial_references( "NameService" );
+      rootContext = CosNaming::NamingContext::_narrow( obj );
+      if( CORBA::is_nil( rootContext ) ) {
+	cerr << "Failed to narrow the root naming context." << endl;
+	return CORBA::Object::_nil();
+      }
+    }
+    catch ( CORBA::NO_RESOURCES& ) {
+      cerr << "Caught NO_RESOURCES exception. You must configure omniORB "
+	   << "with the location" << endl
+	   << "of the naming service." << endl;
+      
+      return 0;
+    }
+    catch( CORBA::ORB::InvalidName& ex ) {
+      // This should not happen!
+      cerr << "Service required is invalid [does not exist]." << endl;
+      
+      return CORBA::Object::_nil();
+    }
+    
+    // Create a name object, containing the name test/context:
+    CosNaming::Name name;
+    name.length( 2 );
+    
+    name[ 0 ].id   = (const char*) theObjectType.c_str();
+    name[ 0 ].kind = (const char*) "parallel";
+    
+    name[ 1 ].id   = (const char*) theObjectName.c_str();
+    name[ 1 ].kind = (const char*) "object";
+    
+    try {
+      return rootContext->resolve( name );
+    }
+    catch( CosNaming::NamingContext::NotFound& ex ) {
+      cerr << "Context not found." << endl;
+    }
+    catch( CORBA::TRANSIENT& ex ) {
+      cerr << "Caught system exception TRANSIENT -- unable to contact the "
+	   << "naming service." << endl
+	   << "Make sure the naming server is running and that omniORB is "
+	   << "configured correctly." << endl;
+    }
+    catch( CORBA::SystemException& ex ) {
+      cerr << "Caught a CORBA::" << ex._name()
+	   << " while using the naming service." << endl;
+      
+      return 0;
+    }
+    
+    return CORBA::Object::_nil();
+  }
+  
+  
   //---------------------------------------------------------------------------
 }
 

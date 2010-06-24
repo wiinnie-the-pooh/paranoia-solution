@@ -21,11 +21,13 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef corba_server_TaskFactory_utilities_hpp
-#define corba_server_TaskFactory_utilities_hpp
+#ifndef corba_common_TaskLauncher_hh
+#define corba_common_TaskLauncher_hh
 
 
 //---------------------------------------------------------------------------
+#include "parallel/corba/common/corba_utilities.hh"
+
 #include <CORBA.h>
 
 #include <string>
@@ -36,28 +38,7 @@
 namespace parallel 
 {
   //---------------------------------------------------------------------------
-  PortableServer::ServantBase_var _get_servant( CORBA::Object_ptr theObject,
-						const PortableServer::POA_var& thePOA );
-
-
-  //---------------------------------------------------------------------------
-  template< class Type > 
-  Type get_servant( CORBA::Object_ptr theObject,
-		    const PortableServer::POA_var& thePOA )
-  {
-    return dynamic_cast< Type >( _get_servant( theObject, thePOA ).in() );
-  }
-
-
-  //---------------------------------------------------------------------------
-  CORBA::Boolean bindObjectToName( CORBA::ORB_ptr orb,
-                                   CORBA::Object_ptr objref, 
-                                   const std::string& theObjectType, 
-                                   const std::string& theObjectName );
-
-
-  //---------------------------------------------------------------------------
-  template< class InterfaceType >
+  template< class TaskImplType, class TaskType, class TaskFactoryType >
   int run( int argc, 
            char** argv, 
            const std::string& theObjectType, 
@@ -69,15 +50,14 @@ namespace parallel
       CORBA::Object_var poa_obj = orb->resolve_initial_references( "RootPOA" );
       PortableServer::POA_var poa = PortableServer::POA::_narrow( poa_obj );
   
-      InterfaceType a_interface( orb, poa );
+      TaskImplType a_task_i( orb, poa );
+      typename TaskType::_var_type a_task_obj = a_task_i._this();
   
-      PortableServer::ObjectId_var a_task_factory_id = poa->activate_object( &a_interface );
-  
-      // Obtain a reference to the object, and register it in the naming service.
-      CORBA::Object_var a_interface_obj = a_interface._this();
-      if( !bindObjectToName( orb, a_interface_obj, theObjectType, theObjectName ) )
-        return 1;
-  
+      CORBA::Object_var a_task_factory_obj = getObjectReference( orb, theObjectType, theObjectName );
+      typename TaskFactoryType::_var_type a_task_factory_ref = TaskFactoryType::_narrow( a_task_factory_obj );
+
+      a_task_factory_ref->publish( a_task_obj );
+      
       PortableServer::POAManager_var pman = poa->the_POAManager();
       pman->activate();
   

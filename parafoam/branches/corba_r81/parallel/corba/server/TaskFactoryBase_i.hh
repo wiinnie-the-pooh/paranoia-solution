@@ -32,7 +32,7 @@
 
 #include <omnithread.h>
 
-#include <set>
+#include <queue>
 
 #include <iostream>
 
@@ -61,20 +61,35 @@ namespace parallel
       std::cout << "TaskFactoryBase_i::~TaskFactoryBase_i[ " << this << " ]" << std::endl;
     }
     
-    virtual TaskPtrType publish( TaskPtrType theTask )
+    virtual void publish( TaskPtrType theTask )
     {
       std::cout << "TaskFactoryBase_i::register[ " << this << " ]" << std::endl;
     
       this->m_register_mutex.unlock();
 
       TTaskPtr a_task( TaskType::_duplicate( theTask ) );
-      this->m_task_pool.insert( a_task );
+      this->m_task_pool.push( a_task );
+    }
 
-      return TaskType::_duplicate( theTask );
+    TaskPtrType latest()
+    {
+      return TaskType::_duplicate( *this->m_task_pool.front() );
+    }
+
+    virtual TaskPtrType create( const char* theInvocationShellScript )
+    {
+      std::cout << "TaskFactoryBase_i::create[ " << this << " ]" << std::endl;
+    
+      if ( system( theInvocationShellScript ) != 0 )
+	return TaskType::_nil();
+
+      this->m_register_mutex.lock();
+      
+      return this->latest();
     }
 
   protected:
-    typedef std::set< TTaskPtr > TTaskPool;
+    typedef std::queue< TTaskPtr > TTaskPool;
     TTaskPool m_task_pool;
 
     omni_mutex m_register_mutex;

@@ -24,24 +24,13 @@
 
 
 #--------------------------------------------------------------------------------------
-all: scheme_definition
+exe_targets = $(patsubst %.cc, @abs_top_builddir@/bin/%, $(wildcard *.cc))
 
-LDFLAGS = @abs_top_builddir@/lib/libparallel_idl.so
+all: $(exe_targets)
 
-scheme_definition: scheme_definition.o
-	gcc $(LDFLAGS) $^ -o @abs_top_builddir@/bin/$@
+parallel_corba_client_root_dir = .
 
-CPPFLAGS=@OMNIORB_INCLUDES@ -I@abs_top_builddir@ -I@abs_top_builddir@/parallel/corba/idl
-
-CXXFLAGS= @OMNIORB_CXXFLAGS@
-
-%.o: %.cc
-	gcc -g -x c++ $(CPPFLAGS) $(CXXFLAGS) -fPIC -c -MMD $<
-
-include $(wildcard *.d)
-
-clean: 
-	rm -f *.o *.d *~ 
+include $(parallel_corba_client_root_dir)/include.makefile
 
 
 #--------------------------------------------------------------------------------------
