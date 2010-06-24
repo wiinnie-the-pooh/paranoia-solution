@@ -26,8 +26,6 @@
 ##--------------------------------------------------------------------------------------
 lib_target = @abs_top_builddir@/lib/libparallel_corba_common.so
 
-all: $(lib_target)
-
 parallel_corba_common_root_dir = .
 
 include $(parallel_corba_common_root_dir)/include.makefile

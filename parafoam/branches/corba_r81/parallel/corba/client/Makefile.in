@@ -26,8 +26,6 @@
 #--------------------------------------------------------------------------------------
 exe_targets = $(patsubst %.cc, @abs_top_builddir@/bin/%, $(wildcard *.cc))
 
-all: $(exe_targets)
-
 parallel_corba_client_root_dir = .
 
 include $(parallel_corba_client_root_dir)/include.makefile

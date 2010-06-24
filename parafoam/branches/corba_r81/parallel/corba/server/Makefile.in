@@ -28,8 +28,6 @@ exe_targets = $(patsubst %.cc, @abs_top_builddir@/bin/%, $(wildcard *.cc))
 
 lib_target = @abs_top_builddir@/lib/libparallel_corba_server.so
 
-all: $(lib_target) $(exe_targets)
-
 parallel_corba_server_root_dir = .
 
 include $(parallel_corba_server_root_dir)/include.makefile

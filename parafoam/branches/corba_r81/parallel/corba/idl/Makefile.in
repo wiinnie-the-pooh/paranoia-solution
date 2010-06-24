@@ -24,7 +24,9 @@
 
 
 #--------------------------------------------------------------------------------------
-all: libparallel_idl.so
+idl_target = @abs_top_builddir@/lib/libparallel_idl.so
+
+all: $(idl_target)
 
 parallel_corba_idl_root_dir = .
 
@@ -40,8 +42,8 @@ IDL_FILES = \
 
 .PRECIOUS: %SK.cc
 
-libparallel_idl.so: $(patsubst %.idl, %SK.o, $(IDL_FILES))
-	gcc -shared $^ $(LDFLAGS) -o @abs_top_builddir@/lib/$@
+$(idl_target): $(patsubst %.idl, %SK.o, $(IDL_FILES))
+	gcc -shared $^ $(LDFLAGS) -o $@
 
 %SK.cc: %.idl
 	@IDL@ -bcxx -Wbtp -I@abs_top_builddir@/parallel/corba/idl @OMNIORB_IDLCXXFLAGS@ $<
@@ -62,7 +64,7 @@ libparallel_idl.so: $(patsubst %.idl, %SK.o, $(IDL_FILES))
 include .depidl
 
 clean:
-	rm -f  *.o *.d *.hh *.cc .depidl
+	rm -f  *.o *.d *.hh *.cc .depidl $(idl_target)
 
 
 #--------------------------------------------------------------------------------------

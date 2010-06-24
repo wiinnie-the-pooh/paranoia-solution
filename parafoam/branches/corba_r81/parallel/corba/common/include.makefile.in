@@ -21,6 +21,28 @@
 
 
 #--------------------------------------------------------------------------------------
+all: $(lib_target) $(exe_targets)
+
+
+#--------------------------------------------------------------------------------------
+$(lib_target): $(patsubst %.cpp, %.o, $(wildcard *.cpp))
+	gcc -shared $^ $(LDFLAGS) -o $@
+
+.PRECIOUS: %.o
+
+@abs_top_builddir@/bin/%: %.o
+	gcc $(LDFLAGS) $(lib_target) $^ -o $@
+
+%.o: %.cc
+	gcc -x c++ $(CPPFLAGS) $(CXXFLAGS) -c $<
+
+%.o: %.cpp
+	gcc -x c++ $(CPPFLAGS) $(CXXFLAGS) -c $<
+
+include $(wildcard *.d)
+
+
+#--------------------------------------------------------------------------------------
 parallel_corba_idl_root_dir := $(parallel_corba_common_root_dir)/../idl
 
 include $(parallel_corba_idl_root_dir)/include.makefile
@@ -32,6 +54,8 @@ CXXFLAGS += @LOKI_CXXFLAGS@ -D_DEBUG_ -Wno-deprecated -Wparentheses -Wreturn-typ
 
 LDFLAGS += @LOKI_LDFLAGS@ @LOKI_LIBS@
 
+
+#--------------------------------------------------------------------------------------
 ifneq "$(parallel_corba_common_root_dir)" "."
   LDFLAGS += -lparallel_corba_common
 endif

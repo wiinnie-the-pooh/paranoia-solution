@@ -27,23 +27,5 @@ CXXFLAGS += @OMNIORB_CXXFLAGS@ -fPIC -g
 
 LDFLAGS += @OMNIORB_LIBS@ -L@abs_top_builddir@/lib
 
-%.o: %.cc
-	gcc -x c++ $(CPPFLAGS) $(CXXFLAGS) -c $<
-
-%.o: %.cpp
-	gcc -x c++ $(CPPFLAGS) $(CXXFLAGS) -c $<
-
-include $(wildcard *.d)
-
-
-#--------------------------------------------------------------------------------------
-$(lib_target): $(patsubst %.cpp, %.o, $(wildcard *.cpp))
-	gcc -shared $^ $(LDFLAGS) -o $@
-
-.PRECIOUS: %.o
-
-@abs_top_builddir@/bin/%: %.o
-	gcc $(LDFLAGS) $(lib_target) $^ -o $@
-
 
 #--------------------------------------------------------------------------------------
