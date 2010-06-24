@@ -27,8 +27,6 @@
 
 #include "parallel/corba/server/PortBool_i.hh"
 
-#include "parallel/corba/idl/Link.hh"
-
 #include <iostream>
 
 using namespace std;
@@ -98,6 +96,7 @@ namespace parallel
   TaskFactoryA_i::TaskFactoryA_i( const CORBA::ORB_var& theORB, 
                                   const PortableServer::POA_var& thePOA )
     : SObjectBase( theORB, thePOA )
+    , TaskFactoryBase_i< POA_parallel::TaskFactoryA, TaskA >( theORB, thePOA )
   {
     cout << "TaskFactoryA_i::TaskFactoryA_i[ " << this << " ]" << endl;
   }
@@ -111,10 +110,12 @@ namespace parallel
 
 
   //---------------------------------------------------------------------------
-  TaskA_ptr TaskFactoryA_i::create()
+  TaskA_ptr TaskFactoryA_i::create( const char* theHostName )
   {
     cout << "TaskFactoryA_i::create[ " << this << " ]" << endl;
     
+    this->m_register_mutex.lock();
+      
     TaskA_i* a_task = new TaskA_i( this->ORB, this->POA );
 
     return a_task->_this();

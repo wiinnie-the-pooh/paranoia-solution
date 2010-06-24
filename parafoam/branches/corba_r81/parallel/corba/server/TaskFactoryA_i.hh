@@ -28,21 +28,21 @@
 //---------------------------------------------------------------------------
 #include "parallel/corba/idl/TaskFactoryA.hh"
 
-#include "parallel/corba/server/SObjectBase.hh"
+#include "parallel/corba/server/TaskFactoryBase_i.hh"
 
 
 //---------------------------------------------------------------------------
 namespace parallel 
 {
   //---------------------------------------------------------------------------
-  struct TaskFactoryA_i : virtual POA_parallel::TaskFactoryA, virtual SObjectBase
+  struct TaskFactoryA_i : virtual TaskFactoryBase_i< POA_parallel::TaskFactoryA, TaskA >
   {
     TaskFactoryA_i( const CORBA::ORB_var& theORB, 
                     const PortableServer::POA_var& thePOA );
     
     virtual ~TaskFactoryA_i();
     
-    TaskA_ptr create();
+    TaskA_ptr create( const char* theHostName );
   };
 
 

@@ -41,7 +41,9 @@ module parallel
   //---------------------------------------------------------------------------
   interface TaskFactoryB : TaskFactoryBase
   {
-    TaskB create();
+    TaskB create( in string theHostName );
+
+    TaskB publish( in TaskB theTask );
   };
 
 

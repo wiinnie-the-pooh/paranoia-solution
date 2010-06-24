@@ -45,11 +45,11 @@ int main( int argc, char **argv )
 
     CORBA::Object_var a_task_factory_A_obj = getObjectReference( orb, "TaskFactory", "A" );
     parallel::TaskFactoryA_var a_task_factory_A_ref = parallel::TaskFactoryA::_narrow( a_task_factory_A_obj );
-    parallel::TaskA_var a_task_A = a_task_factory_A_ref->create();
+    parallel::TaskA_var a_task_A = a_task_factory_A_ref->create( "localhost" );
 
     CORBA::Object_var a_task_factory_B_obj = getObjectReference( orb, "TaskFactory", "B" );
     parallel::TaskFactoryB_var a_task_factory_B_ref = parallel::TaskFactoryB::_narrow( a_task_factory_B_obj );
-    parallel::TaskB_var a_task_B = a_task_factory_B_ref->create();
+    parallel::TaskB_var a_task_B = a_task_factory_B_ref->create( "localhost" );
 
     CORBA::Object_var a_task_manager_obj = getObjectReference( orb, "TaskManager", "this" );
     parallel::TaskManager_var a_task_manager_ref = parallel::TaskManager::_narrow( a_task_manager_obj );
@@ -58,7 +58,7 @@ int main( int argc, char **argv )
     a_task_manager_ref->run();
 
     //{
-    //  parallel::corba::SmartPtrDef< parallel::TaskA_var >::type a_task_A( a_task_factory_A_ref->create() );
+    //  parallel::corba::SmartPtrDef< parallel::TaskA_var >::type a_task_A( a_task_factory_A_ref->create( "localhost" ) );
     //  if ( a_task_A ) 
     //        return 0;
     //}

@@ -21,44 +21,63 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef corba_server_Link_i_hh
-#define corba_server_Link_i_hh
+#ifndef corba_server_TaskFactoryBase_i_hh
+#define corba_server_TaskFactoryBase_i_hh
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/idl/Link.hh"
-
-#include "parallel/corba/server/TransientObject_i.hh"
+#include "parallel/corba/server/SObjectBase.hh"
 
 #include "parallel/corba/CORBASmartPtr.hh"
 
 #include <omnithread.h>
 
-#include <queue>
+#include <set>
+
+#include <iostream>
 
 
 //---------------------------------------------------------------------------
 namespace parallel 
 {
   //---------------------------------------------------------------------------
-  struct Link_i : virtual POA_parallel::Link, 
-                  virtual TransientObject_i
+  template< class TaskFactoryPOAType, class TaskType >
+  struct TaskFactoryBase_i : virtual TaskFactoryPOAType,
+                             virtual SObjectBase
   {
-    Link_i( const CORBA::ORB_var& theORB, 
-            const PortableServer::POA_var& thePOA );
+    typedef typename TaskType::_ptr_type TaskPtrType;
+    typedef typename TaskType::_var_type TaskVarType;
+    typedef typename corba::SmartPtrDef< TaskVarType >::type TTaskPtr;
 
-    ~Link_i();
+    TaskFactoryBase_i( const CORBA::ORB_var& theORB, 
+		       const PortableServer::POA_var& thePOA )
+      : SObjectBase( theORB, thePOA )
+    {
+      std::cout << "TaskFactoryBase_i::TaskFactoryBase_i[ " << this << " ]" << std::endl;
+    }
+    
+    virtual ~TaskFactoryBase_i()
+    {
+      std::cout << "TaskFactoryBase_i::~TaskFactoryBase_i[ " << this << " ]" << std::endl;
+    }
+    
+    virtual TaskPtrType publish( TaskPtrType theTask )
+    {
+      std::cout << "TaskFactoryBase_i::register[ " << this << " ]" << std::endl;
+    
+      this->m_register_mutex.unlock();
 
-    void publish( DataHolderBase_ptr theDataHolder );
+      TTaskPtr a_task( TaskType::_duplicate( theTask ) );
+      this->m_task_pool.insert( a_task );
 
-    DataHolderBase_ptr retrieve();
+      return TaskType::_duplicate( theTask );
+    }
 
   protected:
-    typedef corba::SmartPtrDef< DataHolderBase_var >::type TDataHolderPtr;
-    std::queue< TDataHolderPtr > m_data_holders;
+    typedef std::set< TTaskPtr > TTaskPool;
+    TTaskPool m_task_pool;
 
-    omni_mutex m_read_mutex;
-    omni_mutex m_list_mutex;
+    omni_mutex m_register_mutex;
   };
 
 
