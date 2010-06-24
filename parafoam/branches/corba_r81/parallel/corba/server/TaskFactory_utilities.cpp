@@ -33,7 +33,7 @@ namespace parallel
 {
   //---------------------------------------------------------------------------
   PortableServer::ServantBase_var _get_servant( CORBA::Object_ptr theObject,
-                                               const PortableServer::POA_var& thePOA )
+                                                const PortableServer::POA_var& thePOA )
   {
     if ( CORBA::is_nil( theObject ) )  
       return NULL;

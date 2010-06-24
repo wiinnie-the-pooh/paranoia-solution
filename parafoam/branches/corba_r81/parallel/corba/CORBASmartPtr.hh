@@ -185,6 +185,11 @@ namespace parallel
       {
         return theLeft->less( theRight );
       }
+
+      static bool IsTrue( const P& theArg )
+      {
+        return ! CORBA::is_nil( theArg );
+      }
     };
 
 

@@ -52,15 +52,15 @@ namespace parallel
 
   //---------------------------------------------------------------------------
   struct DataHolderBool_i : virtual POA_parallel::DataHolderBool, 
-			    virtual DataHolderBase_i
+                            virtual DataHolderBase_i
   {
     DataHolderBool_i( bool theValue,
-		      const CORBA::ORB_var& theORB, 
-		      const PortableServer::POA_var& thePOA );
+                      const CORBA::ORB_var& theORB, 
+                      const PortableServer::POA_var& thePOA );
 
     static DataHolderBool_ptr create( bool theValue,
-				      const CORBA::ORB_var& theORB, 
-				      const PortableServer::POA_var& thePOA );
+                                      const CORBA::ORB_var& theORB, 
+                                      const PortableServer::POA_var& thePOA );
 
     ~DataHolderBool_i();
 

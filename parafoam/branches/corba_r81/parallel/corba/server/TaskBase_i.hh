@@ -109,12 +109,12 @@ namespace parallel
       typedef typename corba::SmartPtrDef< DataHolderVarType >::type DataHolderPtrType;
 
       TDataHolderPtr aDataHolderBase = this->wait_for( theName );
-      if ( CORBA::is_nil( *aDataHolderBase ) )
-	return DataHolderPtrType();
+      if ( !aDataHolderBase )
+        return DataHolderPtrType();
         
       DataHolderVarType aDataHolder( DataHolderType::_narrow( *aDataHolderBase ) );
       if ( CORBA::is_nil( aDataHolder ) )
-	return DataHolderPtrType();
+        return DataHolderPtrType();
       
       aDataHolder->AddRef();
 

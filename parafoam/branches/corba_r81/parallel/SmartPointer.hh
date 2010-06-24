@@ -135,6 +135,14 @@ namespace parallel
 
 
     //---------------------------------------------------------------------------
+    // enable 'if (sp)'
+    operator bool () const
+    {
+      return CMP::IsTrue( GetImpl( *this ) );
+    }
+
+
+    //---------------------------------------------------------------------------
     template
     <
       typename T1,

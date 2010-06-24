@@ -42,12 +42,17 @@ namespace parallel
     {
       static bool Equal( const P& theLeft, const P& theRight )
       {
-	return theLeft == theRight;
+        return theLeft == theRight;
       }
 
       static bool Less( const P& theLeft, const P& theRight )
       {
-	return theLeft < theRight;
+        return theLeft < theRight;
+      }
+
+      static bool IsTrue( const P& theArg )
+      {
+        return theArg != NULL;
       }
     };
 
@@ -73,7 +78,7 @@ namespace parallel
         CheckingPolicy,
         StoragePolicy,
         ConstnessPolicy,
-	ComparisionPolicy
+        ComparisionPolicy
       >
       type;
     };

@@ -132,8 +132,6 @@ namespace parallel
   //---------------------------------------------------------------------------
   void TaskBase_i::invoke( TaskManager_ptr theTaskManager )
   {
-    this->init();
-    
     while( theTaskManager->is_run() && this->step() );
     
     this->destroy();
@@ -276,8 +274,7 @@ namespace parallel
 
     const TPortPtr& aPort = anIter->second;
     TDataFactrory& aDataFactrory = this->m_input_ports[ aPort ];
-    const TLinkPtr& aLink = aDataFactrory.first;
-    if ( !CORBA::is_nil( *aLink ) )
+    if ( const TLinkPtr& aLink = aDataFactrory.first )
     {
       aLink->publish( theDataHolder );
     }
@@ -329,8 +326,7 @@ namespace parallel
 
     const TPortPtr& aPort = anIter->second;
     TDataFactrory& aDataFactrory = this->m_input_ports[ aPort ];
-    const TLinkPtr& aLink = aDataFactrory.first;
-    if ( !CORBA::is_nil( *aLink ) )
+    if ( const TLinkPtr& aLink = aDataFactrory.first )
     {
       return TDataHolderPtr( aLink->retrieve() );
     }
