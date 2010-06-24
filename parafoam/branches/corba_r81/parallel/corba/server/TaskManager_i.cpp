@@ -126,17 +126,27 @@ namespace parallel
     
     this->m_is_run = true;
 
-    TaskManager_var aSelf = this->_this();
-
-    TTaskSet::const_iterator anIter = this->tasks.begin();
-    TTaskSet::const_iterator anEnd = this->tasks.end();
-    for ( ; anIter != anEnd; anIter++ )
+    // To intialize all the tasks first
     {
-      const TTaskBasePtr& aTaskBase = *anIter;
+      TTaskSet::const_iterator anIter = this->tasks.begin();
+      TTaskSet::const_iterator anEnd = this->tasks.end();
+      for ( ; anIter != anEnd; anIter++ )
+      {
+        const TTaskBasePtr& aTaskBase = *anIter;
+        aTaskBase->init();
+      }
+    }
 
-      Ports_var a_ports = aTaskBase->get_input_ports();
-
-      aTaskBase->invoke( aSelf );
+    // Invoke then
+    TaskManager_var aSelf = this->_this();
+    {
+      TTaskSet::const_iterator anIter = this->tasks.begin();
+      TTaskSet::const_iterator anEnd = this->tasks.end();
+      for ( ; anIter != anEnd; anIter++ )
+      {
+        const TTaskBasePtr& aTaskBase = *anIter;
+        aTaskBase->invoke( aSelf );
+      }
     }
   }
     

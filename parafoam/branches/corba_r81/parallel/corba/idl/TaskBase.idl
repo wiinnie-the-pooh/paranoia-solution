@@ -42,6 +42,8 @@ module parallel
 
   interface TaskBase : TransientObject
   {
+    void init();
+
     void invoke( in TaskManager theTaskManager );
 
     PortBase get_input_port( in string theName );

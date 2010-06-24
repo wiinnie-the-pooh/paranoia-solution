@@ -52,6 +52,9 @@ namespace parallel
 
     ~TaskBase_i();
 
+    //---------------------------------------------------------------------------
+    void init();
+
     void invoke( TaskManager_ptr theTaskManager );
     
     //---------------------------------------------------------------------------
@@ -74,8 +77,6 @@ namespace parallel
 
     //---------------------------------------------------------------------------
   protected:
-    virtual void init();
-
     virtual CORBA::Boolean step() = 0;
 
     virtual void destroy();
