@@ -50,17 +50,17 @@ namespace parallel
       CORBA::Object_var poa_obj = orb->resolve_initial_references( "RootPOA" );
       PortableServer::POA_var poa = PortableServer::POA::_narrow( poa_obj );
   
+      PortableServer::POAManager_var pman = poa->the_POAManager();
+      pman->activate();
+  
       TaskImplType a_task_i( orb, poa );
       typename TaskType::_var_type a_task_obj = a_task_i._this();
-  
+
       CORBA::Object_var a_task_factory_obj = getObjectReference( orb, theObjectType, theObjectName );
       typename TaskFactoryType::_var_type a_task_factory_ref = TaskFactoryType::_narrow( a_task_factory_obj );
 
       a_task_factory_ref->publish( a_task_obj );
       
-      PortableServer::POAManager_var pman = poa->the_POAManager();
-      pman->activate();
-  
       orb->run();
     }
     catch( CORBA::SystemException& ex ) {

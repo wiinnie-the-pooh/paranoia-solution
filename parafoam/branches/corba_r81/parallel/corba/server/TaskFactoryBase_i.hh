@@ -33,6 +33,7 @@
 #include <omnithread.h>
 
 #include <queue>
+#include <string>
 
 #include <iostream>
 
@@ -54,6 +55,8 @@ namespace parallel
       : SObjectBase( theORB, thePOA )
     {
       std::cout << "TaskFactoryBase_i::TaskFactoryBase_i[ " << this << " ]" << std::endl;
+
+      this->m_register_mutex.lock();
     }
     
     virtual ~TaskFactoryBase_i()
@@ -61,31 +64,33 @@ namespace parallel
       std::cout << "TaskFactoryBase_i::~TaskFactoryBase_i[ " << this << " ]" << std::endl;
     }
     
-    virtual void publish( TaskPtrType theTask )
-    {
-      std::cout << "TaskFactoryBase_i::register[ " << this << " ]" << std::endl;
-    
-      this->m_register_mutex.unlock();
-
-      TTaskPtr a_task( TaskType::_duplicate( theTask ) );
-      this->m_task_pool.push( a_task );
-    }
-
-    TaskPtrType latest()
-    {
-      return TaskType::_duplicate( *this->m_task_pool.front() );
-    }
-
     virtual TaskPtrType create( const char* theInvocationShellScript )
     {
       std::cout << "TaskFactoryBase_i::create[ " << this << " ]" << std::endl;
     
-      if ( system( theInvocationShellScript ) != 0 )
+      if ( system( ( std::string( theInvocationShellScript ) + "&" ).c_str() ) != 0 )
 	return TaskType::_nil();
 
       this->m_register_mutex.lock();
       
       return this->latest();
+    }
+
+    virtual void publish( TaskPtrType theTask )
+    {
+      std::cout << "TaskFactoryBase_i::register[ " << this << " ]" << std::endl;
+    
+      TTaskPtr a_task( TaskType::_duplicate( theTask ) );
+      this->m_task_pool.push( a_task );
+
+      this->m_register_mutex.unlock();
+    }
+
+    TaskPtrType latest()
+    {
+      this->m_register_mutex.lock();
+
+      return TaskType::_duplicate( *this->m_task_pool.front() );
     }
 
   protected:

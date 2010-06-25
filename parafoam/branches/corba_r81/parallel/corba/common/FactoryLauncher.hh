@@ -50,17 +50,15 @@ namespace parallel
       CORBA::Object_var poa_obj = orb->resolve_initial_references( "RootPOA" );
       PortableServer::POA_var poa = PortableServer::POA::_narrow( poa_obj );
   
-      InterfaceType a_interface( orb, poa );
+      PortableServer::POAManager_var pman = poa->the_POAManager();
+      pman->activate();
   
-      PortableServer::ObjectId_var a_task_factory_id = poa->activate_object( &a_interface );
+      InterfaceType a_interface( orb, poa );
   
       // Obtain a reference to the object, and register it in the naming service.
       CORBA::Object_var a_interface_obj = a_interface._this();
       if( !bindObjectToName( orb, a_interface_obj, theObjectType, theObjectName ) )
         return 1;
-  
-      PortableServer::POAManager_var pman = poa->the_POAManager();
-      pman->activate();
   
       orb->run();
     }

@@ -43,11 +43,11 @@ int main( int argc, char **argv )
 
     CORBA::Object_var a_task_factory_A_obj = getObjectReference( orb, "TaskFactory", "A" );
     TaskFactoryA_var a_task_factory_A_ref = TaskFactoryA::_narrow( a_task_factory_A_obj );
-    TaskA_var a_task_A = a_task_factory_A_ref->create( "localhost" );
+    TaskA_var a_task_A = a_task_factory_A_ref->create( "TaskA_launcher" );
 
     CORBA::Object_var a_task_factory_B_obj = getObjectReference( orb, "TaskFactory", "B" );
     TaskFactoryB_var a_task_factory_B_ref = TaskFactoryB::_narrow( a_task_factory_B_obj );
-    TaskB_var a_task_B = a_task_factory_B_ref->create( "localhost" );
+    TaskB_var a_task_B = a_task_factory_B_ref->create( "TaskB_launcher" );
 
     CORBA::Object_var a_task_manager_obj = getObjectReference( orb, "TaskManager", "this" );
     TaskManager_var a_task_manager_ref = TaskManager::_narrow( a_task_manager_obj );
