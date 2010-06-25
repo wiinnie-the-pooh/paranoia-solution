@@ -39,7 +39,7 @@ namespace parallel
     typedef typename PortType::TDataHolder_i TDataHolder_i;
     typedef typename TDataHolder_i::Interface TDataHolder;
     typedef typename TDataHolder::_var_type DataHolderVarType;
-    typename corba::SmartPtrDef< DataHolderVarType >::type TDataHolderPtr;
+    typedef typename corba::SmartPtrDef< DataHolderVarType >::type TDataHolderPtr;
     
     typedef typename PortType::TValueHelper TValueHelper;
     typedef typename TValueHelper::TValue TValue;
@@ -114,13 +114,13 @@ namespace parallel
     }
     
     //---------------------------------------------------------------------------
-    TPtr operator ->  ()
+    TPtr operator -> ()
     {
       return this->value_helper.operator -> ();
     }
     
     //---------------------------------------------------------------------------
-    TConstPtr operator ->  () const
+    TConstPtr operator -> () const
     {
       return this->value_helper.operator -> ();
     }

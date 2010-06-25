@@ -23,8 +23,6 @@
 //---------------------------------------------------------------------------
 #include "parallel/corba/server/TaskB_i.hh"
 
-#include "parallel/corba/server/PortBool_i.hh"
-
 #include <iostream>
 
 using namespace std;
@@ -38,10 +36,9 @@ namespace parallel
                     const PortableServer::POA_var& thePOA )
     : TransientObject_i( theORB, thePOA )
     , TaskBase_i( theORB, thePOA )
+    , m_y( "y", true, this )
   {
     cout << "TaskB_i::TaskB_i[ " << this << " ]" << endl;
-
-    this->define_input_port( new PortBool_i( "y", this->ORB(), this->POA() ) );
   }
 
 
@@ -55,7 +52,7 @@ namespace parallel
   //---------------------------------------------------------------------------
   void TaskB_i::init()
   {
-    this->init_port( "y", DataHolderBool_i::create( true, this->ORB(), this->POA() ) );
+    this->m_y.init( true );
     
     cout << "TaskB_i::init[ " << this << " ]" << endl;
   }
@@ -64,12 +61,9 @@ namespace parallel
   //---------------------------------------------------------------------------
   CORBA::Boolean TaskB_i::step()
   {
-    typedef corba::SmartPtrDef< DataHolderBool_var >::type DataHolderBoolPtr;
-    DataHolderBoolPtr aDataHolder = this->retrieve< DataHolderBool, DataHolderBool_var >( "y" );
-
     cout << "TaskB_i::step[ " << this << " ]" << endl;
     
-    return aDataHolder->value();
+    return this->m_y.retrieve( );
   }
     
     

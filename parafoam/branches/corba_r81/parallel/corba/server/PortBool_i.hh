@@ -32,24 +32,12 @@
 
 #include "parallel/corba/server/DataHolderBase_i.hh"
 
+#include "parallel/dev/CSimpleValueHelper.h"
+
 
 //---------------------------------------------------------------------------
 namespace parallel 
 {
-  //---------------------------------------------------------------------------
-  struct PortBool_i : virtual POA_parallel::PortBool, 
-                      virtual PortBase_i
-  {
-    PortBool_i( const std::string& theName,
-                const CORBA::ORB_var& theORB, 
-                const PortableServer::POA_var& thePOA );
-
-    ~PortBool_i();
-
-    CORBA::Boolean is_compatible( PortBase_ptr theArg );
-  };
-
-
   //---------------------------------------------------------------------------
   struct DataHolderBool_i : virtual POA_parallel::DataHolderBool, 
                             virtual DataHolderBase_i
@@ -66,8 +54,27 @@ namespace parallel
 
     CORBA::Boolean value();
 
+    typedef parallel::DataHolderBool Interface;
+
   protected:
     bool m_value;
+  };
+
+
+  //---------------------------------------------------------------------------
+  struct PortBool_i : virtual POA_parallel::PortBool, 
+                      virtual PortBase_i
+  {
+    PortBool_i( const std::string& theName,
+                const CORBA::ORB_var& theORB, 
+                const PortableServer::POA_var& thePOA );
+
+    ~PortBool_i();
+
+    CORBA::Boolean is_compatible( PortBase_ptr theArg );
+
+    typedef DataHolderBool_i TDataHolder_i;
+    typedef dev::CSimpleValueHelper< bool > TValueHelper;
   };
 
 
