@@ -38,10 +38,9 @@ namespace parallel
                     const PortableServer::POA_var& thePOA )
     : TransientObject_i( theORB, thePOA )
     , TaskBase_i( theORB, thePOA )
+    , m_x( "x", false, this )
   {
     cout << "TaskA_i::TaskA_i[ " << this << " ]" << endl;
-
-    this->define_output_port( new PortBool_i( "x", this->ORB(), this->POA() ) );
   }
 
 
@@ -55,7 +54,7 @@ namespace parallel
   //---------------------------------------------------------------------------
   CORBA::Boolean TaskA_i::step()
   {
-    this->publish( "x", DataHolderBool_i::create( false, this->ORB(), this->POA() ) );
+    this->m_x.publish( false );
 
     cout << "TaskA_i::step[ " << this << " ]" << endl;
     

@@ -30,6 +30,10 @@
 
 #include "parallel/corba/server/TaskBase_i.hh"
 
+#include "parallel/corba/server/PortBool_i.hh"
+
+#include "parallel/corba/server/SPortHelperBase.hh"
+
 
 //---------------------------------------------------------------------------
 namespace parallel 
@@ -44,6 +48,8 @@ namespace parallel
 
   protected:
     CORBA::Boolean step();
+
+    SPortHelperBase< PortBool_i > m_x;
   };
 
 
