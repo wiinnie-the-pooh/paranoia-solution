@@ -56,7 +56,8 @@ namespace parallel
     {
       std::cout << "TaskFactoryBase_i::TaskFactoryBase_i[ " << this << " ]" << std::endl;
 
-      this->m_register_mutex.lock();
+      this->m_create_mutex.lock();
+      this->m_publish_mutex.lock();
     }
     
     virtual ~TaskFactoryBase_i()
@@ -71,25 +72,26 @@ namespace parallel
       if ( system( ( std::string( theInvocationShellScript ) + "&" ).c_str() ) != 0 )
 	return TaskType::_nil();
 
-      this->m_register_mutex.lock();
+      this->m_publish_mutex.unlock();
+      this->m_create_mutex.lock();
       
       return this->latest();
     }
 
     virtual void publish( TaskPtrType theTask )
     {
-      std::cout << "TaskFactoryBase_i::register[ " << this << " ]" << std::endl;
+      std::cout << "TaskFactoryBase_i::publish[ " << this << " ]" << std::endl;
     
+      this->m_publish_mutex.lock();
+
       TTaskPtr a_task( TaskType::_duplicate( theTask ) );
       this->m_task_pool.push( a_task );
 
-      this->m_register_mutex.unlock();
+      this->m_create_mutex.unlock();
     }
 
     TaskPtrType latest()
     {
-      this->m_register_mutex.lock();
-
       return TaskType::_duplicate( *this->m_task_pool.front() );
     }
 
@@ -97,7 +99,8 @@ namespace parallel
     typedef std::queue< TTaskPtr > TTaskPool;
     TTaskPool m_task_pool;
 
-    omni_mutex m_register_mutex;
+    omni_mutex m_create_mutex;
+    omni_mutex m_publish_mutex;
   };
 
 
