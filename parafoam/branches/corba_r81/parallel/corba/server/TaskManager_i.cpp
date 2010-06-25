@@ -84,7 +84,7 @@ namespace parallel
     if ( CORBA::is_nil( theSourceTask ) || CORBA::is_nil( theTargetTask ) )
       return false;
 
-    Link_var a_link( ::create_link( this->ORB, this->POA ) );
+    Link_var a_link( ::create_link( this->ORB(), this->POA() ) );
 
     PortBase_var an_output_port = theSourceTask->get_output_port( theOutputPortName );
     if ( CORBA::is_nil( an_output_port ) )

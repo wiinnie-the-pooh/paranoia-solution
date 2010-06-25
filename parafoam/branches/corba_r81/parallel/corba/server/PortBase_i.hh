@@ -47,6 +47,8 @@ namespace parallel
 
     char* name();
 
+    const std::string& c_name();
+
   protected:
     std::string m_name;
   };

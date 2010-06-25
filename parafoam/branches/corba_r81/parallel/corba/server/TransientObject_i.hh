@@ -54,10 +54,14 @@ namespace parallel
 
     char* IOR();
 
+    const CORBA::ORB_var& ORB();
+
+    const PortableServer::POA_var& POA();
+
   protected:
     int ref_counter;
-    PortableServer::POA_var POA;
-    CORBA::ORB_var ORB;
+    PortableServer::POA_var m_POA;
+    CORBA::ORB_var m_ORB;
   };
 
 

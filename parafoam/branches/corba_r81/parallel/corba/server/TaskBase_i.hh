@@ -44,9 +44,15 @@
 namespace parallel 
 {
   //---------------------------------------------------------------------------
+  struct SPortHelperEngine;
+
+
+  //---------------------------------------------------------------------------
   struct TaskBase_i : virtual POA_parallel::TaskBase, 
                       virtual TransientObject_i
   {
+    friend struct SPortHelperEngine;
+
     TaskBase_i( const CORBA::ORB_var& theORB, 
                 const PortableServer::POA_var& thePOA );
 

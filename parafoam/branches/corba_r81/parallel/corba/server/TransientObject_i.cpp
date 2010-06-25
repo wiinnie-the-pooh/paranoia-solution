@@ -33,16 +33,16 @@ namespace parallel
 {
   //---------------------------------------------------------------------------
   TransientObject_i::TransientObject_i( const CORBA::ORB_var& theORB, 
-                                    PortableServer::POA_ptr thePOA )
+					PortableServer::POA_ptr thePOA )
     : ref_counter( 1 )
-    , ORB( theORB )
+    , m_ORB( theORB )
   {
     cout << "TransientObject_i::TransientObject_i[ " << this << " ]" << endl;
 
     if( CORBA::is_nil( thePOA ) )
-      this->POA = PortableServer::ServantBase::_default_POA();
+      this->m_POA = PortableServer::ServantBase::_default_POA();
     else
-      this->POA = PortableServer::POA::_duplicate( thePOA );
+      this->m_POA = PortableServer::POA::_duplicate( thePOA );
   }
   
 
@@ -56,7 +56,7 @@ namespace parallel
   //---------------------------------------------------------------------------
   PortableServer::POA_ptr TransientObject_i::_default_POA()
   {
-    return PortableServer::POA::_duplicate( this->POA );
+    return PortableServer::POA::_duplicate( this->m_POA );
   }
 
 
@@ -76,9 +76,9 @@ namespace parallel
 
     if ( --this->ref_counter <= 0 ) 
     {
-      PortableServer::ObjectId_var anObjectId = this->POA->servant_to_id( this );
+      PortableServer::ObjectId_var anObjectId = this->m_POA->servant_to_id( this );
 
-      this->POA->deactivate_object( anObjectId.in() );
+      this->m_POA->deactivate_object( anObjectId.in() );
 
       this->_remove_ref();
     }
@@ -116,9 +116,23 @@ namespace parallel
   {
     CORBA::Object_var anObject = this->_this();
 
-    CORBA::String_var anIOR = this->ORB->object_to_string( anObject );
+    CORBA::String_var anIOR = this->m_ORB->object_to_string( anObject );
 
     return anIOR._retn();
+  }
+
+
+  //---------------------------------------------------------------------------
+  const CORBA::ORB_var& TransientObject_i::ORB()
+  {
+    return this->m_ORB;
+  }
+
+
+  //---------------------------------------------------------------------------
+  const PortableServer::POA_var& TransientObject_i::POA()
+  {
+    return this->m_POA;
   }
 
 

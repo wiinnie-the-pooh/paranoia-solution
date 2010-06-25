@@ -41,7 +41,7 @@ namespace parallel
   {
     cout << "TaskA_i::TaskA_i[ " << this << " ]" << endl;
 
-    this->define_output_port( new PortBool_i( "x", this->ORB, this->POA ) );
+    this->define_output_port( new PortBool_i( "x", this->ORB(), this->POA() ) );
   }
 
 
@@ -55,7 +55,7 @@ namespace parallel
   //---------------------------------------------------------------------------
   CORBA::Boolean TaskA_i::step()
   {
-    this->publish( "x", DataHolderBool_i::create( false, this->ORB, this->POA ) );
+    this->publish( "x", DataHolderBool_i::create( false, this->ORB(), this->POA() ) );
 
     cout << "TaskA_i::step[ " << this << " ]" << endl;
     

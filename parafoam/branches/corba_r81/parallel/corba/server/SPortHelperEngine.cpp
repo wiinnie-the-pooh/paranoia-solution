@@ -21,7 +21,7 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/server/PortBase_i.hh"
+#include "parallel/corba/server/SPortHelperEngine.hh"
 
 #include <iostream>
 
@@ -32,37 +32,63 @@ using namespace std;
 namespace parallel
 {
   //---------------------------------------------------------------------------
-  PortBase_i::PortBase_i( const std::string& theName,
-                          const CORBA::ORB_var& theORB, 
-                          const PortableServer::POA_var& thePOA )
-    : SObjectBase( theORB, thePOA )
-    , m_name( theName )
+  SPortHelperEngine::SPortHelperEngine( const TPortPtr& thePort, bool theIsInput, const TTaskPtr& theTask )
+    : m_port( thePort ) 
+    , m_task( theTask ) 
   {
-    cout << "PortBase_i::PortBase_i[ " << this << " ]" << endl;
+    if ( theIsInput )
+      theTask->define_input_port( thePort );
+    else
+      theTask->define_output_port( thePort );
   }
 
 
   //---------------------------------------------------------------------------
-  PortBase_i::~PortBase_i()
+  const std::string& SPortHelperEngine::c_name()
   {
-    cout << "PortBase_i::~PortBase_i[ " << this << " ]" << endl;
+    return this->m_port->c_name();
+  }
+      
+
+  //---------------------------------------------------------------------------
+  SPortHelperEngine::TTaskPtr SPortHelperEngine::task()
+  {
+    return this->m_task;
   }
 
 
   //---------------------------------------------------------------------------
-  char* PortBase_i::name()
+  const CORBA::ORB_var& SPortHelperEngine::ORB()
   {
-    return CORBA::string_dup( this->m_name.c_str() );
+    return this->m_task->ORB();
   }
-    
-    
+
+
   //---------------------------------------------------------------------------
-  const std::string& PortBase_i::c_name()
+  const PortableServer::POA_var& SPortHelperEngine::POA()
   {
-    return this->m_name;
+    return this->m_task->POA();
   }
-    
-    
+  
+
+  //---------------------------------------------------------------------------
+  void SPortHelperEngine::__init__( const SPortHelperEngine::TTaskPtr& theTask,
+				    const std::string& theName, 
+				    const SPortHelperEngine::TDataHolderBasePtr& theDataHolder )
+  {
+    theTask->init_port( theName, theDataHolder );
+  }
+
+  
+  //---------------------------------------------------------------------------
+  void SPortHelperEngine::__publish__( const SPortHelperEngine::TTaskPtr& theTask,
+				       const std::string& theName, 
+				       const SPortHelperEngine::TDataHolderBasePtr& theDataHolder )
+  {
+    theTask->publish( theName, theDataHolder );
+  }
+
+
   //---------------------------------------------------------------------------
 }
 

@@ -41,7 +41,7 @@ namespace parallel
   {
     cout << "TaskB_i::TaskB_i[ " << this << " ]" << endl;
 
-    this->define_input_port( new PortBool_i( "y", this->ORB, this->POA ) );
+    this->define_input_port( new PortBool_i( "y", this->ORB(), this->POA() ) );
   }
 
 
@@ -55,7 +55,7 @@ namespace parallel
   //---------------------------------------------------------------------------
   void TaskB_i::init()
   {
-    this->init_port( "y", DataHolderBool_i::create( true, this->ORB, this->POA ) );
+    this->init_port( "y", DataHolderBool_i::create( true, this->ORB(), this->POA() ) );
     
     cout << "TaskB_i::init[ " << this << " ]" << endl;
   }

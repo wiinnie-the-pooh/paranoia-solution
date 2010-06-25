@@ -166,7 +166,7 @@ namespace parallel
     if ( !thePort->is_compatible( theOppositePort ) )
       return false;
       
-    PortBase_i* aPort = get_servant< PortBase_i* >( thePort, this->POA );
+    PortBase_i* aPort = get_servant< PortBase_i* >( thePort, this->POA() );
     if ( !aPort )
       return false;
 
@@ -209,7 +209,7 @@ namespace parallel
     if ( !thePort->is_compatible( theOppositePort ) )
       return false;
       
-    PortBase_i* aPort = get_servant< PortBase_i* >( thePort, this->POA );
+    PortBase_i* aPort = get_servant< PortBase_i* >( thePort, this->POA() );
     if ( !aPort )
       return false;
 

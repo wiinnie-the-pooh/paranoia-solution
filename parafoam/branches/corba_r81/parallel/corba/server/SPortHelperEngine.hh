@@ -21,35 +21,63 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef corba_server_SObjectBase_hh
-#define corba_server_SObjectBase_hh
+#ifndef corba_server_SPortHelperEngine_hh
+#define corba_server_SPortHelperEngine_hh
 
 
 //---------------------------------------------------------------------------
-#include "CORBA.h"
+#include "parallel/corba/server/PortBase_i.hh"
+
+#include "parallel/corba/server/TaskBase_i.hh"
+
+#include "parallel/corba/server/DataHolderBase_i.hh"
+
+#include "parallel/corba/CORBASmartPtr.hh"
 
 
 //---------------------------------------------------------------------------
-namespace parallel 
+namespace parallel
 {
   //---------------------------------------------------------------------------
-  struct SObjectBase
+  struct SPortHelperEngine
   {
-    SObjectBase( const CORBA::ORB_var& theORB, 
-                 const PortableServer::POA_var& thePOA );
+  protected:
+    typedef PortBase_i* TPortPtr;
+    typedef TaskBase_i* TTaskPtr;
+    typedef DataHolderBase_var TDataHolderBasePtr;
 
-    virtual ~SObjectBase();
+    SPortHelperEngine( const TPortPtr& thePort, bool theIsInput, const TTaskPtr& theTask );
+
+    const std::string& c_name();
+      
+    TTaskPtr task();
 
     const CORBA::ORB_var& ORB();
 
     const PortableServer::POA_var& POA();
 
+    void __init__( const TTaskPtr& theTask,
+		   const std::string& theName, 
+		   const TDataHolderBasePtr& theDataHolder );
+
+    void __publish__( const TTaskPtr& theTask,
+		      const std::string& theName, 
+		      const TDataHolderBasePtr& theDataHolder );
+
+    template< class DataHolderType, class DataHolderVarType >
+    typename corba::SmartPtrDef< DataHolderVarType >::type 
+    __retrieve__( const TTaskPtr& theTask,
+		  const std::string& theName )
+    {
+      return theTask->template retrieve< DataHolderType, DataHolderVarType >( theName );
+    }
+
   protected:
-    CORBA::ORB_var m_ORB;
-    PortableServer::POA_var m_POA;
+    TPortPtr m_port;
+    TTaskPtr m_task;
   };
-
-
+    
+    
   //---------------------------------------------------------------------------
 }
 

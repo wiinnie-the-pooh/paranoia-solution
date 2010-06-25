@@ -21,7 +21,7 @@
 
 
 //---------------------------------------------------------------------------
-#include <parallel/corba/server/SObjectBase.hh>
+#include "parallel/corba/server/SObjectBase.hh"
 
 #include <iostream>
 
@@ -34,14 +34,28 @@ namespace parallel
   //---------------------------------------------------------------------------
   SObjectBase::SObjectBase( const CORBA::ORB_var& theORB, 
                             const PortableServer::POA_var& thePOA )
-    : ORB( theORB )
-    , POA( thePOA )
+    : m_ORB( theORB )
+    , m_POA( thePOA )
   {}
 
 
   //---------------------------------------------------------------------------
   SObjectBase::~SObjectBase()
   {}
+
+
+  //---------------------------------------------------------------------------
+  const CORBA::ORB_var& SObjectBase::ORB()
+  {
+    return this->m_ORB;
+  }
+
+
+  //---------------------------------------------------------------------------
+  const PortableServer::POA_var& SObjectBase::POA()
+  {
+    return this->m_POA;
+  }
 
 
   //---------------------------------------------------------------------------
