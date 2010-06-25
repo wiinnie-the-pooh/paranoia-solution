@@ -44,7 +44,7 @@ namespace parallel
   protected:
     typedef PortBase_i* TPortPtr;
     typedef TaskBase_i* TTaskPtr;
-    typedef DataHolderBase_var TDataHolderBasePtr;
+    typedef DataHolderBase_var TDataHolderBaseVar;
 
     SPortHelperEngine( const TPortPtr& thePort, bool theIsInput, const TTaskPtr& theTask );
 
@@ -58,11 +58,11 @@ namespace parallel
 
     void __init__( const TTaskPtr& theTask,
 		   const std::string& theName, 
-		   const TDataHolderBasePtr& theDataHolder );
+		   const TDataHolderBaseVar& theDataHolder );
 
     void __publish__( const TTaskPtr& theTask,
 		      const std::string& theName, 
-		      const TDataHolderBasePtr& theDataHolder );
+		      const TDataHolderBaseVar& theDataHolder );
 
     template< class DataHolderType, class DataHolderVarType >
     typename corba::SmartPtrDef< DataHolderVarType >::type 
