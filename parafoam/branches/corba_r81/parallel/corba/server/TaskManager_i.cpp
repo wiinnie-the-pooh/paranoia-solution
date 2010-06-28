@@ -100,6 +100,8 @@ namespace parallel
     if ( !theTargetTask->connect_input( an_input_port, a_link, an_output_port ) )
       return false;
 
+    a_link->Release();
+
     this->register_task( theSourceTask );
     this->register_task( theTargetTask );
 
@@ -113,6 +115,7 @@ namespace parallel
     if ( CORBA::is_nil( theTask ) )
       return;
 
+    theTask->AddRef();
     TaskBase::_duplicate( theTask );
 
     if ( this->tasks.insert( TTaskBasePtr( theTask ) ).second )

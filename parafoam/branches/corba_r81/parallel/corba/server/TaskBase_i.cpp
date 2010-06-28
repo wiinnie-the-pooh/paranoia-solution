@@ -216,7 +216,9 @@ namespace parallel
     if ( this->m_output_ports.find( aPort ) == this->m_output_ports.end() )
       return false;
 
+    theLink->AddRef();
     TLinkPtr aLink( Link::_duplicate( theLink ) );
+
     TLinks& a_links = this->m_output_ports[ aPort ];
     a_links.insert( aLink );
 
