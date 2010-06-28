@@ -34,6 +34,8 @@
 
 #include "parallel/corba/server/SPortHelperBase.hh"
 
+#include "parallel/corba/server/SerializedPortInt_i.hh"
+
 
 //---------------------------------------------------------------------------
 namespace parallel 
@@ -52,6 +54,8 @@ namespace parallel
     CORBA::Boolean step();
 
     SPortHelperBase< PortBool_i > m_y;
+
+    SPortHelperBase< SerializedPortInt_i > m_sy;
   };
 
 

@@ -173,7 +173,7 @@ namespace parallel
     if ( this->m_input_ports.find( aPort ) == this->m_input_ports.end() )
       return false;
 
-    TaskBase_i::TLinkPtr aLink( Link::_duplicate( theLink ) );
+    TLinkPtr aLink( Link::_duplicate( theLink ) );
     TDataFactrory& a_data_factory = this->m_input_ports[ aPort ];
     a_data_factory.first = aLink;
 
@@ -216,7 +216,7 @@ namespace parallel
     if ( this->m_output_ports.find( aPort ) == this->m_output_ports.end() )
       return false;
 
-    TaskBase_i::TLinkPtr aLink( Link::_duplicate( theLink ) );
+    TLinkPtr aLink( Link::_duplicate( theLink ) );
     TLinks& a_links = this->m_output_ports[ aPort ];
     a_links.insert( aLink );
 

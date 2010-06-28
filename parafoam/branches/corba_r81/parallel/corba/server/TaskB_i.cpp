@@ -37,6 +37,7 @@ namespace parallel
     : TransientObject_i( theORB, thePOA )
     , TaskBase_i( theORB, thePOA )
     , m_y( "y", eInputPort, this )
+    , m_sy( "sy", eInputPort, this )
   {
     cout << "TaskB_i::TaskB_i[ " << this << " ]" << endl;
   }
@@ -55,6 +56,8 @@ namespace parallel
     this->m_y.init( true );
     
     cout << "TaskB_i::init[ " << this << " ]" << endl;
+
+    this->m_sy.init( -1 );
   }
     
     
@@ -62,7 +65,11 @@ namespace parallel
   CORBA::Boolean TaskB_i::step()
   {
     cout << "TaskB_i::step[ " << this << " ]" << endl;
+
+    this->m_sy.retrieve();
     
+    cout << "TaskB_i::step[ " << this << " ] = " << this->m_sy() << endl;
+
     return this->m_y.retrieve( );
   }
     

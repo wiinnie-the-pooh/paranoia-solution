@@ -51,7 +51,9 @@ int main( int argc, char **argv )
 
     CORBA::Object_var a_task_manager_obj = getObjectReference( orb, "TaskManager", "this" );
     TaskManager_var a_task_manager_ref = TaskManager::_narrow( a_task_manager_obj );
-    a_task_manager_ref->connect( a_task_A, "x", a_task_B, "y" );
+
+    //a_task_manager_ref->connect( a_task_A, "x", a_task_B, "y" );
+    a_task_manager_ref->connect( a_task_A, "sx", a_task_B, "sy" );
     
     a_task_manager_ref->run();
 

@@ -26,4 +26,10 @@ parallel_corba_common_root_dir := $(parallel_corba_server_root_dir)/../common
 include $(parallel_corba_common_root_dir)/include.makefile
 
 
+#------------------------------------------------------------------------------
+CPPFLAGS += @BOOST_CPPFLAGS@ @BOOST_CXXFLAGS@
+
+LDFLAGS += @BOOST_LDFLAGS@ @BOOST_SERIALIZATION_LIBS@
+
+
 #--------------------------------------------------------------------------------------

@@ -48,6 +48,8 @@ namespace parallel
 
     char* value();
 
+    typedef parallel::SerializedDataHolder Interface;
+    
     protected:
       std::string m_serialized_data;
   };

@@ -39,6 +39,7 @@ namespace parallel
     : TransientObject_i( theORB, thePOA )
     , TaskBase_i( theORB, thePOA )
     , m_x( "x", eOutputPort, this )
+    , m_sx( "sx", eOutputPort, this )
   {
     cout << "TaskA_i::TaskA_i[ " << this << " ]" << endl;
   }
@@ -55,6 +56,8 @@ namespace parallel
   CORBA::Boolean TaskA_i::step()
   {
     this->m_x.publish( false );
+
+    this->m_sx.publish( 7 );
 
     cout << "TaskA_i::step[ " << this << " ]" << endl;
     

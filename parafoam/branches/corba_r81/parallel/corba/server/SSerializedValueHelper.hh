@@ -54,12 +54,9 @@ namespace parallel
       : dev::CSimpleValueHelperBase< Type >( the_value_helper.value )
     {}
     
-    template< class SerializedDataHolderVarType >
-    SSerializedValueHelper& operator = ( const SerializedDataHolderVarType& the_data_holder )
+    SSerializedValueHelper& operator = ( const char* the_serialized_data )
     {
-      CORBA::String_var a_serialized_data = the_data_holder->value();
-
-      typename std::istringstream is( a_serialized_data );
+      typename std::istringstream is( the_serialized_data );
     
       typename boost::archive::text_iarchive ia( is );
     
