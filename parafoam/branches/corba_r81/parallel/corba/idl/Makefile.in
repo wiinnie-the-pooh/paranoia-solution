@@ -37,6 +37,7 @@ include $(parallel_corba_idl_root_dir)/include.makefile
 IDL_FILES = \
 	TransientObject.idl TaskBase.idl \
 	PortBase.idl Link.idl DataHolderBase.idl \
+	SerializedPort.idl \
 	TaskFactoryBase.idl TaskManager.idl \
 	TaskFactoryA.idl TaskFactoryB.idl PortBool.idl
 
