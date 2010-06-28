@@ -46,7 +46,9 @@ namespace parallel
     typedef TaskBase_i* TTaskPtr;
     typedef DataHolderBase_var TDataHolderBaseVar;
 
-    SPortHelperEngine( const TPortPtr& thePort, bool theIsInput, const TTaskPtr& theTask );
+    SPortHelperEngine( const TPortPtr& thePort, 
+		       TaskBase_i::EPortType thePortType, 
+		       const TTaskPtr& theTask );
 
     const std::string& c_name();
       

@@ -51,8 +51,8 @@ namespace parallel
     typedef typename TValueHelper::TConstPtr TConstPtr;
     
     //---------------------------------------------------------------------------
-    SPortHelperBase( const std::string& theName, bool theIsInput, TTaskPtr theTask )
-      : SPortHelperEngine( new PortType( theName, theTask->ORB(), theTask->POA() ), theIsInput, theTask )
+    SPortHelperBase( const std::string& theName, TaskBase_i::EPortType thePortType, TTaskPtr theTask )
+      : SPortHelperEngine( new PortType( theName, theTask->ORB(), theTask->POA() ), thePortType, theTask )
     {}
     
     //---------------------------------------------------------------------------

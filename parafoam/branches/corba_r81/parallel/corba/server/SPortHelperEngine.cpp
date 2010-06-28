@@ -32,11 +32,13 @@ using namespace std;
 namespace parallel
 {
   //---------------------------------------------------------------------------
-  SPortHelperEngine::SPortHelperEngine( const TPortPtr& thePort, bool theIsInput, const TTaskPtr& theTask )
+  SPortHelperEngine::SPortHelperEngine( const TPortPtr& thePort, 
+					TaskBase_i::EPortType thePortType, 
+					const TTaskPtr& theTask )
     : m_port( thePort ) 
     , m_task( theTask ) 
   {
-    if ( theIsInput )
+    if ( thePortType == TaskBase_i::eInputPort )
       theTask->define_input_port( thePort );
     else
       theTask->define_output_port( thePort );

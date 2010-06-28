@@ -98,6 +98,8 @@ namespace parallel
     typedef std::set< TLinkPtr > TLinks;
     typedef std::map< TPortPtr, TLinks > TOutputPorts;
 
+    enum EPortType { eInputPort, eOutputPort };
+
   protected:
     bool define_input_port( const TPortPtr& thePort );
     bool define_output_port( const TPortPtr& thePort );

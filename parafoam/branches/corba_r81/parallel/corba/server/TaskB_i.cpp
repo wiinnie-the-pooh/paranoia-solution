@@ -36,7 +36,7 @@ namespace parallel
                     const PortableServer::POA_var& thePOA )
     : TransientObject_i( theORB, thePOA )
     , TaskBase_i( theORB, thePOA )
-    , m_y( "y", true, this )
+    , m_y( "y", eInputPort, this )
   {
     cout << "TaskB_i::TaskB_i[ " << this << " ]" << endl;
   }
