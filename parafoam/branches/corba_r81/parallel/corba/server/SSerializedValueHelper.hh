@@ -44,14 +44,14 @@ namespace parallel
   template< class Type >
   struct SSerializedValueHelper : dev::CSimpleValueHelperBase< Type >
   {
-    typedef typename CSimpleValueHelperBase< Type >::TValue TValue;
+    typedef typename dev::CSimpleValueHelperBase< Type >::TValue TValue;
 
     SSerializedValueHelper( const TValue& the_value = TValue() )
-      : CSimpleValueHelperBase< Type >( the_value )
+      : dev::CSimpleValueHelperBase< Type >( the_value )
     {}
     
     SSerializedValueHelper( const SSerializedValueHelper& the_value_helper )
-      : CSimpleValueHelperBase< Type >( the_value_helper.value )
+      : dev::CSimpleValueHelperBase< Type >( the_value_helper.value )
     {}
     
     template< class SerializedDataHolderVarType >
@@ -63,21 +63,19 @@ namespace parallel
     
       typename boost::archive::text_iarchive ia( is );
     
-      ia >> the_value_helper;
+      ia >> *this;
 
       return *this;
     }
     
     operator std::string () const
     {
-      std::string a_serialized_data;
-
       typename std::ostringstream os;
       typename boost::archive::text_oarchive oa( os );
     
       oa << *this;
     
-      return a_serialized_data.str();
+      return os.str();
     }
     
     template< class ArchiveType >
