@@ -21,16 +21,20 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef corba_server_Foam_DimensionedScalarPort_i_hh
-#define corba_server_Foam_DimensionedScalarPort_i_hh
+#ifndef corba_server_Foam_TimeSourceTaskFactory_i_hh
+#define corba_server_Foam_TimeSourceTaskFactory_i_hh
 
 
 //---------------------------------------------------------------------------
-#include "foam/Foam_DimensionedScalarPort.hh"
+#include "foam/Foam_TimeSourceTaskFactory.hh"
 
-#include "parallel/corba/server/SerializedPort_i.hh"
+#include "parallel/corba/server/TaskFactoryBase_i.hh"
 
-#include "parallel/corba/server/foam/Foam_DimensionedScalarValueHelper.hh"
+
+//---------------------------------------------------------------------------
+#ifdef __USE_CORBA_SINGLE_PROCESS__
+#include "parallel/corba/server/foam/TimeSourceTask_i.hh"
+#endif
 
 
 //---------------------------------------------------------------------------
@@ -40,19 +44,11 @@ namespace parallel
   namespace foam
   {
     //---------------------------------------------------------------------------
-    struct DimensionedScalarPort_i : virtual POA_parallel::foam::DimensionedScalarPort, 
-				     virtual SerializedPort_i
-    {
-      DimensionedScalarPort_i( const std::string& theName,
-			       const CORBA::ORB_var& theORB, 
-			       const PortableServer::POA_var& thePOA );
-      
-      ~DimensionedScalarPort_i();
-      
-      CORBA::Boolean is_compatible( PortBase_ptr theArg );
-      
-      typedef SSerializedValueHelper< Foam::dimensionedScalar > TValueHelper;
-    };
+#ifndef __USE_CORBA_SINGLE_PROCESS__
+  typedef TaskFactoryBase_i< POA_parallel::foam::TimeSourceTaskFactory, TimeSourceTask > TimeSourceTaskFactory_i;
+#else
+  typedef TaskFactoryBase_i< POA_parallel::foam::TimeSourceTaskFactory, TimeSourceTask, TimeSourceTask_i, TimeSourceTaskFactory > TimeSourceTaskFactory_i;
+#endif
 
 
     //---------------------------------------------------------------------------

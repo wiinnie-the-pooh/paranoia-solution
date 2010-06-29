@@ -39,16 +39,36 @@ namespace parallel
 {
   //---------------------------------------------------------------------------
   template<>
-  struct SSerializedValueHelper< Foam::dimensionedScalar > : SSerializedValueHelperBase< Foam::dimensionedScalar >
+  struct SSerializedValueHelper< Foam::dimensionedScalar > : SSimpleValueHelperBase< Foam::dimensionedScalar >
   {
     SSerializedValueHelper( const TValue& the_value = Foam::dimensionedScalar( 0.0 ) )
-      : SSerializedValueHelperBase< Foam::dimensionedScalar >( the_value )
+      : SSimpleValueHelperBase< Foam::dimensionedScalar >( the_value )
       {}
 
     SSerializedValueHelper( const SSerializedValueHelper& the_value_helper )
-      : SSerializedValueHelperBase< Foam::dimensionedScalar >( the_value_helper.value )
+      : SSimpleValueHelperBase< Foam::dimensionedScalar >( the_value_helper.value )
     {}
 
+    SSerializedValueHelper( const char* the_serialized_data )
+      : SSimpleValueHelperBase< Foam::dimensionedScalar >( Foam::dimensionedScalar( 0.0 ) )
+    {
+      std::istringstream is( the_serialized_data );
+    
+      boost::archive::text_iarchive ia( is );
+    
+      ia >> *this;
+    }
+    
+    operator std::string () const
+    {
+      std::ostringstream os;
+      boost::archive::text_oarchive oa( os );
+    
+      oa << *this;
+    
+      return os.str();
+    }
+    
     template< class ArchiveType >
     void save( ArchiveType & ar, const unsigned int /* revision_number */ ) const
     {

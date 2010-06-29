@@ -21,16 +21,18 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef corba_server_Foam_DimensionedScalarPort_i_hh
-#define corba_server_Foam_DimensionedScalarPort_i_hh
+#ifndef corba_server_TaskA_i_hh
+#define corba_server_TaskA_i_hh
 
 
 //---------------------------------------------------------------------------
-#include "foam/Foam_DimensionedScalarPort.hh"
+#include "foam/Foam_TimeSourceTaskFactory.hh"
 
-#include "parallel/corba/server/SerializedPort_i.hh"
+#include "parallel/corba/server/TaskBase_i.hh"
 
-#include "parallel/corba/server/foam/Foam_DimensionedScalarValueHelper.hh"
+#include "parallel/corba/server/SPortHelperBase.hh"
+
+#include "parallel/corba/server/foam/Foam_DimensionedScalarPort_i.hh"
 
 
 //---------------------------------------------------------------------------
@@ -40,18 +42,18 @@ namespace parallel
   namespace foam
   {
     //---------------------------------------------------------------------------
-    struct DimensionedScalarPort_i : virtual POA_parallel::foam::DimensionedScalarPort, 
-				     virtual SerializedPort_i
+    struct TimeSourceTask_i : virtual POA_parallel::foam::TimeSourceTask, 
+			      virtual TaskBase_i
     {
-      DimensionedScalarPort_i( const std::string& theName,
-			       const CORBA::ORB_var& theORB, 
-			       const PortableServer::POA_var& thePOA );
+      TimeSourceTask_i( const CORBA::ORB_var& theORB, 
+			const PortableServer::POA_var& thePOA );
       
-      ~DimensionedScalarPort_i();
+      ~TimeSourceTask_i();
       
-      CORBA::Boolean is_compatible( PortBase_ptr theArg );
+    protected:
+      CORBA::Boolean step();
       
-      typedef SSerializedValueHelper< Foam::dimensionedScalar > TValueHelper;
+      SPortHelperBase< DimensionedScalarPort_i > m_time_o;
     };
 
 

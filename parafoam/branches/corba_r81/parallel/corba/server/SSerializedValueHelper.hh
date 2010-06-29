@@ -42,19 +42,19 @@ namespace parallel
 {
   //---------------------------------------------------------------------------
   template< class Type >
-  struct SSerializedValueHelperBase : SSimpleValueHelperBase< Type >
+  struct SSerializedValueHelper : SSimpleValueHelperBase< Type >
   {
     typedef typename SSimpleValueHelperBase< Type >::TValue TValue;
 
-    SSerializedValueHelperBase( const TValue& the_value = TValue() )
+    SSerializedValueHelper( const TValue& the_value = TValue() )
       : SSimpleValueHelperBase< Type >( the_value )
     {}
     
-    SSerializedValueHelperBase( const SSerializedValueHelperBase& the_value_helper )
+    SSerializedValueHelper( const SSerializedValueHelper& the_value_helper )
       : SSimpleValueHelperBase< Type >( the_value_helper.value )
     {}
     
-    SSerializedValueHelperBase( const char* the_serialized_data )
+    SSerializedValueHelper( const char* the_serialized_data )
     {
       typename std::istringstream is( the_serialized_data );
     
@@ -81,28 +81,6 @@ namespace parallel
   };
   
   
-  //---------------------------------------------------------------------------
-  // To define a new template class to be able to reuse the same "base"
-  // implementation in partial specialized templates
-  template< class Type >
-  struct SSerializedValueHelper : SSerializedValueHelperBase< Type >
-  {
-    typedef typename SSerializedValueHelperBase< Type >::TValue TValue;
-    
-    SSerializedValueHelper( const TValue& the_value = TValue() )
-      : SSerializedValueHelperBase< Type >( the_value )
-    {}
-    
-    SSerializedValueHelper( const SSerializedValueHelper& the_value_helper )
-      : SSerializedValueHelperBase< Type >( the_value_helper.value )
-    {}
-
-    SSerializedValueHelper( const char* the_serialized_data )
-      : SSerializedValueHelperBase< Type >( the_serialized_data )
-    {}
-  };
-    
-    
   //---------------------------------------------------------------------------
 }
 

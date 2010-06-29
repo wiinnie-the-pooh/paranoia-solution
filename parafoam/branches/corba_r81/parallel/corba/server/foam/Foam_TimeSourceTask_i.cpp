@@ -21,47 +21,54 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef corba_server_Foam_DimensionedScalarPort_i_hh
-#define corba_server_Foam_DimensionedScalarPort_i_hh
+#include "parallel/corba/server/foam/Foam_TimeSourceTask_i.hh"
+
+#include <iostream>
+
+using namespace std;
 
 
 //---------------------------------------------------------------------------
-#include "foam/Foam_DimensionedScalarPort.hh"
-
-#include "parallel/corba/server/SerializedPort_i.hh"
-
-#include "parallel/corba/server/foam/Foam_DimensionedScalarValueHelper.hh"
-
-
-//---------------------------------------------------------------------------
-namespace parallel 
+namespace parallel
 {
   //---------------------------------------------------------------------------
   namespace foam
   {
     //---------------------------------------------------------------------------
-    struct DimensionedScalarPort_i : virtual POA_parallel::foam::DimensionedScalarPort, 
-				     virtual SerializedPort_i
+    TimeSourceTask_i::TimeSourceTask_i( const CORBA::ORB_var& theORB, 
+					const PortableServer::POA_var& thePOA )
+      : TransientObject_i( theORB, thePOA )
+      , TaskBase_i( theORB, thePOA )
+      , m_time_o( "time", eOutputPort, this )
     {
-      DimensionedScalarPort_i( const std::string& theName,
-			       const CORBA::ORB_var& theORB, 
-			       const PortableServer::POA_var& thePOA );
+      cout << "TimeSourceTask_i::TimeSourceTask_i[ " << this << " ]" << endl;
+    }
+
+
+    //---------------------------------------------------------------------------
+    TimeSourceTask_i::~TimeSourceTask_i()
+    {
+      cout << "TimeSourceTask_i::~TimeSourceTask_i[ " << this << " ]" << endl;
+    }
+
+
+    //---------------------------------------------------------------------------
+    CORBA::Boolean TimeSourceTask_i::step()
+    {
+      cout << "TimeSourceTask_i::step[ " << this << " ]" << endl;
       
-      ~DimensionedScalarPort_i();
-      
-      CORBA::Boolean is_compatible( PortBase_ptr theArg );
-      
-      typedef SSerializedValueHelper< Foam::dimensionedScalar > TValueHelper;
-    };
+      this->m_time_o.publish();
+
+      return false;
+    }
 
 
     //---------------------------------------------------------------------------
   }
-
-
+    
+    
   //---------------------------------------------------------------------------
 }
 
 
 //---------------------------------------------------------------------------
-#endif

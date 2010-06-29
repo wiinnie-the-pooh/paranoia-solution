@@ -21,9 +21,19 @@
 
 
 #--------------------------------------------------------------------------------------
+ifeq "$(parallel_corba_server_foam_include_makefile)xx" "xx"
+parallel_corba_server_foam_include_makefile = "included"
+#--------------------------------------------------------------------------------------
+
+
+#--------------------------------------------------------------------------------------
 parallel_corba_server_root_dir := $(parallel_corba_server_foam_root_dir)/..
 
 include $(parallel_corba_server_root_dir)/include.makefile
+
+parallel_corba_idl_foam_root_dir := $(parallel_corba_server_foam_root_dir)/../../idl/foam
+
+include $(parallel_corba_idl_foam_root_dir)/include.makefile
 
 
 #------------------------------------------------------------------------------
@@ -67,4 +77,6 @@ LDFLAGS += -L$(LIB_WM_OPTIONS_DIR) $(PROJECT_LIBS) -ldl \
 CPPFLAGS:=$(shell echo $(CPPFLAGS) | sed -e"s%-Wunused%%g")
 
 
+#--------------------------------------------------------------------------------------
+endif
 #--------------------------------------------------------------------------------------

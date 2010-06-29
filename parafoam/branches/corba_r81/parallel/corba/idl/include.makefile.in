@@ -21,6 +21,12 @@
 
 
 #--------------------------------------------------------------------------------------
+ifeq "$(parallel_corba_idl_include_makefile)xx" "xx"
+parallel_corba_idl_include_makefile = "included"
+#--------------------------------------------------------------------------------------
+
+
+#--------------------------------------------------------------------------------------
 parallel_corba_root_dir := $(parallel_corba_idl_root_dir)/..
 
 include $(parallel_corba_root_dir)/include.makefile
@@ -56,12 +62,12 @@ $(idl_target): $(patsubst %.idl, %SK.o, $(IDL_FILES))
 	  fi; \
 	done ;
 
-ifneq "$(IDL_FILES)xx" "xx"
-	include .depidl
-endif
+-include .depidl
 
 clean-idl:
 	rm -f  *.o *.d *.hh *.cc .depidl $(idl_target)
 
 
+#--------------------------------------------------------------------------------------
+endif
 #--------------------------------------------------------------------------------------

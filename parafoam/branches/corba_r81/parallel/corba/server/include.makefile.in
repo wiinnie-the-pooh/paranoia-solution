@@ -21,6 +21,12 @@
 
 
 #--------------------------------------------------------------------------------------
+ifeq "$(parallel_corba_server_include_makefile)xx" "xx"
+parallel_corba_server_include_makefile = "included"
+#--------------------------------------------------------------------------------------
+
+
+#--------------------------------------------------------------------------------------
 parallel_corba_common_root_dir := $(parallel_corba_server_root_dir)/../common
 
 include $(parallel_corba_common_root_dir)/include.makefile
@@ -38,4 +44,6 @@ ifneq "$(parallel_corba_server_root_dir)" "."
 endif
 
 
+#--------------------------------------------------------------------------------------
+endif
 #--------------------------------------------------------------------------------------
