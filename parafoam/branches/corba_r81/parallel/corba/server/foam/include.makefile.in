@@ -21,21 +21,9 @@
 
 
 #--------------------------------------------------------------------------------------
-parallel_corba_common_root_dir := $(parallel_corba_server_root_dir)/../common
+parallel_corba_server_root_dir := $(parallel_corba_server_foam_root_dir)/..
 
-include $(parallel_corba_common_root_dir)/include.makefile
-
-
-#------------------------------------------------------------------------------
-CPPFLAGS += @BOOST_CPPFLAGS@ @BOOST_CXXFLAGS@
-
-LDFLAGS += @BOOST_LDFLAGS@ @BOOST_SERIALIZATION_LIBS@
-
-
-#--------------------------------------------------------------------------------------
-ifneq "$(parallel_corba_server_root_dir)" "."
-  LDFLAGS += -lparallel_corba_server
-endif
+include $(parallel_corba_server_root_dir)/include.makefile
 
 
 #--------------------------------------------------------------------------------------
