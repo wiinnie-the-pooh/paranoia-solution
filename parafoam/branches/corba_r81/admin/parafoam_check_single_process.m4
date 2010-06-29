@@ -25,6 +25,7 @@ AC_DEFUN([PARAFOAM_CHECK_CORBA_SINGLE_PROCESS],
 [
 AC_MSG_CHECKING(whether to run all the CORBA servers & client within one single process)
 
+AC_SUBST(USE_CORBA_SINGLE_PROCESS)
 AC_SUBST(USE_CORBA_SINGLE_PROCESS_CPPFLAGS)
 
 AC_ARG_ENABLE( [corba_single_process],
@@ -33,8 +34,10 @@ AC_ARG_ENABLE( [corba_single_process],
                [ corba_single_process=${enableval} ],
                [ corba_single_process="no" ] )
 
+USE_CORBA_SINGLE_PROCESS=${corba_single_process}
+
 if test ! "${corba_single_process}xx" != "yesxx" ;  then
-   USE_CORBA_SINGLE_PROCESS_CPPFLAGS="-D __USE_CORBA_SINGLE_PROCESS__"
+   USE_CORBA_SINGLE_PROCESS_CPPFLAGS="-D__USE_CORBA_SINGLE_PROCESS__"
 fi
 
 AC_MSG_RESULT(${corba_single_process})

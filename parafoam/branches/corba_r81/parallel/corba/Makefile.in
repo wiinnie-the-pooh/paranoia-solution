@@ -24,10 +24,23 @@
 parallel_root_dir := ../..
 
 ifneq "@USE_CORBA_SINGLE_PROCESS@xx" "yesxx"
-  SUBDIRS := idl idl/foam common client server server/foam
-else
-  SUBDIRS := idl idl/foam common server server/foam client
+  SUBDIRS := idl common client server
+
+ifeq "@ENABLE_OPENFOAM@xx" "yesxx"
+  SUBDIRS += idl/foam server/foam
 endif
+
+else
+  SUBDIRS := idl common server
+
+ifeq "@ENABLE_OPENFOAM@xx" "yesxx"
+  SUBDIRS += idl/foam server/foam
+endif
+
+  SUBDIRS += client
+
+endif
+
 
 
 include $(parallel_root_dir)/recursive.makefile

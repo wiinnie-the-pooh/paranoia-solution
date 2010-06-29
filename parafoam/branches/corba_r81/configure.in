@@ -79,6 +79,7 @@ AC_OUTPUT( [ bashrc \
              include.makefile \
              parallel/base/include.makefile \
              parallel/dev/include.makefile \
+             parallel/corba/Makefile \
              parallel/corba/include.makefile \
              parallel/corba/idl/include.makefile \
              parallel/corba/idl/Makefile \
@@ -90,6 +91,8 @@ AC_OUTPUT( [ bashrc \
              parallel/corba/client/Makefile \
              parallel/corba/server/include.makefile \
              parallel/corba/server/Makefile \
+             parallel/corba/server/foam/include.makefile \
+             parallel/corba/server/foam/Makefile \
              parallel/foam/Makefile \
              parallel/foam/diffusion/Makefile ] )
 
