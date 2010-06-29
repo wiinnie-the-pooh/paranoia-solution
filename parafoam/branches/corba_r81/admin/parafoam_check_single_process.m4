@@ -33,7 +33,7 @@ AC_ARG_ENABLE( [corba_single_process],
                [ corba_single_process=${enableval} ],
                [ corba_single_process="no" ] )
 
-if test ! "${corba_single_process}xx" != "noxx" ;  then
+if test ! "${corba_single_process}xx" != "yesxx" ;  then
    USE_CORBA_SINGLE_PROCESS_CPPFLAGS="-D __USE_CORBA_SINGLE_PROCESS__"
 fi
 
