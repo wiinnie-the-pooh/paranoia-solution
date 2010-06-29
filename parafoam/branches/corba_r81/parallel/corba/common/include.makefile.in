@@ -49,7 +49,7 @@ include $(parallel_corba_idl_root_dir)/include.makefile
 
 
 #------------------------------------------------------------------------------
-CPPFLAGS += @LOKI_CPPFLAGS@ -I@abs_top_builddir@ -MMD
+CPPFLAGS += @USE_CORBA_SINGLE_PROCESS_CPPFLAGS@ @LOKI_CPPFLAGS@ -I@abs_top_builddir@ -MMD
 CXXFLAGS += @LOKI_CXXFLAGS@ -D_DEBUG_ -Wno-deprecated -Wparentheses -Wreturn-type -Wunused
 
 LDFLAGS += @LOKI_LDFLAGS@ @LOKI_LIBS@
