@@ -28,12 +28,8 @@ idl_target = @abs_top_builddir@/lib/libparallel_idl.so
 
 all: $(idl_target)
 
-parallel_corba_idl_root_dir = .
+clean: clean-idl
 
-include $(parallel_corba_idl_root_dir)/include.makefile
-
-
-#--------------------------------------------------------------------------------------
 IDL_FILES = \
 	TransientObject.idl TaskBase.idl \
 	PortBase.idl Link.idl DataHolderBase.idl \
@@ -41,31 +37,11 @@ IDL_FILES = \
 	TaskFactoryBase.idl TaskManager.idl \
 	TaskFactoryA.idl TaskFactoryB.idl PortBool.idl
 
-.PRECIOUS: %SK.cc
 
-$(idl_target): $(patsubst %.idl, %SK.o, $(IDL_FILES))
-	gcc -shared $^ $(LDFLAGS) -o $@
+#--------------------------------------------------------------------------------------
+parallel_corba_idl_root_dir = .
 
-%SK.cc: %.idl
-	@IDL@ -bcxx -Wbtp -I@abs_top_builddir@/parallel/corba/idl @OMNIORB_IDLCXXFLAGS@ $<
-
-%SK.o: %SK.cc
-	gcc -x c++  $(CPPFLAGS) $(CXXFLAGS) -c $<
-
-.depidl: $(wildcard *.idl)
-	@echo "" > $@
-	@for dep in $^ dummy; do \
-	  if [ $${dep} != "dummy" ]; then \
-	    echo Building dependencies for $${dep}; \
-	    gcc  -MMD -x c $${dep} 2>/dev/null | \
-	    sed 's/\.o/\SK.cc/' >>$@; \
-	  fi; \
-	done ;
-
-include .depidl
-
-clean:
-	rm -f  *.o *.d *.hh *.cc .depidl $(idl_target)
+include $(parallel_corba_idl_root_dir)/include.makefile
 
 
 #--------------------------------------------------------------------------------------

@@ -23,7 +23,7 @@
 #--------------------------------------------------------------------------------------
 parallel_root_dir := ../..
 
-SUBDIRS := idl common client server
+SUBDIRS := idl idl/foam common client server
 
 include $(parallel_root_dir)/recursive.makefile
 

@@ -21,47 +21,15 @@
 
 
 #--------------------------------------------------------------------------------------
-parallel_corba_root_dir := $(parallel_corba_idl_root_dir)/..
+parallel_corba_idl_root_dir := $(parallel_corba_idl_foam_root_dir)/..
 
-include $(parallel_corba_root_dir)/include.makefile
+include $(parallel_corba_idl_root_dir)/include.makefile
 
 
 #------------------------------------------------------------------------------
-CPPFLAGS += -I@abs_top_builddir@/parallel/corba/idl
-
-ifneq "$(parallel_corba_idl_root_dir)" "."
-  LDFLAGS += -L@abs_top_builddir@/lib -lparallel_idl
+ifneq "$(parallel_corba_idl_foam_root_dir)" "."
+  LDFLAGS += -lparallel_idl_foam
 endif
-
-
-#--------------------------------------------------------------------------------------
-.PRECIOUS: %SK.cc
-
-$(idl_target): $(patsubst %.idl, %SK.o, $(IDL_FILES))
-	gcc -shared $^ $(LDFLAGS) -o $@
-
-%SK.cc: %.idl
-	@IDL@ -bcxx -Wbtp -I@abs_top_builddir@/parallel/corba/idl @OMNIORB_IDLCXXFLAGS@ $<
-
-%SK.o: %SK.cc
-	gcc -x c++  $(CPPFLAGS) $(CXXFLAGS) -c $<
-
-.depidl: $(IDL_FILES)
-	@echo "" > $@
-	@for dep in $^ dummy; do \
-	  if [ $${dep} != "dummy" ]; then \
-	    echo Building dependencies for $${dep}; \
-	    gcc  -MMD -x c $${dep} 2>/dev/null | \
-	    sed 's/\.o/\SK.cc/' >>$@; \
-	  fi; \
-	done ;
-
-ifneq "$(IDL_FILES)xx" "xx"
-	include .depidl
-endif
-
-clean-idl:
-	rm -f  *.o *.d *.hh *.cc .depidl $(idl_target)
 
 
 #--------------------------------------------------------------------------------------
