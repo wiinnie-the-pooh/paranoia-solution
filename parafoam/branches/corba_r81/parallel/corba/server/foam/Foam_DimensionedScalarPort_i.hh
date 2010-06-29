@@ -30,7 +30,7 @@
 
 #include "parallel/corba/server/SerializedPort_i.hh"
 
-#include "parallel/corba/server/SSerializedValueHelper.hh"
+#include "parallel/corba/server/foam/Foam_DimensionedScalarValueHelper.hh"
 
 
 //---------------------------------------------------------------------------
@@ -51,7 +51,7 @@ namespace parallel
       
       CORBA::Boolean is_compatible( PortBase_ptr theArg );
       
-      typedef parallel::SSerializedValueHelper< int > TValueHelper;
+      typedef parallel::SSerializedValueHelper< Foam::dimensionedScalar > TValueHelper;
     };
 
 

@@ -21,12 +21,12 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef dev_SSerializedValueHelper_hh
-#define dev_SSerializedValueHelper_hh
+#ifndef corba_server_SSerializedValueHelper_hh
+#define corba_server_SSerializedValueHelper_hh
 
 
 //---------------------------------------------------------------------------
-#include "parallel/dev/CSimpleValueHelper.h"
+#include "parallel/corba/server/SSimpleValueHelper.hh"
 
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/text_oarchive.hpp>
@@ -42,27 +42,25 @@ namespace parallel
 {
   //---------------------------------------------------------------------------
   template< class Type >
-  struct SSerializedValueHelper : dev::CSimpleValueHelperBase< Type >
+  struct SSerializedValueHelperBase : SSimpleValueHelperBase< Type >
   {
-    typedef typename dev::CSimpleValueHelperBase< Type >::TValue TValue;
+    typedef typename SSimpleValueHelperBase< Type >::TValue TValue;
 
-    SSerializedValueHelper( const TValue& the_value = TValue() )
-      : dev::CSimpleValueHelperBase< Type >( the_value )
+    SSerializedValueHelperBase( const TValue& the_value = TValue() )
+      : SSimpleValueHelperBase< Type >( the_value )
     {}
     
-    SSerializedValueHelper( const SSerializedValueHelper& the_value_helper )
-      : dev::CSimpleValueHelperBase< Type >( the_value_helper.value )
+    SSerializedValueHelperBase( const SSerializedValueHelperBase& the_value_helper )
+      : SSimpleValueHelperBase< Type >( the_value_helper.value )
     {}
     
-    SSerializedValueHelper& operator = ( const char* the_serialized_data )
+    SSerializedValueHelperBase( const char* the_serialized_data )
     {
       typename std::istringstream is( the_serialized_data );
     
       typename boost::archive::text_iarchive ia( is );
     
       ia >> *this;
-
-      return *this;
     }
     
     operator std::string () const
@@ -83,6 +81,28 @@ namespace parallel
   };
   
   
+  //---------------------------------------------------------------------------
+  // To define a new template class to be able to reuse the same "base"
+  // implementation in partial specialized templates
+  template< class Type >
+  struct SSerializedValueHelper : SSerializedValueHelperBase< Type >
+  {
+    typedef typename SSerializedValueHelperBase< Type >::TValue TValue;
+    
+    SSerializedValueHelper( const TValue& the_value = TValue() )
+      : SSerializedValueHelperBase< Type >( the_value )
+    {}
+    
+    SSerializedValueHelper( const SSerializedValueHelper& the_value_helper )
+      : SSerializedValueHelperBase< Type >( the_value_helper.value )
+    {}
+
+    SSerializedValueHelper( const char* the_serialized_data )
+      : SSerializedValueHelperBase< Type >( the_serialized_data )
+    {}
+  };
+    
+    
   //---------------------------------------------------------------------------
 }
 
