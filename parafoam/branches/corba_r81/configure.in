@@ -49,6 +49,10 @@ CONFFOAM_CHECK_OMNIORB
 echo 
 
 echo "--------------------------------------------------------------------------------------"
+PARAFOAM_CHECK_CORBA_SINGLE_PROCESS
+echo 
+
+echo "--------------------------------------------------------------------------------------"
 CONFFOAM_CHECK_OPENFOAM
 echo 
 
@@ -63,6 +67,9 @@ echo
 echo "---------------------------- optional products ---------------------------------"
 CONFFOAM_PRINT_SUMMURY( "openfoam_ok diffusionfoamlib_ok" )
 echo
+echo "------------------------------- features ---------------------------------------"
+CONFFOAM_PRINT_SUMMURY( "corba_single_process" )
+echo
 echo "--------------------------------------------------------------------------------"
 CONFFOAM_CHECK_MANDATORY( "loki_ok boost_serialization_ok boost_thread_ok" )
 
@@ -75,6 +82,8 @@ AC_OUTPUT( [ bashrc \
              parallel/corba/include.makefile \
              parallel/corba/idl/include.makefile \
              parallel/corba/idl/Makefile \
+             parallel/corba/idl/foam/include.makefile \
+             parallel/corba/idl/foam/Makefile \
              parallel/corba/common/include.makefile \
              parallel/corba/common/Makefile \
              parallel/corba/client/include.makefile \
