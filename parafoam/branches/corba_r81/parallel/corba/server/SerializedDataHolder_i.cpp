@@ -33,8 +33,8 @@ namespace parallel
 {
   //---------------------------------------------------------------------------
   SerializedDataHolder_i::SerializedDataHolder_i( const std::string& the_value,
-						  const CORBA::ORB_var& theORB, 
-						  const PortableServer::POA_var& thePOA )
+                                                  const CORBA::ORB_var& theORB, 
+                                                  const PortableServer::POA_var& thePOA )
     : TransientObject_i( theORB, thePOA )
     , m_serialized_data( the_value )
   {

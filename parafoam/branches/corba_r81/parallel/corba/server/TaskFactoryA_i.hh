@@ -32,10 +32,20 @@
 
 
 //---------------------------------------------------------------------------
+#ifdef __USE_CORBA_SINGLE_PROCESS__
+#include "parallel/corba/server/TaskA_i.hh"
+#endif
+
+
+//---------------------------------------------------------------------------
 namespace parallel 
 {
   //---------------------------------------------------------------------------
+#ifndef __USE_CORBA_SINGLE_PROCESS__
   typedef TaskFactoryBase_i< POA_parallel::TaskFactoryA, TaskA > TaskFactoryA_i;
+#else
+  typedef TaskFactoryBase_i< POA_parallel::TaskFactoryA, TaskA, TaskA_i, TaskFactoryA > TaskFactoryA_i;
+#endif
 
 
   //---------------------------------------------------------------------------

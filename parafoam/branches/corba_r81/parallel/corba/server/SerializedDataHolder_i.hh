@@ -38,11 +38,11 @@ namespace parallel
 {
   //---------------------------------------------------------------------------
   struct SerializedDataHolder_i : virtual POA_parallel::SerializedDataHolder, 
-				  virtual TransientObject_i
+                                  virtual TransientObject_i
   {
     SerializedDataHolder_i( const std::string& the_value,
-			    const CORBA::ORB_var& theORB, 
-			    const PortableServer::POA_var& thePOA );
+                            const CORBA::ORB_var& theORB, 
+                            const PortableServer::POA_var& thePOA );
 
     ~SerializedDataHolder_i();
 

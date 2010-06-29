@@ -39,6 +39,22 @@ namespace parallel
 {
   //---------------------------------------------------------------------------
   template< class TaskImplType, class TaskType, class TaskFactoryType >
+  typename TaskType::_var_type 
+  create_task( const CORBA::ORB_var& theORB, 
+               const PortableServer::POA_var& thePOA,
+               const typename TaskFactoryType::_var_type the_task_factory_ref )
+  {
+    TaskImplType* a_task_i = new TaskImplType( theORB, thePOA );
+    typename TaskType::_var_type a_task_ref = a_task_i->_this();
+    
+    the_task_factory_ref->publish( a_task_ref );
+
+    return a_task_ref;
+  }
+
+
+  //---------------------------------------------------------------------------
+  template< class TaskImplType, class TaskType, class TaskFactoryType >
   int run( int argc, 
            char** argv, 
            const std::string& theObjectType, 
@@ -53,13 +69,10 @@ namespace parallel
       PortableServer::POAManager_var pman = poa->the_POAManager();
       pman->activate();
   
-      TaskImplType a_task_i( orb, poa );
-      typename TaskType::_var_type a_task_obj = a_task_i._this();
-
       CORBA::Object_var a_task_factory_obj = getObjectReference( orb, theObjectType, theObjectName );
       typename TaskFactoryType::_var_type a_task_factory_ref = TaskFactoryType::_narrow( a_task_factory_obj );
 
-      a_task_factory_ref->publish( a_task_obj );
+      create_task< TaskImplType, TaskType, TaskFactoryType >( orb, poa, a_task_factory_ref );
       
       orb->run();
     }

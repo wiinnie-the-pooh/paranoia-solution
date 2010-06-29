@@ -130,8 +130,8 @@ namespace parallel
 
   //---------------------------------------------------------------------------
   CORBA::Object_ptr getObjectReference( CORBA::ORB_ptr orb, 
-					const std::string& theObjectType, 
-					const std::string& theObjectName )
+                                        const std::string& theObjectType, 
+                                        const std::string& theObjectName )
   {
     CosNaming::NamingContext_var rootContext;
     
@@ -141,14 +141,14 @@ namespace parallel
       obj = orb->resolve_initial_references( "NameService" );
       rootContext = CosNaming::NamingContext::_narrow( obj );
       if( CORBA::is_nil( rootContext ) ) {
-	cerr << "Failed to narrow the root naming context." << endl;
-	return CORBA::Object::_nil();
+        cerr << "Failed to narrow the root naming context." << endl;
+        return CORBA::Object::_nil();
       }
     }
     catch ( CORBA::NO_RESOURCES& ) {
       cerr << "Caught NO_RESOURCES exception. You must configure omniORB "
-	   << "with the location" << endl
-	   << "of the naming service." << endl;
+           << "with the location" << endl
+           << "of the naming service." << endl;
       
       return 0;
     }
@@ -177,13 +177,13 @@ namespace parallel
     }
     catch( CORBA::TRANSIENT& ex ) {
       cerr << "Caught system exception TRANSIENT -- unable to contact the "
-	   << "naming service." << endl
-	   << "Make sure the naming server is running and that omniORB is "
-	   << "configured correctly." << endl;
+           << "naming service." << endl
+           << "Make sure the naming server is running and that omniORB is "
+           << "configured correctly." << endl;
     }
     catch( CORBA::SystemException& ex ) {
       cerr << "Caught a CORBA::" << ex._name()
-	   << " while using the naming service." << endl;
+           << " while using the naming service." << endl;
       
       return 0;
     }

@@ -47,8 +47,8 @@ namespace parallel
     typedef DataHolderBase_var TDataHolderBaseVar;
 
     SPortHelperEngine( const TPortPtr& thePort, 
-		       TaskBase_i::EPortType thePortType, 
-		       const TTaskPtr& theTask );
+                       TaskBase_i::EPortType thePortType, 
+                       const TTaskPtr& theTask );
 
     const std::string& c_name();
       
@@ -59,17 +59,17 @@ namespace parallel
     const PortableServer::POA_var& POA();
 
     void __init__( const TTaskPtr& theTask,
-		   const std::string& theName, 
-		   const TDataHolderBaseVar& theDataHolder );
+                   const std::string& theName, 
+                   const TDataHolderBaseVar& theDataHolder );
 
     void __publish__( const TTaskPtr& theTask,
-		      const std::string& theName, 
-		      const TDataHolderBaseVar& theDataHolder );
+                      const std::string& theName, 
+                      const TDataHolderBaseVar& theDataHolder );
 
     template< class DataHolderType, class DataHolderVarType >
     typename corba::SmartPtrDef< DataHolderVarType >::type 
     __retrieve__( const TTaskPtr& theTask,
-		  const std::string& theName )
+                  const std::string& theName )
     {
       return theTask->template retrieve< DataHolderType, DataHolderVarType >( theName );
     }

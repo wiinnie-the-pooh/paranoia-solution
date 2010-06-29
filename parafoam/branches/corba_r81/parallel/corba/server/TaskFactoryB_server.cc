@@ -29,7 +29,9 @@
 //---------------------------------------------------------------------------
 int main( int argc, char** argv )
 {
-  return parallel::run< parallel::TaskFactoryB_i >( argc, argv, "TaskFactory", "B" );
+  using namespace parallel;
+
+  return run< TaskFactoryB_i, TaskFactoryB >( argc, argv, "TaskFactory", "B" );
 }
 
 

@@ -27,3 +27,9 @@ include $(parallel_corba_common_root_dir)/include.makefile
 
 
 #--------------------------------------------------------------------------------------
+ifeq "@USE_CORBA_SINGLE_PROCESS@xx" "yesxx"
+  LDFLAGS += -lparallel_corba_server
+endif
+
+
+#--------------------------------------------------------------------------------------

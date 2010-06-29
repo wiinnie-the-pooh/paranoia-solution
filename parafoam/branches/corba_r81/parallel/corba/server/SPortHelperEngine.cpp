@@ -33,8 +33,8 @@ namespace parallel
 {
   //---------------------------------------------------------------------------
   SPortHelperEngine::SPortHelperEngine( const TPortPtr& thePort, 
-					TaskBase_i::EPortType thePortType, 
-					const TTaskPtr& theTask )
+                                        TaskBase_i::EPortType thePortType, 
+                                        const TTaskPtr& theTask )
     : m_port( thePort ) 
     , m_task( theTask ) 
   {
@@ -75,8 +75,8 @@ namespace parallel
 
   //---------------------------------------------------------------------------
   void SPortHelperEngine::__init__( const SPortHelperEngine::TTaskPtr& theTask,
-				    const std::string& theName, 
-				    const SPortHelperEngine::TDataHolderBaseVar& theDataHolder )
+                                    const std::string& theName, 
+                                    const SPortHelperEngine::TDataHolderBaseVar& theDataHolder )
   {
     theTask->init_port( theName, theDataHolder );
   }
@@ -84,8 +84,8 @@ namespace parallel
   
   //---------------------------------------------------------------------------
   void SPortHelperEngine::__publish__( const SPortHelperEngine::TTaskPtr& theTask,
-				       const std::string& theName, 
-				       const SPortHelperEngine::TDataHolderBaseVar& theDataHolder )
+                                       const std::string& theName, 
+                                       const SPortHelperEngine::TDataHolderBaseVar& theDataHolder )
   {
     theTask->publish( theName, theDataHolder );
   }

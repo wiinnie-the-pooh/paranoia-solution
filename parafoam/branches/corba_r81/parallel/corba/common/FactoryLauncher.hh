@@ -38,7 +38,25 @@
 namespace parallel 
 {
   //---------------------------------------------------------------------------
-  template< class InterfaceType >
+  template< class FactoryImplType, class FactoryType >
+  typename FactoryType::_var_type
+  create_factory( const CORBA::ORB_var& theORB, 
+                  const PortableServer::POA_var& thePOA, 
+                  const std::string& theObjectType, 
+                  const std::string& theObjectName )
+  {
+    FactoryImplType* a_factory_i = new FactoryImplType( theORB, thePOA );
+    typename FactoryType::_var_type a_factory_ref = a_factory_i->_this();
+    
+    if( ! bindObjectToName( theORB, a_factory_ref, theObjectType, theObjectName ) )
+      FactoryType::_nil();
+
+    return a_factory_ref;
+  }
+
+
+  //---------------------------------------------------------------------------
+  template< class FactoryImplType, class FactoryType >
   int run( int argc, 
            char** argv, 
            const std::string& theObjectType, 
@@ -53,12 +71,7 @@ namespace parallel
       PortableServer::POAManager_var pman = poa->the_POAManager();
       pman->activate();
   
-      InterfaceType a_interface( orb, poa );
-  
-      // Obtain a reference to the object, and register it in the naming service.
-      CORBA::Object_var a_interface_obj = a_interface._this();
-      if( !bindObjectToName( orb, a_interface_obj, theObjectType, theObjectName ) )
-        return 1;
+      create_factory< FactoryImplType, FactoryType >( orb, poa, theObjectType, theObjectName );
   
       orb->run();
     }

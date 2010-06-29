@@ -33,7 +33,7 @@ namespace parallel
 {
   //---------------------------------------------------------------------------
   TransientObject_i::TransientObject_i( const CORBA::ORB_var& theORB, 
-					PortableServer::POA_ptr thePOA )
+                                        PortableServer::POA_ptr thePOA )
     : ref_counter( 1 )
     , m_ORB( theORB )
   {
@@ -63,7 +63,7 @@ namespace parallel
   //---------------------------------------------------------------------------
   void TransientObject_i::AddRef()
   {
-    cout << "TransientObject_i::AddRef[ " << this << " ] : " << this->ref_counter << endl;
+    //cout << "TransientObject_i::AddRef[ " << this << " ] : " << this->ref_counter << endl;
 
     ++this->ref_counter;
   }
@@ -72,7 +72,7 @@ namespace parallel
   //---------------------------------------------------------------------------
   void TransientObject_i::Release()
   {
-    cout << "TransientObject_i::Release[ " << this << " ] : " << this->ref_counter << endl;
+    //cout << "TransientObject_i::Release[ " << this << " ] : " << this->ref_counter << endl;
 
     if ( --this->ref_counter <= 0 ) 
     {

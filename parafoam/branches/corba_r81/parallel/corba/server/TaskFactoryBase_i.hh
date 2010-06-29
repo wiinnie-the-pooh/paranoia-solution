@@ -32,6 +32,13 @@
 
 #include <omnithread.h>
 
+//---------------------------------------------------------------------------
+#ifdef __USE_CORBA_SINGLE_PROCESS__
+#include "parallel/corba/common/TaskLauncher.hh"
+#endif
+
+
+//---------------------------------------------------------------------------
 #include <queue>
 #include <string>
 
@@ -42,7 +49,11 @@
 namespace parallel 
 {
   //---------------------------------------------------------------------------
+#ifndef __USE_CORBA_SINGLE_PROCESS__
   template< class TaskFactoryPOAType, class TaskType >
+#else
+  template< class TaskFactoryPOAType, class TaskType, class TaskImplType, class TaskFactoryType >
+#endif
   struct TaskFactoryBase_i : virtual TaskFactoryPOAType,
                              virtual SObjectBase
   {
@@ -51,7 +62,7 @@ namespace parallel
     typedef typename corba::SmartPtrDef< TaskVarType >::type TTaskPtr;
 
     TaskFactoryBase_i( const CORBA::ORB_var& theORB, 
-		       const PortableServer::POA_var& thePOA )
+                       const PortableServer::POA_var& thePOA )
       : SObjectBase( theORB, thePOA )
     {
       std::cout << "TaskFactoryBase_i::TaskFactoryBase_i[ " << this << " ]" << std::endl;
@@ -69,11 +80,19 @@ namespace parallel
     {
       std::cout << "TaskFactoryBase_i::create[ " << this << " ]" << std::endl;
     
+#ifndef __USE_CORBA_SINGLE_PROCESS__
       if ( system( ( std::string( theInvocationShellScript ) + "&" ).c_str() ) != 0 )
-	return TaskType::_nil();
+        return TaskType::_nil();
 
       this->m_publish_mutex.unlock();
       this->m_create_mutex.lock();
+#else
+      this->m_publish_mutex.unlock();
+
+      parallel::create_task< TaskImplType, TaskType, TaskFactoryType >( this->ORB(), this->POA(), this->_this() );
+
+      this->m_create_mutex.lock();
+#endif
       
       return this->latest();
     }

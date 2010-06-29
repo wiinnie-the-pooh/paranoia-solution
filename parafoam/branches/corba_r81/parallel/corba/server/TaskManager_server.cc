@@ -29,7 +29,9 @@
 //---------------------------------------------------------------------------
 int main( int argc, char** argv )
 {
-  return parallel::run< parallel::TaskManager_i >( argc, argv, "TaskManager", "this" );
+  using namespace parallel;
+
+  return run< TaskManager_i, TaskManager >( argc, argv, "TaskManager", "this" );
 }
 
 

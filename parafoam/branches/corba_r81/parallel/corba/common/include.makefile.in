@@ -30,7 +30,7 @@ $(lib_target): $(patsubst %.cpp, %.o, $(wildcard *.cpp))
 
 .PRECIOUS: %.o
 
-@abs_top_builddir@/bin/%: %.o
+@abs_top_builddir@/bin/%: %.o $(lib_target)
 	gcc $(LDFLAGS) $(lib_target) $^ -o $@
 
 %.o: %.cc

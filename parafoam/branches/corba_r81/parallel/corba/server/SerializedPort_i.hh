@@ -38,7 +38,7 @@ namespace parallel
 {
   //---------------------------------------------------------------------------
   struct SerializedPort_i : virtual POA_parallel::SerializedPort, 
-			    virtual PortBase_i
+                            virtual PortBase_i
   {
     SerializedPort_i( const std::string& theName,
                 const CORBA::ORB_var& theORB, 

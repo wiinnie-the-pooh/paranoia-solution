@@ -38,11 +38,11 @@ namespace parallel
 {
   //---------------------------------------------------------------------------
   struct SerializedPortInt_i : virtual POA_parallel::SerializedPortInt, 
-			       virtual SerializedPort_i
+                               virtual SerializedPort_i
   {
     SerializedPortInt_i( const std::string& theName,
-			 const CORBA::ORB_var& theORB, 
-			 const PortableServer::POA_var& thePOA );
+                         const CORBA::ORB_var& theORB, 
+                         const PortableServer::POA_var& thePOA );
 
     ~SerializedPortInt_i();
 
