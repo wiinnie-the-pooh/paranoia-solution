@@ -21,23 +21,42 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef __PARALELL_PORT_FOAM_DIMENSIONED_SCALAR_IDL__
-#define __PARALELL_PORT_FOAM_DIMENSIONED_SCALAR_IDL__
+#ifndef __PARALELL_FOAM_TIMESOURCE_TASKFACTORY_IDL__
+#define __PARALELL_FOAM_TIMESOURCE_TASKFACTORY_IDL__
 
 
 //---------------------------------------------------------------------------
-#include "SerializedPort.idl"
+#include "TaskFactoryBase.idl"
+#include "TaskBase.idl"
 
 
 //---------------------------------------------------------------------------
 module parallel
 {
+  //---------------------------------------------------------------------------
   module foam
   {
-    interface PortFoamDimensionedScalar : parallel::SerializedPort {};
+    //---------------------------------------------------------------------------
+    interface TimeSourceTask : parallel::TaskBase
+    {};
+
+
+    //---------------------------------------------------------------------------
+    interface TimeSourceTaskFactory : parallel::TaskFactoryBase
+    {
+      TimeSourceTask create( in string theInvocationShellScript );
+      
+      void publish( in TimeSourceTask theTask );
+    };
+
+
+    //---------------------------------------------------------------------------
   };
+
+
+  //---------------------------------------------------------------------------
 };
 
 
 //---------------------------------------------------------------------------
-#endif  // __PARALELL_PORT_FOAM_DIMENSIONED_SCALAR_IDL__
+#endif  // __PARALELL_FOAM_TIMESOURCE_TASKFACTORY_IDL__

@@ -31,7 +31,7 @@ all: $(idl_target)
 clean: clean-idl
 
 IDL_FILES = \
-	PortFoamDimensionedScalar.idl
+	Foam_DimensionedScalarPort.idl Foam_TimeSourceTaskFactory.idl
 
 
 #--------------------------------------------------------------------------------------
