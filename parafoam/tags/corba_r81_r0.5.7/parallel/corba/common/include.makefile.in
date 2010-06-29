@@ -1,0 +1,67 @@
+## VulaSHAKA (Simultaneous Neutronic, Fuel Performance, Heat And Kinetics Analysis)
+## Copyright (C) 2009-2010 Pebble Bed Modular Reactor (Pty) Limited (PBMR)
+## 
+## This program is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+## 
+## You should have received a copy of the GNU General Public License
+## along with this program.  If not, see <http://www.gnu.org/licenses/>.
+## 
+## See https://vulashaka.svn.sourceforge.net/svnroot/vulashaka
+##
+## Author : Alexey PETROV
+##
+
+
+#--------------------------------------------------------------------------------------
+all: $(lib_target) $(exe_targets)
+
+
+#--------------------------------------------------------------------------------------
+$(lib_target): $(patsubst %.cpp, %.o, $(wildcard *.cpp))
+	gcc -shared $^ $(LDFLAGS) -o $@
+
+.PRECIOUS: %.o
+
+@abs_top_builddir@/bin/%: %.o $(lib_target)
+	gcc $(LDFLAGS) $(lib_target) $^ -o $@
+
+%.o: %.cc
+	gcc -x c++ $(CPPFLAGS) $(CXXFLAGS) -c $<
+
+%.o: %.cpp
+	gcc -x c++ $(CPPFLAGS) $(CXXFLAGS) -c $<
+
+include $(wildcard *.d)
+
+
+#--------------------------------------------------------------------------------------
+parallel_corba_idl_root_dir := $(parallel_corba_common_root_dir)/../idl
+
+include $(parallel_corba_idl_root_dir)/include.makefile
+
+
+#------------------------------------------------------------------------------
+CPPFLAGS += @USE_CORBA_SINGLE_PROCESS_CPPFLAGS@ @LOKI_CPPFLAGS@ -I@abs_top_builddir@ -MMD
+CXXFLAGS += @LOKI_CXXFLAGS@ -D_DEBUG_ -Wno-deprecated -Wparentheses -Wreturn-type -Wunused
+
+LDFLAGS += @LOKI_LDFLAGS@ @LOKI_LIBS@
+
+
+#--------------------------------------------------------------------------------------
+ifneq "$(parallel_corba_common_root_dir)" "."
+  LDFLAGS += -lparallel_corba_common
+endif
+
+clean: 
+	rm -f *.o *.d *~ $(lib_target) $(exe_targets)
+
+
+#--------------------------------------------------------------------------------------
