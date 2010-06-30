@@ -36,7 +36,7 @@ module parallel
 {
   interface SerializedPort : PortBase {};
 
-  typedef string TRawData;
+  typedef sequence< octet > TRawData;
 
   interface SerializedDataHolder : DataHolderBase 
   {

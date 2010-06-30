@@ -21,8 +21,8 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef corba_server_TaskA_i_hh
-#define corba_server_TaskA_i_hh
+#ifndef corba_server_Foam_TimeSourceTask_i_hh
+#define corba_server_Foam_TimeSourceTask_i_hh
 
 
 //---------------------------------------------------------------------------

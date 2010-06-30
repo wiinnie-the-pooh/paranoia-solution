@@ -40,18 +40,18 @@ namespace parallel
   struct SerializedDataHolder_i : virtual POA_parallel::SerializedDataHolder, 
                                   virtual TransientObject_i
   {
-    SerializedDataHolder_i( const std::string& the_value,
+    SerializedDataHolder_i( TRawData* the_serialized_data,
                             const CORBA::ORB_var& theORB, 
                             const PortableServer::POA_var& thePOA );
 
     ~SerializedDataHolder_i();
 
-    char* value();
+    TRawData* value();
 
     typedef parallel::SerializedDataHolder Interface;
     
     protected:
-      std::string m_serialized_data;
+      TRawData_var m_serialized_data;
   };
 
 

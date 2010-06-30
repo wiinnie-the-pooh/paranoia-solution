@@ -32,11 +32,11 @@ using namespace std;
 namespace parallel
 {
   //---------------------------------------------------------------------------
-  SerializedDataHolder_i::SerializedDataHolder_i( const std::string& the_value,
+  SerializedDataHolder_i::SerializedDataHolder_i( TRawData* the_serialized_data,
                                                   const CORBA::ORB_var& theORB, 
                                                   const PortableServer::POA_var& thePOA )
     : TransientObject_i( theORB, thePOA )
-    , m_serialized_data( the_value )
+    , m_serialized_data( the_serialized_data )
   {
     cout << "SerializedDataHolder_i::SerializedDataHolder_i[ " << this << " ]" << endl;
   }
@@ -50,11 +50,11 @@ namespace parallel
 
 
   //---------------------------------------------------------------------------
-  char* SerializedDataHolder_i::value()
+  TRawData* SerializedDataHolder_i::value()
   {
     cout << "SerializedDataHolder::value[ " << this << " ]" << endl;
     
-    return CORBA::string_dup( this->m_serialized_data.c_str() );
+    return this->m_serialized_data._retn();
   }
 
 

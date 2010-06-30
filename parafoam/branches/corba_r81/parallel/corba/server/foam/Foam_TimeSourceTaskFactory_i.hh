@@ -33,7 +33,7 @@
 
 //---------------------------------------------------------------------------
 #ifdef __USE_CORBA_SINGLE_PROCESS__
-#include "parallel/corba/server/foam/TimeSourceTask_i.hh"
+#include "parallel/corba/server/foam/Foam_TimeSourceTask_i.hh"
 #endif
 
 

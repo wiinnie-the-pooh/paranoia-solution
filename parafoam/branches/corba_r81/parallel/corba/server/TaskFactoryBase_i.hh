@@ -78,7 +78,7 @@ namespace parallel
     
     virtual TaskPtrType create( const char* theInvocationShellScript )
     {
-      std::cout << "TaskFactoryBase_i::create[ " << this << " ]" << std::endl;
+      std::cout << "TaskFactoryBase_i::create[ " << this << " ] - '" << theInvocationShellScript << "'" << std::endl;
     
 #ifndef __USE_CORBA_SINGLE_PROCESS__
       if ( system( ( std::string( theInvocationShellScript ) + "&" ).c_str() ) != 0 )

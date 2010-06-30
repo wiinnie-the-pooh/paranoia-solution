@@ -54,23 +54,28 @@ namespace parallel
       : SSimpleValueHelperBase< Type >( the_value_helper.value )
     {}
     
-    SSerializedValueHelper( const char* the_serialized_data )
+    SSerializedValueHelper( TRawData* the_serialized_data )
     {
-      typename std::istringstream is( the_serialized_data );
+      TRawData_var a_serialized_data( the_serialized_data );
+      typename std::istringstream is( std::string( ( char* ) &a_serialized_data[ 0 ], a_serialized_data->length() ) );
     
       typename boost::archive::text_iarchive ia( is );
     
       ia >> *this;
     }
     
-    operator std::string () const
+    operator TRawData* () const
     {
       typename std::ostringstream os;
       typename boost::archive::text_oarchive oa( os );
     
       oa << *this;
     
-      return os.str();
+      std::string a_string = os.str();
+
+      TRawData a_serialized_data( a_string.size(), a_string.size(), ( CORBA::Octet* ) &a_string[ 0 ] );
+
+      return new TRawData( a_serialized_data );
     }
     
     template< class ArchiveType >
