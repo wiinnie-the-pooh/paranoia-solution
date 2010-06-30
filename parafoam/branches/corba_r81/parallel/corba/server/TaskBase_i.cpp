@@ -29,6 +29,8 @@
 
 #include "parallel/corba/common/corba_utilities.hh"
 
+#include <omnithread.h>
+
 #include <iostream>
 
 using namespace std;
@@ -41,6 +43,8 @@ namespace
   using namespace parallel;
 
   typedef std::map< std::string, TaskBase_i::TPortPtr > TName2Port;
+
+  static omni_mutex PRINT_MUTEX;
 
 
   //---------------------------------------------------------------------------
@@ -132,12 +136,24 @@ namespace parallel
   //---------------------------------------------------------------------------
   void TaskBase_i::invoke( TaskManager_ptr theTaskManager )
   {
-    while( theTaskManager->is_run() && this->step() );
+    while( theTaskManager->is_run() && this->step() )
+      this->m_step_counter++;
     
     this->destroy();
   }
     
     
+  //---------------------------------------------------------------------------
+  void TaskBase_i::print( const TaskBase_i* theTask, const std::string& theMessage )
+  {
+    PRINT_MUTEX.lock();
+    
+    std::cout << "\n< " << theTask->m_step_counter << " > - " << theMessage;
+
+    PRINT_MUTEX.unlock();
+  }
+
+
   //---------------------------------------------------------------------------
   PortBase_ptr TaskBase_i::get_input_port( const char* theName )
   {

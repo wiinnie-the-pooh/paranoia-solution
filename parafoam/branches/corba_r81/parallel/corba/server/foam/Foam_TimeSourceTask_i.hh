@@ -30,9 +30,13 @@
 
 #include "parallel/corba/server/TaskBase_i.hh"
 
-#include "parallel/corba/server/SPortHelperBase.hh"
+#include "parallel/corba/server/PortBool_i.hh"
+
+#include "parallel/corba/server/PortInt_i.hh"
 
 #include "parallel/corba/server/foam/Foam_DimensionedScalarPort_i.hh"
+
+#include "parallel/corba/server/SPortHelperBase.hh"
 
 
 //---------------------------------------------------------------------------
@@ -50,10 +54,38 @@ namespace parallel
       
       ~TimeSourceTask_i();
       
+      void setTime( dimensionedScalar newTime, label newIndex );
+      dimensionedScalar value();
+      label timeIndex();
+
+      void setDeltaT( dimensionedScalar deltaT );
+      dimensionedScalar deltaT();
+
+      void setEndTime( dimensionedScalar endTime );
+      dimensionedScalar endTime();
+
+      void setWriteInterval( label writeInterval );
+      label getWriteInterval();
+
     protected:
+      void init();
+      
       CORBA::Boolean step();
       
+      void increment();
+
+    protected:
+      SPortHelperBase< DimensionedScalarPort_i > m_delta_i;
+      SPortHelperBase< PortBool_i > m_next_i;
+
+      SPortHelperBase< PortBool_i > m_finished_o;
       SPortHelperBase< DimensionedScalarPort_i > m_time_o;
+
+      SPortHelperBase< PortInt_i > m_index_o;
+      SPortHelperBase< PortBool_i > m_write_o;
+
+      Foam::dimensionedScalar m_end;
+      Foam::label m_writeInterval;
     };
 
 

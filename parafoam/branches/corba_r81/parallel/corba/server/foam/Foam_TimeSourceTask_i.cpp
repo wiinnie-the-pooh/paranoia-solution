@@ -39,7 +39,17 @@ namespace parallel
 					const PortableServer::POA_var& thePOA )
       : TransientObject_i( theORB, thePOA )
       , TaskBase_i( theORB, thePOA )
+
+      , m_delta_i( "delta", eInputPort, this )
+      , m_next_i( "next", eInputPort, this )
+
+      , m_finished_o( "finished", eOutputPort, this )
       , m_time_o( "time", eOutputPort, this )
+      , m_index_o( "index", eOutputPort, this )
+      , m_write_o( "write", eOutputPort, this )
+
+      , m_end( 0.0 )
+      , m_writeInterval( 1 )
     {
       cout << "TimeSourceTask_i::TimeSourceTask_i[ " << this << " ]" << endl;
     }
@@ -53,15 +63,108 @@ namespace parallel
 
 
     //---------------------------------------------------------------------------
+    void TimeSourceTask_i::init()
+    {
+      cout << "TimeSourceTask_i::init[ " << this << " ]" << endl;
+      
+      this->m_next_i.init( true );
+      this->m_delta_i.init( this->m_delta_i() );
+    }
+    
+    
+    //---------------------------------------------------------------------------
     CORBA::Boolean TimeSourceTask_i::step()
     {
       cout << "TimeSourceTask_i::step[ " << this << " ]" << endl;
       
-      this->m_time_o.publish();
+      this->m_next_i.retrieve();
+      this->m_delta_i.retrieve();
 
-      return false;
+      if ( this->m_next_i() ) 
+      {
+        this->increment();
+      }
+
+      dimensionedScalar time_eps( this->deltaT() * 0.01 );
+      bool is_time_exit = this->value() - time_eps > this->endTime();
+      this->m_finished_o.publish( is_time_exit && this->m_next_i() );
+
+      MSG( "TimeSourceTask_i]::step[ " << this 
+           << " | value = " << this->value()
+           << " | is_time_exit = " << is_time_exit
+           << " | m_finished_o = " << this->m_finished_o()
+           << " | m_next_i = " << this->m_next_i() << "\n" ); 
+
+      this->m_time_o.publish();
+      this->m_index_o.publish();
+
+      bool is_write = this->timeIndex() % this->getWriteInterval() == 0;
+      this->m_write_o.publish( is_write );
+
+      return ! this->m_finished_o();
     }
 
+
+    //-----------------------------------------------------------------------
+    void TimeSourceTask_i::increment()
+    {
+      this->setTime( this->value() + this->deltaT(), this->timeIndex() + 1 );
+    }
+    
+
+    //---------------------------------------------------------------------------
+    void TimeSourceTask_i::setTime( dimensionedScalar newTime, label newIndex )
+    {
+      this->m_time_o() = newTime;
+      this->m_index_o() = newIndex;
+    }
+
+    dimensionedScalar TimeSourceTask_i::value()
+    {
+      return this->m_time_o().value();
+    }
+
+    label TimeSourceTask_i::timeIndex()
+    {
+      return this->m_index_o();
+    }
+    
+
+    //---------------------------------------------------------------------------
+    void TimeSourceTask_i::setDeltaT( dimensionedScalar deltaT )
+    {
+      this->m_delta_i() = deltaT;
+    }
+    
+    dimensionedScalar TimeSourceTask_i::deltaT()
+    {
+      return this->m_delta_i().value();
+    }
+    
+
+    //---------------------------------------------------------------------------
+    void TimeSourceTask_i::setEndTime( dimensionedScalar endTime )
+    {
+      this->m_end = endTime;
+    }
+
+    dimensionedScalar TimeSourceTask_i::endTime()
+    {
+      return this->m_end.value();
+    }
+
+
+    //---------------------------------------------------------------------------
+    void TimeSourceTask_i::setWriteInterval( label writeInterval )
+    {
+      this->m_writeInterval = writeInterval;
+    }
+
+    label TimeSourceTask_i::getWriteInterval()
+    {
+      return this->m_writeInterval;
+    }
+    
 
     //---------------------------------------------------------------------------
   }

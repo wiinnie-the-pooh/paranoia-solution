@@ -21,12 +21,12 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef corba_server_PortBool_i_hh
-#define corba_server_PortBool_i_hh
+#ifndef corba_server_PortInt_i_hh
+#define corba_server_PortInt_i_hh
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/idl/PortBool.hh"
+#include "parallel/corba/idl/PortInt.hh"
 
 #include "parallel/corba/server/PortBase_i.hh"
 
@@ -39,42 +39,42 @@
 namespace parallel 
 {
   //---------------------------------------------------------------------------
-  struct DataHolderBool_i : virtual POA_parallel::DataHolderBool, 
+  struct DataHolderInt_i : virtual POA_parallel::DataHolderInt, 
                             virtual DataHolderBase_i
   {
-    DataHolderBool_i( CORBA::Boolean theValue,
-                      const CORBA::ORB_var& theORB, 
-                      const PortableServer::POA_var& thePOA );
+    DataHolderInt_i( CORBA::Long theValue,
+		     const CORBA::ORB_var& theORB, 
+		     const PortableServer::POA_var& thePOA );
 
-    static DataHolderBool_ptr create( bool theValue,
-                                      const CORBA::ORB_var& theORB, 
-                                      const PortableServer::POA_var& thePOA );
+    static DataHolderInt_ptr create( CORBA::Long theValue,
+				     const CORBA::ORB_var& theORB, 
+				     const PortableServer::POA_var& thePOA );
 
-    ~DataHolderBool_i();
+    ~DataHolderInt_i();
 
-    CORBA::Boolean value();
+    CORBA::Long value();
 
-    typedef parallel::DataHolderBool Interface;
+    typedef parallel::DataHolderInt Interface;
 
   protected:
-    CORBA::Boolean m_value;
+    int m_value;
   };
 
 
   //---------------------------------------------------------------------------
-  struct PortBool_i : virtual POA_parallel::PortBool, 
+  struct PortInt_i : virtual POA_parallel::PortInt, 
                       virtual PortBase_i
   {
-    PortBool_i( const std::string& theName,
+    PortInt_i( const std::string& theName,
                 const CORBA::ORB_var& theORB, 
                 const PortableServer::POA_var& thePOA );
 
-    ~PortBool_i();
+    ~PortInt_i();
 
     CORBA::Boolean is_compatible( PortBase_ptr theArg );
 
-    typedef DataHolderBool_i TDataHolder_i;
-    typedef SSimpleValueHelper< CORBA::Boolean > TValueHelper;
+    typedef DataHolderInt_i TDataHolder_i;
+    typedef SSimpleValueHelper< CORBA::Long > TValueHelper;
   };
 
 

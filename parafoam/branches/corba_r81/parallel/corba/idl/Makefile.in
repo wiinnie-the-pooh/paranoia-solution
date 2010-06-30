@@ -32,7 +32,8 @@ clean: clean-idl
 
 IDL_FILES = \
 	TransientObject.idl TaskBase.idl \
-	PortBase.idl Link.idl DataHolderBase.idl PortBool.idl \
+	PortBase.idl Link.idl DataHolderBase.idl \
+	PortBool.idl PortInt.idl \
 	SerializedPort.idl SerializedPortInt.idl \
 	TaskFactoryBase.idl TaskManager.idl
 

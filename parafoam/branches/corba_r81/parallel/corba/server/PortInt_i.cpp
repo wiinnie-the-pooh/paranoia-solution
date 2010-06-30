@@ -21,7 +21,7 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/server/PortBool_i.hh"
+#include "parallel/corba/server/PortInt_i.hh"
 
 #include <iostream>
 
@@ -32,68 +32,68 @@ using namespace std;
 namespace parallel
 {
   //---------------------------------------------------------------------------
-  PortBool_i::PortBool_i( const std::string& theName,
-                          const CORBA::ORB_var& theORB, 
-                          const PortableServer::POA_var& thePOA )
+  PortInt_i::PortInt_i( const std::string& theName,
+			const CORBA::ORB_var& theORB, 
+			const PortableServer::POA_var& thePOA )
     : SObjectBase( theORB, thePOA )
     , PortBase_i( theName, theORB, thePOA )
   {
-    cout << "PortBool_i::PortBool_i[ " << this << " ]" << endl;
+    cout << "PortInt_i::PortInt_i[ " << this << " ]" << endl;
   }
 
 
   //---------------------------------------------------------------------------
-  PortBool_i::~PortBool_i()
+  PortInt_i::~PortInt_i()
   {
-    cout << "PortBool_i::~PortBool_i[ " << this << " ]" << endl;
+    cout << "PortInt_i::~PortInt_i[ " << this << " ]" << endl;
   }
 
 
   //---------------------------------------------------------------------------
-  CORBA::Boolean PortBool_i::is_compatible( PortBase_ptr theArg )
+  CORBA::Boolean PortInt_i::is_compatible( PortBase_ptr theArg )
   {
-    cout << "PortBool_i::is_compatible[ " << this << " ]" << endl;
+    cout << "PortInt_i::is_compatible[ " << this << " ]" << endl;
 
-    PortBool_var aPort = parallel::PortBool::_narrow( theArg );
+    PortInt_var aPort = parallel::PortInt::_narrow( theArg );
     
     return ! CORBA::is_nil( aPort );
   }
 
 
   //---------------------------------------------------------------------------
-  DataHolderBool_i::DataHolderBool_i( CORBA::Boolean theValue,
-                                      const CORBA::ORB_var& theORB, 
-                                      const PortableServer::POA_var& thePOA )
+  DataHolderInt_i::DataHolderInt_i( CORBA::Long theValue,
+				    const CORBA::ORB_var& theORB, 
+				    const PortableServer::POA_var& thePOA )
     : TransientObject_i( theORB, thePOA )
     , DataHolderBase_i( theORB, thePOA )
     , m_value( theValue )
   {
-    cout << "DataHolderBool_i::DataHolderBool_i[ " << this << " ]" << endl;
+    cout << "DataHolderInt_i::DataHolderInt_i[ " << this << " ]" << endl;
   }
 
 
   //---------------------------------------------------------------------------
-  DataHolderBool_ptr DataHolderBool_i::create( CORBA::Boolean theValue,
-                                               const CORBA::ORB_var& theORB, 
-                                               const PortableServer::POA_var& thePOA )
+  DataHolderInt_ptr DataHolderInt_i::create( CORBA::Long theValue,
+					     const CORBA::ORB_var& theORB, 
+					     const PortableServer::POA_var& thePOA )
   {
-    DataHolderBool_i* an_item( new DataHolderBool_i( theValue, theORB, thePOA ) );
+    DataHolderInt_i* an_item( new DataHolderInt_i( theValue, theORB, thePOA ) );
     
     return an_item->_this();
   }
 
 
   //---------------------------------------------------------------------------
-  DataHolderBool_i::~DataHolderBool_i()
+  DataHolderInt_i::~DataHolderInt_i()
   {
-    cout << "DataHolderBool_i::~DataHolderBool_i[ " << this << " ]" << endl;
+    cout << "DataHolderInt_i::~DataHolderInt_i[ " << this << " ]" << endl;
   }
 
 
   //---------------------------------------------------------------------------
-  CORBA::Boolean DataHolderBool_i::value()
+  CORBA::Long DataHolderInt_i::value()
   {
-    cout << "DataHolderBool_i::value[ " << this << " ]" << endl;
+    cout << "DataHolderInt_i::value[ " << this << " ]" << endl;
 
     return this->m_value;
   }

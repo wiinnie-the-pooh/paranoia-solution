@@ -37,8 +37,26 @@ module parallel
   module foam
   {
     //---------------------------------------------------------------------------
+    typedef double dimensionedScalar;
+    typedef long label;
+
+
+    //---------------------------------------------------------------------------
     interface TimeSourceTask : parallel::TaskBase
-    {};
+    {
+      void setTime( in dimensionedScalar newTime, in label newIndex );
+      dimensionedScalar value();
+      label timeIndex();
+      
+      void setDeltaT( in dimensionedScalar deltaT );
+      dimensionedScalar deltaT();
+      
+      void setEndTime( in dimensionedScalar endTime );
+      dimensionedScalar endTime();
+      
+      void setWriteInterval( in label writeInterval );
+      label getWriteInterval();
+    };
 
 
     //---------------------------------------------------------------------------

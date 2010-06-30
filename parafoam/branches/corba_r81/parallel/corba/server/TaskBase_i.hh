@@ -41,6 +41,15 @@
 
 
 //---------------------------------------------------------------------------
+#ifdef _DEBUG_
+#  include <sstream>
+#  define MSG( the_message ) { std::ostringstream a_stream; a_stream << the_message; TaskBase_i::print( this, a_stream.str() ); }
+#else
+#  define MSG( the_message )
+#endif
+
+
+//---------------------------------------------------------------------------
 namespace parallel 
 {
   //---------------------------------------------------------------------------
@@ -129,9 +138,13 @@ namespace parallel
       return DataHolderPtrType( aDataHolder );
     }
 
+    static void print( const TaskBase_i* theTask, const std::string& theMessage );
+
  protected:
     TInputPorts m_input_ports;
     TOutputPorts m_output_ports;
+
+    long m_step_counter;
   };
 
 
