@@ -21,9 +21,9 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/server/foam/Foam_TimeSourceTaskFactory_i.hh"
+#include "parallel/corba/server/foam/Foam_TimeSourceTask_i.hh"
 
-#include "parallel/corba/common/FactoryLauncher.hh"
+#include "parallel/corba/common/TaskLauncher.hh"
 
 
 //---------------------------------------------------------------------------
@@ -32,7 +32,7 @@ int main( int argc, char** argv )
   using namespace parallel;
   using namespace parallel::foam;
 
-  return run< TimeSourceTaskFactory_i, TimeSourceTaskFactory >( argc, argv, "TaskFactory", "Foam_TimeSource" );
+  return run< TimeSourceTask_i, TimeSourceTask, TimeSourceTaskFactory >( argc, argv, "TaskFactory", "Foam_TimeSource" );
 }
 
 

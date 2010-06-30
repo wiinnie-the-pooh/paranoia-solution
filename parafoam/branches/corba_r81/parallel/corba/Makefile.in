@@ -27,14 +27,14 @@ ifneq "@USE_CORBA_SINGLE_PROCESS@xx" "yesxx"
   SUBDIRS := idl idl/test common client/test server server/test
 
 ifeq "@ENABLE_OPENFOAM@xx" "yesxx"
-  SUBDIRS += idl/foam server/foam
+  SUBDIRS += idl/foam client/foam server/foam
 endif
 
 else
   SUBDIRS := idl idl/test common server server/test
 
 ifeq "@ENABLE_OPENFOAM@xx" "yesxx"
-  SUBDIRS += idl/foam server/foam
+  SUBDIRS += idl/foam server/foam client/foam
 endif
 
   SUBDIRS += client/test

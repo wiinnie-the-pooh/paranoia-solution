@@ -36,6 +36,12 @@ parallel_corba_idl_foam_root_dir := $(parallel_corba_server_foam_root_dir)/../..
 include $(parallel_corba_idl_foam_root_dir)/include.makefile
 
 
+#--------------------------------------------------------------------------------------
+ifneq "$(parallel_corba_server_foam_root_dir)" "."
+  LDFLAGS += -lparallel_corba_server_foam
+endif
+
+
 #------------------------------------------------------------------------------
 # set compilation and dependency building rules
 #------------------------------------------------------------------------------
