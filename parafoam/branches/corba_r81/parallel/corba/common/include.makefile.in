@@ -67,7 +67,7 @@ ifneq "$(parallel_corba_common_root_dir)" "."
 endif
 
 clean: 
-	rm -f *.o *.d *~ $(lib_target) $(exe_targets)
+	rm -f *.o *.d .depidl *~ $(lib_target) $(exe_targets)
 
 
 #--------------------------------------------------------------------------------------

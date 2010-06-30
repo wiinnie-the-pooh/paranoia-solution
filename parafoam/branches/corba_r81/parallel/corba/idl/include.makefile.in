@@ -65,7 +65,7 @@ $(idl_target): $(patsubst %.idl, %SK.o, $(IDL_FILES))
 -include .depidl
 
 clean-idl:
-	rm -f  *.o *.d *.hh *.cc .depidl $(idl_target)
+	rm -f  *.o *.d *.hh *.cc .depidl *~ $(idl_target)
 
 
 #--------------------------------------------------------------------------------------
