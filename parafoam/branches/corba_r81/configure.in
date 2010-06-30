@@ -89,8 +89,8 @@ AC_OUTPUT( [ bashrc \
              parallel/corba/idl/foam/Makefile \
              parallel/corba/common/include.makefile \
              parallel/corba/common/Makefile \
-             parallel/corba/client/include.makefile \
-             parallel/corba/client/Makefile \
+             parallel/corba/client/test/include.makefile \
+             parallel/corba/client/test/Makefile \
              parallel/corba/server/include.makefile \
              parallel/corba/server/Makefile \
              parallel/corba/server/test/include.makefile \

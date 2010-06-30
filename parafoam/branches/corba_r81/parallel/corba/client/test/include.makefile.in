@@ -27,13 +27,13 @@ parallel_corba_client_include_makefile = "included"
 
 
 #--------------------------------------------------------------------------------------
-parallel_corba_common_root_dir := $(parallel_corba_client_root_dir)/../common
+parallel_corba_common_root_dir := $(parallel_corba_client_test_root_dir)/../../common
 
 include $(parallel_corba_common_root_dir)/include.makefile
 
 
 #--------------------------------------------------------------------------------------
-parallel_corba_idl_test_root_dir := $(parallel_corba_client_root_dir)/../idl/test
+parallel_corba_idl_test_root_dir := $(parallel_corba_client_test_root_dir)/../../idl/test
 
 include $(parallel_corba_idl_test_root_dir)/include.makefile
 

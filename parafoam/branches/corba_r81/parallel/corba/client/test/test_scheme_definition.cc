@@ -95,6 +95,10 @@ int main( int argc, char **argv )
     //}
 
     orb->destroy();
+
+    cout << "\nEnd\n";
+
+    return 0;
   }
   catch( CORBA::TRANSIENT& ) {
     cerr << "Caught system exception TRANSIENT -- unable to contact the "
@@ -113,7 +117,7 @@ int main( int argc, char **argv )
     cerr << "  mesg: " << fe.errmsg() << endl;
   }
 
-  return 0;
+  return -1;
 }
 
 
