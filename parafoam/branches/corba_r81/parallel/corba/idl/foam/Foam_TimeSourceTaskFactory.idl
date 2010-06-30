@@ -42,7 +42,7 @@ module parallel
 
 
     //---------------------------------------------------------------------------
-    interface TimeSourceTask : parallel::TaskBase
+    interface TimeSourceTask : TaskBase
     {
       void setTime( in dimensionedScalar newTime, in label newIndex );
       dimensionedScalar value();
@@ -60,7 +60,7 @@ module parallel
 
 
     //---------------------------------------------------------------------------
-    interface TimeSourceTaskFactory : parallel::TaskFactoryBase
+    interface TimeSourceTaskFactory : TaskFactoryBase
     {
       TimeSourceTask create( in string theInvocationShellScript );
       

@@ -34,7 +34,7 @@ module parallel
 {
   module foam
   {
-    interface DimensionedScalarPort : parallel::SerializedPort {};
+    interface DimensionedScalarPort : SerializedPort {};
   };
 };
 
