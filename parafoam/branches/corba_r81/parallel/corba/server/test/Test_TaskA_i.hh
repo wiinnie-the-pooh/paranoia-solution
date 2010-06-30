@@ -21,31 +21,47 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef corba_server_TaskFactoryA_i_hh
-#define corba_server_TaskFactoryA_i_hh
+#ifndef corba_server_Test_TaskA_i_hh
+#define corba_server_Test_TaskA_i_hh
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/idl/TaskFactoryA.hh"
+#include "parallel/corba/idl/test/Test_TaskFactoryA.hh"
 
-#include "parallel/corba/server/TaskFactoryBase_i.hh"
+#include "parallel/corba/server/TaskBase_i.hh"
 
+#include "parallel/corba/server/PortBool_i.hh"
 
-//---------------------------------------------------------------------------
-#ifdef __USE_CORBA_SINGLE_PROCESS__
-#include "parallel/corba/server/TaskA_i.hh"
-#endif
+#include "parallel/corba/server/SPortHelperBase.hh"
+
+#include "parallel/corba/server/SerializedPortInt_i.hh"
 
 
 //---------------------------------------------------------------------------
 namespace parallel 
 {
   //---------------------------------------------------------------------------
-#ifndef __USE_CORBA_SINGLE_PROCESS__
-  typedef TaskFactoryBase_i< POA_parallel::TaskFactoryA, TaskA > TaskFactoryA_i;
-#else
-  typedef TaskFactoryBase_i< POA_parallel::TaskFactoryA, TaskA, TaskA_i, TaskFactoryA > TaskFactoryA_i;
-#endif
+  namespace test
+  {
+    //---------------------------------------------------------------------------
+    struct TaskA_i : virtual POA_parallel::test::TaskA, virtual TaskBase_i
+    {
+      TaskA_i( const CORBA::ORB_var& theORB, 
+	       const PortableServer::POA_var& thePOA );
+      
+      ~TaskA_i();
+      
+    protected:
+      CORBA::Boolean step();
+      
+      SPortHelperBase< PortBool_i > m_x;
+      
+      SPortHelperBase< SerializedPortInt_i > m_sx;
+    };
+
+
+    //---------------------------------------------------------------------------
+  }
 
 
   //---------------------------------------------------------------------------

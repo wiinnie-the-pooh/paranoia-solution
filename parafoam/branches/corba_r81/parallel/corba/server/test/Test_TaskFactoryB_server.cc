@@ -21,7 +21,7 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/server/TaskFactoryA_i.hh"
+#include "parallel/corba/server/test/Test_TaskFactoryB_i.hh"
 
 #include "parallel/corba/common/FactoryLauncher.hh"
 
@@ -30,8 +30,9 @@
 int main( int argc, char** argv )
 {
   using namespace parallel;
+  using namespace parallel::test;
 
-  return run< TaskFactoryA_i, TaskFactoryA >( argc, argv, "TaskFactory", "A" );
+  return run< TaskFactoryB_i, TaskFactoryB >( argc, argv, "TaskFactory", "B" );
 }
 
 

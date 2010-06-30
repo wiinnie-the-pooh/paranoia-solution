@@ -21,52 +21,42 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/server/TaskA_i.hh"
-
-#include "parallel/corba/server/PortBool_i.hh"
-
-#include <iostream>
-
-using namespace std;
+#ifndef __PARALELL_TEST_TASKFACTORY_B_IDL__
+#define __PARALELL_TEST_TASKFACTORY_B_IDL__
 
 
 //---------------------------------------------------------------------------
-namespace parallel
+#include "TaskFactoryBase.idl"
+#include "TaskBase.idl"
+
+
+//---------------------------------------------------------------------------
+module parallel
 {
   //---------------------------------------------------------------------------
-  TaskA_i::TaskA_i( const CORBA::ORB_var& theORB, 
-                    const PortableServer::POA_var& thePOA )
-    : TransientObject_i( theORB, thePOA )
-    , TaskBase_i( theORB, thePOA )
-    , m_x( "x", eOutputPort, this )
-    , m_sx( "sx", eOutputPort, this )
+  module test
   {
-    cout << "TaskA_i::TaskA_i[ " << this << " ]" << endl;
-  }
-
-
-  //---------------------------------------------------------------------------
-  TaskA_i::~TaskA_i()
-  {
-    cout << "TaskA_i::~TaskA_i[ " << this << " ]" << endl;
-  }
-
-
-  //---------------------------------------------------------------------------
-  CORBA::Boolean TaskA_i::step()
-  {
-    this->m_x.publish( false );
-
-    this->m_sx.publish( 7 );
-
-    cout << "TaskA_i::step[ " << this << " ]" << endl;
-    
-    return false;
-  }
+    //---------------------------------------------------------------------------
+    interface TaskB : TaskBase
+    {};
     
     
+    //---------------------------------------------------------------------------
+    interface TaskFactoryB : TaskFactoryBase
+    {
+      TaskB create( in string theInvocationShellScript );
+      
+      void publish( in TaskB theTask );
+    };
+    
+
+    //---------------------------------------------------------------------------
+  };
+  
+
   //---------------------------------------------------------------------------
-}
+};
 
 
 //---------------------------------------------------------------------------
+#endif  // __PARALELL_TEST_TASKFACTORY_B_IDL__

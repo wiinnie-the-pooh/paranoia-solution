@@ -30,9 +30,7 @@ $(sexe): $(patsubst %.cpp, %.o, $(wildcard *.cpp))
 %.o: %.cpp
 	gcc -x c++ $(CPPFLAGS) -fPIC -c -MMD $<
 
-ifneq "$(wildcard *.d)" "" # To avoid "include's" warning in case of empty folder
-include $(wildcard *.d)
-endif
+-include $(wildcard *.d)
 
 
 #--------------------------------------------------------------------------------------

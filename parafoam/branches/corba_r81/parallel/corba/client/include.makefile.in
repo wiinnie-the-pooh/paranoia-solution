@@ -33,8 +33,14 @@ include $(parallel_corba_common_root_dir)/include.makefile
 
 
 #--------------------------------------------------------------------------------------
+parallel_corba_idl_test_root_dir := $(parallel_corba_client_root_dir)/../idl/test
+
+include $(parallel_corba_idl_test_root_dir)/include.makefile
+
+
+#--------------------------------------------------------------------------------------
 ifeq "@USE_CORBA_SINGLE_PROCESS@xx" "yesxx"
-  LDFLAGS += -lparallel_corba_server
+  LDFLAGS += -lparallel_corba_server_test
 endif
 
 

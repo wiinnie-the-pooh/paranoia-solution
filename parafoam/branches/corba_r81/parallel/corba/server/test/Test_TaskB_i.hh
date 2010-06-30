@@ -21,35 +21,54 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef __PARALELL_TASKFACTORY_B_IDL__
-#define __PARALELL_TASKFACTORY_B_IDL__
+#ifndef corba_server_Test_TaskB_i_hh
+#define corba_server_Test_TaskB_i_hh
 
 
 //---------------------------------------------------------------------------
-#include "TaskFactoryBase.idl"
-#include "TaskBase.idl"
+#include "parallel/corba/idl/test/Test_TaskFactoryB.hh"
+
+#include "parallel/corba/server/TaskBase_i.hh"
+
+#include "parallel/corba/server/PortBool_i.hh"
+
+#include "parallel/corba/server/SPortHelperBase.hh"
+
+#include "parallel/corba/server/SerializedPortInt_i.hh"
 
 
 //---------------------------------------------------------------------------
-module parallel
+namespace parallel 
 {
   //---------------------------------------------------------------------------
-  interface TaskB : TaskBase
-  {};
-
-
-  //---------------------------------------------------------------------------
-  interface TaskFactoryB : TaskFactoryBase
+   namespace test
   {
-    TaskB create( in string theInvocationShellScript );
+    //---------------------------------------------------------------------------
+    struct TaskB_i : virtual POA_parallel::test::TaskB, virtual TaskBase_i
+    {
+      TaskB_i( const CORBA::ORB_var& theORB, 
+	       const PortableServer::POA_var& thePOA );
+      
+      ~TaskB_i();
+      
+      void init();
+      
+    protected:
+      CORBA::Boolean step();
+      
+      SPortHelperBase< PortBool_i > m_y;
+      
+      SPortHelperBase< SerializedPortInt_i > m_sy;
+    };
 
-    void publish( in TaskB theTask );
-  };
+
+    //---------------------------------------------------------------------------
+  }
 
 
   //---------------------------------------------------------------------------
-};
+}
 
 
 //---------------------------------------------------------------------------
-#endif  // __PARALELL_TASKFACTORY_B_IDL__
+#endif

@@ -1,6 +1,3 @@
-#  Copyright (C) 2007-2008  CEA/DEN, EDF R&D, OPEN CASCADE
-#
-#  Copyright (C) 2003-2007  OPEN CASCADE, EADS/CCR, LIP6, CEA/DEN,
 ## VulaSHAKA (Simultaneous Neutronic, Fuel Performance, Heat And Kinetics Analysis)
 ## Copyright (C) 2009-2010 Pebble Bed Modular Reactor (Pty) Limited (PBMR)
 ## 
@@ -24,23 +21,21 @@
 
 
 #--------------------------------------------------------------------------------------
-idl_target = @abs_top_builddir@/lib/libparallel_idl.so
-
-all: $(idl_target)
-
-clean: clean-idl
-
-IDL_FILES = \
-	TransientObject.idl TaskBase.idl \
-	PortBase.idl Link.idl DataHolderBase.idl PortBool.idl \
-	SerializedPort.idl SerializedPortInt.idl \
-	TaskFactoryBase.idl TaskManager.idl
+ifeq "$(parallel_corba_server_test_include_makefile)xx" "xx"
+parallel_corba_server_test_include_makefile = "included"
+#--------------------------------------------------------------------------------------
 
 
 #--------------------------------------------------------------------------------------
-parallel_corba_idl_root_dir = .
+parallel_corba_server_root_dir := $(parallel_corba_server_test_root_dir)/..
 
-include $(parallel_corba_idl_root_dir)/include.makefile
+include $(parallel_corba_server_root_dir)/include.makefile
+
+parallel_corba_idl_test_root_dir := $(parallel_corba_server_test_root_dir)/../../idl/test
+
+include $(parallel_corba_idl_test_root_dir)/include.makefile
 
 
+#--------------------------------------------------------------------------------------
+endif
 #--------------------------------------------------------------------------------------

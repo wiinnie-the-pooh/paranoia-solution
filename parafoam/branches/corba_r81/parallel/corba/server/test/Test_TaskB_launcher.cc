@@ -21,47 +21,19 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef corba_server_TaskB_i_hh
-#define corba_server_TaskB_i_hh
+#include "parallel/corba/server/test/Test_TaskB_i.hh"
+
+#include "parallel/corba/common/TaskLauncher.hh"
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/idl/TaskFactoryB.hh"
-
-#include "parallel/corba/server/TaskBase_i.hh"
-
-#include "parallel/corba/server/PortBool_i.hh"
-
-#include "parallel/corba/server/SPortHelperBase.hh"
-
-#include "parallel/corba/server/SerializedPortInt_i.hh"
-
-
-//---------------------------------------------------------------------------
-namespace parallel 
+int main( int argc, char** argv )
 {
-  //---------------------------------------------------------------------------
-  struct TaskB_i : virtual POA_parallel::TaskB, virtual TaskBase_i
-  {
-    TaskB_i( const CORBA::ORB_var& theORB, 
-             const PortableServer::POA_var& thePOA );
+  using namespace parallel;
+  using namespace parallel::test;
 
-    ~TaskB_i();
-
-    void init();
-
-  protected:
-    CORBA::Boolean step();
-
-    SPortHelperBase< PortBool_i > m_y;
-
-    SPortHelperBase< SerializedPortInt_i > m_sy;
-  };
-
-
-  //---------------------------------------------------------------------------
+  return run< TaskB_i, TaskB, TaskFactoryB >( argc, argv, "TaskFactory", "B" );
 }
 
 
 //---------------------------------------------------------------------------
-#endif

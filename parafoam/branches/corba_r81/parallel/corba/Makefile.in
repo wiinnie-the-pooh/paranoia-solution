@@ -24,14 +24,14 @@
 parallel_root_dir := ../..
 
 ifneq "@USE_CORBA_SINGLE_PROCESS@xx" "yesxx"
-  SUBDIRS := idl common client server
+  SUBDIRS := idl idl/test common client server server/test
 
 ifeq "@ENABLE_OPENFOAM@xx" "yesxx"
   SUBDIRS += idl/foam server/foam
 endif
 
 else
-  SUBDIRS := idl common server
+  SUBDIRS := idl idl/test common server server/test
 
 ifeq "@ENABLE_OPENFOAM@xx" "yesxx"
   SUBDIRS += idl/foam server/foam

@@ -21,36 +21,57 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef corba_server_TaskFactoryB_i_hh
-#define corba_server_TaskFactoryB_i_hh
+#include "parallel/corba/server/test/Test_TaskA_i.hh"
+
+#include <iostream>
+
+using namespace std;
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/idl/TaskFactoryB.hh"
-
-#include "parallel/corba/server/TaskFactoryBase_i.hh"
-
-
-//---------------------------------------------------------------------------
-#ifdef __USE_CORBA_SINGLE_PROCESS__
-#include "parallel/corba/server/TaskB_i.hh"
-#endif
-
-
-//---------------------------------------------------------------------------
-namespace parallel 
+namespace parallel
 {
   //---------------------------------------------------------------------------
-#ifndef __USE_CORBA_SINGLE_PROCESS__
-  typedef TaskFactoryBase_i< POA_parallel::TaskFactoryB, TaskB > TaskFactoryB_i;
-#else
-  typedef TaskFactoryBase_i< POA_parallel::TaskFactoryB, TaskB, TaskB_i, TaskFactoryB > TaskFactoryB_i;
-#endif
-
-
+  namespace test
+  {
+    //---------------------------------------------------------------------------
+    TaskA_i::TaskA_i( const CORBA::ORB_var& theORB, 
+		      const PortableServer::POA_var& thePOA )
+      : TransientObject_i( theORB, thePOA )
+      , TaskBase_i( theORB, thePOA )
+      , m_x( "x", eOutputPort, this )
+      , m_sx( "sx", eOutputPort, this )
+    {
+      cout << "TaskA_i::TaskA_i[ " << this << " ]" << endl;
+    }
+    
+    
+    //---------------------------------------------------------------------------
+    TaskA_i::~TaskA_i()
+    {
+      cout << "TaskA_i::~TaskA_i[ " << this << " ]" << endl;
+    }
+    
+    
+    //---------------------------------------------------------------------------
+    CORBA::Boolean TaskA_i::step()
+    {
+      this->m_x.publish( false );
+      
+      this->m_sx.publish( 7 );
+      
+      cout << "TaskA_i::step[ " << this << " ]" << endl;
+      
+      return false;
+    }
+    
+    
+    //---------------------------------------------------------------------------
+  }
+    
+    
   //---------------------------------------------------------------------------
 }
 
 
 //---------------------------------------------------------------------------
-#endif

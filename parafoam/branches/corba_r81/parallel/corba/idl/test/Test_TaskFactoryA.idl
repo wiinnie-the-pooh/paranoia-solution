@@ -21,8 +21,8 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef __PARALELL_TASKFACTORY_A_IDL__
-#define __PARALELL_TASKFACTORY_A_IDL__
+#ifndef __PARALELL_TEST_TASKFACTORY_A_IDL__
+#define __PARALELL_TEST_TASKFACTORY_A_IDL__
 
 
 //---------------------------------------------------------------------------
@@ -34,16 +34,23 @@
 module parallel
 {
   //---------------------------------------------------------------------------
-  interface TaskA : TaskBase
-  {};
-
-
-  //---------------------------------------------------------------------------
-  interface TaskFactoryA : TaskFactoryBase
+  module test
   {
-    TaskA create( in string theInvocationShellScript );
+    //---------------------------------------------------------------------------
+    interface TaskA : TaskBase
+    {};
+    
 
-    void publish( in TaskA theTask );
+    //---------------------------------------------------------------------------
+    interface TaskFactoryA : TaskFactoryBase
+    {
+      TaskA create( in string theInvocationShellScript );
+      
+      void publish( in TaskA theTask );
+    };
+    
+
+    //---------------------------------------------------------------------------
   };
 
 
@@ -52,4 +59,4 @@ module parallel
 
 
 //---------------------------------------------------------------------------
-#endif  // __PARALELL_TASKFACTORY_A_IDL__
+#endif  // __PARALELL_TEST_TASKFACTORY_A_IDL__

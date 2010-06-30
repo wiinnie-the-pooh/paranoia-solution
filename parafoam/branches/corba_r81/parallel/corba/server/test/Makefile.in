@@ -23,24 +23,14 @@
 ##
 
 
-#--------------------------------------------------------------------------------------
-idl_target = @abs_top_builddir@/lib/libparallel_idl.so
+##--------------------------------------------------------------------------------------
+exe_targets = $(patsubst %.cc, @abs_top_builddir@/bin/%, $(wildcard *.cc))
 
-all: $(idl_target)
+lib_target = @abs_top_builddir@/lib/libparallel_corba_server_test.so
 
-clean: clean-idl
+parallel_corba_server_test_root_dir = .
 
-IDL_FILES = \
-	TransientObject.idl TaskBase.idl \
-	PortBase.idl Link.idl DataHolderBase.idl PortBool.idl \
-	SerializedPort.idl SerializedPortInt.idl \
-	TaskFactoryBase.idl TaskManager.idl
-
-
-#--------------------------------------------------------------------------------------
-parallel_corba_idl_root_dir = .
-
-include $(parallel_corba_idl_root_dir)/include.makefile
+include $(parallel_corba_server_test_root_dir)/include.makefile
 
 
 #--------------------------------------------------------------------------------------

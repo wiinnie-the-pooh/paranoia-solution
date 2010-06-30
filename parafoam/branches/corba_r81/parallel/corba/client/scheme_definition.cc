@@ -21,9 +21,9 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/idl/TaskFactoryA.hh"
-#include "parallel/corba/idl/TaskFactoryB.hh"
-#include "parallel/corba/idl/TaskManager.hh"
+#include "test/Test_TaskFactoryA.hh"
+#include "test/Test_TaskFactoryB.hh"
+#include "TaskManager.hh"
 
 #include "parallel/corba/common/corba_utilities.hh"
 
@@ -34,8 +34,8 @@
 #ifdef __USE_CORBA_SINGLE_PROCESS__
 
 #include "parallel/corba/server/TaskManager_i.hh"
-#include "parallel/corba/server/TaskFactoryA_i.hh"
-#include "parallel/corba/server/TaskFactoryB_i.hh"
+#include "parallel/corba/server/test/Test_TaskFactoryA_i.hh"
+#include "parallel/corba/server/test/Test_TaskFactoryB_i.hh"
 
 #include "parallel/corba/common/FactoryLauncher.hh"
 #include "parallel/corba/common/TaskLauncher.hh"
@@ -53,6 +53,7 @@ int main( int argc, char **argv )
 {
   try {
     using namespace parallel;
+    using namespace parallel::test;
 
     CORBA::ORB_var orb = CORBA::ORB_init( argc, argv );
   

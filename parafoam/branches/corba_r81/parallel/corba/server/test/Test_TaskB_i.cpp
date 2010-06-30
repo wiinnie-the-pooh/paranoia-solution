@@ -21,7 +21,7 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/server/TaskB_i.hh"
+#include "parallel/corba/server/test/Test_TaskB_i.hh"
 
 #include <iostream>
 
@@ -32,45 +32,52 @@ using namespace std;
 namespace parallel
 {
   //---------------------------------------------------------------------------
-  TaskB_i::TaskB_i( const CORBA::ORB_var& theORB, 
-                    const PortableServer::POA_var& thePOA )
-    : TransientObject_i( theORB, thePOA )
-    , TaskBase_i( theORB, thePOA )
-    , m_y( "y", eInputPort, this )
-    , m_sy( "sy", eInputPort, this )
+   namespace test
   {
-    cout << "TaskB_i::TaskB_i[ " << this << " ]" << endl;
-  }
-
-
-  //---------------------------------------------------------------------------
-  TaskB_i::~TaskB_i()
-  {
-    cout << "TaskB_i::~TaskB_i[ " << this << " ]" << endl;
-  }
-
-
-  //---------------------------------------------------------------------------
-  void TaskB_i::init()
-  {
-    this->m_y.init( true );
-    
-    cout << "TaskB_i::init[ " << this << " ]" << endl;
-
-    this->m_sy.init( -1 );
-  }
+    //---------------------------------------------------------------------------
+    TaskB_i::TaskB_i( const CORBA::ORB_var& theORB, 
+		      const PortableServer::POA_var& thePOA )
+      : TransientObject_i( theORB, thePOA )
+      , TaskBase_i( theORB, thePOA )
+      , m_y( "y", eInputPort, this )
+      , m_sy( "sy", eInputPort, this )
+    {
+      cout << "TaskB_i::TaskB_i[ " << this << " ]" << endl;
+    }
     
     
-  //---------------------------------------------------------------------------
-  CORBA::Boolean TaskB_i::step()
-  {
-    cout << "TaskB_i::step[ " << this << " ]" << endl;
-
-    this->m_sy.retrieve();
+    //---------------------------------------------------------------------------
+    TaskB_i::~TaskB_i()
+    {
+      cout << "TaskB_i::~TaskB_i[ " << this << " ]" << endl;
+    }
     
-    cout << "TaskB_i::step[ " << this << " ] = " << this->m_sy() << endl;
-
-    return this->m_y.retrieve( );
+    
+    //---------------------------------------------------------------------------
+    void TaskB_i::init()
+    {
+      this->m_y.init( true );
+      
+      cout << "TaskB_i::init[ " << this << " ]" << endl;
+      
+      this->m_sy.init( -1 );
+    }
+    
+    
+    //---------------------------------------------------------------------------
+    CORBA::Boolean TaskB_i::step()
+    {
+      cout << "TaskB_i::step[ " << this << " ]" << endl;
+      
+      this->m_sy.retrieve();
+      
+      cout << "TaskB_i::step[ " << this << " ] = " << this->m_sy() << endl;
+      
+      return this->m_y.retrieve( );
+    }
+    
+    
+    //---------------------------------------------------------------------------
   }
     
     
