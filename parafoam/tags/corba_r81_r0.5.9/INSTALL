@@ -1,0 +1,104 @@
+#--------------------------------------------------------------------------------------
+Installation Instructions
+#--------------------------------------------------------------------------------------
+
+VulaSHAKA (Simultaneous Neutronic, Fuel Performance, Heat And Kinetics Analysis)
+Copyright (C) 2009-2010 Pebble Bed Modular Reactor (Pty) Limited (PBMR)
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+See https://vulashaka.svn.sourceforge.net/svnroot/vulashaka
+
+
+#--------------------------------------------------------------------------------------
+Pre-requisites
+#--------------------------------------------------------------------------------------
+
+"paraFoam" common purpose scheduler requires the following mandatory and optional
+pre-requisites.
+
+* Make sure that confFoam (common configuration package) is installed 
+  Can be found at https://vulashaka.svn.sourceforge.net/svnroot/vulashaka/conffoam.
+  Please follow instructions from corresponding INSTALL file to setup confFoam
+  in your environment.
+
+* Install Boost library (tested with 1.35.0 )
+  Please follow instructions from http://www.boost.org/ web-site.
+
+* Make sure that OpenFOAM is installed (optional) (tested with 1.4.1-dev and 1.6).
+  Please follow instructions from corresponding INSTALL file to setup OpenFOAM
+  in your environment.
+
+* Install diffusionFoam (optional)
+  Can be found at https://vulashaka.svn.sourceforge.net/svnroot/vulashaka/diffusionFoam.
+  Please follow instructions from corresponding INSTALL file to setup extFoam
+  in your environment.
+
+Then follow the instructions below in order to build and install the "paraFoam" - common 
+purpose scheduler.
+
+
+#--------------------------------------------------------------------------------------
+Basic Installation
+#--------------------------------------------------------------------------------------
+
+The build procedure of the "paraFoam" package is based on GNU autoconf and make utilities. 
+In order to build the module you have to perform the following actions:
+
+1. Start a new shell session (to ensure a clear environment).
+
+2. Go to the source directory:
+
+   cd <path to the sources>
+
+3. Modify the provided "env.sh" file to adjust to your local environment.
+   
+   <your favorite editor> ./env.sh
+
+4. Source this "env.sh" file to define the corresponding build environment.
+
+   source ./env.sh
+
+5. Configuring the build system:
+
+   build_configure
+   ./configure
+
+   Make sure that after each configuration step the "--- OK ---" message is
+   printed in your console.
+
+6. Build "paraFoam":
+
+   make
+
+  (use "make clean" command to cleanup the build folder)
+
+
+#--------------------------------------------------------------------------------------
+"paraFoam" environment
+#--------------------------------------------------------------------------------------
+
+Before start to use "paraFoam" it is necessary to source the generated "bashrc" file
+
+
+#--------------------------------------------------------------------------------------
+"paraFoam" installation check
+#--------------------------------------------------------------------------------------
+
+Run "paraFoam" "toys" test application:
+
+    parallel_toys
+
+
+#--------------------------------------------------------------------------------------
