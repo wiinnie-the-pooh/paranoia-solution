@@ -33,6 +33,8 @@ include $(parallel_corba_idl_root_dir)/include.makefile
 
 
 #------------------------------------------------------------------------------
+CPPFLAGS += -I@abs_top_builddir@/parallel/corba/idl/foam
+
 ifneq "$(parallel_corba_idl_foam_root_dir)" "."
   LDFLAGS += -lparallel_idl_foam
 endif

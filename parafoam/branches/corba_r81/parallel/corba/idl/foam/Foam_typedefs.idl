@@ -21,15 +21,9 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef __PARALELL_FOAM_TIMESOURCE_TASKFACTORY_IDL__
-#define __PARALELL_FOAM_TIMESOURCE_TASKFACTORY_IDL__
+#ifndef __PARALELL_FOAM_TYPEDEFS_IDL__
+#define __PARALELL_FOAM_TYPEDEFS_IDL__
 
-
-//---------------------------------------------------------------------------
-#include "TaskFactoryBase.idl"
-#include "TaskBase.idl"
-
-#include "foam/Foam_typedefs.idl"
 
 //---------------------------------------------------------------------------
 module parallel
@@ -38,30 +32,8 @@ module parallel
   module foam
   {
     //---------------------------------------------------------------------------
-    interface TimeSourceTask : TaskBase
-    {
-      void setTime( in dimensionedScalar newTime, in label newIndex );
-      dimensionedScalar value();
-      label timeIndex();
-      
-      void setDeltaT( in dimensionedScalar deltaT );
-      dimensionedScalar deltaT();
-      
-      void setEndTime( in dimensionedScalar endTime );
-      dimensionedScalar endTime();
-      
-      void setWriteInterval( in label writeInterval );
-      label getWriteInterval();
-    };
-
-
-    //---------------------------------------------------------------------------
-    interface TimeSourceTaskFactory : TaskFactoryBase
-    {
-      TimeSourceTask create( in string theInvocationShellScript );
-      
-      void publish( in TimeSourceTask theTask );
-    };
+    typedef double dimensionedScalar;
+    typedef long label;
 
 
     //---------------------------------------------------------------------------
@@ -73,4 +45,4 @@ module parallel
 
 
 //---------------------------------------------------------------------------
-#endif  // __PARALELL_FOAM_TIMESOURCE_TASKFACTORY_IDL__
+#endif  // __PARALELL_FOAM_TYPEDEFS_IDL__
