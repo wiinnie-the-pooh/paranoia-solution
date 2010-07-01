@@ -88,6 +88,8 @@ int main( int argc, char **argv )
 
     a_task_manager_ref->start();
 
+    a_task_manager_ref->wait();
+
     //{
     //  corba::SmartPtrDef< TaskA_var >::type a_task_A( a_task_factory_A_ref->create( "localhost" ) );
     //  if ( a_task_A ) 

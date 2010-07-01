@@ -111,7 +111,7 @@ int main( int argc, char **argv )
     TimeSourceTask_var a_time_source_task = a_time_source_task_factory->create( "Foam_TimeSourceTask_launcher" );
     a_time_source_task->setTime( dimensionedScalar( 0.000 ), 0 );
     a_time_source_task->setDeltaT( dimensionedScalar( 0.005 ) );
-    a_time_source_task->setEndTime( dimensionedScalar( 7.777 ) );
+    a_time_source_task->setEndTime( dimensionedScalar( 0.033 ) );
     a_time_source_task->setWriteInterval( 1 );
 
     SolverBaseTask_var a_solver_base_task = a_solver_base_task_factory->create( "Foam_SolverBaseTask_launcher" );
@@ -122,6 +122,8 @@ int main( int argc, char **argv )
     a_solver_base_task->Release();
 
     a_task_manager->start();
+
+    a_task_manager->wait();
 
     orb->destroy();
 
