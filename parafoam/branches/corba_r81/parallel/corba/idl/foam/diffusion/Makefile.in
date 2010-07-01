@@ -1,3 +1,6 @@
+#  Copyright (C) 2007-2008  CEA/DEN, EDF R&D, OPEN CASCADE
+#
+#  Copyright (C) 2003-2007  OPEN CASCADE, EADS/CCR, LIP6, CEA/DEN,
 ## VulaSHAKA (Simultaneous Neutronic, Fuel Performance, Heat And Kinetics Analysis)
 ## Copyright (C) 2009-2010 Pebble Bed Modular Reactor (Pty) Limited (PBMR)
 ## 
@@ -21,26 +24,20 @@
 
 
 #--------------------------------------------------------------------------------------
-ifeq "$(parallel_corba_idl_foam_include_makefile)xx" "xx"
-parallel_corba_idl_foam_include_makefile = "included"
-#--------------------------------------------------------------------------------------
+idl_target = @abs_top_builddir@/lib/libparallel_idl_foam_diffusion.so
+
+all: $(idl_target)
+
+clean: clean-idl
+
+IDL_FILES = \
+	Foam_Diffusion_NuclearSolverTaskFactory.idl
 
 
 #--------------------------------------------------------------------------------------
-parallel_corba_idl_root_dir := $(parallel_corba_idl_foam_root_dir)/..
+parallel_corba_idl_foam_diffusion_root_dir = .
 
-include $(parallel_corba_idl_root_dir)/include.makefile
-
-
-#------------------------------------------------------------------------------
-CPPFLAGS += -I@abs_top_builddir@/parallel/corba/idl/foam
-IDLFLAGS += -I@abs_top_builddir@/parallel/corba/idl/foam
-
-ifneq "$(parallel_corba_idl_foam_root_dir)" "."
-  LDFLAGS += -lparallel_idl_foam
-endif
+include $(parallel_corba_idl_foam_diffusion_root_dir)/include.makefile
 
 
-#--------------------------------------------------------------------------------------
-endif
 #--------------------------------------------------------------------------------------
