@@ -21,41 +21,9 @@
 
 
 #--------------------------------------------------------------------------------------
+SUBDIRS := idl common server foam test
+
 parallel_root_dir := ../..
-
-
-#--------------------------------------------------------------------------------------
-ifneq "@USE_CORBA_SINGLE_PROCESS@xx" "yesxx"
-#--------------------------------------------------------------------------------------
-  SUBDIRS := idl common server test
-
-ifeq "@ENABLE_OPENFOAM@xx" "yesxx"
-  SUBDIRS += idl/foam client/foam server/foam
-endif
-
-ifeq "@ENABLE_DIFFUSIONFOAMLIB@xx" "yesxx"
-  SUBDIRS += idl/foam/diffusion client/foam/diffusion server/foam/diffusion
-endif
-
-
-#--------------------------------------------------------------------------------------
-else
-#--------------------------------------------------------------------------------------
-  SUBDIRS := idl common server test
-
-ifeq "@ENABLE_OPENFOAM@xx" "yesxx"
-  SUBDIRS += idl/foam server/foam client/foam
-endif
-
-ifeq "@ENABLE_DIFFUSIONFOAMLIB@xx" "yesxx"
-  SUBDIRS += idl/foam/diffusion server/foam/diffusion client/foam/diffusion
-endif
-
-
-#--------------------------------------------------------------------------------------
-endif
-#--------------------------------------------------------------------------------------
-
 
 include $(parallel_root_dir)/recursive.makefile
 
