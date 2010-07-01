@@ -21,7 +21,7 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/server/test/Test_TaskA_i.hh"
+#include "parallel/corba/server/foam/Foam_SolverBaseTask_i.hh"
 
 #include <iostream>
 
@@ -32,40 +32,68 @@ using namespace std;
 namespace parallel
 {
   //---------------------------------------------------------------------------
-  namespace test
+  namespace foam
   {
     //---------------------------------------------------------------------------
-    TaskA_i::TaskA_i( const CORBA::ORB_var& theORB, 
-                      const PortableServer::POA_var& thePOA )
+    SolverBaseTask_i::SolverBaseTask_i( const CORBA::ORB_var& theORB, 
+                                        const PortableServer::POA_var& thePOA )
       : TransientObject_i( theORB, thePOA )
       , TaskBase_i( theORB, thePOA )
-      , m_x( "x", eOutputPort, this )
-      , m_sx( "sx", eOutputPort, this )
+
+      , m_time_i( "time", eInputPort, this )
+      , m_index_i( "index", eInputPort, this )
+      , m_write_i( "write", eInputPort, this )
+      , m_stop_i( "stop", eInputPort, this )
+
+      , m_finished_o( "finished", eOutputPort, this )
+      , m_residual_o( "residual", eOutputPort, this )
     {
-      cout << "TaskA_i::TaskA_i[ " << this << " ]" << endl;
+      cout << "SolverBaseTask_i::SolverBaseTask_i[ " << this << " ]" << endl;
     }
-    
-    
+
+
     //---------------------------------------------------------------------------
-    TaskA_i::~TaskA_i()
+    SolverBaseTask_i::~SolverBaseTask_i()
     {
-      cout << "TaskA_i::~TaskA_i[ " << this << " ]" << endl;
+      cout << "SolverBaseTask_i::~SolverBaseTask_i[ " << this << " ]" << endl;
     }
-    
-    
+
+
     //---------------------------------------------------------------------------
-    bool TaskA_i::step()
+    bool SolverBaseTask_i::step()
     {
-      this->m_x.publish( false );
+      cout << "SolverBaseTask_i::step[ " << this << " ]" << endl;
       
-      this->m_sx.publish( 7 );
-      
-      cout << "TaskA_i::step[ " << this << " ]" << endl;
-      
-      return false;
+      this->pre_step();
+
+      return this->post_step();
     }
-    
-    
+
+
+    //---------------------------------------------------------------------------
+    bool SolverBaseTask_i::pre_step()
+    {
+      this->m_finished_o.publish( this->m_stop_i.retrieve() );
+
+      this->m_time_i.retrieve();
+      this->m_index_i.retrieve();
+
+      //this->runTime.setTime( this->m_time_i(), this->m_index_i() );
+
+      return ! this->m_finished_o();
+    }
+
+
+    //---------------------------------------------------------------------------
+    bool SolverBaseTask_i::post_step()
+    {
+      //if ( this->m_write_i.retrieve() )
+      //  this->runTime.writeNow();
+
+      return ! this->m_finished_o();
+    }
+
+
     //---------------------------------------------------------------------------
   }
     

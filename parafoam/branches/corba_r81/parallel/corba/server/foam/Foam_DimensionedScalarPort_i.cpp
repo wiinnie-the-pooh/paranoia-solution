@@ -36,8 +36,8 @@ namespace parallel
   {
     //---------------------------------------------------------------------------
     DimensionedScalarPort_i::DimensionedScalarPort_i( const std::string& theName,
-					      const CORBA::ORB_var& theORB, 
-					      const PortableServer::POA_var& thePOA )
+                                                      const CORBA::ORB_var& theORB, 
+                                                      const PortableServer::POA_var& thePOA )
       : SObjectBase( theORB, thePOA )
       , PortBase_i( theName, theORB, thePOA )
       , SerializedPort_i( theName, theORB, thePOA )

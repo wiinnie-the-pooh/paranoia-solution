@@ -36,7 +36,7 @@ namespace parallel
   {
     //---------------------------------------------------------------------------
     TimeSourceTask_i::TimeSourceTask_i( const CORBA::ORB_var& theORB, 
-					const PortableServer::POA_var& thePOA )
+                                        const PortableServer::POA_var& thePOA )
       : TransientObject_i( theORB, thePOA )
       , TaskBase_i( theORB, thePOA )
 
@@ -63,9 +63,9 @@ namespace parallel
 
 
     //---------------------------------------------------------------------------
-    void TimeSourceTask_i::init()
+    void TimeSourceTask_i::prepare()
     {
-      cout << "TimeSourceTask_i::init[ " << this << " ]" << endl;
+      cout << "TimeSourceTask_i::prepare[ " << this << " ]" << endl;
       
       this->m_next_i.init( true );
       this->m_delta_i.init( this->m_delta_i() );
@@ -73,7 +73,7 @@ namespace parallel
     
     
     //---------------------------------------------------------------------------
-    CORBA::Boolean TimeSourceTask_i::step()
+    bool TimeSourceTask_i::step()
     {
       cout << "TimeSourceTask_i::step[ " << this << " ]" << endl;
       

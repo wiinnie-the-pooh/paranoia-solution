@@ -21,49 +21,19 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef __PARALELL_TASK_BASE_IDL__
-#define __PARALELL_TASK_BASE_IDL__
+#include "parallel/corba/server/foam/Foam_SolverBaseTaskFactory_i.hh"
+
+#include "parallel/corba/common/FactoryLauncher.hh"
 
 
 //---------------------------------------------------------------------------
-#include "TransientObject.idl"
-
-
-//---------------------------------------------------------------------------
-module parallel
+int main( int argc, char** argv )
 {
-  interface TaskManager;
+  using namespace parallel;
+  using namespace parallel::foam;
 
-  interface PortBase;
-
-  typedef sequence< PortBase > Ports;
-
-  interface Link;
-
-  interface TaskBase : TransientObject
-  {
-    void prepare();
-
-    void invoke( in TaskManager theTaskManager );
-
-    PortBase get_input_port( in string theName );
-
-    Ports get_input_ports();
-
-    boolean connect_input( in PortBase thePort, 
-                           in Link theLink, 
-                           in PortBase theOppositePort );
-
-    PortBase get_output_port( in string theName );
-
-    Ports get_output_ports();
-
-    boolean connect_output( in PortBase thePort, 
-                            in Link theLink, 
-                            in PortBase theOppositePort );
-  };
-};
+  return run< SolverBaseTaskFactory_i, SolverBaseTaskFactory >( argc, argv, "TaskFactory", "Foam_SolverBase" );
+}
 
 
 //---------------------------------------------------------------------------
-#endif  // __PARALELL_TASK_BASE_IDL__

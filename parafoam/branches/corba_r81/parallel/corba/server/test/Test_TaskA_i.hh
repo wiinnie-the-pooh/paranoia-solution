@@ -47,13 +47,20 @@ namespace parallel
     struct TaskA_i : virtual POA_parallel::test::TaskA, virtual TaskBase_i
     {
       TaskA_i( const CORBA::ORB_var& theORB, 
-	       const PortableServer::POA_var& thePOA );
+               const PortableServer::POA_var& thePOA );
       
       ~TaskA_i();
       
+      virtual void prepare() 
+      {}
+
     protected:
-      CORBA::Boolean step();
+      virtual bool step();
       
+      virtual void destroy() 
+      {}
+      
+    protected:
       SPortHelperBase< PortBool_i > m_x;
       
       SPortHelperBase< SerializedPortInt_i > m_sx;

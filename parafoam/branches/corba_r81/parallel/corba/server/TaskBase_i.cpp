@@ -243,20 +243,6 @@ namespace parallel
     
     
   //---------------------------------------------------------------------------
-  void TaskBase_i::init()
-  {
-    cout << "TaskBase_i::init[ " << this << " ]" << endl;
-  }
-    
-    
-  //---------------------------------------------------------------------------
-  void TaskBase_i::destroy()
-  {
-    cout << "TaskBase_i::destroy[ " << this << " ]" << endl;
-  }
-    
-    
-  //---------------------------------------------------------------------------
   bool TaskBase_i::define_input_port( const TPortPtr& thePort )
   {
     if ( this->m_input_ports.find( thePort ) != this->m_input_ports.end() )

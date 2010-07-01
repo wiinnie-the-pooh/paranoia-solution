@@ -68,33 +68,31 @@ namespace parallel
     ~TaskBase_i();
 
     //---------------------------------------------------------------------------
-    void init();
-
-    void invoke( TaskManager_ptr theTaskManager );
+    virtual void invoke( TaskManager_ptr theTaskManager );
     
     //---------------------------------------------------------------------------
-    PortBase_ptr get_input_port( const char* theName );
+    virtual PortBase_ptr get_input_port( const char* theName );
 
-    Ports* get_input_ports();
+    virtual Ports* get_input_ports();
 
-    CORBA::Boolean connect_input( PortBase_ptr thePort, 
-                                  Link_ptr theLink, 
-                                  PortBase_ptr theOppositePort );
+    virtual CORBA::Boolean connect_input( PortBase_ptr thePort, 
+                                          Link_ptr theLink, 
+                                          PortBase_ptr theOppositePort );
     
     //---------------------------------------------------------------------------
-    PortBase_ptr get_output_port( const char* theName );
+    virtual PortBase_ptr get_output_port( const char* theName );
 
-    Ports* get_output_ports();
+    virtual Ports* get_output_ports();
 
-    CORBA::Boolean connect_output( PortBase_ptr thePort, 
-                                   Link_ptr theLink, 
-                                   PortBase_ptr theOppositePort );
+    virtual CORBA::Boolean connect_output( PortBase_ptr thePort, 
+                                           Link_ptr theLink, 
+                                           PortBase_ptr theOppositePort );
 
     //---------------------------------------------------------------------------
   protected:
-    virtual CORBA::Boolean step() = 0;
+    virtual bool step() = 0;
 
-    virtual void destroy();
+    virtual void destroy() = 0;
 
   public:
     typedef PortBase_i* TPortPtr;

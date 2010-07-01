@@ -21,58 +21,27 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef corba_server_Test_TaskB_i_hh
-#define corba_server_Test_TaskB_i_hh
+#ifndef __PARALELL_PORT_FLOAT_IDL__
+#define __PARALELL_PORT_FLOAT_IDL__
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/idl/test/Test_TaskFactoryB.hh"
+#include "PortBase.idl"
 
-#include "parallel/corba/server/TaskBase_i.hh"
-
-#include "parallel/corba/server/PortBool_i.hh"
-
-#include "parallel/corba/server/SPortHelperBase.hh"
-
-#include "parallel/corba/server/SerializedPortInt_i.hh"
+#include "DataHolderBase.idl"
 
 
 //---------------------------------------------------------------------------
-namespace parallel 
+module parallel
 {
-  //---------------------------------------------------------------------------
-   namespace test
+  interface PortFloat : PortBase {};
+
+  interface DataHolderFloat : DataHolderBase 
   {
-    //---------------------------------------------------------------------------
-    struct TaskB_i : virtual POA_parallel::test::TaskB, virtual TaskBase_i
-    {
-      TaskB_i( const CORBA::ORB_var& theORB, 
-               const PortableServer::POA_var& thePOA );
-      
-      ~TaskB_i();
-      
-      virtual void prepare();
-      
-    protected:
-      virtual bool step();
-      
-      virtual void destroy() 
-      {}
-
-    protected:
-      SPortHelperBase< PortBool_i > m_y;
-      
-      SPortHelperBase< SerializedPortInt_i > m_sy;
-    };
-
-
-    //---------------------------------------------------------------------------
-  }
-
-
-  //---------------------------------------------------------------------------
-}
+    double value();
+  };
+};
 
 
 //---------------------------------------------------------------------------
-#endif
+#endif  // __PARALELL_PORT_FLOAT_IDL__

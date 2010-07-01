@@ -65,13 +65,17 @@ int main( int argc, char **argv )
     PortableServer::POAManager_var pman = poa->the_POAManager();
     pman->activate();
     
-    TimeSourceTaskFactory_var a_time_source_task_factory = create_factory< TimeSourceTaskFactory_i, TimeSourceTaskFactory >( orb, poa, "TaskFactory", "Foam_TimeSource" );
-    //SolverTaskBase_var a_solver_base_task_factory = create_factory< TaskFactoryB_i, TaskFactoryB >( orb, poa, "TaskFactory", "Foam_SolverTaskBase" );
+    TimeSourceTaskFactory_var a_time_source_task_factory = 
+      create_factory< TimeSourceTaskFactory_i, TimeSourceTaskFactory >( orb, poa, "TaskFactory", "Foam_TimeSource" );
+    //SolverTaskBase_var a_solver_base_task_factory =
+    //  create_factory< TaskFactoryB_i, TaskFactoryB >( orb, poa, "TaskFactory", "Foam_SolverTaskBase" );
     TaskManager_var a_task_manager = create_factory< TaskManager_i, TaskManager >( orb, poa, "TaskManager", "this" );
 
 #else
-    TimeSourceTaskFactory_var a_time_source_task_factory = TimeSourceTaskFactory::_narrow( getObjectReference( orb, "TaskFactory", "Foam_TimeSource" ) );
-    //SolverTaskBase_var a_solver_base_task_factory = TaskFactoryB::_narrow( getObjectReference( orb, "TaskFactory", "Foam_SolverTaskBase" ) );
+    TimeSourceTaskFactory_var a_time_source_task_factory = 
+      TimeSourceTaskFactory::_narrow( getObjectReference( orb, "TaskFactory", "Foam_TimeSource" ) );
+    //SolverTaskBase_var a_solver_base_task_factory = 
+    //  TaskFactoryB::_narrow( getObjectReference( orb, "TaskFactory", "Foam_SolverTaskBase" ) );
     TaskManager_var a_task_manager = TaskManager::_narrow( getObjectReference( orb, "TaskManager", "this" ) );
 
 #endif

@@ -80,8 +80,8 @@ namespace parallel
       Foam::OStringStream an_ostream;
       
       an_ostream << /* this->value.name() */ "dummy_name" << Foam::token::SPACE 
-		 << this->value.dimensions() << Foam::token::SPACE
-		 << this->value.value();
+                 << this->value.dimensions() << Foam::token::SPACE
+                 << this->value.value();
       
       std::string a_string = an_ostream.str();
       

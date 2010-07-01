@@ -21,57 +21,72 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/server/test/Test_TaskA_i.hh"
-
-#include <iostream>
-
-using namespace std;
+#ifndef corba_server_Foam_SolverBaseTask_i_hh
+#define corba_server_Foam_SolverBaseTask_i_hh
 
 
 //---------------------------------------------------------------------------
-namespace parallel
+#include "foam/Foam_SolverBaseTaskFactory.hh"
+
+#include "parallel/corba/server/TaskBase_i.hh"
+
+#include "parallel/corba/server/PortBool_i.hh"
+
+#include "parallel/corba/server/PortInt_i.hh"
+
+#include "parallel/corba/server/foam/Foam_DimensionedScalarPort_i.hh"
+
+#include "parallel/corba/server/PortFloat_i.hh"
+
+#include "parallel/corba/server/SPortHelperBase.hh"
+
+
+//---------------------------------------------------------------------------
+namespace parallel 
 {
   //---------------------------------------------------------------------------
-  namespace test
+  namespace foam
   {
     //---------------------------------------------------------------------------
-    TaskA_i::TaskA_i( const CORBA::ORB_var& theORB, 
-                      const PortableServer::POA_var& thePOA )
-      : TransientObject_i( theORB, thePOA )
-      , TaskBase_i( theORB, thePOA )
-      , m_x( "x", eOutputPort, this )
-      , m_sx( "sx", eOutputPort, this )
+    struct SolverBaseTask_i : virtual POA_parallel::foam::SolverBaseTask, 
+                              virtual TaskBase_i
     {
-      cout << "TaskA_i::TaskA_i[ " << this << " ]" << endl;
-    }
-    
-    
-    //---------------------------------------------------------------------------
-    TaskA_i::~TaskA_i()
-    {
-      cout << "TaskA_i::~TaskA_i[ " << this << " ]" << endl;
-    }
-    
-    
-    //---------------------------------------------------------------------------
-    bool TaskA_i::step()
-    {
-      this->m_x.publish( false );
+      SolverBaseTask_i( const CORBA::ORB_var& theORB, 
+                        const PortableServer::POA_var& thePOA );
       
-      this->m_sx.publish( 7 );
+      ~SolverBaseTask_i();
       
-      cout << "TaskA_i::step[ " << this << " ]" << endl;
+      virtual void prepare()
+      {}
       
-      return false;
-    }
-    
-    
+    protected:
+      virtual bool step();
+
+      virtual void destroy()
+      {}
+
+    protected:
+      bool pre_step();
+      bool post_step();
+
+    protected:
+      SPortHelperBase< DimensionedScalarPort_i > m_time_i;
+      SPortHelperBase< PortInt_i > m_index_i;
+      SPortHelperBase< PortBool_i > m_write_i;
+      SPortHelperBase< PortBool_i > m_stop_i;
+
+      SPortHelperBase< PortBool_i > m_finished_o;
+      SPortHelperBase< PortFloat_i > m_residual_o;
+    };
+
+
     //---------------------------------------------------------------------------
   }
-    
-    
+
+
   //---------------------------------------------------------------------------
 }
 
 
 //---------------------------------------------------------------------------
+#endif

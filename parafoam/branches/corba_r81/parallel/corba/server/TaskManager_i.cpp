@@ -139,7 +139,7 @@ namespace parallel
       for ( ; anIter != anEnd; anIter++ )
       {
         const TTaskBasePtr& aTaskBase = *anIter;
-        aTaskBase->init();
+        aTaskBase->prepare();
       }
     }
 

@@ -41,11 +41,11 @@ namespace parallel
   {
     //---------------------------------------------------------------------------
     struct DimensionedScalarPort_i : virtual POA_parallel::foam::DimensionedScalarPort, 
-				     virtual SerializedPort_i
+                                     virtual SerializedPort_i
     {
       DimensionedScalarPort_i( const std::string& theName,
-			       const CORBA::ORB_var& theORB, 
-			       const PortableServer::POA_var& thePOA );
+                               const CORBA::ORB_var& theORB, 
+                               const PortableServer::POA_var& thePOA );
       
       ~DimensionedScalarPort_i();
       

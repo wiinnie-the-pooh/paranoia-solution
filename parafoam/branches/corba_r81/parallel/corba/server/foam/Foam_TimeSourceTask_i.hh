@@ -47,30 +47,33 @@ namespace parallel
   {
     //---------------------------------------------------------------------------
     struct TimeSourceTask_i : virtual POA_parallel::foam::TimeSourceTask, 
-			      virtual TaskBase_i
+                              virtual TaskBase_i
     {
       TimeSourceTask_i( const CORBA::ORB_var& theORB, 
-			const PortableServer::POA_var& thePOA );
+                        const PortableServer::POA_var& thePOA );
       
       ~TimeSourceTask_i();
       
-      void setTime( dimensionedScalar newTime, label newIndex );
-      dimensionedScalar value();
-      label timeIndex();
+      virtual void prepare();
+      
+      virtual void setTime( dimensionedScalar newTime, label newIndex );
+      virtual dimensionedScalar value();
+      virtual label timeIndex();
 
-      void setDeltaT( dimensionedScalar deltaT );
-      dimensionedScalar deltaT();
+      virtual void setDeltaT( dimensionedScalar deltaT );
+      virtual dimensionedScalar deltaT();
 
-      void setEndTime( dimensionedScalar endTime );
-      dimensionedScalar endTime();
+      virtual void setEndTime( dimensionedScalar endTime );
+      virtual dimensionedScalar endTime();
 
-      void setWriteInterval( label writeInterval );
-      label getWriteInterval();
+      virtual void setWriteInterval( label writeInterval );
+      virtual label getWriteInterval();
 
     protected:
-      void init();
-      
-      CORBA::Boolean step();
+      virtual bool step();
+
+      virtual void destroy()
+      {}
       
       void increment();
 
