@@ -21,24 +21,23 @@
 
 
 #--------------------------------------------------------------------------------------
-ifeq "$(parallel_corba_server_test_include_makefile)xx" "xx"
-parallel_corba_server_test_include_makefile = "included"
+ifeq "$(parallel_corba_test_idl_include_makefile)xx" "xx"
+parallel_corba_test_idl_include_makefile = "included"
 #--------------------------------------------------------------------------------------
 
 
 #--------------------------------------------------------------------------------------
-parallel_corba_server_root_dir := $(parallel_corba_server_test_root_dir)/..
+parallel_corba_idl_root_dir := $(parallel_corba_test_idl_root_dir)/../../idl
 
-include $(parallel_corba_server_root_dir)/include.makefile
-
-parallel_corba_idl_test_root_dir := $(parallel_corba_server_test_root_dir)/../../idl/test
-
-include $(parallel_corba_idl_test_root_dir)/include.makefile
+include $(parallel_corba_idl_root_dir)/include.makefile
 
 
-#--------------------------------------------------------------------------------------
-ifneq "$(parallel_corba_server_test_root_dir)" "."
-  LDFLAGS += -lparallel_corba_server_test
+#------------------------------------------------------------------------------
+CPPFLAGS += -I@abs_top_builddir@/parallel/corba/test/idl
+IDLFLAGS += -I@abs_top_builddir@/parallel/corba/test/idl
+
+ifneq "$(parallel_corba_test_idl_root_dir)" "."
+  LDFLAGS += -lparallel_test_idl
 endif
 
 

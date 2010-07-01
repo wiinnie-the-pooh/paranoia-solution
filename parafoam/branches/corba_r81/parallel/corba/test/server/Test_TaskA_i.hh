@@ -21,12 +21,12 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef corba_server_Test_TaskB_i_hh
-#define corba_server_Test_TaskB_i_hh
+#ifndef corba_server_Test_TaskA_i_hh
+#define corba_server_Test_TaskA_i_hh
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/idl/test/Test_TaskFactoryB.hh"
+#include "Test_TaskFactoryA.hh"
 
 #include "parallel/corba/server/TaskBase_i.hh"
 
@@ -41,28 +41,29 @@
 namespace parallel 
 {
   //---------------------------------------------------------------------------
-   namespace test
+  namespace test
   {
     //---------------------------------------------------------------------------
-    struct TaskB_i : virtual POA_parallel::test::TaskB, virtual TaskBase_i
+    struct TaskA_i : virtual POA_parallel::test::TaskA, virtual TaskBase_i
     {
-      TaskB_i( const CORBA::ORB_var& theORB, 
+      TaskA_i( const CORBA::ORB_var& theORB, 
                const PortableServer::POA_var& thePOA );
       
-      ~TaskB_i();
+      ~TaskA_i();
       
-      virtual void prepare();
-      
+      virtual void prepare() 
+      {}
+
     protected:
       virtual bool step();
       
       virtual void destroy() 
       {}
-
-    protected:
-      SPortHelperBase< PortBool_i > m_y;
       
-      SPortHelperBase< SerializedPortInt_i > m_sy;
+    protected:
+      SPortHelperBase< PortBool_i > m_x;
+      
+      SPortHelperBase< SerializedPortInt_i > m_sx;
     };
 
 

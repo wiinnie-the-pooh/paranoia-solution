@@ -21,8 +21,8 @@
 
 
 //---------------------------------------------------------------------------
-#include "test/Test_TaskFactoryA.hh"
-#include "test/Test_TaskFactoryB.hh"
+#include "Test_TaskFactoryA.hh"
+#include "Test_TaskFactoryB.hh"
 #include "TaskManager.hh"
 
 #include "parallel/corba/common/corba_utilities.hh"
@@ -34,8 +34,8 @@
 #ifdef __USE_CORBA_SINGLE_PROCESS__
 
 #include "parallel/corba/server/TaskManager_i.hh"
-#include "parallel/corba/server/test/Test_TaskFactoryA_i.hh"
-#include "parallel/corba/server/test/Test_TaskFactoryB_i.hh"
+#include "parallel/corba/test/server/Test_TaskFactoryA_i.hh"
+#include "parallel/corba/test/server/Test_TaskFactoryB_i.hh"
 
 #include "parallel/corba/common/FactoryLauncher.hh"
 #include "parallel/corba/common/TaskLauncher.hh"

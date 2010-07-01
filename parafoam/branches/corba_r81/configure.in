@@ -83,22 +83,23 @@ AC_OUTPUT( [ bashrc \
              parallel/corba/include.makefile \
              parallel/corba/idl/include.makefile \
              parallel/corba/idl/Makefile \
-             parallel/corba/idl/test/include.makefile \
-             parallel/corba/idl/test/Makefile \
+             parallel/corba/common/include.makefile \
+             parallel/corba/common/Makefile \
+             parallel/corba/server/include.makefile \
+             parallel/corba/server/Makefile \
+             parallel/corba/test/Makefile \
+             parallel/corba/test/idl/include.makefile \
+             parallel/corba/test/idl/Makefile \
+             parallel/corba/test/client/include.makefile \
+             parallel/corba/test/client/Makefile \
+             parallel/corba/test/server/include.makefile \
+             parallel/corba/test/server/Makefile \
              parallel/corba/idl/foam/include.makefile \
              parallel/corba/idl/foam/Makefile \
              parallel/corba/idl/foam/diffusion/include.makefile \
              parallel/corba/idl/foam/diffusion/Makefile \
-             parallel/corba/common/include.makefile \
-             parallel/corba/common/Makefile \
-             parallel/corba/client/test/include.makefile \
-             parallel/corba/client/test/Makefile \
              parallel/corba/client/foam/include.makefile \
              parallel/corba/client/foam/Makefile \
-             parallel/corba/server/include.makefile \
-             parallel/corba/server/Makefile \
-             parallel/corba/server/test/include.makefile \
-             parallel/corba/server/test/Makefile \
              parallel/corba/server/foam/include.makefile \
              parallel/corba/server/foam/Makefile \
              parallel/foam/Makefile \

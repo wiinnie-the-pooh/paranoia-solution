@@ -21,68 +21,58 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/server/test/Test_TaskB_i.hh"
-
-#include <iostream>
-
-using namespace std;
+#ifndef corba_server_Test_TaskB_i_hh
+#define corba_server_Test_TaskB_i_hh
 
 
 //---------------------------------------------------------------------------
-namespace parallel
+#include "Test_TaskFactoryB.hh"
+
+#include "parallel/corba/server/TaskBase_i.hh"
+
+#include "parallel/corba/server/PortBool_i.hh"
+
+#include "parallel/corba/server/SPortHelperBase.hh"
+
+#include "parallel/corba/server/SerializedPortInt_i.hh"
+
+
+//---------------------------------------------------------------------------
+namespace parallel 
 {
   //---------------------------------------------------------------------------
    namespace test
   {
     //---------------------------------------------------------------------------
-    TaskB_i::TaskB_i( const CORBA::ORB_var& theORB, 
-                      const PortableServer::POA_var& thePOA )
-      : TransientObject_i( theORB, thePOA )
-      , TaskBase_i( theORB, thePOA )
-      , m_y( "y", eInputPort, this )
-      , m_sy( "sy", eInputPort, this )
+    struct TaskB_i : virtual POA_parallel::test::TaskB, virtual TaskBase_i
     {
-      cout << "TaskB_i::TaskB_i[ " << this << " ]" << endl;
-    }
-    
-    
-    //---------------------------------------------------------------------------
-    TaskB_i::~TaskB_i()
-    {
-      cout << "TaskB_i::~TaskB_i[ " << this << " ]" << endl;
-    }
-    
-    
-    //---------------------------------------------------------------------------
-    void TaskB_i::prepare()
-    {
-      this->m_y.init( true );
+      TaskB_i( const CORBA::ORB_var& theORB, 
+               const PortableServer::POA_var& thePOA );
       
-      cout << "TaskB_i::prepare[ " << this << " ]" << endl;
+      ~TaskB_i();
       
-      this->m_sy.init( -1 );
-    }
-    
-    
-    //---------------------------------------------------------------------------
-    bool TaskB_i::step()
-    {
-      cout << "TaskB_i::step[ " << this << " ]" << endl;
+      virtual void prepare();
       
-      this->m_sy.retrieve();
+    protected:
+      virtual bool step();
       
-      cout << "TaskB_i::step[ " << this << " ] = " << this->m_sy() << endl;
+      virtual void destroy() 
+      {}
+
+    protected:
+      SPortHelperBase< PortBool_i > m_y;
       
-      return this->m_y.retrieve( );
-    }
-    
-    
+      SPortHelperBase< SerializedPortInt_i > m_sy;
+    };
+
+
     //---------------------------------------------------------------------------
   }
-    
-    
+
+
   //---------------------------------------------------------------------------
 }
 
 
 //---------------------------------------------------------------------------
+#endif

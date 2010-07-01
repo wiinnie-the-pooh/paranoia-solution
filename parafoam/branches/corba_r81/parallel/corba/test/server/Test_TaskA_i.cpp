@@ -21,59 +21,57 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef corba_server_Test_TaskA_i_hh
-#define corba_server_Test_TaskA_i_hh
+#include "parallel/corba/test/server/Test_TaskA_i.hh"
+
+#include <iostream>
+
+using namespace std;
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/idl/test/Test_TaskFactoryA.hh"
-
-#include "parallel/corba/server/TaskBase_i.hh"
-
-#include "parallel/corba/server/PortBool_i.hh"
-
-#include "parallel/corba/server/SPortHelperBase.hh"
-
-#include "parallel/corba/server/SerializedPortInt_i.hh"
-
-
-//---------------------------------------------------------------------------
-namespace parallel 
+namespace parallel
 {
   //---------------------------------------------------------------------------
   namespace test
   {
     //---------------------------------------------------------------------------
-    struct TaskA_i : virtual POA_parallel::test::TaskA, virtual TaskBase_i
+    TaskA_i::TaskA_i( const CORBA::ORB_var& theORB, 
+                      const PortableServer::POA_var& thePOA )
+      : TransientObject_i( theORB, thePOA )
+      , TaskBase_i( theORB, thePOA )
+      , m_x( "x", eOutputPort, this )
+      , m_sx( "sx", eOutputPort, this )
     {
-      TaskA_i( const CORBA::ORB_var& theORB, 
-               const PortableServer::POA_var& thePOA );
+      cout << "TaskA_i::TaskA_i[ " << this << " ]" << endl;
+    }
+    
+    
+    //---------------------------------------------------------------------------
+    TaskA_i::~TaskA_i()
+    {
+      cout << "TaskA_i::~TaskA_i[ " << this << " ]" << endl;
+    }
+    
+    
+    //---------------------------------------------------------------------------
+    bool TaskA_i::step()
+    {
+      this->m_x.publish( false );
       
-      ~TaskA_i();
+      this->m_sx.publish( 7 );
       
-      virtual void prepare() 
-      {}
-
-    protected:
-      virtual bool step();
+      cout << "TaskA_i::step[ " << this << " ]" << endl;
       
-      virtual void destroy() 
-      {}
-      
-    protected:
-      SPortHelperBase< PortBool_i > m_x;
-      
-      SPortHelperBase< SerializedPortInt_i > m_sx;
-    };
-
-
+      return false;
+    }
+    
+    
     //---------------------------------------------------------------------------
   }
-
-
+    
+    
   //---------------------------------------------------------------------------
 }
 
 
 //---------------------------------------------------------------------------
-#endif

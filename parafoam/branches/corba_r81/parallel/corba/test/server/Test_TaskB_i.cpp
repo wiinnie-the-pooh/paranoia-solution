@@ -21,43 +21,68 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef corba_server_Test_TaskFactoryB_i_hh
-#define corba_server_Test_TaskFactoryB_i_hh
+#include "parallel/corba/test/server/Test_TaskB_i.hh"
+
+#include <iostream>
+
+using namespace std;
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/idl/test/Test_TaskFactoryB.hh"
-
-#include "parallel/corba/server/TaskFactoryBase_i.hh"
-
-
-//---------------------------------------------------------------------------
-#ifdef __USE_CORBA_SINGLE_PROCESS__
-#include "parallel/corba/server/test/Test_TaskB_i.hh"
-#endif
-
-
-//---------------------------------------------------------------------------
-namespace parallel 
+namespace parallel
 {
   //---------------------------------------------------------------------------
-  namespace test
+   namespace test
   {
     //---------------------------------------------------------------------------
-#ifndef __USE_CORBA_SINGLE_PROCESS__
-    typedef TaskFactoryBase_i< POA_parallel::test::TaskFactoryB, TaskB > TaskFactoryB_i;
-#else
-    typedef TaskFactoryBase_i< POA_parallel::test::TaskFactoryB, TaskB, TaskB_i, TaskFactoryB > TaskFactoryB_i;
-#endif
+    TaskB_i::TaskB_i( const CORBA::ORB_var& theORB, 
+                      const PortableServer::POA_var& thePOA )
+      : TransientObject_i( theORB, thePOA )
+      , TaskBase_i( theORB, thePOA )
+      , m_y( "y", eInputPort, this )
+      , m_sy( "sy", eInputPort, this )
+    {
+      cout << "TaskB_i::TaskB_i[ " << this << " ]" << endl;
+    }
+    
+    
+    //---------------------------------------------------------------------------
+    TaskB_i::~TaskB_i()
+    {
+      cout << "TaskB_i::~TaskB_i[ " << this << " ]" << endl;
+    }
+    
+    
+    //---------------------------------------------------------------------------
+    void TaskB_i::prepare()
+    {
+      this->m_y.init( true );
+      
+      cout << "TaskB_i::prepare[ " << this << " ]" << endl;
+      
+      this->m_sy.init( -1 );
+    }
+    
+    
+    //---------------------------------------------------------------------------
+    bool TaskB_i::step()
+    {
+      cout << "TaskB_i::step[ " << this << " ]" << endl;
+      
+      this->m_sy.retrieve();
+      
+      cout << "TaskB_i::step[ " << this << " ] = " << this->m_sy() << endl;
+      
+      return this->m_y.retrieve( );
+    }
     
     
     //---------------------------------------------------------------------------
   }
-  
-  
+    
+    
   //---------------------------------------------------------------------------
 }
 
 
 //---------------------------------------------------------------------------
-#endif

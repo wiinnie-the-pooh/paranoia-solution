@@ -21,43 +21,19 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef corba_server_Test_TaskFactoryA_i_hh
-#define corba_server_Test_TaskFactoryA_i_hh
+#include "parallel/corba/test/server/Test_TaskA_i.hh"
+
+#include "parallel/corba/common/TaskLauncher.hh"
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/idl/test/Test_TaskFactoryA.hh"
-
-#include "parallel/corba/server/TaskFactoryBase_i.hh"
-
-
-//---------------------------------------------------------------------------
-#ifdef __USE_CORBA_SINGLE_PROCESS__
-#include "parallel/corba/server/test/Test_TaskA_i.hh"
-#endif
-
-
-//---------------------------------------------------------------------------
-namespace parallel 
+int main( int argc, char** argv )
 {
-  //---------------------------------------------------------------------------
-  namespace test
-  {
-    //---------------------------------------------------------------------------
-#ifndef __USE_CORBA_SINGLE_PROCESS__
-    typedef TaskFactoryBase_i< POA_parallel::test::TaskFactoryA, TaskA > TaskFactoryA_i;
-#else
-    typedef TaskFactoryBase_i< POA_parallel::test::TaskFactoryA, TaskA, TaskA_i, TaskFactoryA > TaskFactoryA_i;
-#endif
-    
-    
-    //---------------------------------------------------------------------------
-  }
-  
-  
-  //---------------------------------------------------------------------------
+  using namespace parallel;
+  using namespace parallel::test;
+
+  return run< TaskA_i, TaskA, TaskFactoryA >( argc, argv, "TaskFactory", "A" );
 }
 
 
 //---------------------------------------------------------------------------
-#endif

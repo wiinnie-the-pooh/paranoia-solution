@@ -21,23 +21,21 @@
 
 
 #--------------------------------------------------------------------------------------
-ifeq "$(parallel_corba_idl_test_include_makefile)xx" "xx"
-parallel_corba_idl_test_include_makefile = "included"
-#--------------------------------------------------------------------------------------
-
-
-#--------------------------------------------------------------------------------------
-parallel_corba_idl_root_dir := $(parallel_corba_idl_test_root_dir)/..
-
-include $(parallel_corba_idl_root_dir)/include.makefile
-
-
-#------------------------------------------------------------------------------
-ifneq "$(parallel_corba_idl_test_root_dir)" "."
-  LDFLAGS += -lparallel_idl_test
+ifneq "@USE_CORBA_SINGLE_PROCESS@xx" "yesxx"
+  SUBDIRS := idl client server
+else
+  SUBDIRS := idl server client
 endif
 
 
 #--------------------------------------------------------------------------------------
-endif
+parallel_root_dir := ../../..
+
+include $(parallel_root_dir)/recursive.makefile
+
+all: all-recursive
+
+clean: clean-recursive
+
+
 #--------------------------------------------------------------------------------------

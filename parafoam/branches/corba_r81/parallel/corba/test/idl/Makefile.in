@@ -1,3 +1,6 @@
+#  Copyright (C) 2007-2008  CEA/DEN, EDF R&D, OPEN CASCADE
+#
+#  Copyright (C) 2003-2007  OPEN CASCADE, EADS/CCR, LIP6, CEA/DEN,
 ## VulaSHAKA (Simultaneous Neutronic, Fuel Performance, Heat And Kinetics Analysis)
 ## Copyright (C) 2009-2010 Pebble Bed Modular Reactor (Pty) Limited (PBMR)
 ## 
@@ -21,32 +24,19 @@
 
 
 #--------------------------------------------------------------------------------------
-ifeq "$(parallel_corba_client_test_include_makefile)xx" "xx"
-parallel_corba_client_test_include_makefile = "included"
-#--------------------------------------------------------------------------------------
+idl_target = @abs_top_builddir@/lib/libparallel_test_idl.so
+
+all: $(idl_target)
+
+clean: clean-idl
+
+IDL_FILES = Test_TaskFactoryA.idl Test_TaskFactoryB.idl
 
 
 #--------------------------------------------------------------------------------------
-parallel_corba_common_root_dir := $(parallel_corba_client_test_root_dir)/../../common
+parallel_corba_test_idl_root_dir = .
 
-include $(parallel_corba_common_root_dir)/include.makefile
-
-
-#--------------------------------------------------------------------------------------
-parallel_corba_idl_test_root_dir := $(parallel_corba_client_test_root_dir)/../../idl/test
-
-include $(parallel_corba_idl_test_root_dir)/include.makefile
+include $(parallel_corba_test_idl_root_dir)/include.makefile
 
 
-#--------------------------------------------------------------------------------------
-ifeq "@USE_CORBA_SINGLE_PROCESS@xx" "yesxx"
-
-parallel_corba_server_test_root_dir := $(parallel_corba_client_test_root_dir)/../../server/test
-include $(parallel_corba_server_test_root_dir)/include.makefile
-
-endif
-
-
-#--------------------------------------------------------------------------------------
-endif
 #--------------------------------------------------------------------------------------
