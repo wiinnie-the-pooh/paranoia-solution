@@ -116,29 +116,59 @@ namespace parallel
       return;
 
     theTask->AddRef();
-    TaskBase::_duplicate( theTask );
+    TTaskBasePtr aTask( TaskBase::_duplicate( theTask ) );
 
-    if ( this->tasks.insert( TTaskBasePtr( theTask ) ).second )
+    if ( this->tasks.find( aTask ) == this->tasks.end() )
     {
       cout << "TaskManager_i::register_task[ " << this << " ]" << endl;
+
+      this->tasks[ aTask ];
     }
   }
     
     
   //---------------------------------------------------------------------------
-  void TaskManager_i::run()
+  struct STaskInvoker : omni_thread
   {
-    cout << "TaskManager_i::run[ " << this << " ]" << endl;
+    STaskInvoker( const TaskManager_var& theTaskManager, 
+		  const TaskManager_i::TTaskBasePtr& theTask )
+      : omni_thread( NULL, PRIORITY_NORMAL )
+      , m_task_manager( theTaskManager )
+      , m_task( theTask )
+    {
+      this->start_undetached();
+    }
+
+  protected:
+    virtual void* run_undetached( void* /*arg*/ ) 
+    { 
+      m_task->invoke( m_task_manager );
+      
+      return NULL; 
+    }
+
+    TaskManager_var m_task_manager;
+    TaskManager_i::TTaskBasePtr m_task;
+  };
+
+
+  //---------------------------------------------------------------------------
+  void TaskManager_i::start()
+  {
+    cout << "TaskManager_i::start[ " << this << " ]" << endl;
     
+    if ( this->is_run() )
+      this->wait();
+
     this->m_is_run = true;
 
-    // To intialize all the tasks first
+    // To prepare all the tasks first
     {
       TTaskSet::const_iterator anIter = this->tasks.begin();
       TTaskSet::const_iterator anEnd = this->tasks.end();
       for ( ; anIter != anEnd; anIter++ )
       {
-        const TTaskBasePtr& aTaskBase = *anIter;
+        const TTaskBasePtr& aTaskBase = anIter->first;
         aTaskBase->prepare();
       }
     }
@@ -146,26 +176,60 @@ namespace parallel
     // Invoke then
     TaskManager_var aSelf = this->_this();
     {
-      TTaskSet::const_iterator anIter = this->tasks.begin();
-      TTaskSet::const_iterator anEnd = this->tasks.end();
+      TTaskSet::iterator anIter = this->tasks.begin();
+      TTaskSet::iterator anEnd = this->tasks.end();
       for ( ; anIter != anEnd; anIter++ )
       {
-        const TTaskBasePtr& aTaskBase = *anIter;
-        aTaskBase->invoke( aSelf );
+	const TTaskBasePtr& aTaskBase = anIter->first;
+        anIter->second = new STaskInvoker( aSelf, aTaskBase );
       }
     }
   }
     
     
   //---------------------------------------------------------------------------
+  void TaskManager_i::wait()
+  {
+    TTaskSet::const_iterator anIter = this->tasks.begin();
+    TTaskSet::const_iterator anEnd = this->tasks.end();
+    for ( ; anIter != anEnd; anIter++ )
+    {
+      anIter->second->join( NULL );
+    }
+  }
+
+
+  //---------------------------------------------------------------------------
+  void TaskManager_i::stop()
+  {
+    this->m_is_run = false;
+  }
+
+
+  //---------------------------------------------------------------------------
+  void TaskManager_i::pause()
+  {
+    this->m_pause_mutex.lock();
+  }
+
+
+  //---------------------------------------------------------------------------
+  void TaskManager_i::resume()
+  {
+    this->m_pause_mutex.unlock();
+  }
+
+
+  //---------------------------------------------------------------------------
   CORBA::Boolean TaskManager_i::is_run()
   {
-    cout << "TaskManager_i::is_run[ " << this << " ]" << endl;
-    
+    this->m_pause_mutex.lock();
+    this->m_pause_mutex.unlock();
+
     return this->m_is_run;
   }
-    
-    
+
+
   //---------------------------------------------------------------------------
 }
 

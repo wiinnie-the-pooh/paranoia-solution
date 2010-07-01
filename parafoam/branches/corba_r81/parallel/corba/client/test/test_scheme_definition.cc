@@ -86,7 +86,7 @@ int main( int argc, char **argv )
     a_task_A->Release();
     a_task_B->Release();
 
-    a_task_manager_ref->run();
+    a_task_manager_ref->start();
 
     //{
     //  corba::SmartPtrDef< TaskA_var >::type a_task_A( a_task_factory_A_ref->create( "localhost" ) );

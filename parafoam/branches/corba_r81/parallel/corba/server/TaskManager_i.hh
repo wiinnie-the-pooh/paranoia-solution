@@ -32,7 +32,7 @@
 
 #include "parallel/corba/CORBASmartPtr.hh"
 
-#include <set>
+#include <map>
 
 
 //---------------------------------------------------------------------------
@@ -44,23 +44,34 @@ namespace parallel
     TaskManager_i( const CORBA::ORB_var& theORB, 
                    const PortableServer::POA_var& thePOA );
     
-    virtual ~TaskManager_i();
+    ~TaskManager_i();
     
-    CORBA::Boolean connect( TaskBase_ptr theSourceTask, 
-                            const char* theOutputPortName,
-                            TaskBase_ptr theTargetTask, 
-                            const char* theInputPortName );
+    virtual CORBA::Boolean connect( TaskBase_ptr theSourceTask, 
+				    const char* theOutputPortName,
+				    TaskBase_ptr theTargetTask, 
+				    const char* theInputPortName );
+    
+    virtual void register_task( TaskBase_ptr theTask );
 
-    void register_task( TaskBase_ptr theTask );
+    virtual void start();
 
-    void run();
+    virtual void wait();
 
-    CORBA::Boolean is_run();
+    virtual void stop();
+
+    virtual void pause();
+
+    virtual void resume();
+
+    virtual CORBA::Boolean is_run();
+
+    typedef corba::SmartPtrDef< TaskBase_var >::type TTaskBasePtr;
 
   protected:
-    typedef corba::SmartPtrDef< TaskBase_var >::type TTaskBasePtr;
-    typedef std::set< TTaskBasePtr > TTaskSet;
+    typedef std::map< TTaskBasePtr, omni_thread* > TTaskSet;
     TTaskSet tasks;
+
+    omni_mutex m_pause_mutex;
 
     bool m_is_run;
   };

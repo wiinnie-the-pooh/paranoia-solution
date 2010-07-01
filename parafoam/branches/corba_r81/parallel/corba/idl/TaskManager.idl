@@ -41,7 +41,15 @@ module parallel
 
     void register_task( in TaskBase theTask );
 
-    void run();
+    void start();
+
+    void wait();
+
+    void stop();
+
+    void pause();
+
+    void resume();
 
     boolean is_run();
   };

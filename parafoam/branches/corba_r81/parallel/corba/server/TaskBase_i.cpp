@@ -146,11 +146,9 @@ namespace parallel
   //---------------------------------------------------------------------------
   void TaskBase_i::print( const TaskBase_i* theTask, const std::string& theMessage )
   {
-    PRINT_MUTEX.lock();
+    omni_mutex_lock a_lock( PRINT_MUTEX );
     
     std::cout << "\n< " << theTask->m_step_counter << " > - " << theMessage;
-
-    PRINT_MUTEX.unlock();
   }
 
 
