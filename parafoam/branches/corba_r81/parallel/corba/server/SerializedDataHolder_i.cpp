@@ -54,7 +54,7 @@ namespace parallel
   {
     cout << "SerializedDataHolder::value[ " << this << " ]" << endl;
     
-    return this->m_serialized_data._retn();
+    return new TRawData( this->m_serialized_data );
   }
 
 
