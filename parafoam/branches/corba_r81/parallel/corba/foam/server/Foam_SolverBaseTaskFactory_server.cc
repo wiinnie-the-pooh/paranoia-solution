@@ -21,7 +21,7 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/server/foam/Foam_SolverBaseTaskFactory_i.hh"
+#include "parallel/corba/foam/server/Foam_SolverBaseTaskFactory_i.hh"
 
 #include "parallel/corba/common/FactoryLauncher.hh"
 

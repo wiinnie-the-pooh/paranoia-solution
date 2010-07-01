@@ -26,7 +26,7 @@
 
 
 //---------------------------------------------------------------------------
-#include "foam/Foam_TimeSourceTaskFactory.hh"
+#include "Foam_TimeSourceTaskFactory.hh"
 
 #include "parallel/corba/server/TaskBase_i.hh"
 
@@ -34,7 +34,7 @@
 
 #include "parallel/corba/server/PortInt_i.hh"
 
-#include "parallel/corba/server/foam/Foam_DimensionedScalarPort_i.hh"
+#include "parallel/corba/foam/server/Foam_DimensionedScalarPort_i.hh"
 
 #include "parallel/corba/server/SPortHelperBase.hh"
 

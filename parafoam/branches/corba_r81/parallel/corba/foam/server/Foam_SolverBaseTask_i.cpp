@@ -21,7 +21,7 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/server/foam/Foam_SolverBaseTask_i.hh"
+#include "parallel/corba/foam/server/Foam_SolverBaseTask_i.hh"
 
 #include <iostream>
 

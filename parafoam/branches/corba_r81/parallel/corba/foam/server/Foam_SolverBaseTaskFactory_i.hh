@@ -21,51 +21,43 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef __PARALELL_FOAM_DIFFUSION_NUCLEARSOLVER_TASKFACTORY_IDL__
-#define __PARALELL_FOAM_DIFFUSION_NUCLEARSOLVER_TASKFACTORY_IDL__
+#ifndef corba_server_Foam_SolverBaseTaskFactory_i_hh
+#define corba_server_Foam_SolverBaseTaskFactory_i_hh
 
 
 //---------------------------------------------------------------------------
-#include "TaskFactoryBase.idl"
-#include "foam/Foam_SolverBaseTaskFactory.idl"
+#include "Foam_SolverBaseTaskFactory.hh"
+
+#include "parallel/corba/server/TaskFactoryBase_i.hh"
 
 
 //---------------------------------------------------------------------------
-module parallel
+#ifdef __USE_CORBA_SINGLE_PROCESS__
+#include "parallel/corba/foam/server/Foam_SolverBaseTask_i.hh"
+#endif
+
+
+//---------------------------------------------------------------------------
+namespace parallel 
 {
   //---------------------------------------------------------------------------
-  module foam
+  namespace foam
   {
     //---------------------------------------------------------------------------
-    module diffusion
-    {
-      //---------------------------------------------------------------------------
-      interface NuclearSolverTask : SolverBaseTask
-      {
-        void init( in string theCasePath, in boolean theIsTransient );
-      };
-
-
-      //---------------------------------------------------------------------------
-      interface NuclearSolverTaskFactory : TaskFactoryBase
-      {
-        NuclearSolverTask create( in string theInvocationShellScript );
-      
-        void publish( in NuclearSolverTask theTask );
-      };
-
-  
-      //---------------------------------------------------------------------------
-    };
+#ifndef __USE_CORBA_SINGLE_PROCESS__
+  typedef TaskFactoryBase_i< POA_parallel::foam::SolverBaseTaskFactory, SolverBaseTask > SolverBaseTaskFactory_i;
+#else
+  typedef TaskFactoryBase_i< POA_parallel::foam::SolverBaseTaskFactory, SolverBaseTask, SolverBaseTask_i, SolverBaseTaskFactory > SolverBaseTaskFactory_i;
+#endif
 
 
     //---------------------------------------------------------------------------
-  };
+  }
 
 
   //---------------------------------------------------------------------------
-};
+}
 
 
 //---------------------------------------------------------------------------
-#endif  // __PARALELL_FOAM_DIFFUSION_NUCLEARSOLVER_TASKFACTORY_IDL__
+#endif

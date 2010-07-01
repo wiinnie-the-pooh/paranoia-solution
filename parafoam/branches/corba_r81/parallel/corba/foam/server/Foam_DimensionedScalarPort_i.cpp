@@ -21,56 +21,55 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef __PARALELL_FOAM_TIMESOURCE_TASKFACTORY_IDL__
-#define __PARALELL_FOAM_TIMESOURCE_TASKFACTORY_IDL__
+#include "parallel/corba/foam/server/Foam_DimensionedScalarPort_i.hh"
+
+#include <iostream>
+
+using namespace std;
 
 
 //---------------------------------------------------------------------------
-#include "TaskFactoryBase.idl"
-#include "TaskBase.idl"
-
-#include "foam/Foam_typedefs.idl"
-
-//---------------------------------------------------------------------------
-module parallel
+namespace parallel
 {
   //---------------------------------------------------------------------------
-  module foam
+  namespace foam
   {
     //---------------------------------------------------------------------------
-    interface TimeSourceTask : TaskBase
+    DimensionedScalarPort_i::DimensionedScalarPort_i( const std::string& theName,
+                                                      const CORBA::ORB_var& theORB, 
+                                                      const PortableServer::POA_var& thePOA )
+      : SObjectBase( theORB, thePOA )
+      , PortBase_i( theName, theORB, thePOA )
+      , SerializedPort_i( theName, theORB, thePOA )
     {
-      void setTime( in dimensionedScalar newTime, in label newIndex );
-      dimensionedScalar value();
-      label timeIndex();
+      cout << "DimensionedScalarPort_i::DimensionedScalarPort_i[ " << this << " ]" << endl;
+    }
+    
+    
+    //---------------------------------------------------------------------------
+    DimensionedScalarPort_i::~DimensionedScalarPort_i()
+    {
+      cout << "DimensionedScalarPort_i::~DimensionedScalarPort_i[ " << this << " ]" << endl;
+    }
+    
+    
+    //---------------------------------------------------------------------------
+    CORBA::Boolean DimensionedScalarPort_i::is_compatible( PortBase_ptr theArg )
+    {
+      cout << "DimensionedScalarPort_i::is_compatible[ " << this << " ]" << endl;
       
-      void setDeltaT( in dimensionedScalar deltaT );
-      dimensionedScalar deltaT();
+      DimensionedScalarPort_var aPort = parallel::foam::DimensionedScalarPort::_narrow( theArg );
       
-      void setEndTime( in dimensionedScalar endTime );
-      dimensionedScalar endTime();
-      
-      void setWriteInterval( in label writeInterval );
-      label getWriteInterval();
-    };
+      return ! CORBA::is_nil( aPort );
+    }
 
 
     //---------------------------------------------------------------------------
-    interface TimeSourceTaskFactory : TaskFactoryBase
-    {
-      TimeSourceTask create( in string theInvocationShellScript );
-      
-      void publish( in TimeSourceTask theTask );
-    };
+  }
 
-
-    //---------------------------------------------------------------------------
-  };
-
-
+  
   //---------------------------------------------------------------------------
-};
+}
 
 
 //---------------------------------------------------------------------------
-#endif  // __PARALELL_FOAM_TIMESOURCE_TASKFACTORY_IDL__

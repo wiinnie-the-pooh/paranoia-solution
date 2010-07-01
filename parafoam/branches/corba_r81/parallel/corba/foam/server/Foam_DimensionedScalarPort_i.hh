@@ -26,11 +26,11 @@
 
 
 //---------------------------------------------------------------------------
-#include "foam/Foam_DimensionedScalarPort.hh"
+#include "Foam_DimensionedScalarPort.hh"
 
 #include "parallel/corba/server/SerializedPort_i.hh"
 
-#include "parallel/corba/server/foam/Foam_DimensionedScalarValueHelper.hh"
+#include "parallel/corba/foam/server/Foam_DimensionedScalarValueHelper.hh"
 
 
 //---------------------------------------------------------------------------

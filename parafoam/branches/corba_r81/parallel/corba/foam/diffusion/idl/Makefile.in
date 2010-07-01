@@ -24,7 +24,7 @@
 
 
 #--------------------------------------------------------------------------------------
-idl_target = @abs_top_builddir@/lib/libparallel_idl_foam_diffusion.so
+idl_target = @abs_top_builddir@/lib/libparallel_foam_diffusion_idl.so
 
 all: $(idl_target)
 
@@ -35,9 +35,9 @@ IDL_FILES = \
 
 
 #--------------------------------------------------------------------------------------
-parallel_corba_idl_foam_diffusion_root_dir = .
+parallel_corba_foam_diffusion_idl_root_dir = .
 
-include $(parallel_corba_idl_foam_diffusion_root_dir)/include.makefile
+include $(parallel_corba_foam_diffusion_idl_root_dir)/include.makefile
 
 
 #--------------------------------------------------------------------------------------

@@ -21,43 +21,51 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef corba_server_Foam_SolverBaseTaskFactory_i_hh
-#define corba_server_Foam_SolverBaseTaskFactory_i_hh
+#ifndef __PARALELL_FOAM_DIFFUSION_NUCLEARSOLVER_TASKFACTORY_IDL__
+#define __PARALELL_FOAM_DIFFUSION_NUCLEARSOLVER_TASKFACTORY_IDL__
 
 
 //---------------------------------------------------------------------------
-#include "foam/Foam_SolverBaseTaskFactory.hh"
-
-#include "parallel/corba/server/TaskFactoryBase_i.hh"
-
-
-//---------------------------------------------------------------------------
-#ifdef __USE_CORBA_SINGLE_PROCESS__
-#include "parallel/corba/server/foam/Foam_SolverBaseTask_i.hh"
-#endif
+#include "TaskFactoryBase.idl"
+#include "Foam_SolverBaseTaskFactory.idl"
 
 
 //---------------------------------------------------------------------------
-namespace parallel 
+module parallel
 {
   //---------------------------------------------------------------------------
-  namespace foam
+  module foam
   {
     //---------------------------------------------------------------------------
-#ifndef __USE_CORBA_SINGLE_PROCESS__
-  typedef TaskFactoryBase_i< POA_parallel::foam::SolverBaseTaskFactory, SolverBaseTask > SolverBaseTaskFactory_i;
-#else
-  typedef TaskFactoryBase_i< POA_parallel::foam::SolverBaseTaskFactory, SolverBaseTask, SolverBaseTask_i, SolverBaseTaskFactory > SolverBaseTaskFactory_i;
-#endif
+    module diffusion
+    {
+      //---------------------------------------------------------------------------
+      interface NuclearSolverTask : SolverBaseTask
+      {
+        void init( in string theCasePath, in boolean theIsTransient );
+      };
+
+
+      //---------------------------------------------------------------------------
+      interface NuclearSolverTaskFactory : TaskFactoryBase
+      {
+        NuclearSolverTask create( in string theInvocationShellScript );
+      
+        void publish( in NuclearSolverTask theTask );
+      };
+
+  
+      //---------------------------------------------------------------------------
+    };
 
 
     //---------------------------------------------------------------------------
-  }
+  };
 
 
   //---------------------------------------------------------------------------
-}
+};
 
 
 //---------------------------------------------------------------------------
-#endif
+#endif  // __PARALELL_FOAM_DIFFUSION_NUCLEARSOLVER_TASKFACTORY_IDL__

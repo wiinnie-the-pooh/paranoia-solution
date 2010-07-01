@@ -26,9 +26,9 @@
 #--------------------------------------------------------------------------------------
 exe_targets = $(patsubst %.cc, @abs_top_builddir@/bin/%, $(wildcard *.cc))
 
-parallel_corba_client_foam_root_dir = .
+parallel_corba_foam_client_root_dir = .
 
-include $(parallel_corba_client_foam_root_dir)/include.makefile
+include $(parallel_corba_foam_client_root_dir)/include.makefile
 
 
 #--------------------------------------------------------------------------------------

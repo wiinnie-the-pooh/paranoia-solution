@@ -21,8 +21,8 @@
 
 
 //---------------------------------------------------------------------------
-#include "foam/Foam_TimeSourceTaskFactory.hh"
-#include "foam/Foam_SolverBaseTaskFactory.hh"
+#include "Foam_TimeSourceTaskFactory.hh"
+#include "Foam_SolverBaseTaskFactory.hh"
 #include "TaskManager.hh"
 
 #include "parallel/corba/common/corba_utilities.hh"
@@ -34,8 +34,8 @@
 #ifdef __USE_CORBA_SINGLE_PROCESS__
 
 #include "parallel/corba/server/TaskManager_i.hh"
-#include "parallel/corba/server/foam/Foam_TimeSourceTaskFactory_i.hh"
-#include "parallel/corba/server/foam/Foam_SolverBaseTaskFactory_i.hh"
+#include "parallel/corba/foam/server/Foam_TimeSourceTaskFactory_i.hh"
+#include "parallel/corba/foam/server/Foam_SolverBaseTaskFactory_i.hh"
 
 #include "parallel/corba/common/FactoryLauncher.hh"
 #include "parallel/corba/common/TaskLauncher.hh"

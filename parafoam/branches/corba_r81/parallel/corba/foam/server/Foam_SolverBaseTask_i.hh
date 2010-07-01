@@ -21,20 +21,24 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef corba_server_Foam_TimeSourceTaskFactory_i_hh
-#define corba_server_Foam_TimeSourceTaskFactory_i_hh
+#ifndef corba_server_Foam_SolverBaseTask_i_hh
+#define corba_server_Foam_SolverBaseTask_i_hh
 
 
 //---------------------------------------------------------------------------
-#include "foam/Foam_TimeSourceTaskFactory.hh"
+#include "Foam_SolverBaseTaskFactory.hh"
 
-#include "parallel/corba/server/TaskFactoryBase_i.hh"
+#include "parallel/corba/server/TaskBase_i.hh"
 
+#include "parallel/corba/server/PortBool_i.hh"
 
-//---------------------------------------------------------------------------
-#ifdef __USE_CORBA_SINGLE_PROCESS__
-#include "parallel/corba/server/foam/Foam_TimeSourceTask_i.hh"
-#endif
+#include "parallel/corba/server/PortInt_i.hh"
+
+#include "parallel/corba/foam/server/Foam_DimensionedScalarPort_i.hh"
+
+#include "parallel/corba/server/PortFloat_i.hh"
+
+#include "parallel/corba/server/SPortHelperBase.hh"
 
 
 //---------------------------------------------------------------------------
@@ -44,11 +48,36 @@ namespace parallel
   namespace foam
   {
     //---------------------------------------------------------------------------
-#ifndef __USE_CORBA_SINGLE_PROCESS__
-  typedef TaskFactoryBase_i< POA_parallel::foam::TimeSourceTaskFactory, TimeSourceTask > TimeSourceTaskFactory_i;
-#else
-  typedef TaskFactoryBase_i< POA_parallel::foam::TimeSourceTaskFactory, TimeSourceTask, TimeSourceTask_i, TimeSourceTaskFactory > TimeSourceTaskFactory_i;
-#endif
+    struct SolverBaseTask_i : virtual POA_parallel::foam::SolverBaseTask, 
+                              virtual TaskBase_i
+    {
+      SolverBaseTask_i( const CORBA::ORB_var& theORB, 
+                        const PortableServer::POA_var& thePOA );
+      
+      ~SolverBaseTask_i();
+      
+      virtual void prepare()
+      {}
+      
+    protected:
+      virtual bool step();
+
+      virtual void destroy()
+      {}
+
+    protected:
+      bool pre_step();
+      bool post_step();
+
+    protected:
+      SPortHelperBase< DimensionedScalarPort_i > m_time_i;
+      SPortHelperBase< PortInt_i > m_index_i;
+      SPortHelperBase< PortBool_i > m_write_i;
+      SPortHelperBase< PortBool_i > m_stop_i;
+
+      SPortHelperBase< PortBool_i > m_finished_o;
+      SPortHelperBase< PortFloat_i > m_residual_o;
+    };
 
 
     //---------------------------------------------------------------------------

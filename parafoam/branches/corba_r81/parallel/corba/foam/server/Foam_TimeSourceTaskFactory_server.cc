@@ -21,9 +21,9 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/server/foam/Foam_SolverBaseTask_i.hh"
+#include "parallel/corba/foam/server/Foam_TimeSourceTaskFactory_i.hh"
 
-#include "parallel/corba/common/TaskLauncher.hh"
+#include "parallel/corba/common/FactoryLauncher.hh"
 
 
 //---------------------------------------------------------------------------
@@ -32,7 +32,7 @@ int main( int argc, char** argv )
   using namespace parallel;
   using namespace parallel::foam;
 
-  return run< SolverBaseTask_i, SolverBaseTask, SolverBaseTaskFactory >( argc, argv, "TaskFactory", "Foam_SolverBase" );
+  return run< TimeSourceTaskFactory_i, TimeSourceTaskFactory >( argc, argv, "TaskFactory", "Foam_TimeSource" );
 }
 
 

@@ -21,55 +21,43 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/server/foam/Foam_DimensionedScalarPort_i.hh"
-
-#include <iostream>
-
-using namespace std;
+#ifndef corba_server_Foam_TimeSourceTaskFactory_i_hh
+#define corba_server_Foam_TimeSourceTaskFactory_i_hh
 
 
 //---------------------------------------------------------------------------
-namespace parallel
+#include "Foam_TimeSourceTaskFactory.hh"
+
+#include "parallel/corba/server/TaskFactoryBase_i.hh"
+
+
+//---------------------------------------------------------------------------
+#ifdef __USE_CORBA_SINGLE_PROCESS__
+#include "parallel/corba/foam/server/Foam_TimeSourceTask_i.hh"
+#endif
+
+
+//---------------------------------------------------------------------------
+namespace parallel 
 {
   //---------------------------------------------------------------------------
   namespace foam
   {
     //---------------------------------------------------------------------------
-    DimensionedScalarPort_i::DimensionedScalarPort_i( const std::string& theName,
-                                                      const CORBA::ORB_var& theORB, 
-                                                      const PortableServer::POA_var& thePOA )
-      : SObjectBase( theORB, thePOA )
-      , PortBase_i( theName, theORB, thePOA )
-      , SerializedPort_i( theName, theORB, thePOA )
-    {
-      cout << "DimensionedScalarPort_i::DimensionedScalarPort_i[ " << this << " ]" << endl;
-    }
-    
-    
-    //---------------------------------------------------------------------------
-    DimensionedScalarPort_i::~DimensionedScalarPort_i()
-    {
-      cout << "DimensionedScalarPort_i::~DimensionedScalarPort_i[ " << this << " ]" << endl;
-    }
-    
-    
-    //---------------------------------------------------------------------------
-    CORBA::Boolean DimensionedScalarPort_i::is_compatible( PortBase_ptr theArg )
-    {
-      cout << "DimensionedScalarPort_i::is_compatible[ " << this << " ]" << endl;
-      
-      DimensionedScalarPort_var aPort = parallel::foam::DimensionedScalarPort::_narrow( theArg );
-      
-      return ! CORBA::is_nil( aPort );
-    }
+#ifndef __USE_CORBA_SINGLE_PROCESS__
+  typedef TaskFactoryBase_i< POA_parallel::foam::TimeSourceTaskFactory, TimeSourceTask > TimeSourceTaskFactory_i;
+#else
+  typedef TaskFactoryBase_i< POA_parallel::foam::TimeSourceTaskFactory, TimeSourceTask, TimeSourceTask_i, TimeSourceTaskFactory > TimeSourceTaskFactory_i;
+#endif
 
 
     //---------------------------------------------------------------------------
   }
 
-  
+
   //---------------------------------------------------------------------------
 }
 
 
 //---------------------------------------------------------------------------
+#endif
