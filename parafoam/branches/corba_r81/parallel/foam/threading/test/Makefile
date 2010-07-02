@@ -23,7 +23,7 @@
 #--------------------------------------------------------------------------------------
 sexe = parallel_foam_threading_test
 
-parallel_foam_threading_impl_root_dir = ..
+parallel_foam_threading_impl_root_dir = ../impl
 
 include $(parallel_foam_threading_impl_root_dir)/include.makefile
 
