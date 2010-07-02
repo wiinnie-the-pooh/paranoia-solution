@@ -115,7 +115,7 @@ int main( int argc, char **argv )
     a_time_source_task->setEndTime( dimensionedScalar( 0.033 ) );
     a_time_source_task->setWriteInterval( 1 );
 
-    NuclearSolverTask_var a_solver_task = a_solver_base_task_factory->create( "Foam_Diffusion_NuclearSolverTask_launcher" );
+    NuclearSolverTask_var a_solver_task = a_solver_base_task_factory->create( "Foam_Diffusion_NuclearSolverTask_launcher", NuclearSolverTask::TArgs() );
 
     connect( a_task_manager, a_time_source_task, a_solver_task.in() );
     

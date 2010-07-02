@@ -28,7 +28,7 @@
 //---------------------------------------------------------------------------
 #include "Foam_Diffusion_NuclearSolverTaskFactory.hh"
 
-#include "parallel/corba/server/TaskFactoryBase_i.hh"
+#include "parallel/corba/server/TaskFactoryArgsBase_i.hh"
 
 
 //---------------------------------------------------------------------------
@@ -48,9 +48,9 @@ namespace parallel
     {
       //---------------------------------------------------------------------------
 #ifndef __USE_CORBA_SINGLE_PROCESS__
-      typedef TaskFactoryBase_i< POA_parallel::foam::diffusion::NuclearSolverTaskFactory, NuclearSolverTask > NuclearSolverTaskFactory_i;
+      typedef TaskFactoryArgsBase_i< POA_parallel::foam::diffusion::NuclearSolverTaskFactory, NuclearSolverTask > NuclearSolverTaskFactory_i;
 #else
-      typedef TaskFactoryBase_i< POA_parallel::foam::diffusion::NuclearSolverTaskFactory, NuclearSolverTask, NuclearSolverTask_i, NuclearSolverTaskFactory > NuclearSolverTaskFactory_i;
+      typedef TaskFactoryArgsBase_i< POA_parallel::foam::diffusion::NuclearSolverTaskFactory, NuclearSolverTask, NuclearSolverTask_i, NuclearSolverTaskFactory > NuclearSolverTaskFactory_i;
 #endif
 
       

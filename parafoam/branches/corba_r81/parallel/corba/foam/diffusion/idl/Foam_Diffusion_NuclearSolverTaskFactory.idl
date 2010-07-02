@@ -42,14 +42,20 @@ module parallel
       //---------------------------------------------------------------------------
       interface NuclearSolverTask : SolverBaseTask
       {
-        void init( in string theCasePath, in boolean theIsTransient );
+        struct TArgs
+        {
+          string m_case_path;
+          boolean m_is_transient;
+        };
+ 
+        void init( in TArgs theArgs );
       };
 
 
       //---------------------------------------------------------------------------
       interface NuclearSolverTaskFactory : TaskFactoryBase
       {
-        NuclearSolverTask create( in string theInvocationShellScript );
+        NuclearSolverTask create( in string theInvocationShellScript, in NuclearSolverTask::TArgs theArgs );
       
         void publish( in NuclearSolverTask theTask );
       };

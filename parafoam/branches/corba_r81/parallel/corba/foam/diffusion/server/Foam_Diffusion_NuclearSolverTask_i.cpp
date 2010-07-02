@@ -39,44 +39,44 @@ namespace parallel
     {
       //---------------------------------------------------------------------------
       NuclearSolverTask_i::NuclearSolverTask_i( const CORBA::ORB_var& theORB, 
-						const PortableServer::POA_var& thePOA )
-	: TransientObject_i( theORB, thePOA )
-	, TaskBase_i( theORB, thePOA )
-	, SolverBaseTask_i( theORB, thePOA )
+                                                const PortableServer::POA_var& thePOA )
+        : TransientObject_i( theORB, thePOA )
+        , TaskBase_i( theORB, thePOA )
+        , SolverBaseTask_i( theORB, thePOA )
       {
-	TMSG( "NuclearSolverTask_i::NuclearSolverTask_i[ " << this << " ]\n" );
+        TMSG( "NuclearSolverTask_i::NuclearSolverTask_i[ " << this << " ]\n" );
       }
       
       
       //---------------------------------------------------------------------------
       NuclearSolverTask_i::~NuclearSolverTask_i()
       {
-	TMSG( "NuclearSolverTask_i::~NuclearSolverTask_i[ " << this << " ]\n" );
+        TMSG( "NuclearSolverTask_i::~NuclearSolverTask_i[ " << this << " ]\n" );
       }
       
       
       //---------------------------------------------------------------------------
-      void NuclearSolverTask_i::init( const char* theCasePath, ::CORBA::Boolean theIsTransient )
+      void NuclearSolverTask_i::init( const TArgs& theArgs )
       {
-	TMSG( "NuclearSolverTask_i::init[ " << this << " ]\n" );
+        TMSG( "NuclearSolverTask_i::init[ " << this << " ]\n" );
       }
       
 
       //---------------------------------------------------------------------------
       void NuclearSolverTask_i::prepare()
       {
-	TMSG( "NuclearSolverTask_i::prepare[ " << this << " ]\n" );
+        TMSG( "NuclearSolverTask_i::prepare[ " << this << " ]\n" );
       }
       
 
       //---------------------------------------------------------------------------
       bool NuclearSolverTask_i::step()
       {
-	TMSG( "NuclearSolverTask_i::step[ " << this << " ]\n" );
-	
-	this->pre_step();
-	
-	return this->post_step();
+        TMSG( "NuclearSolverTask_i::step[ " << this << " ]\n" );
+        
+        this->pre_step();
+        
+        return this->post_step();
       }
       
       

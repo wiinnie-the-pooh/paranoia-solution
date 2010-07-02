@@ -131,7 +131,7 @@ namespace parallel
   struct STaskInvoker : omni_thread
   {
     STaskInvoker( const TaskManager_var& theTaskManager, 
-		  const TaskManager_i::TTaskBasePtr& theTask )
+                  const TaskManager_i::TTaskBasePtr& theTask )
       : omni_thread( NULL, PRIORITY_NORMAL )
       , m_task_manager( theTaskManager )
       , m_task( theTask )
@@ -180,7 +180,7 @@ namespace parallel
       TTaskSet::iterator anEnd = this->tasks.end();
       for ( ; anIter != anEnd; anIter++ )
       {
-	const TTaskBasePtr& aTaskBase = anIter->first;
+        const TTaskBasePtr& aTaskBase = anIter->first;
         anIter->second = new STaskInvoker( aSelf, aTaskBase );
       }
     }

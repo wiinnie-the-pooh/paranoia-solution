@@ -42,22 +42,24 @@ namespace parallel
     {
       //---------------------------------------------------------------------------
       struct NuclearSolverTask_i : virtual POA_parallel::foam::diffusion::NuclearSolverTask, 
-				   virtual SolverBaseTask_i
+                                   virtual SolverBaseTask_i
       {
-	NuclearSolverTask_i( const CORBA::ORB_var& theORB, 
-			     const PortableServer::POA_var& thePOA );
-      
-	~NuclearSolverTask_i();
-      
-	virtual void init( const char* theCasePath, ::CORBA::Boolean theIsTransient );
+        typedef parallel::foam::diffusion::NuclearSolverTask::TArgs TArgs;
 
-	virtual void prepare();
+        NuclearSolverTask_i( const CORBA::ORB_var& theORB, 
+                             const PortableServer::POA_var& thePOA );
+      
+        ~NuclearSolverTask_i();
+      
+        virtual void init( const TArgs& theArgs );
+
+        virtual void prepare();
       
       protected:
-	virtual bool step();
+        virtual bool step();
 
-	virtual void destroy()
-	{}
+        virtual void destroy()
+        {}
 
       };
 

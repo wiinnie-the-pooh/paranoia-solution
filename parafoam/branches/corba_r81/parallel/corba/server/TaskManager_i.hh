@@ -47,9 +47,9 @@ namespace parallel
     ~TaskManager_i();
     
     virtual CORBA::Boolean connect( TaskBase_ptr theSourceTask, 
-				    const char* theOutputPortName,
-				    TaskBase_ptr theTargetTask, 
-				    const char* theInputPortName );
+                                    const char* theOutputPortName,
+                                    TaskBase_ptr theTargetTask, 
+                                    const char* theInputPortName );
     
     virtual void register_task( TaskBase_ptr theTask );
 
