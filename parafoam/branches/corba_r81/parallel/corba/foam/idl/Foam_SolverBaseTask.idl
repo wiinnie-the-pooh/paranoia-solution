@@ -21,12 +21,11 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef __PARALELL_FOAM_SOLVERBASE_TASKFACTORY_IDL__
-#define __PARALELL_FOAM_SOLVERBASE_TASKFACTORY_IDL__
+#ifndef __PARALELL_FOAM_SOLVERBASE_TASK_IDL__
+#define __PARALELL_FOAM_SOLVERBASE_TASK_IDL__
 
 
 //---------------------------------------------------------------------------
-#include "TaskFactoryBase.idl"
 #include "TaskBase.idl"
 
 
@@ -42,15 +41,6 @@ module parallel
 
 
     //---------------------------------------------------------------------------
-    interface SolverBaseTaskFactory : TaskFactoryBase
-    {
-      SolverBaseTask create( in string theInvocationShellScript );
-      
-      void publish( in SolverBaseTask theTask );
-    };
-
-
-    //---------------------------------------------------------------------------
   };
 
 
@@ -59,4 +49,4 @@ module parallel
 
 
 //---------------------------------------------------------------------------
-#endif  // __PARALELL_FOAM_SOLVERBASE_TASKFACTORY_IDL__
+#endif  // __PARALELL_FOAM_SOLVERBASE_TASK_IDL__

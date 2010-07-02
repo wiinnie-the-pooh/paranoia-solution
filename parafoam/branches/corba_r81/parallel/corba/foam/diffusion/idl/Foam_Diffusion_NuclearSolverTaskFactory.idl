@@ -27,7 +27,7 @@
 
 //---------------------------------------------------------------------------
 #include "TaskFactoryBase.idl"
-#include "Foam_SolverBaseTaskFactory.idl"
+#include "Foam_SolverBaseTask.idl"
 
 
 //---------------------------------------------------------------------------

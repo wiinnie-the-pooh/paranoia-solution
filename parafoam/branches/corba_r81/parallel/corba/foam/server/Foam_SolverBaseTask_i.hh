@@ -26,7 +26,7 @@
 
 
 //---------------------------------------------------------------------------
-#include "Foam_SolverBaseTaskFactory.hh"
+#include "Foam_SolverBaseTask.hh"
 
 #include "parallel/corba/server/TaskBase_i.hh"
 
@@ -56,15 +56,6 @@ namespace parallel
       
       ~SolverBaseTask_i();
       
-      virtual void prepare()
-      {}
-      
-    protected:
-      virtual bool step();
-
-      virtual void destroy()
-      {}
-
     protected:
       bool pre_step();
       bool post_step();

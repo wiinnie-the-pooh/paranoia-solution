@@ -22,7 +22,6 @@
 
 //---------------------------------------------------------------------------
 #include "Foam_TimeSourceTaskFactory.hh"
-#include "Foam_SolverBaseTaskFactory.hh"
 #include "TaskManager.hh"
 
 #include "parallel/corba/common/corba_utilities.hh"
@@ -35,7 +34,6 @@
 
 #include "parallel/corba/server/TaskManager_i.hh"
 #include "parallel/corba/foam/server/Foam_TimeSourceTaskFactory_i.hh"
-#include "parallel/corba/foam/server/Foam_SolverBaseTaskFactory_i.hh"
 
 #include "parallel/corba/common/FactoryLauncher.hh"
 #include "parallel/corba/common/TaskLauncher.hh"
@@ -46,29 +44,6 @@
 //---------------------------------------------------------------------------
 #include <iostream>
 using namespace std;
-
-
-//---------------------------------------------------------------------------
-namespace parallel
-{
-  namespace foam
-  {
-    //-----------------------------------------------------------------------
-    void connect( const TaskManager_var& theTaskMgr, 
-                  const TimeSourceTask_var& theTimeSource, 
-                  const SolverBaseTask_var& theSolverBase )
-    {
-      theTaskMgr->connect( theTimeSource, "time", theSolverBase, "time" );
-      theTaskMgr->connect( theTimeSource, "index", theSolverBase, "index" );
-      theTaskMgr->connect( theTimeSource, "write", theSolverBase, "write" );
-
-      theTaskMgr->connect( theTimeSource, "finished", theSolverBase, "stop" );
-    }
-    
-    
-    //-----------------------------------------------------------------------
-  }
-}
 
 
 //---------------------------------------------------------------------------
@@ -88,22 +63,16 @@ int main( int argc, char **argv )
     PortableServer::POAManager_var pman = poa->the_POAManager();
     pman->activate();
     
+    TaskManager_var a_task_manager = create_factory< TaskManager_i, TaskManager >( orb, poa, "TaskManager", "this" );
+
     TimeSourceTaskFactory_var a_time_source_task_factory = 
       create_factory< TimeSourceTaskFactory_i, TimeSourceTaskFactory >( orb, poa, "TaskFactory", "Foam_TimeSource" );
 
-    SolverBaseTaskFactory_var a_solver_base_task_factory =
-      create_factory< SolverBaseTaskFactory_i, SolverBaseTaskFactory >( orb, poa, "TaskFactory", "Foam_SolverBaseTask" );
-
-    TaskManager_var a_task_manager = create_factory< TaskManager_i, TaskManager >( orb, poa, "TaskManager", "this" );
-
 #else
+    TaskManager_var a_task_manager = TaskManager::_narrow( getObjectReference( orb, "TaskManager", "this" ) );
+
     TimeSourceTaskFactory_var a_time_source_task_factory = 
       TimeSourceTaskFactory::_narrow( getObjectReference( orb, "TaskFactory", "Foam_TimeSource" ) );
-
-    SolverBaseTaskFactory_var a_solver_base_task_factory = 
-      SolverBaseTaskFactory::_narrow( getObjectReference( orb, "TaskFactory", "Foam_SolverBase" ) );
-
-    TaskManager_var a_task_manager = TaskManager::_narrow( getObjectReference( orb, "TaskManager", "this" ) );
 
 #endif
 
@@ -114,12 +83,9 @@ int main( int argc, char **argv )
     a_time_source_task->setEndTime( dimensionedScalar( 0.033 ) );
     a_time_source_task->setWriteInterval( 1 );
 
-    SolverBaseTask_var a_solver_base_task = a_solver_base_task_factory->create( "Foam_SolverBaseTask_launcher" );
-
-    connect( a_task_manager, a_time_source_task, a_solver_base_task );
+    a_task_manager->register_task( a_time_source_task );
     
     a_time_source_task->Release();
-    a_solver_base_task->Release();
 
     a_task_manager->start();
 

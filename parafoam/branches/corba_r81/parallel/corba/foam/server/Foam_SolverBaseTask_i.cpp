@@ -60,17 +60,6 @@ namespace parallel
 
 
     //---------------------------------------------------------------------------
-    bool SolverBaseTask_i::step()
-    {
-      cout << "SolverBaseTask_i::step[ " << this << " ]" << endl;
-      
-      this->pre_step();
-
-      return this->post_step();
-    }
-
-
-    //---------------------------------------------------------------------------
     bool SolverBaseTask_i::pre_step()
     {
       this->m_finished_o.publish( this->m_stop_i.retrieve() );

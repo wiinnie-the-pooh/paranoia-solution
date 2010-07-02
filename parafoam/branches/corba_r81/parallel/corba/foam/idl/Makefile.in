@@ -34,7 +34,7 @@ IDL_FILES = \
 	Foam_typedefs.idl \
 	Foam_DimensionedScalarPort.idl \
 	Foam_TimeSourceTaskFactory.idl \
-	Foam_SolverBaseTaskFactory.idl
+	Foam_SolverBaseTask.idl
 
 
 #--------------------------------------------------------------------------------------
