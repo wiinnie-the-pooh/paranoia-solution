@@ -21,38 +21,12 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/toys/TRawDataTask.h"
-#include "parallel/threading/dev/TPort.h"
+#ifndef toys_SolverExamples_h
+#define toys_SolverExamples_h
 
 
 //---------------------------------------------------------------------------
-namespace
-{
-  using namespace parallel;
-
-  //-----------------------------------------------------------------------
-  struct CRawDataPort : dev::TPort
-  {
-    PARALLEL_DERIVED_PORT_DEF( CRawDataPort );
-  };
-
-
-  //-----------------------------------------------------------------------
-  base::TPortPtr
-  find_or_create_port( const base::TName2Port& theName2Port, 
-                       const std::string& theName,
-                       dev::TTask& theTask )
-  {
-    base::TName2Port::const_iterator anIter = theName2Port.find( theName );
-    if ( anIter != theName2Port.end() )
-      return anIter->second;
-
-    return base::TPortPtr( new CRawDataPort( theName, theTask ) );
-  }
-
-
-  //-----------------------------------------------------------------------
-}
+#include "parallel/test/threading/toys/TRawDataTask.h"
 
 
 //---------------------------------------------------------------------------
@@ -61,42 +35,103 @@ namespace parallel
   namespace toys
   {
     //---------------------------------------------------------------------------
-    base::TPortPtr TRawDataTask::get_input_port( const std::string& theName )
+    struct SleepSolver : TRawDataTask
     {
-      return find_or_create_port( this->get_input_ports(), theName, *this );
-    }
+      SleepSolver( int theMSecs );
+
+    protected:
+      void sleep();
+
+    private:
+      int m_MSecs;
+    };
+
+  
+    //---------------------------------------------------------------------------
+    struct DataSource : SleepSolver
+    {
+      DataSource( int theMSecs );
+
+    protected:
+      virtual void init();
+      virtual void destroy();
+      virtual bool step();
+      
+    private:
+      int m_Iter;
+    };
 
 
     //---------------------------------------------------------------------------
-    base::TPortPtr TRawDataTask::get_output_port( const std::string& theName )
+    struct Copy : SleepSolver
     {
-      return find_or_create_port( this->get_output_ports(), theName, *this );
-    }
+      Copy( int theMSecs );
+
+    protected:
+      virtual void init();
+      virtual void destroy();
+      virtual bool step();
+    };
 
 
     //---------------------------------------------------------------------------
-    TFieldPtr TRawDataTask::read( const std::string& theName )
+    struct Palindrome : SleepSolver
     {
-      return this->retrieve< TField >( theName );
-    }
+      Palindrome( int theMSecs );
+      
+    protected:
+      virtual void init();
+      virtual void destroy();
+      virtual bool step();
+    };
 
 
     //---------------------------------------------------------------------------
-    void TRawDataTask::write( const std::string& theName, TFieldPtr theField )
+    struct Concat : SleepSolver
     {
-      this->publish( theName, theField );
-    }
-    
+      Concat( int theMSecs );
+      
+    protected:
+      virtual void init();
+      virtual void destroy();
+      virtual bool step();
+    };
+
 
     //---------------------------------------------------------------------------
-    void TRawDataTask::write_raw( const std::string& theName, TData theData, int theSize )
+    struct PlusX : SleepSolver
     {
-      this->write( theName, TFieldPtr( new TField( theName, theData, theSize ) ) );
-    }
-    
-    
+      PlusX( int theMSecs, int theStart, int theDelta );
+      
+    protected:
+      virtual void init();
+      virtual void destroy();
+      virtual bool step();
+      
+    private:
+      int m_Start, m_Delta;
+    };
+
+
+    //---------------------------------------------------------------------------
+    struct MultX : SleepSolver
+    {
+      MultX( int theMSecs, int theStart, int theMult );
+      
+    protected:
+      virtual void init();
+      virtual void destroy();
+      virtual bool step();
+      
+    private:
+      int m_Start, m_Mult;
+    };
+
+
     //---------------------------------------------------------------------------
   }
 }
 
+
 //---------------------------------------------------------------------------
+#endif

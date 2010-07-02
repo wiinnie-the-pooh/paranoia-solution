@@ -21,12 +21,38 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef toys_SolverExamples_h
-#define toys_SolverExamples_h
+#include "parallel/test/threading/toys/TRawDataTask.h"
+#include "parallel/threading/dev/TPort.h"
 
 
 //---------------------------------------------------------------------------
-#include "parallel/toys/TRawDataTask.h"
+namespace
+{
+  using namespace parallel;
+
+  //-----------------------------------------------------------------------
+  struct CRawDataPort : dev::TPort
+  {
+    PARALLEL_DERIVED_PORT_DEF( CRawDataPort );
+  };
+
+
+  //-----------------------------------------------------------------------
+  base::TPortPtr
+  find_or_create_port( const base::TName2Port& theName2Port, 
+                       const std::string& theName,
+                       dev::TTask& theTask )
+  {
+    base::TName2Port::const_iterator anIter = theName2Port.find( theName );
+    if ( anIter != theName2Port.end() )
+      return anIter->second;
+
+    return base::TPortPtr( new CRawDataPort( theName, theTask ) );
+  }
+
+
+  //-----------------------------------------------------------------------
+}
 
 
 //---------------------------------------------------------------------------
@@ -35,103 +61,42 @@ namespace parallel
   namespace toys
   {
     //---------------------------------------------------------------------------
-    struct SleepSolver : TRawDataTask
+    base::TPortPtr TRawDataTask::get_input_port( const std::string& theName )
     {
-      SleepSolver( int theMSecs );
-
-    protected:
-      void sleep();
-
-    private:
-      int m_MSecs;
-    };
-
-  
-    //---------------------------------------------------------------------------
-    struct DataSource : SleepSolver
-    {
-      DataSource( int theMSecs );
-
-    protected:
-      virtual void init();
-      virtual void destroy();
-      virtual bool step();
-      
-    private:
-      int m_Iter;
-    };
+      return find_or_create_port( this->get_input_ports(), theName, *this );
+    }
 
 
     //---------------------------------------------------------------------------
-    struct Copy : SleepSolver
+    base::TPortPtr TRawDataTask::get_output_port( const std::string& theName )
     {
-      Copy( int theMSecs );
-
-    protected:
-      virtual void init();
-      virtual void destroy();
-      virtual bool step();
-    };
+      return find_or_create_port( this->get_output_ports(), theName, *this );
+    }
 
 
     //---------------------------------------------------------------------------
-    struct Palindrome : SleepSolver
+    TFieldPtr TRawDataTask::read( const std::string& theName )
     {
-      Palindrome( int theMSecs );
-      
-    protected:
-      virtual void init();
-      virtual void destroy();
-      virtual bool step();
-    };
+      return this->retrieve< TField >( theName );
+    }
 
 
     //---------------------------------------------------------------------------
-    struct Concat : SleepSolver
+    void TRawDataTask::write( const std::string& theName, TFieldPtr theField )
     {
-      Concat( int theMSecs );
-      
-    protected:
-      virtual void init();
-      virtual void destroy();
-      virtual bool step();
-    };
-
+      this->publish( theName, theField );
+    }
+    
 
     //---------------------------------------------------------------------------
-    struct PlusX : SleepSolver
+    void TRawDataTask::write_raw( const std::string& theName, TData theData, int theSize )
     {
-      PlusX( int theMSecs, int theStart, int theDelta );
-      
-    protected:
-      virtual void init();
-      virtual void destroy();
-      virtual bool step();
-      
-    private:
-      int m_Start, m_Delta;
-    };
-
-
-    //---------------------------------------------------------------------------
-    struct MultX : SleepSolver
-    {
-      MultX( int theMSecs, int theStart, int theMult );
-      
-    protected:
-      virtual void init();
-      virtual void destroy();
-      virtual bool step();
-      
-    private:
-      int m_Start, m_Mult;
-    };
-
-
+      this->write( theName, TFieldPtr( new TField( theName, theData, theSize ) ) );
+    }
+    
+    
     //---------------------------------------------------------------------------
   }
 }
 
-
 //---------------------------------------------------------------------------
-#endif

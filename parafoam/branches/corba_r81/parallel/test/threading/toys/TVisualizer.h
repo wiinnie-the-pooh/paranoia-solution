@@ -21,10 +21,12 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/toys/TField.h"
+#ifndef toys_TVisualizer_h
+#define toys_TVisualizer_h
 
-#include <string.h>
-#include <iostream>
+
+//---------------------------------------------------------------------------
+#include "parallel/test/threading/toys/TRawDataTask.h"
 
 
 //---------------------------------------------------------------------------
@@ -33,28 +35,33 @@ namespace parallel
   namespace toys
   {
     //---------------------------------------------------------------------------
-    TField::TField( const std::string& theName, TData theData, int theSize )
-      : m_Name( theName )
+    struct TVisualizer : TRawDataTask
     {
-      m_Data = malloc( theSize );
-      memcpy( m_Data, theData, theSize );
-    }
+    protected:
+      virtual void init();
+      virtual void destroy();
+    };
 
-    TField::~TField()
-    {
-      //std::cout << "~TField()" << std::endl;
-      free( m_Data );
-    }
 
-    std::string TField::get_name()
+    //---------------------------------------------------------------------------
+    struct StrVis : TVisualizer
     {
-      return m_Name;
-    }
+    protected:
+      virtual bool step();
+    };
     
-    TData TField::get_raw_data()
+
+    //---------------------------------------------------------------------------
+    struct DoubleVis : TVisualizer
     {
-      return m_Data;
-    }
+      DoubleVis( const std::string& theName );
+      
+    protected:
+      virtual bool step();
+      
+    private:
+      std::string m_Name;
+    };
 
 
     //---------------------------------------------------------------------------
@@ -63,3 +70,4 @@ namespace parallel
 
 
 //---------------------------------------------------------------------------
+#endif

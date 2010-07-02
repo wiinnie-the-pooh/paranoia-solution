@@ -23,8 +23,8 @@
 //---------------------------------------------------------------------------
 #include "parallel/threading/dev/TTaskMgr.h"
 
-#include "parallel/toys/SolverExamples.h"
-#include "parallel/toys/TVisualizer.h"
+#include "parallel/test/threading/toys/SolverExamples.h"
+#include "parallel/test/threading/toys/TVisualizer.h"
 
 #include <iostream>
 

@@ -21,7 +21,7 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/toys/SolverExamples.h"
+#include "parallel/test/threading/toys/SolverExamples.h"
 
 #include <iostream>
 #include <string.h>

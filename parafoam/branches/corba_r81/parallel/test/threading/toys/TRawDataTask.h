@@ -27,7 +27,7 @@
 
 //---------------------------------------------------------------------------
 #include "parallel/threading/dev/TTask.h"
-#include "parallel/toys/TField.h"
+#include "parallel/test/threading/toys/TField.h"
 
 
 //---------------------------------------------------------------------------

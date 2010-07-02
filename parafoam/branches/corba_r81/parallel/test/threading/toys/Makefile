@@ -21,9 +21,9 @@
 
 
 #--------------------------------------------------------------------------------------
-sexe = parallel_threading_toys
+sexe = parallel_test_threading_toys
 
-parallel_threading_dev_root_dir = ../threading/dev
+parallel_threading_dev_root_dir = ../../../threading/dev
 
 include $(parallel_threading_dev_root_dir)/include.makefile
 

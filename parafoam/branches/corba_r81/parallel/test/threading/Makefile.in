@@ -21,11 +21,25 @@
 
 
 #--------------------------------------------------------------------------------------
-parallel_root_dir := ..
+ifeq "@ENABLE_BOOST_THREAD@xx" "yesxx"
+#--------------------------------------------------------------------------------------
 
-SUBDIRS := threading foam toys corba
+SUBDIRS := toys
 
-include $(parallel_root_dir)/include.makefile
+include @abs_top_builddir@/recursive.makefile
 
+all: all-recursive
+clean: clean-recursive
 
+#--------------------------------------------------------------------------------------
+else
+#--------------------------------------------------------------------------------------
+
+$(warning To compile this package you need to install "boost_thread")
+
+all:
+clean:
+
+#--------------------------------------------------------------------------------------
+endif
 #--------------------------------------------------------------------------------------

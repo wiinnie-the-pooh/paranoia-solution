@@ -21,8 +21,9 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/toys/TVisualizer.h"
+#include "parallel/test/threading/toys/TField.h"
 
+#include <string.h>
 #include <iostream>
 
 
@@ -32,36 +33,27 @@ namespace parallel
   namespace toys
   {
     //---------------------------------------------------------------------------
-    void TVisualizer::init()
-    {}
-
-    void TVisualizer::destroy()
-    {}
-
-
-    //---------------------------------------------------------------------------
-    bool StrVis::step()
+    TField::TField( const std::string& theName, TData theData, int theSize )
+      : m_Name( theName )
     {
-      TFieldPtr f = read( "arg" );
-      char* str = (char*)f->get_raw_data();
-      std::cout << "VIS: '" << str << "'" << std::endl;
-      
-      return true;
+      m_Data = malloc( theSize );
+      memcpy( m_Data, theData, theSize );
     }
 
-
-    //---------------------------------------------------------------------------
-    DoubleVis::DoubleVis( const std::string& theName )
-      : m_Name( theName )
-    {}
-    
-    bool DoubleVis::step()
+    TField::~TField()
     {
-      TFieldPtr aField = read( "arg" );
-      int aVal = *(int*)aField->get_raw_data();
-      std::cout << "VIS " << m_Name << ": " << aVal << std::endl;
-      
-      return true;
+      //std::cout << "~TField()" << std::endl;
+      free( m_Data );
+    }
+
+    std::string TField::get_name()
+    {
+      return m_Name;
+    }
+    
+    TData TField::get_raw_data()
+    {
+      return m_Data;
     }
 
 

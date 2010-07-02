@@ -21,12 +21,9 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef toys_TVisualizer_h
-#define toys_TVisualizer_h
+#include "parallel/test/threading/toys/TVisualizer.h"
 
-
-//---------------------------------------------------------------------------
-#include "parallel/toys/TRawDataTask.h"
+#include <iostream>
 
 
 //---------------------------------------------------------------------------
@@ -35,33 +32,37 @@ namespace parallel
   namespace toys
   {
     //---------------------------------------------------------------------------
-    struct TVisualizer : TRawDataTask
-    {
-    protected:
-      virtual void init();
-      virtual void destroy();
-    };
+    void TVisualizer::init()
+    {}
+
+    void TVisualizer::destroy()
+    {}
 
 
     //---------------------------------------------------------------------------
-    struct StrVis : TVisualizer
+    bool StrVis::step()
     {
-    protected:
-      virtual bool step();
-    };
+      TFieldPtr f = read( "arg" );
+      char* str = (char*)f->get_raw_data();
+      std::cout << "VIS: '" << str << "'" << std::endl;
+      
+      return true;
+    }
+
+
+    //---------------------------------------------------------------------------
+    DoubleVis::DoubleVis( const std::string& theName )
+      : m_Name( theName )
+    {}
     
-
-    //---------------------------------------------------------------------------
-    struct DoubleVis : TVisualizer
+    bool DoubleVis::step()
     {
-      DoubleVis( const std::string& theName );
+      TFieldPtr aField = read( "arg" );
+      int aVal = *(int*)aField->get_raw_data();
+      std::cout << "VIS " << m_Name << ": " << aVal << std::endl;
       
-    protected:
-      virtual bool step();
-      
-    private:
-      std::string m_Name;
-    };
+      return true;
+    }
 
 
     //---------------------------------------------------------------------------
@@ -70,4 +71,3 @@ namespace parallel
 
 
 //---------------------------------------------------------------------------
-#endif
