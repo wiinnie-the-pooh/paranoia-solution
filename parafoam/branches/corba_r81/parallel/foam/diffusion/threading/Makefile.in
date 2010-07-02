@@ -21,27 +21,24 @@
 
 
 #--------------------------------------------------------------------------------------
-ifeq "@ENABLE_DIFFUSIONFOAMLIB@xx" "yesxx"
+ifeq "@ENABLE_BOOST_THREAD@xx" "yesxx"
 #--------------------------------------------------------------------------------------
 
-sexe = parallel_foam_diffusion_test
+SUBDIRS := impl test
 
-CPPFLAGS := @DIFFUSIONFOAMLIB_CPPFLAGS@ @DIFFUSIONFOAMLIB_CXXFLAGS@
-LDFLAGS := @DIFFUSIONFOAMLIB_LDFLAGS@
+include @abs_top_builddir@/recursive.makefile
 
-parallel_foam_threading_impl_root_dir := ../../impl
-
-include $(parallel_foam_threading_impl_root_dir)/include.makefile
+all: all-recursive
+clean: clean-recursive
 
 #--------------------------------------------------------------------------------------
 else
 #--------------------------------------------------------------------------------------
 
-$(warning To compile this package you need to install diffusionFoamLib)
+$(warning To compile this package you need to install "boost_thread")
 
 all:
 clean:
-
 
 #--------------------------------------------------------------------------------------
 endif

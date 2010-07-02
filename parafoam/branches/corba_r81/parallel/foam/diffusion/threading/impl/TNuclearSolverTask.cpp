@@ -21,9 +21,9 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/foam/threading/diffusion/impl/TTemperatureSolverTask.h"
+#include "parallel/foam/diffusion/threading/impl/TNuclearSolverTask.h"
 
-#include "parallel/foam/threading/diffusion/impl/TTemperatureSolver.h"
+#include "parallel/foam/diffusion/threading/impl/TNuclearSolver.h"
 
 #include "parallel/foam/threading/impl/SFoamMutex.h"
 
@@ -34,50 +34,53 @@ namespace parallel
   namespace foam
   {
     //-----------------------------------------------------------------------
-    TTemperatureSolverTask::TPtr 
-    TTemperatureSolverTask::create( const argList& args, const Switch& isTransient )
+    TNuclearSolverTask::TPtr 
+    TNuclearSolverTask::create( const argList& args, const Switch& isTransient )
     {
-      return new TTemperatureSolverTask( TTemperatureSolver::create( args, isTransient ) );
+      return new TNuclearSolverTask( TNuclearSolver::create( args, isTransient ) );
     }
 
 
     //-----------------------------------------------------------------------
-    TTemperatureSolverTask::TTemperatureSolverTask( const TTemperatureSolverPtr& engine )
+    TNuclearSolverTask::TNuclearSolverTask( const TNuclearSolverPtr& engine )
       : CSolverTaskBase( *engine->runTime )
       , engine( engine )
-      , m_powerDensity_i( "powerDensity", true, *this )
+      , m_Tfuel_i( "Tfuel", true, *this )
+      , m_Tmod_i( "Tmod", true, *this )
       , m_fvMesh_o( "fvMesh", false, *this )
-      , m_Tfuel_o( "Tfuel", false, *this )
-      , m_Tmod_o( "Tmod", false, *this )
+      , m_powerDensity_o( "powerDensity", false, *this )
     {}
 
 
     //---------------------------------------------------------------------------
-    TTemperatureSolverTask::~TTemperatureSolverTask()
+    TNuclearSolverTask::~TNuclearSolverTask()
     {}
 
 
-    void TTemperatureSolverTask::init()
+    //---------------------------------------------------------------------------
+    void TNuclearSolverTask::init()
     {
-      MSG( "Start of TTemperatureSolverTask[ " << this << " ]\n" );
+      MSG( "Start of TNuclearSolverTask[ " << this << " ]\n" );
 
       CSolverTaskBase::init();
-      
-      this->m_powerDensity_i.init( clone( this->engine->powerDensity() ) );
+
+      this->m_Tfuel_i.init( clone( this->engine->Tfuel() ) );
+      this->m_Tmod_i.init( clone( this->engine->Tmod() ) );
       
       this->m_fvMesh_o.publish( this->engine->mesh );
     }
-
+    
 
     //---------------------------------------------------------------------------
-    bool TTemperatureSolverTask::step()
-    {      
-      MSG( "TTemperatureSolverTask[ " << this << " ]::step entered\n" );
+    bool TNuclearSolverTask::step()
+    {
+      MSG( "TNuclearSolverTask[ " << this << " ]::step entered\n" );
 
       // It is necessary to retrieve the fileds before time modification
       // ( which take place in "pre_step" function)
-      this->m_powerDensity_i.retrieve( this->engine->mesh );
-      MSG( "TTemperatureSolverTask[ " << this << " ]::data retrieved\n" );
+      this->m_Tfuel_i.retrieve( this->engine->mesh );
+      this->m_Tmod_i.retrieve( this->engine->mesh );
+      MSG( "TNuclearSolverTask[ " << this << " ]::data retrieved\n" );
       
       if ( this->pre_step() )
       {
@@ -85,26 +88,25 @@ namespace parallel
 
         scalar residual = this->engine->solve();
         
-        MSG( "TTemperatureSolverTask[ " << this << " ]"
+        MSG( "TNuclearSolverTask[ " << this << " ]"
              << " | " << this->runTime.timeName().c_str()
              << " | " << residual << "\n" );
       
         this->m_residual_o.publish( residual );
 
-        this->m_Tfuel_o.publish( clone( this->engine->Tfuel() ) );
-        this->m_Tmod_o.publish( clone( this->engine->Tmod() ) );
+        this->m_powerDensity_o.publish( clone( this->engine->powerDensity() ) );
+        MSG( "TNuclearSolverTask[ " << this << " ]::data published\n" );
 
-        MSG( "TTemperatureSolverTask[ " << this << " ]::data published\n" );
       }
 
       return this->post_step();
     }
 
-
+    
     //---------------------------------------------------------------------------
-    void TTemperatureSolverTask::destroy()
+    void TNuclearSolverTask::destroy()
     {
-      MSG( "End of TTemperatureSolverTask[ " << this << " ]\n" );
+      MSG( "End of TNuclearSolverTask[ " << this << " ]\n" );
 
       CSolverTaskBase::destroy();
     }

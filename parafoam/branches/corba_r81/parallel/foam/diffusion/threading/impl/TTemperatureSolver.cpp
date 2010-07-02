@@ -21,7 +21,7 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/foam/threading/diffusion/impl/TTemperatureSolver.h"
+#include "parallel/foam/diffusion/threading/impl/TTemperatureSolver.h"
 
 #include <temperatureCalculation.H>
 

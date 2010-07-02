@@ -21,7 +21,7 @@
 
 
 #--------------------------------------------------------------------------------------
-SUBDIRS := threading corba
+SUBDIRS := threading corba diffusion
 
 include @abs_top_builddir@/recursive.makefile
 

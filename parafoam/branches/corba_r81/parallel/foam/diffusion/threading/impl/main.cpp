@@ -23,8 +23,8 @@
 //---------------------------------------------------------------------------
 #include "parallel/threading/dev/TTaskMgr.h"
 
-#include "parallel/foam/threading/diffusion/impl/TNuclearSolverTask.h"
-#include "parallel/foam/threading/diffusion/impl/TTemperatureSolverTask.h"
+#include "parallel/foam/diffusion/threading/impl/TNuclearSolverTask.h"
+#include "parallel/foam/diffusion/threading/impl/TTemperatureSolverTask.h"
 
 #include "parallel/foam/threading/impl/CVolFieldMapperTask.h"
 #include "parallel/foam/threading/impl/CTimeSourceTask.h"

@@ -21,7 +21,7 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/foam/threading/diffusion/impl/TNuclearSolver.h"
+#include "parallel/foam/diffusion/threading/impl/TNuclearSolver.h"
 
 #include <nuclearCalculation.H>
 
