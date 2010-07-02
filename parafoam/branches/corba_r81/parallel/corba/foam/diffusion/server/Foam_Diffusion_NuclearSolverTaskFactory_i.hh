@@ -50,10 +50,10 @@ namespace parallel
 #ifndef __USE_CORBA_SINGLE_PROCESS__
       typedef TaskFactoryBase_i< POA_parallel::foam::diffusion::NuclearSolverTaskFactory, NuclearSolverTask > NuclearSolverTaskFactory_i;
 #else
-  typedef TaskFactoryBase_i< POA_parallel::foam::NuclearSolverTaskFactory, NuclearSolverTask, NuclearSolverTask_i, NuclearSolverTaskFactory > NuclearSolverTaskFactory_i;
+      typedef TaskFactoryBase_i< POA_parallel::foam::diffusion::NuclearSolverTaskFactory, NuclearSolverTask, NuclearSolverTask_i, NuclearSolverTaskFactory > NuclearSolverTaskFactory_i;
 #endif
 
-
+      
       //---------------------------------------------------------------------------
     }
 
