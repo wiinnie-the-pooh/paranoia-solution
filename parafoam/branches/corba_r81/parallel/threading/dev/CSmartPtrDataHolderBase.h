@@ -26,7 +26,7 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/dev/CSmartPtrValueHelper.h"
+#include "parallel/threading/dev/CSmartPtrValueHelper.h"
 
 #include <loki/SmartPtr.h>
 

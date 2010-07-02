@@ -26,14 +26,14 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/dev/TTask.h"
+#include "parallel/threading/dev/TTask.h"
 
-#include "parallel/dev/CPortHelper.h"
+#include "parallel/threading/dev/CPortHelper.h"
 
-#include "parallel/dev/CBoolPort.h"
+#include "parallel/threading/dev/CBoolPort.h"
 
-#include "parallel/dev/CIntPort.h"
-#include "parallel/dev/CDoublePort.h"
+#include "parallel/threading/dev/CIntPort.h"
+#include "parallel/threading/dev/CDoublePort.h"
 
 #include "parallel/foam/CDimensionedScalar.h"
 #include "parallel/foam/CSerializedDimensionedScalar.h"

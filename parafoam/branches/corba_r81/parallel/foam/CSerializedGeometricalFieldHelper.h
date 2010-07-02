@@ -28,7 +28,7 @@
 //---------------------------------------------------------------------------
 #include "parallel/foam/CTmpValueHelper.h"
 
-#include "parallel/dev/CSerializedValueHelper.h"
+#include "parallel/threading/dev/CSerializedValueHelper.h"
 
 #include "parallel/foam/SFoamMutex.h"
 

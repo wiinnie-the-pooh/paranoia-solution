@@ -24,7 +24,7 @@
 ifeq "@ENABLE_BOOST_THREAD@xx" "yesxx"
 #--------------------------------------------------------------------------------------
 
-SUBDIRS := base impl
+SUBDIRS := base dev
 
 parallel_root_dir := ../..
 

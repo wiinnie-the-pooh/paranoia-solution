@@ -21,10 +21,10 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/dev/TTaskMgr.h"
-#include "parallel/dev/TQueue.h"
+#include "parallel/threading/dev/TTaskMgr.h"
+#include "parallel/threading/dev/TQueue.h"
 
-#include "parallel/dev/boost_threading.h"
+#include "parallel/threading/dev/boost_threading.h"
 
 #include <boost/bind.hpp>
 #include <boost/function.hpp>

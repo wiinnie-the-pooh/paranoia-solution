@@ -21,16 +21,14 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef dev_CORPredicateTask_h
-#define dev_CORPredicateTask_h
+#ifndef dev_CDoublePort_h
+#define dev_CDoublePort_h
 
 
 //---------------------------------------------------------------------------
-#include "parallel/dev/TTask.h"
+#include "parallel/threading/dev/TPort.h"
 
-#include "parallel/dev/CPortHelper.h"
-
-#include "parallel/dev/CBoolPort.h"
+#include "parallel/threading/dev/CSimpleDataHolderBase.h"
 
 
 //---------------------------------------------------------------------------
@@ -39,32 +37,24 @@ namespace parallel
   namespace dev
   {
     //---------------------------------------------------------------------------
-    struct CORPredicateTask : TTask
+    struct CDoublePort : TPort
     {
-      typedef base::SmartPtrDef< CORPredicateTask >::type TPtr;
- 
-      CORPredicateTask();
+      typedef double THold;
 
-      ~CORPredicateTask();
+      PARALLEL_DERIVED_PORT_DEF( CDoublePort );
 
-    protected:
-      CPortHelper< CBoolPort > m_left_i;
-      CPortHelper< CBoolPort > m_stop_left_i;
+      struct TDataHolder : base::TDataHolder, CSimpleDataHolderBase< THold >
+      {
+        TDataHolder( const TValueHelper& the_value_helper = TValueHelper() )
+          : CSimpleDataHolderBase< THold >( the_value_helper )
+        {}
+      };
 
-      CPortHelper< CBoolPort > m_right_i;
-      CPortHelper< CBoolPort > m_stop_right_i;
-
-      CPortHelper< CBoolPort > m_finished_o;
-      CPortHelper< CBoolPort > m_result_o;
-
-    protected:
-      virtual void init();
-      virtual bool step();
-      virtual void destroy();
+      typedef TDataHolder::TValueHelper TValueHelper;
     };
-
-
-    //-----------------------------------------------------------------------
+    
+    
+    //---------------------------------------------------------------------------
   }
 }
 

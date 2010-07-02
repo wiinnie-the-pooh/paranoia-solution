@@ -21,12 +21,18 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef dev_CPortHelper_h
-#define dev_CPortHelper_h
+#ifndef dev_CConvergencyCriteriaTask_h
+#define dev_CConvergencyCriteriaTask_h
 
 
 //---------------------------------------------------------------------------
-#include "parallel/dev/CPortHelperBase.h"
+#include "parallel/threading/dev/TTask.h"
+
+#include "parallel/threading/dev/CPortHelper.h"
+
+#include "parallel/threading/dev/CBoolPort.h"
+
+#include "parallel/threading/dev/CDoublePort.h"
 
 
 //---------------------------------------------------------------------------
@@ -35,16 +41,40 @@ namespace parallel
   namespace dev
   {
     //---------------------------------------------------------------------------
-    template< class PortType >
-    struct CPortHelper : CPortHelperBase< PortType >
+    struct CConvergencyCriteriaTask : TTask
     {
-      CPortHelper( const std::string& theName, bool theIsInput, TTask& theTask )
-        : CPortHelperBase< PortType >( theName, theIsInput, theTask )
-      {}
+      typedef base::SmartPtrDef< CConvergencyCriteriaTask >::type TPtr;
+ 
+      CConvergencyCriteriaTask();
+
+      ~CConvergencyCriteriaTask();
+
+      void setMaxResidual( double the_residual );
+      double getMaxResidual() const;
+      
+      void setMaxIterationNumber( int the_number );
+      int getMaxIterationNumber() const;
+      
+    protected:
+      CPortHelper< CDoublePort > m_residual_i;
+      CPortHelper< CBoolPort > m_stop_i;
+
+      CPortHelper< CBoolPort > m_finished_o;
+      CPortHelper< CBoolPort > m_result_o;
+
+    protected:
+      double maxResidual;
+      int maxIterationNumber;
+      int iterationCounter;
+
+    protected:
+      virtual void init();
+      virtual bool step();
+      virtual void destroy();
     };
-    
-    
-    //---------------------------------------------------------------------------
+
+
+    //-----------------------------------------------------------------------
   }
 }
 

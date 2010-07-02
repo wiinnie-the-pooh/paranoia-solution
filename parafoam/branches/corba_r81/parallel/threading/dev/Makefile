@@ -21,13 +21,13 @@
 
 
 #--------------------------------------------------------------------------------------
-libso = libparallel_dev.so
+libso = libparallel_threading_dev.so
 
-parallel_dev_root_dir = .
+parallel_threading_dev_root_dir = .
 
 SUBDIRS := test
 
-include $(parallel_dev_root_dir)/include.makefile
+include $(parallel_threading_dev_root_dir)/include.makefile
 
 
 #--------------------------------------------------------------------------------------

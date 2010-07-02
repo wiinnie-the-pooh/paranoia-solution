@@ -26,7 +26,7 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/dev/CPortHelperBase.h"
+#include "parallel/threading/dev/CPortHelperBase.h"
 
 #include "parallel/foam/CSerializedGeometricalField.h"
 

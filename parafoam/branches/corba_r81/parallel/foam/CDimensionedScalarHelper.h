@@ -26,7 +26,7 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/dev/CSimpleValueHelper.h"
+#include "parallel/threading/dev/CSimpleValueHelper.h"
 
 #include <dimensionedScalar.H>
 

@@ -21,7 +21,7 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/dev/TTaskMgr.h"
+#include "parallel/threading/dev/TTaskMgr.h"
 
 #include "parallel/foam/diffusion/TNuclearSolverTask.h"
 #include "parallel/foam/diffusion/TTemperatureSolverTask.h"
@@ -29,8 +29,8 @@
 #include "parallel/foam/CVolFieldMapperTask.h"
 #include "parallel/foam/CTimeSourceTask.h"
 
-#include "parallel/dev/CORPredicateTask.h"
-#include "parallel/dev/CConvergencyCriteriaTask.h"
+#include "parallel/threading/dev/CORPredicateTask.h"
+#include "parallel/threading/dev/CConvergencyCriteriaTask.h"
 
 #include <iostream>
 

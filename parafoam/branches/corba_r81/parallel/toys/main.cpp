@@ -21,7 +21,7 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/dev/TTaskMgr.h"
+#include "parallel/threading/dev/TTaskMgr.h"
 
 #include "parallel/toys/SolverExamples.h"
 #include "parallel/toys/TVisualizer.h"

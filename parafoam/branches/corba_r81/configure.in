@@ -80,7 +80,7 @@ AC_OUTPUT( [ bashrc \
              parallel/threading/Makefile \
              parallel/threading/include.makefile \
              parallel/threading/base/include.makefile \
-             parallel/dev/include.makefile \
+             parallel/threading/dev/include.makefile \
              parallel/foam/Makefile \
              parallel/foam/diffusion/Makefile \
 	     \

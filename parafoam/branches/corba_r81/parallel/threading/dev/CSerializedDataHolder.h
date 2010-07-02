@@ -21,16 +21,12 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef dev_CSerializedIntPort_h
-#define dev_CSerializedIntPort_h
+#ifndef dev_CSerializedDataHolder_h
+#define dev_CSerializedDataHolder_h
 
 
 //---------------------------------------------------------------------------
-#include "parallel/dev/TPort.h"
-
-#include "parallel/dev/CSerializedDataHolder.h"
-
-#include "parallel/dev/CSerializedValueHelper.h"
+#include "parallel/threading/dev/CSerializedDataHolderBase.h"
 
 
 //---------------------------------------------------------------------------
@@ -39,20 +35,23 @@ namespace parallel
   namespace dev
   {
     //---------------------------------------------------------------------------
-    struct CSerializedIntPort : TPort
+    template< class SerializedValueHelperType >
+    struct CSerializedDataHolder : CSerializedDataHolderBase< SerializedValueHelperType >
     {
-      typedef int THold;
+      typedef SerializedValueHelperType TValueHelper;
 
-      PARALLEL_DERIVED_PORT_DEF( CSerializedIntPort );
-
-      typedef CSerializedValueHelper< THold > TValueHelper;
+      CSerializedDataHolder( const SerializedValueHelperType& the_value_holder )
+        : CSerializedDataHolderBase< SerializedValueHelperType >( the_value_holder )
+      {}
       
-      struct TDataHolder : CSerializedDataHolder< CSerializedValueHelper< THold > >
+      SerializedValueHelperType value()
       {
-        TDataHolder( const CSerializedValueHelper< THold >& the_value_helper )
-          : CSerializedDataHolder< CSerializedValueHelper< THold > >( the_value_helper )
-        {}
-      };
+        SerializedValueHelperType a_value_helper;
+        
+        a_value_helper.restore_data( * this );
+
+        return a_value_helper;
+      }
     };
     
     

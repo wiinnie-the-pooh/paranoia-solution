@@ -21,8 +21,8 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/dev/TTask.h"
-#include "parallel/dev/TPort.h"
+#include "parallel/threading/dev/TTask.h"
+#include "parallel/threading/dev/TPort.h"
 
 #include <boost/thread/mutex.hpp>
 

@@ -21,9 +21,14 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/dev/TPort.h"
+#ifndef dev_CIntPort_h
+#define dev_CIntPort_h
 
-#include "parallel/dev/TTask.h"
+
+//---------------------------------------------------------------------------
+#include "parallel/threading/dev/TPort.h"
+
+#include "parallel/threading/dev/CSimpleDataHolderBase.h"
 
 
 //---------------------------------------------------------------------------
@@ -32,38 +37,27 @@ namespace parallel
   namespace dev
   {
     //---------------------------------------------------------------------------
-    TPort::TPort( const std::string& theName, TTask& theTask )
-      : m_name( theName )
-      , m_task( theTask )
-    {}
-
-
-    //---------------------------------------------------------------------------
-    std::string TPort::name()
+    struct CIntPort : TPort
     {
-      return m_name;
-    }
+      typedef int THold;
 
+      PARALLEL_DERIVED_PORT_DEF( CIntPort );
+      
+      struct TDataHolder : base::TDataHolder, CSimpleDataHolderBase< THold >
+      {
+        TDataHolder( const TValueHelper& the_value_helper = TValueHelper() )
+          : CSimpleDataHolderBase< THold >( the_value_helper )
+        {}
+      };
 
-    //---------------------------------------------------------------------------
-    base::TTaskPtr TPort::task()
-    {
-      m_task.AddRef();
-      return &m_task;
-    }
-
-
-    //---------------------------------------------------------------------------
-    TTaskPtr TPort::dev_task()
-    {
-      m_task.AddRef();
-      return dynamic_cast< TTask* >( &m_task );
-    }
-
-
+      typedef TDataHolder::TValueHelper TValueHelper;
+    };
+    
+    
     //---------------------------------------------------------------------------
   }
-}    
-    
+}
+
 
 //---------------------------------------------------------------------------
+#endif

@@ -64,9 +64,9 @@ endif
 
 
 #--------------------------------------------------------------------------------------
-parallel_dev_root_dir := $(parallel_foam_root_dir)/../dev
+parallel_threading_dev_root_dir := $(parallel_foam_root_dir)/../threading/dev
 
-include $(parallel_dev_root_dir)/include.makefile
+include $(parallel_threading_dev_root_dir)/include.makefile
 
 CPPFLAGS:=$(shell echo $(CPPFLAGS) | sed -e"s%-Wunused%%g")
 

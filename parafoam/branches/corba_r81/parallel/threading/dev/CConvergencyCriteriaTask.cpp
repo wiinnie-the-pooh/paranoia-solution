@@ -21,7 +21,7 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/dev/CConvergencyCriteriaTask.h"
+#include "parallel/threading/dev/CConvergencyCriteriaTask.h"
 
 #include <iostream>
 

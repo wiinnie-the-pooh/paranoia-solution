@@ -21,9 +21,9 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/dev/TQueue.h"
+#include "parallel/threading/dev/TQueue.h"
 
-#include "parallel/dev/boost_threading.h"
+#include "parallel/threading/dev/boost_threading.h"
 
 
 //---------------------------------------------------------------------------

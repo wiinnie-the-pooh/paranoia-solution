@@ -21,18 +21,9 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef dev_CConvergencyCriteriaTask_h
-#define dev_CConvergencyCriteriaTask_h
+#include "parallel/threading/dev/TPort.h"
 
-
-//---------------------------------------------------------------------------
-#include "parallel/dev/TTask.h"
-
-#include "parallel/dev/CPortHelper.h"
-
-#include "parallel/dev/CBoolPort.h"
-
-#include "parallel/dev/CDoublePort.h"
+#include "parallel/threading/dev/TTask.h"
 
 
 //---------------------------------------------------------------------------
@@ -41,43 +32,38 @@ namespace parallel
   namespace dev
   {
     //---------------------------------------------------------------------------
-    struct CConvergencyCriteriaTask : TTask
+    TPort::TPort( const std::string& theName, TTask& theTask )
+      : m_name( theName )
+      , m_task( theTask )
+    {}
+
+
+    //---------------------------------------------------------------------------
+    std::string TPort::name()
     {
-      typedef base::SmartPtrDef< CConvergencyCriteriaTask >::type TPtr;
- 
-      CConvergencyCriteriaTask();
-
-      ~CConvergencyCriteriaTask();
-
-      void setMaxResidual( double the_residual );
-      double getMaxResidual() const;
-      
-      void setMaxIterationNumber( int the_number );
-      int getMaxIterationNumber() const;
-      
-    protected:
-      CPortHelper< CDoublePort > m_residual_i;
-      CPortHelper< CBoolPort > m_stop_i;
-
-      CPortHelper< CBoolPort > m_finished_o;
-      CPortHelper< CBoolPort > m_result_o;
-
-    protected:
-      double maxResidual;
-      int maxIterationNumber;
-      int iterationCounter;
-
-    protected:
-      virtual void init();
-      virtual bool step();
-      virtual void destroy();
-    };
+      return m_name;
+    }
 
 
-    //-----------------------------------------------------------------------
+    //---------------------------------------------------------------------------
+    base::TTaskPtr TPort::task()
+    {
+      m_task.AddRef();
+      return &m_task;
+    }
+
+
+    //---------------------------------------------------------------------------
+    TTaskPtr TPort::dev_task()
+    {
+      m_task.AddRef();
+      return dynamic_cast< TTask* >( &m_task );
+    }
+
+
+    //---------------------------------------------------------------------------
   }
-}
-
+}    
+    
 
 //---------------------------------------------------------------------------
-#endif

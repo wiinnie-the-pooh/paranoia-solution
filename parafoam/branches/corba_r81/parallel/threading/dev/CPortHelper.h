@@ -21,14 +21,12 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef dev_CBoolPort_h
-#define dev_CBoolPort_h
+#ifndef dev_CPortHelper_h
+#define dev_CPortHelper_h
 
 
 //---------------------------------------------------------------------------
-#include "parallel/dev/TPort.h"
-
-#include "parallel/dev/CSimpleDataHolderBase.h"
+#include "parallel/threading/dev/CPortHelperBase.h"
 
 
 //---------------------------------------------------------------------------
@@ -37,20 +35,12 @@ namespace parallel
   namespace dev
   {
     //---------------------------------------------------------------------------
-    struct CBoolPort : TPort
+    template< class PortType >
+    struct CPortHelper : CPortHelperBase< PortType >
     {
-      typedef bool THold;
-
-      PARALLEL_DERIVED_PORT_DEF( CBoolPort );
-      
-      struct TDataHolder : base::TDataHolder, CSimpleDataHolderBase< THold >
-      {
-        TDataHolder( const TValueHelper& the_value_helper = TValueHelper() )
-          : CSimpleDataHolderBase< THold >( the_value_helper )
-        {}
-      };
-
-      typedef TDataHolder::TValueHelper TValueHelper;
+      CPortHelper( const std::string& theName, bool theIsInput, TTask& theTask )
+        : CPortHelperBase< PortType >( theName, theIsInput, theTask )
+      {}
     };
     
     

@@ -28,7 +28,7 @@
 //---------------------------------------------------------------------------
 #include "parallel/foam/CSolverTaskBase.h"
 
-#include "parallel/dev/CPortHelper.h"
+#include "parallel/threading/dev/CPortHelper.h"
 
 #include "parallel/foam/CSerializedFvMesh.h"
 

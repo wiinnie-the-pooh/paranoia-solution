@@ -23,7 +23,7 @@
 //---------------------------------------------------------------------------
 #include "parallel/foam/SFoamMutex.h"
 
-#include "parallel/dev/boost_threading.h"
+#include "parallel/threading/dev/boost_threading.h"
 
 #include <boost/thread/recursive_mutex.hpp>
 

@@ -21,14 +21,16 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef dev_CDoublePort_h
-#define dev_CDoublePort_h
+#ifndef dev_CSerializedIntPort_h
+#define dev_CSerializedIntPort_h
 
 
 //---------------------------------------------------------------------------
-#include "parallel/dev/TPort.h"
+#include "parallel/threading/dev/TPort.h"
 
-#include "parallel/dev/CSimpleDataHolderBase.h"
+#include "parallel/threading/dev/CSerializedDataHolder.h"
+
+#include "parallel/threading/dev/CSerializedValueHelper.h"
 
 
 //---------------------------------------------------------------------------
@@ -37,20 +39,20 @@ namespace parallel
   namespace dev
   {
     //---------------------------------------------------------------------------
-    struct CDoublePort : TPort
+    struct CSerializedIntPort : TPort
     {
-      typedef double THold;
+      typedef int THold;
 
-      PARALLEL_DERIVED_PORT_DEF( CDoublePort );
+      PARALLEL_DERIVED_PORT_DEF( CSerializedIntPort );
 
-      struct TDataHolder : base::TDataHolder, CSimpleDataHolderBase< THold >
+      typedef CSerializedValueHelper< THold > TValueHelper;
+      
+      struct TDataHolder : CSerializedDataHolder< CSerializedValueHelper< THold > >
       {
-        TDataHolder( const TValueHelper& the_value_helper = TValueHelper() )
-          : CSimpleDataHolderBase< THold >( the_value_helper )
+        TDataHolder( const CSerializedValueHelper< THold >& the_value_helper )
+          : CSerializedDataHolder< CSerializedValueHelper< THold > >( the_value_helper )
         {}
       };
-
-      typedef TDataHolder::TValueHelper TValueHelper;
     };
     
     

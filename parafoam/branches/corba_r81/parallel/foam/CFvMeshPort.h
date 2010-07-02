@@ -26,11 +26,11 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/dev/TPort.h"
+#include "parallel/threading/dev/TPort.h"
 
-#include "parallel/dev/TTask.h"
+#include "parallel/threading/dev/TTask.h"
 
-#include "parallel/dev/CSmartPtrDataHolderBase.h"
+#include "parallel/threading/dev/CSmartPtrDataHolderBase.h"
 
 #include "parallel/foam/utilities.h"
 

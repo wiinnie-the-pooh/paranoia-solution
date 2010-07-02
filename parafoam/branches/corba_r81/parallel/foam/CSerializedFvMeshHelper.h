@@ -26,9 +26,9 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/dev/CSerializedValueHelper.h"
+#include "parallel/threading/dev/CSerializedValueHelper.h"
 
-#include "parallel/dev/CSmartPtrValueHelper.h"
+#include "parallel/threading/dev/CSmartPtrValueHelper.h"
 
 #include "parallel/foam/utilities.h"
 

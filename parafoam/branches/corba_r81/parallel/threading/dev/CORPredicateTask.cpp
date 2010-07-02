@@ -21,7 +21,7 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/dev/CORPredicateTask.h"
+#include "parallel/threading/dev/CORPredicateTask.h"
 
 #include <iostream>
 

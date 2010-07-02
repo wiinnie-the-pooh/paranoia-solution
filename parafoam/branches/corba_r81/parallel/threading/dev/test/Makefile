@@ -21,11 +21,11 @@
 
 
 #--------------------------------------------------------------------------------------
-sexe = parallel_dev_test
+sexe = parallel_threading_dev_test
 
-parallel_dev_root_dir = ..
+parallel_threading_dev_root_dir = ..
 
-include $(parallel_dev_root_dir)/include.makefile
+include $(parallel_threading_dev_root_dir)/include.makefile
 
 
 #--------------------------------------------------------------------------------------

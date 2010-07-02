@@ -26,11 +26,11 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/dev/TTask.h"
+#include "parallel/threading/dev/TTask.h"
 
-#include "parallel/dev/CBoolPort.h"
+#include "parallel/threading/dev/CBoolPort.h"
 
-#include "parallel/dev/CPortHelper.h"
+#include "parallel/threading/dev/CPortHelper.h"
 
 #include "parallel/foam/CSerializedFvMesh.h"
 

@@ -26,7 +26,7 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/dev/CPortHelperEngine.h"
+#include "parallel/threading/dev/CPortHelperEngine.h"
 
 
 //---------------------------------------------------------------------------
