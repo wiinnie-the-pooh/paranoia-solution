@@ -24,14 +24,12 @@
 ifeq "@ENABLE_DIFFUSIONFOAMLIB@xx" "yesxx"
 #--------------------------------------------------------------------------------------
 
-sexe = parallel_foam_diffusion_test
+SUBDIRS := impl
 
-CPPFLAGS := @DIFFUSIONFOAMLIB_CPPFLAGS@ @DIFFUSIONFOAMLIB_CXXFLAGS@
-LDFLAGS := @DIFFUSIONFOAMLIB_LDFLAGS@
+include @abs_top_builddir@/recursive.makefile
 
-parallel_foam_threading_impl_root_dir := ..
-
-include $(parallel_foam_threading_impl_root_dir)/include.makefile
+all: all-recursive
+clean: clean-recursive
 
 #--------------------------------------------------------------------------------------
 else
@@ -41,7 +39,6 @@ $(warning To compile this package you need to install diffusionFoamLib)
 
 all:
 clean:
-
 
 #--------------------------------------------------------------------------------------
 endif

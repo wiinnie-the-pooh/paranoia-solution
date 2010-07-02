@@ -21,9 +21,9 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/foam/threading/impl/diffusion/TTemperatureSolverTask.h"
+#include "parallel/foam/threading/diffusion/impl/TTemperatureSolverTask.h"
 
-#include "parallel/foam/threading/impl/diffusion/TTemperatureSolver.h"
+#include "parallel/foam/threading/diffusion/impl/TTemperatureSolver.h"
 
 #include "parallel/foam/threading/impl/SFoamMutex.h"
 
