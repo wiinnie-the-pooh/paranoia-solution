@@ -26,7 +26,7 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/base/Interfaces.h"
+#include "parallel/threading/base/Interfaces.h"
 
 #include <boost/thread/thread.hpp>
 #include <boost/thread/mutex.hpp>

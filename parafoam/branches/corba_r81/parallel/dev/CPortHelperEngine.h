@@ -26,7 +26,7 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/base/Interfaces.h"
+#include "parallel/threading/base/Interfaces.h"
 
 #include "parallel/dev/TTask.h"
 

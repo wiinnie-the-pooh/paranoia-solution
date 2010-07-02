@@ -20,12 +20,23 @@
 ##
 
 
+#------------------------------------------------------------------------------
+parallel_threading_root_dir := $(parallel_threading_base_root_dir)/..
+
+
+#------------------------------------------------------------------------------
+CPPFLAGS := @LOKI_CPPFLAGS@ @LOKI_CXXFLAGS@ -I@abs_top_builddir@ $(CPPFLAGS)
+CPPFLAGS := $(CPPFLAGS) -g -D_DEBUG_ -Wno-deprecated -Wparentheses -Wreturn-type -Wunused
+
+LDFLAGS := @LOKI_LDFLAGS@ @LOKI_LIBS@ -L@abs_top_builddir@/lib $(LDFLAGS)
+
+ifneq "$(parallel_threading_base_root_dir)" "."
+  LDFLAGS := -lparallel_threading_base $(LDFLAGS)
+endif
+
+
 #--------------------------------------------------------------------------------------
-parallel_root_dir := ..
-
-SUBDIRS := threading dev foam toys corba
-
-include $(parallel_root_dir)/include.makefile
+include $(parallel_threading_root_dir)/include.makefile
 
 
 #--------------------------------------------------------------------------------------

@@ -31,9 +31,9 @@ endif
 
 
 #--------------------------------------------------------------------------------------
-parallel_base_root_dir := $(parallel_dev_root_dir)/../base
+parallel_threading_base_root_dir := $(parallel_dev_root_dir)/../threading/base
 
-include $(parallel_base_root_dir)/include.makefile
+include $(parallel_threading_base_root_dir)/include.makefile
 
 
 #--------------------------------------------------------------------------------------

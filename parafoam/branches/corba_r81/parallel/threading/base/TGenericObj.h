@@ -21,10 +21,10 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef TGenericObj_h
-#define TGenericObj_h
+#ifndef parallel_threading_TGenericObj_h
+#define parallel_threading_TGenericObj_h
 
-#include "loki/Threads.h"
+#include <loki/Threads.h>
 
 
 //---------------------------------------------------------------------------

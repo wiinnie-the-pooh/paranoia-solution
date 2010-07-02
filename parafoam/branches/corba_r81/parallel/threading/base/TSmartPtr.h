@@ -21,7 +21,14 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/base/TGenericObj.h"
+#ifndef TSmartPtr_h
+#define TSmartPtr_h
+
+
+//---------------------------------------------------------------------------
+#include "parallel/threading/base/TGenericObj.h"
+
+#include "parallel/SmartPointer.hh"
 
 
 //---------------------------------------------------------------------------
@@ -30,43 +37,57 @@ namespace parallel
   namespace base
   {
     //---------------------------------------------------------------------------
-    TGenericObj::TGenericObj()
+    template< class P >
+    struct DirectComparision
     {
-      Lock a_lock( *this );
-
-      m_ref_counter = 1;
-    }
-
-    //---------------------------------------------------------------------------
-    void TGenericObj::AddRef()
-    {
-      Lock a_lock( *this );
-
-      ++m_ref_counter;
-    }
-
-    //---------------------------------------------------------------------------
-    void TGenericObj::Release()
-    {
-      bool an_is_zero = false;
+      static bool Equal( const P& theLeft, const P& theRight )
       {
-        Lock a_lock( *this );
-
-        an_is_zero = ( --m_ref_counter == 0 );
+        return theLeft == theRight;
       }
-      
-      if ( an_is_zero )
-        delete this;
-    }
 
-    //---------------------------------------------------------------------------
-    unsigned long TGenericObj::GetRefCount()
+      static bool Less( const P& theLeft, const P& theRight )
+      {
+        return theLeft < theRight;
+      }
+
+      static bool IsTrue( const P& theArg )
+      {
+        return theArg != NULL;
+      }
+    };
+
+
+   //---------------------------------------------------------------------------
+    template
+    <
+      typename T,
+      template <class> class OwnershipPolicy = Loki::COMRefCounted,
+      class ConversionPolicy = Loki::DisallowConversion,
+      template <class> class CheckingPolicy = Loki::AssertCheck,
+      template <class> class StoragePolicy = Loki::DefaultSPStorage,
+      template<class> class ConstnessPolicy = LOKI_DEFAULT_CONSTNESS,
+      template <class> class ComparisionPolicy = DirectComparision
+    >
+    struct SmartPtrDef
     {
-      return m_ref_counter;
-    }
+      typedef ::parallel::SmartPointer
+      <
+        T,
+        OwnershipPolicy,
+        ConversionPolicy,
+        CheckingPolicy,
+        StoragePolicy,
+        ConstnessPolicy,
+        ComparisionPolicy
+      >
+      type;
+    };
+
 
     //---------------------------------------------------------------------------
   }
 }
 
+
 //---------------------------------------------------------------------------
+#endif

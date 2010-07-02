@@ -32,7 +32,7 @@ AC_ARG_ENABLE( [corba_single_process],
                AC_HELP_STRING( [--enable-corba-single-process ],
                                [ enable "corba-single-process" to provide all CORBA advantages ( disabled by default ) ]),
                [ corba_single_process=${enableval} ],
-               [ corba_single_process="no" ] )
+               [ corba_single_process="yes" ] )
 
 USE_CORBA_SINGLE_PROCESS=${corba_single_process}
 

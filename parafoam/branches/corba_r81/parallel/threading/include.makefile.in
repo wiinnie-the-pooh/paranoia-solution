@@ -20,23 +20,26 @@
 ##
 
 
-#------------------------------------------------------------------------------
-parallel_root_dir := $(parallel_base_root_dir)/../..
+#--------------------------------------------------------------------------------------
+$(libso): $(patsubst %.cpp, %.o, $(wildcard *.cpp))
+	gcc -shared $^ $(LDFLAGS) -o @abs_top_builddir@/lib/$@
 
+$(sexe): $(patsubst %.cpp, %.o, $(wildcard *.cpp))
+	gcc $(LDFLAGS) $^ -o @abs_top_builddir@/bin/$@
 
-#------------------------------------------------------------------------------
-CPPFLAGS := @LOKI_CPPFLAGS@ @LOKI_CXXFLAGS@ -I$(parallel_root_dir) $(CPPFLAGS)
-CPPFLAGS := $(CPPFLAGS) -g -D_DEBUG_ -Wno-deprecated -Wparentheses -Wreturn-type -Wunused
+%.o: %.cpp
+	gcc -x c++ $(CPPFLAGS) -fPIC -c -MMD $<
 
-LDFLAGS := @LOKI_LDFLAGS@ @LOKI_LIBS@ -L$(parallel_root_dir)/lib $(LDFLAGS)
-
-ifneq "$(parallel_base_root_dir)" "."
-  LDFLAGS := -lparallel_base $(LDFLAGS)
-endif
+-include $(wildcard *.d)
 
 
 #--------------------------------------------------------------------------------------
-include $(parallel_root_dir)/include.makefile
+include @abs_top_builddir@/recursive.makefile
+
+all: $(libso) $(sexe) all-recursive
+
+clean: clean-recursive
+	rm -f *.o *.d *~ 
 
 
 #--------------------------------------------------------------------------------------

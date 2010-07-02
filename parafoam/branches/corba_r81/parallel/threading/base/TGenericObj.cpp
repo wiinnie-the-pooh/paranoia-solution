@@ -21,14 +21,7 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef TSmartPtr_h
-#define TSmartPtr_h
-
-
-//---------------------------------------------------------------------------
-#include "parallel/base/TGenericObj.h"
-
-#include "parallel/SmartPointer.hh"
+#include "parallel/threading/base/TGenericObj.h"
 
 
 //---------------------------------------------------------------------------
@@ -37,57 +30,43 @@ namespace parallel
   namespace base
   {
     //---------------------------------------------------------------------------
-    template< class P >
-    struct DirectComparision
+    TGenericObj::TGenericObj()
     {
-      static bool Equal( const P& theLeft, const P& theRight )
-      {
-        return theLeft == theRight;
-      }
+      Lock a_lock( *this );
 
-      static bool Less( const P& theLeft, const P& theRight )
-      {
-        return theLeft < theRight;
-      }
+      m_ref_counter = 1;
+    }
 
-      static bool IsTrue( const P& theArg )
-      {
-        return theArg != NULL;
-      }
-    };
-
-
-   //---------------------------------------------------------------------------
-    template
-    <
-      typename T,
-      template <class> class OwnershipPolicy = Loki::COMRefCounted,
-      class ConversionPolicy = Loki::DisallowConversion,
-      template <class> class CheckingPolicy = Loki::AssertCheck,
-      template <class> class StoragePolicy = Loki::DefaultSPStorage,
-      template<class> class ConstnessPolicy = LOKI_DEFAULT_CONSTNESS,
-      template <class> class ComparisionPolicy = DirectComparision
-    >
-    struct SmartPtrDef
+    //---------------------------------------------------------------------------
+    void TGenericObj::AddRef()
     {
-      typedef ::parallel::SmartPointer
-      <
-        T,
-        OwnershipPolicy,
-        ConversionPolicy,
-        CheckingPolicy,
-        StoragePolicy,
-        ConstnessPolicy,
-        ComparisionPolicy
-      >
-      type;
-    };
+      Lock a_lock( *this );
 
+      ++m_ref_counter;
+    }
+
+    //---------------------------------------------------------------------------
+    void TGenericObj::Release()
+    {
+      bool an_is_zero = false;
+      {
+        Lock a_lock( *this );
+
+        an_is_zero = ( --m_ref_counter == 0 );
+      }
+      
+      if ( an_is_zero )
+        delete this;
+    }
+
+    //---------------------------------------------------------------------------
+    unsigned long TGenericObj::GetRefCount()
+    {
+      return m_ref_counter;
+    }
 
     //---------------------------------------------------------------------------
   }
 }
 
-
 //---------------------------------------------------------------------------
-#endif

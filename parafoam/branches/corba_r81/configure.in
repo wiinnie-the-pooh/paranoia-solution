@@ -62,22 +62,24 @@ echo
 
 
 echo "---------------------------- mandatory products --------------------------------"
-CONFFOAM_PRINT_SUMMURY( "loki_ok boost_serialization_ok boost_thread_ok" )
+CONFFOAM_PRINT_SUMMURY( "loki_ok boost_serialization_ok" )
 echo
 echo "---------------------------- optional products ---------------------------------"
-CONFFOAM_PRINT_SUMMURY( "openfoam_ok diffusionfoamlib_ok" )
+CONFFOAM_PRINT_SUMMURY( "boost_thread_ok omniORB_ok omniORBpy_ok openfoam_ok diffusionfoamlib_ok" )
 echo
 echo "------------------------------- features ---------------------------------------"
 CONFFOAM_PRINT_SUMMURY( "corba_single_process" )
 echo
 echo "--------------------------------------------------------------------------------"
-CONFFOAM_CHECK_MANDATORY( "loki_ok boost_serialization_ok boost_thread_ok" )
+CONFFOAM_CHECK_MANDATORY( "loki_ok boost_serialization_ok" )
 
 
 #--------------------------------------------------------------------------------------
 AC_OUTPUT( [ bashrc \
              include.makefile \
-             parallel/base/include.makefile \
+             parallel/threading/Makefile \
+             parallel/threading/include.makefile \
+             parallel/threading/base/include.makefile \
              parallel/dev/include.makefile \
              parallel/foam/Makefile \
              parallel/foam/diffusion/Makefile \

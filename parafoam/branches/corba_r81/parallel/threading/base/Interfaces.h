@@ -26,7 +26,7 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/base/TSmartPtr.h"
+#include "parallel/threading/base/TSmartPtr.h"
 
 #include <string>
 #include <map>

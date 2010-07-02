@@ -21,11 +21,11 @@
 
 
 #--------------------------------------------------------------------------------------
-libso = libparallel_base.so
+libso = libparallel_threading_base.so
 
-parallel_base_root_dir = .
+parallel_threading_base_root_dir = .
 
-include $(parallel_base_root_dir)/include.makefile
+include $(parallel_threading_base_root_dir)/include.makefile
 
 
 #--------------------------------------------------------------------------------------
