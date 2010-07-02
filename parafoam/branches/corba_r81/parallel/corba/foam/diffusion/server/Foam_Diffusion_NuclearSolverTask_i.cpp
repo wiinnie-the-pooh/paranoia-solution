@@ -56,6 +56,13 @@ namespace parallel
       
       
       //---------------------------------------------------------------------------
+      void NuclearSolverTask_i::init( const char* theCasePath, ::CORBA::Boolean theIsTransient )
+      {
+	TMSG( "NuclearSolverTask_i::init[ " << this << " ]\n" );
+      }
+      
+
+      //---------------------------------------------------------------------------
       void NuclearSolverTask_i::prepare()
       {
 	TMSG( "NuclearSolverTask_i::prepare[ " << this << " ]\n" );

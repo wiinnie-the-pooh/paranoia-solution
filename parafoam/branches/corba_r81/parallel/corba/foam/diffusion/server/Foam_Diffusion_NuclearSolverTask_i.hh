@@ -49,6 +49,8 @@ namespace parallel
       
 	~NuclearSolverTask_i();
       
+	virtual void init( const char* theCasePath, ::CORBA::Boolean theIsTransient );
+
 	virtual void prepare();
       
       protected:
