@@ -43,9 +43,9 @@
 //---------------------------------------------------------------------------
 #ifdef _DEBUG_
 #  include <sstream>
-#  define MSG( the_message ) { std::ostringstream a_stream; a_stream << the_message; TaskBase_i::print( this, a_stream.str() ); }
+#  define TMSG( the_message ) { std::ostringstream a_stream; a_stream << the_message; TaskBase_i::print( this, a_stream.str() ); }
 #else
-#  define MSG( the_message )
+#  define TMSG( the_message )
 #endif
 
 

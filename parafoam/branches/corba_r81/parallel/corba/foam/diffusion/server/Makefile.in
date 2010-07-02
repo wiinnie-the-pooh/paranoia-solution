@@ -26,11 +26,11 @@
 ##--------------------------------------------------------------------------------------
 exe_targets = $(patsubst %.cc, @abs_top_builddir@/bin/%, $(wildcard *.cc))
 
-lib_target = @abs_top_builddir@/lib/libparallel_corba_server_foam.so
+lib_target = @abs_top_builddir@/lib/libparallel_corba_foam_diffusion_server.so
 
-parallel_corba_server_foam_root_dir = .
+parallel_corba_foam_diffusion_server_root_dir = .
 
-include $(parallel_corba_server_foam_root_dir)/include.makefile
+include $(parallel_corba_foam_diffusion_server_root_dir)/include.makefile
 
 
 #--------------------------------------------------------------------------------------
