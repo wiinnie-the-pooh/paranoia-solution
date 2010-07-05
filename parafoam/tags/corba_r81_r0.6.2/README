@@ -1,0 +1,108 @@
+#--------------------------------------------------------------------------------------
+README
+#--------------------------------------------------------------------------------------
+
+VulaSHAKA (Simultaneous Neutronic, Fuel Performance, Heat And Kinetics Analysis)
+Copyright (C) 2009-2010 Pebble Bed Modular Reactor (Pty) Limited (PBMR)
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+See https://vulashaka.svn.sourceforge.net/svnroot/vulashaka
+
+
+#--------------------------------------------------------------------------------------
+Introduction
+#--------------------------------------------------------------------------------------
+
+"paraFoam" is a commmon purpose scheduler. The main intention for its
+implementation was to enable run coupled OpenFOAM solvers. But, as it
+appeared, the defintion of the corresponding OpenFOAM scheduler could be
+generelized very easily. So, this simplicity was kept from the
+beggining. By the way of its advancement, others brilliant scheduler features
+were discovered, namely.
+
+  - This scheduler defintion is API based. As consequence it brings the
+    following advantages:
+    
+    * Can be run without GUI or embedded into third-party application. Even
+      more, the possibility of reusing GUI front-end from another scheduler
+      (SALOME YACS) were demonstrated
+
+    * There is no need in the defintion of persitent feature; whatever scheme
+      designer wrote in his executable could be easily reused for many times.
+
+  - Scheduler makes no distinction between dataflow and workflow; the proposed
+    idoms allows easily introduce "workflow", when it is really necessary (by
+    defult dataflow implcitly defines workflow)
+
+  - Advanced architect design allowed to provided the following outstanding
+    scheduler features:
+
+    * Ports of the calculation nodes are typefied, corresponding check is
+      perfomred at the scheme composition time. So, user will not be able to
+      run incorrect scheme
+    
+    * "Default value" feature were introduced, which allows users to define
+      all the values for the non-linked input ports
+
+    * "Default port" feature were introduced, that means that scheme designers
+      need not to connect all existing node ports to make the calculation
+      correct. If port is not connected it continues to use its initial value
+      over the all calculation time
+
+    * Calculation nodes can represent a sub scheme. So, scheme designers could
+      scale the calculation node library to whatever level their like
+
+    * Due to this scheduler were written in terms of Object Oriented
+      Programming, to design a new calculation node, port or link, shceme
+      developers could use all the power of OOP.
+
+  - This scheduler from the beginning runs its calculation nodes in parallel
+    (in case of MatLab Simulink, for example, it is necessary to buy additional
+    packages).
+
+  - "paraFoam" could support different ways of parallel scheme execution; it
+    could be thread based, as well as CORBA. The most important thing about
+    this that calculation node implementation is abstracted from the
+    parallelling technology actual used.
+
+  - Becouse of "paraFoam" core is written on a pure C++ it will be very easy
+    to provide corresponding front-end for whatever modern language user need
+    (Fortran, Python, Java e.t.c). 
+
+  - Due to "paraFoam" core functionality uses for its implementation only
+    Boost library (a cross platform set of C++ packages, for more details see
+    http://www.boost.org) it stays very portable (can be compiled and used
+    under Linux, Windows and others)
+
+
+#--------------------------------------------------------------------------------------
+Installation
+#--------------------------------------------------------------------------------------
+
+See the INSTALL file for more information about building of "paraFoam" package.
+
+
+#--------------------------------------------------------------------------------------
+Usage
+#--------------------------------------------------------------------------------------
+
+Before start to use "paraFoam" it is necessary to source the generated "bashrc" file
+
+"paraFoam" is just a framework for running user defined tasks in parallel. So,
+to use it, user need first to express his needs in terms of this framework,
+then compile (if he uses bare C++ defintion), run and see the resuts.
+
+
+#--------------------------------------------------------------------------------------
