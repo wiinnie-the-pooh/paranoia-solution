@@ -21,21 +21,47 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef __PARALELL_TASKFACTORY_BASE_IDL__
-#define __PARALELL_TASKFACTORY_BASE_IDL__
+#ifndef corba_server_Foam_DimensionedScalarPort_i_hh
+#define corba_server_Foam_DimensionedScalarPort_i_hh
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/idl/TaskBase.idl"
+#include "parallel/foam/corba/idl/Foam_DimensionedScalarPort.hh"
+
+#include "parallel/corba/server/SerializedPort_i.hh"
+
+#include "parallel/foam/corba/server/Foam_DimensionedScalarValueHelper.hh"
 
 
 //---------------------------------------------------------------------------
-module parallel
+namespace parallel 
 {
-  interface TaskFactoryBase
-  {};
-};
+  //---------------------------------------------------------------------------
+  namespace foam
+  {
+    //---------------------------------------------------------------------------
+    struct DimensionedScalarPort_i : virtual POA_parallel::foam::DimensionedScalarPort, 
+                                     virtual SerializedPort_i
+    {
+      DimensionedScalarPort_i( const std::string& theName,
+                               const CORBA::ORB_var& theORB, 
+                               const PortableServer::POA_var& thePOA );
+      
+      ~DimensionedScalarPort_i();
+      
+      CORBA::Boolean is_compatible( PortBase_ptr theArg );
+      
+      typedef SSerializedValueHelper< Foam::dimensionedScalar > TValueHelper;
+    };
+
+
+    //---------------------------------------------------------------------------
+  }
+
+
+  //---------------------------------------------------------------------------
+}
 
 
 //---------------------------------------------------------------------------
-#endif  // __PARALELL_TASKFACTORY_BASE_IDL__
+#endif

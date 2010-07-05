@@ -21,21 +21,23 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef __PARALELL_TASKFACTORY_BASE_IDL__
-#define __PARALELL_TASKFACTORY_BASE_IDL__
+#ifndef __PARALELL_FOAM_DIMENSIONED_SCALAR_PORT_IDL__
+#define __PARALELL_FOAM_DIMENSIONED_SCALAR_PORT_IDL__
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/idl/TaskBase.idl"
+#include "parallel/corba/idl/SerializedPort.idl"
 
 
 //---------------------------------------------------------------------------
 module parallel
 {
-  interface TaskFactoryBase
-  {};
+  module foam
+  {
+    interface DimensionedScalarPort : SerializedPort {};
+  };
 };
 
 
 //---------------------------------------------------------------------------
-#endif  // __PARALELL_TASKFACTORY_BASE_IDL__
+#endif  // __PARALELL_FOAM_DIMENSIONED_SCALAR_PORT_IDL__

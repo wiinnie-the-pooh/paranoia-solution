@@ -1,3 +1,6 @@
+#  Copyright (C) 2007-2008  CEA/DEN, EDF R&D, OPEN CASCADE
+#
+#  Copyright (C) 2003-2007  OPEN CASCADE, EADS/CCR, LIP6, CEA/DEN,
 ## VulaSHAKA (Simultaneous Neutronic, Fuel Performance, Heat And Kinetics Analysis)
 ## Copyright (C) 2009-2010 Pebble Bed Modular Reactor (Pty) Limited (PBMR)
 ## 
@@ -21,27 +24,20 @@
 
 
 #--------------------------------------------------------------------------------------
-ifeq "@ENABLE_OMNIORB@xx" "yesxx"
-#--------------------------------------------------------------------------------------
+idl_target = @abs_top_builddir@/lib/libparallel_foam_diffusion_corba_idl.so
 
-SUBDIRS := idl common server
+all: $(idl_target)
 
-parallel_root_dir := ../..
+clean: clean-idl
 
-include $(parallel_root_dir)/recursive.makefile
+IDL_FILES = \
+	Foam_Diffusion_NuclearSolverTaskFactory.idl
 
-all: all-recursive
-clean: clean-recursive
 
 #--------------------------------------------------------------------------------------
-else
-#--------------------------------------------------------------------------------------
+parallel_foam_diffusion_corba_idl_root_dir = .
 
-$(warning To compile this package you need to install omniORB)
+include $(parallel_foam_diffusion_corba_idl_root_dir)/include.makefile
 
-all:
-clean:
 
-#--------------------------------------------------------------------------------------
-endif
 #--------------------------------------------------------------------------------------

@@ -62,21 +62,22 @@ echo
 
 
 echo "---------------------------- mandatory products --------------------------------"
-CONFFOAM_PRINT_SUMMURY( "loki_ok boost_serialization_ok" )
+CONFFOAM_PRINT_SUMMURY( "loki_ok boost_serialization_ok boost_thread_ok" )
 echo
 echo "---------------------------- optional products ---------------------------------"
-CONFFOAM_PRINT_SUMMURY( "boost_thread_ok omniORB_ok omniORBpy_ok openfoam_ok diffusionfoamlib_ok" )
+CONFFOAM_PRINT_SUMMURY( "omniORB_ok omniORBpy_ok openfoam_ok diffusionfoamlib_ok" )
 echo
 echo "------------------------------- features ---------------------------------------"
 CONFFOAM_PRINT_SUMMURY( "corba_single_process" )
 echo
 echo "--------------------------------------------------------------------------------"
-CONFFOAM_CHECK_MANDATORY( "loki_ok boost_serialization_ok" )
+CONFFOAM_CHECK_MANDATORY( "loki_ok boost_thread_ok boost_serialization_ok" )
 
 
 #--------------------------------------------------------------------------------------
 AC_OUTPUT( [ bashrc \
              include.makefile \
+             parallel/Makefile \
              parallel/threading/Makefile \
              parallel/threading/include.makefile \
              parallel/threading/base/include.makefile \
@@ -85,14 +86,38 @@ AC_OUTPUT( [ bashrc \
              parallel/test/Makefile \
              parallel/test/threading/Makefile \
 	     \
+             parallel/test/corba/Makefile \
+             parallel/test/corba/idl/include.makefile \
+             parallel/test/corba/idl/Makefile \
+             parallel/test/corba/client/include.makefile \
+             parallel/test/corba/client/Makefile \
+             parallel/test/corba/server/include.makefile \
+             parallel/test/corba/server/Makefile \
+	     \
              parallel/foam/Makefile \
              parallel/foam/common/Makefile \
              parallel/foam/threading/Makefile \
              parallel/foam/threading/impl/Makefile \
 	     \
+             parallel/foam/corba/Makefile \
+             parallel/foam/corba/idl/include.makefile \
+             parallel/foam/corba/idl/Makefile \
+             parallel/foam/corba/server/include.makefile \
+             parallel/foam/corba/server/Makefile \
+             parallel/foam/corba/client/include.makefile \
+             parallel/foam/corba/client/Makefile \
+	     \
              parallel/foam/diffusion/Makefile \
              parallel/foam/diffusion/threading/Makefile \
              parallel/foam/diffusion/threading/impl/Makefile \
+	     \
+             parallel/foam/diffusion/corba/Makefile \
+             parallel/foam/diffusion/corba/idl/include.makefile \
+             parallel/foam/diffusion/corba/idl/Makefile \
+             parallel/foam/diffusion/corba/server/include.makefile \
+             parallel/foam/diffusion/corba/server/Makefile \
+             parallel/foam/diffusion/corba/client/include.makefile \
+             parallel/foam/diffusion/corba/client/Makefile \
 	     \
              parallel/corba/Makefile \
              parallel/corba/include.makefile \
@@ -101,31 +126,7 @@ AC_OUTPUT( [ bashrc \
              parallel/corba/common/include.makefile \
              parallel/corba/common/Makefile \
              parallel/corba/server/include.makefile \
-             parallel/corba/server/Makefile \
-	     \
-             parallel/corba/foam/Makefile \
-             parallel/corba/foam/idl/include.makefile \
-             parallel/corba/foam/idl/Makefile \
-             parallel/corba/foam/server/include.makefile \
-             parallel/corba/foam/server/Makefile \
-             parallel/corba/foam/client/include.makefile \
-             parallel/corba/foam/client/Makefile \
-	     \
-             parallel/corba/foam/diffusion/Makefile \
-             parallel/corba/foam/diffusion/idl/include.makefile \
-             parallel/corba/foam/diffusion/idl/Makefile \
-             parallel/corba/foam/diffusion/server/include.makefile \
-             parallel/corba/foam/diffusion/server/Makefile \
-             parallel/corba/foam/diffusion/client/include.makefile \
-             parallel/corba/foam/diffusion/client/Makefile \
-	     \
-             parallel/corba/test/Makefile \
-             parallel/corba/test/idl/include.makefile \
-             parallel/corba/test/idl/Makefile \
-             parallel/corba/test/client/include.makefile \
-             parallel/corba/test/client/Makefile \
-             parallel/corba/test/server/include.makefile \
-             parallel/corba/test/server/Makefile ] )
+             parallel/corba/server/Makefile ] )
 
 
 echo "------------------------------------ OK -----------------------------------------"

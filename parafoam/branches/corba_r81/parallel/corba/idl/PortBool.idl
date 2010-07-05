@@ -26,9 +26,9 @@
 
 
 //---------------------------------------------------------------------------
-#include "PortBase.idl"
+#include "parallel/corba/idl/PortBase.idl"
 
-#include "DataHolderBase.idl"
+#include "parallel/corba/idl/DataHolderBase.idl"
 
 
 //---------------------------------------------------------------------------

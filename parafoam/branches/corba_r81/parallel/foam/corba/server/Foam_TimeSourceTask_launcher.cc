@@ -21,21 +21,19 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef __PARALELL_TASKFACTORY_BASE_IDL__
-#define __PARALELL_TASKFACTORY_BASE_IDL__
+#include "parallel/foam/corba/server/Foam_TimeSourceTask_i.hh"
+
+#include "parallel/corba/common/TaskLauncher.hh"
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/idl/TaskBase.idl"
-
-
-//---------------------------------------------------------------------------
-module parallel
+int main( int argc, char** argv )
 {
-  interface TaskFactoryBase
-  {};
-};
+  using namespace parallel;
+  using namespace parallel::foam;
+
+  return run< TimeSourceTask_i, TimeSourceTask, TimeSourceTaskFactory >( argc, argv, "TaskFactory", "Foam_TimeSource" );
+}
 
 
 //---------------------------------------------------------------------------
-#endif  // __PARALELL_TASKFACTORY_BASE_IDL__

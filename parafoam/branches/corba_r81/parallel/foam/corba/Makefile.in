@@ -21,52 +21,31 @@
 
 
 #--------------------------------------------------------------------------------------
-ifeq "$(parallel_corba_idl_include_makefile)xx" "xx"
-parallel_corba_idl_include_makefile = "included"
+ifeq "@ENABLE_OPENFOAM@xx" "yesxx"
 #--------------------------------------------------------------------------------------
 
-
-#--------------------------------------------------------------------------------------
-parallel_corba_root_dir := $(parallel_corba_idl_root_dir)/..
-
-include $(parallel_corba_root_dir)/include.makefile
-
-
-#------------------------------------------------------------------------------
-IDLFLAGS += -I@abs_top_builddir@
-
-ifneq "$(parallel_corba_idl_root_dir)" "."
-  LDFLAGS += -L@abs_top_builddir@/lib -lparallel_idl
+ifneq "@USE_CORBA_SINGLE_PROCESS@xx" "yesxx"
+  SUBDIRS := idl client server
+else
+  SUBDIRS := idl server client
 endif
 
+SUBDIRS += diffusion
+
+include @abs_top_builddir@/recursive.makefile
+
+all: all-recursive
+
+clean: clean-recursive
 
 #--------------------------------------------------------------------------------------
-.PRECIOUS: %SK.cc
+else
+#--------------------------------------------------------------------------------------
 
-$(idl_target): $(patsubst %.idl, %SK.o, $(IDL_FILES))
-	gcc -shared $^ $(LDFLAGS) -o $@
+$(warning To compile this package you need to install OpenFOAM)
 
-%SK.cc: %.idl
-	@IDL@ -bcxx -Wbtp -Wbkeep_inc_path @OMNIORB_IDLCXXFLAGS@ $(IDLFLAGS) $<
-
-%SK.o: %SK.cc
-	gcc -x c++  $(CPPFLAGS) $(CXXFLAGS) -c $<
-
-.depidl: $(IDL_FILES)
-	@echo "" > $@
-	@for dep in $^ dummy; do \
-	  if [ $${dep} != "dummy" ]; then \
-	    echo Building dependencies for $${dep}; \
-	    gcc  -MMD -x c $${dep} 2>/dev/null | \
-	    sed 's/\.o/\SK.cc/' >>$@; \
-	  fi; \
-	done ;
-
--include .depidl
-
-clean-idl:
-	rm -f  *.o *.d *.hh *.cc .depidl *~ $(idl_target)
-
+all:
+clean:
 
 #--------------------------------------------------------------------------------------
 endif
