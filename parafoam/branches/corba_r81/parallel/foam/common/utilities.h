@@ -21,8 +21,14 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef foam_SFoamMutex_h
-#define foam_SFoamMutex_h
+#ifndef foam_common_utilities_h
+#define foam_common__utilities_h
+
+
+//---------------------------------------------------------------------------
+#include <fvCFD.H>
+
+#include <loki/SmartPtr.h>
 
 
 //---------------------------------------------------------------------------
@@ -31,11 +37,21 @@ namespace parallel
   namespace foam
   {
     //-----------------------------------------------------------------------
-    struct SFoamMutex
-    {
-      SFoamMutex();
-      ~SFoamMutex();
-    };
+    using namespace Foam;
+
+
+    //-----------------------------------------------------------------------
+    typedef Loki::SmartPtrDef< Time >::type TimePtr;
+    TimePtr createTime( const fileName& rootPath, const fileName& caseName );
+
+
+    //-----------------------------------------------------------------------
+    typedef Loki::SmartPtrDef< fvMesh >::type fvMeshPtr;
+    fvMeshPtr createMesh( const Time& runTime );
+
+
+    //-----------------------------------------------------------------------
+    tmp< volScalarField > clone( const volScalarField& theValue );
 
 
     //-----------------------------------------------------------------------

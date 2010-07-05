@@ -23,7 +23,7 @@
 //---------------------------------------------------------------------------
 #include "parallel/foam/threading/impl/CTimeSourceTask.h"
 
-#include "parallel/foam/threading/impl/SFoamMutex.h"
+#include "parallel/foam/common/SFoamMutex.h"
 
 
 //---------------------------------------------------------------------------

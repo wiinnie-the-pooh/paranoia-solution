@@ -28,8 +28,6 @@ libso = libparallel_foam_threading_impl.so
 
 parallel_foam_threading_impl_root_dir := .
 
-SUBDIRS := test diffusion
-
 include $(parallel_foam_threading_impl_root_dir)/include.makefile
 
 #--------------------------------------------------------------------------------------
@@ -40,7 +38,6 @@ $(warning To compile this package you need to install OpenFOAM)
 
 all:
 clean:
-
 
 #--------------------------------------------------------------------------------------
 endif

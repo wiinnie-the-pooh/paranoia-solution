@@ -30,9 +30,9 @@
 
 #include "parallel/threading/dev/CSmartPtrValueHelper.h"
 
-#include "parallel/foam/threading/impl/utilities.h"
+#include "parallel/foam/common/utilities.h"
 
-#include "parallel/foam/threading/impl/SFoamMutex.h"
+#include "parallel/foam/common/SFoamMutex.h"
 
 
 //---------------------------------------------------------------------------

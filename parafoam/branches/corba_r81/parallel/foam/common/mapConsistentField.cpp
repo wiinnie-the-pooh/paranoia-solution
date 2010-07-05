@@ -21,9 +21,9 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/foam/threading/impl/mapConsistentField.h"
+#include "parallel/foam/common/mapConsistentField.h"
 
-#include "parallel/foam/threading/impl/SFoamMutex.h"
+#include "parallel/foam/common/SFoamMutex.h"
 
 #include <meshToMesh.H>
 

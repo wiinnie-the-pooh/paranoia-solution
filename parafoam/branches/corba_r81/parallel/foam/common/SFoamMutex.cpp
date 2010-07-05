@@ -21,9 +21,11 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/foam/threading/impl/utilities.h"
+#include "parallel/foam/common/SFoamMutex.h"
 
-#include "parallel/foam/threading/impl/SFoamMutex.h"
+#include "parallel/threading/dev/boost_threading.h"
+
+#include <boost/thread/recursive_mutex.hpp>
 
 
 //---------------------------------------------------------------------------
@@ -32,36 +34,20 @@ namespace parallel
   namespace foam
   {
     //-----------------------------------------------------------------------
-    TimePtr createTime( const fileName& rootPath, const fileName& caseName )
-    {
-      SFoamMutex aMutex;
-
-      return new Time( Time::controlDictName,
-                       rootPath,
-                       caseName );
-    }
+    static boost::recursive_mutex FOAM_MUTEX;
 
 
     //-----------------------------------------------------------------------
-    fvMeshPtr createMesh( const Time& runTime )
+    SFoamMutex::SFoamMutex()
     {
-      SFoamMutex aMutex;
-
-      return new fvMesh( IOobject( fvMesh::defaultRegion,
-                                   fileName( runTime.timeName() ),
-                                   runTime,
-                                   IOobject::MUST_READ ) );
+      parallel::threading::lock( FOAM_MUTEX );
     }
-    
 
-    //-----------------------------------------------------------------------
-    tmp< volScalarField > clone( const volScalarField& theValue )
+    SFoamMutex::~SFoamMutex()
     {
-      SFoamMutex aMutex;
-
-      return tmp< volScalarField >( new volScalarField( theValue ) );
+      parallel::threading::unlock( FOAM_MUTEX );
     }
-    
+
 
     //-----------------------------------------------------------------------
   }

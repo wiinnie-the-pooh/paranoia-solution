@@ -32,7 +32,7 @@
 
 #include "parallel/threading/dev/CSmartPtrDataHolderBase.h"
 
-#include "parallel/foam/threading/impl/utilities.h"
+#include "parallel/foam/common/utilities.h"
 
 #include <fvMesh.H>
 

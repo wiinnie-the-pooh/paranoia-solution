@@ -48,7 +48,7 @@ $(idl_target): $(patsubst %.idl, %SK.o, $(IDL_FILES))
 	gcc -shared $^ $(LDFLAGS) -o $@
 
 %SK.cc: %.idl
-	@IDL@ -bcxx -Wbtp @OMNIORB_IDLCXXFLAGS@ $(IDLFLAGS) $<
+	@IDL@ -bcxx -Wbtp -Wbkeep_inc_path @OMNIORB_IDLCXXFLAGS@ $(IDLFLAGS) $<
 
 %SK.o: %SK.cc
 	gcc -x c++  $(CPPFLAGS) $(CXXFLAGS) -c $<

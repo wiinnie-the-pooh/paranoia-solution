@@ -21,14 +21,12 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef foam_utilities_h
-#define foam_utilities_h
+#ifndef foam_common_mapConsistentField_h
+#define foam_common_mapConsistentField_h
 
 
 //---------------------------------------------------------------------------
 #include <fvCFD.H>
-
-#include <loki/SmartPtr.h>
 
 
 //---------------------------------------------------------------------------
@@ -41,19 +39,29 @@ namespace parallel
 
 
     //-----------------------------------------------------------------------
-    typedef Loki::SmartPtrDef< Time >::type TimePtr;
-    TimePtr createTime( const fileName& rootPath, const fileName& caseName );
+    tmp< volScalarField >
+    mapConsistentField( const volScalarField& theSourceField,
+                        const fvMesh& meshTarget, 
+                        const HashTable< word >& patchMap = HashTable< word >(),
+                        const wordList& cuttingPatches = wordList() );
 
 
     //-----------------------------------------------------------------------
-    typedef Loki::SmartPtrDef< fvMesh >::type fvMeshPtr;
-    fvMeshPtr createMesh( const Time& runTime );
+    tmp< volVectorField >
+    mapConsistentField( const volVectorField& theSourceField,
+                        const fvMesh& meshTarget, 
+                        const HashTable< word >& patchMap = HashTable< word >(),
+                        const wordList& cuttingPatches = wordList() );
 
 
     //-----------------------------------------------------------------------
-    tmp< volScalarField > clone( const volScalarField& theValue );
-
-
+    tmp< volTensorField >
+    mapConsistentField( const volTensorField& theSourceField,
+                        const fvMesh& meshTarget, 
+                        const HashTable< word >& patchMap = HashTable< word >(),
+                        const wordList& cuttingPatches = wordList() );
+    
+    
     //-----------------------------------------------------------------------
  }
 }

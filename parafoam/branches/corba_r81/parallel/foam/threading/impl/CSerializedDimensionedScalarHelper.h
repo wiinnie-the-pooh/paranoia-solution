@@ -28,7 +28,7 @@
 //---------------------------------------------------------------------------
 #include "parallel/threading/dev/CSerializedValueHelper.h"
 
-#include "parallel/foam/threading/impl/SFoamMutex.h"
+#include "parallel/foam/common/SFoamMutex.h"
 
 #include <dimensionedScalar.H>
 

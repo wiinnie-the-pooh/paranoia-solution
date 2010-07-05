@@ -86,6 +86,7 @@ AC_OUTPUT( [ bashrc \
              parallel/test/threading/Makefile \
 	     \
              parallel/foam/Makefile \
+             parallel/foam/common/Makefile \
              parallel/foam/threading/Makefile \
              parallel/foam/threading/impl/Makefile \
 	     \

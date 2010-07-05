@@ -23,7 +23,7 @@
 //---------------------------------------------------------------------------
 #include "parallel/foam/threading/impl/CVolFieldMapperTask.h"
 
-#include "parallel/foam/threading/impl/mapConsistentField.h"
+#include "parallel/foam/common/mapConsistentField.h"
 
 
 //---------------------------------------------------------------------------

@@ -21,51 +21,51 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef foam_mapConsistentField_h
-#define foam_mapConsistentField_h
+#include "parallel/foam/common/utilities.h"
+
+#include "parallel/foam/common/SFoamMutex.h"
 
 
 //---------------------------------------------------------------------------
-#include <fvCFD.H>
-
-
-//---------------------------------------------------------------------------
-namespace parallel
+namespace parallel 
 {
   namespace foam
   {
     //-----------------------------------------------------------------------
-    using namespace Foam;
+    TimePtr createTime( const fileName& rootPath, const fileName& caseName )
+    {
+      SFoamMutex aMutex;
+
+      return new Time( Time::controlDictName,
+                       rootPath,
+                       caseName );
+    }
 
 
     //-----------------------------------------------------------------------
-    tmp< volScalarField >
-    mapConsistentField( const volScalarField& theSourceField,
-                        const fvMesh& meshTarget, 
-                        const HashTable< word >& patchMap = HashTable< word >(),
-                        const wordList& cuttingPatches = wordList() );
+    fvMeshPtr createMesh( const Time& runTime )
+    {
+      SFoamMutex aMutex;
 
-
-    //-----------------------------------------------------------------------
-    tmp< volVectorField >
-    mapConsistentField( const volVectorField& theSourceField,
-                        const fvMesh& meshTarget, 
-                        const HashTable< word >& patchMap = HashTable< word >(),
-                        const wordList& cuttingPatches = wordList() );
-
-
-    //-----------------------------------------------------------------------
-    tmp< volTensorField >
-    mapConsistentField( const volTensorField& theSourceField,
-                        const fvMesh& meshTarget, 
-                        const HashTable< word >& patchMap = HashTable< word >(),
-                        const wordList& cuttingPatches = wordList() );
+      return new fvMesh( IOobject( fvMesh::defaultRegion,
+                                   fileName( runTime.timeName() ),
+                                   runTime,
+                                   IOobject::MUST_READ ) );
+    }
     
-    
+
     //-----------------------------------------------------------------------
- }
+    tmp< volScalarField > clone( const volScalarField& theValue )
+    {
+      SFoamMutex aMutex;
+
+      return tmp< volScalarField >( new volScalarField( theValue ) );
+    }
+    
+
+    //-----------------------------------------------------------------------
+  }
 }
 
 
 //---------------------------------------------------------------------------
-#endif

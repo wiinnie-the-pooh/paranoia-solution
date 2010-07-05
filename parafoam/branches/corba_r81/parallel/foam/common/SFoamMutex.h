@@ -21,37 +21,27 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/foam/threading/impl/SFoamMutex.h"
-
-#include "parallel/threading/dev/boost_threading.h"
-
-#include <boost/thread/recursive_mutex.hpp>
+#ifndef foam_common_SFoamMutex_h
+#define foam_common_SFoamMutex_h
 
 
 //---------------------------------------------------------------------------
-namespace parallel 
+namespace parallel
 {
   namespace foam
   {
     //-----------------------------------------------------------------------
-    static boost::recursive_mutex FOAM_MUTEX;
+    struct SFoamMutex
+    {
+      SFoamMutex();
+      ~SFoamMutex();
+    };
 
 
     //-----------------------------------------------------------------------
-    SFoamMutex::SFoamMutex()
-    {
-      parallel::threading::lock( FOAM_MUTEX );
-    }
-
-    SFoamMutex::~SFoamMutex()
-    {
-      parallel::threading::unlock( FOAM_MUTEX );
-    }
-
-
-    //-----------------------------------------------------------------------
-  }
+ }
 }
 
 
 //---------------------------------------------------------------------------
+#endif

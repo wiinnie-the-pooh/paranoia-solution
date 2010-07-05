@@ -24,12 +24,11 @@
 ifeq "@ENABLE_OPENFOAM@xx" "yesxx"
 #--------------------------------------------------------------------------------------
 
-SUBDIRS := common threading corba diffusion
+libso = libparallel_foam_common.so
 
-include @abs_top_builddir@/recursive.makefile
+parallel_foam_common_root_dir := .
 
-all: all-recursive
-clean: clean-recursive
+include $(parallel_foam_common_root_dir)/include.makefile
 
 #--------------------------------------------------------------------------------------
 else
@@ -39,6 +38,7 @@ $(warning To compile this package you need to install OpenFOAM)
 
 all:
 clean:
+
 
 #--------------------------------------------------------------------------------------
 endif
