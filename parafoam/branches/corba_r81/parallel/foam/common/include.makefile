@@ -51,15 +51,15 @@ PROJECT_LIBS       = -l$(WM_PROJECT)
 
 
 #------------------------------------------------------------------------------
-CPPFLAGS := $(CPPFLAGS) $(c++FLAGS) $(PROJECT_INC) \
+CPPFLAGS += $(c++FLAGS) $(PROJECT_INC) \
         -I$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude \
         -I$(WM_PROJECT_DIR)/src/sampling/lnInclude
 
-LDFLAGS := $(LDFLAGS) -L$(LIB_WM_OPTIONS_DIR) $(PROJECT_LIBS) -ldl \
+LDFLAGS += -L$(LIB_WM_OPTIONS_DIR) $(PROJECT_LIBS) -ldl \
         -L$(WM_PROJECT_DIR)/lib/$(WM_OPTIONS) -lfiniteVolume -lsampling
 
 ifneq "$(parallel_foam_common_root_dir)" "."
-  LDFLAGS := -lparallel_foam_common $(LDFLAGS)
+  LDFLAGS += -lparallel_foam_common
 endif
 
 
