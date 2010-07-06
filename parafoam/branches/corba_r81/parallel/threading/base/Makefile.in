@@ -21,7 +21,7 @@
 
 
 #--------------------------------------------------------------------------------------
-libso = libparallel_threading_base.so
+libso = @abs_top_builddir@/lib/libparallel_threading_base.so
 
 parallel_threading_base_root_dir = .
 

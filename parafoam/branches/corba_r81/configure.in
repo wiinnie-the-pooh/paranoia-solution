@@ -81,7 +81,10 @@ AC_OUTPUT( [ bashrc \
              parallel/threading/Makefile \
              parallel/threading/include.makefile \
              parallel/threading/base/include.makefile \
+             parallel/threading/base/Makefile \
              parallel/threading/dev/include.makefile \
+             parallel/threading/dev/Makefile \
+             parallel/threading/test/Makefile \
 	     \
              parallel/test/Makefile \
              parallel/test/threading/Makefile \
@@ -109,6 +112,7 @@ AC_OUTPUT( [ bashrc \
 	     \
              parallel/foam/diffusion/Makefile \
              parallel/foam/diffusion/threading/Makefile \
+             parallel/foam/diffusion/threading/impl/include.makefile \
              parallel/foam/diffusion/threading/impl/Makefile \
 	     \
              parallel/foam/diffusion/corba/Makefile \

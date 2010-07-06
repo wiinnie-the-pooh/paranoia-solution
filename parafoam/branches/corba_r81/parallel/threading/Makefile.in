@@ -24,7 +24,7 @@
 ifeq "@ENABLE_BOOST_THREAD@xx" "yesxx"
 #--------------------------------------------------------------------------------------
 
-SUBDIRS := base dev
+SUBDIRS := base dev test
 
 include @abs_top_builddir@/recursive.makefile
 

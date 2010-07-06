@@ -21,17 +21,17 @@
 
 
 #------------------------------------------------------------------------------
-CPPFLAGS := @BOOST_CPPFLAGS@ @BOOST_CXXFLAGS@ $(CPPFLAGS)
+CPPFLAGS += @BOOST_CPPFLAGS@ @BOOST_CXXFLAGS@
 
-LDFLAGS := @BOOST_LDFLAGS@ @BOOST_SERIALIZATION_LIBS@ @BOOST_THREAD_LIBS@ $(LDFLAGS)
+LDFLAGS += @BOOST_LDFLAGS@ @BOOST_SERIALIZATION_LIBS@ @BOOST_THREAD_LIBS@
 
 ifneq "$(parallel_threading_dev_root_dir)" "."
-  LDFLAGS := -lparallel_threading_dev $(LDFLAGS)
+  LDFLAGS += -lparallel_threading_dev
 endif
 
 
 #--------------------------------------------------------------------------------------
-parallel_threading_base_root_dir := $(parallel_threading_dev_root_dir)/../base
+parallel_threading_base_root_dir := @abs_top_builddir@/parallel/threading/base
 
 include $(parallel_threading_base_root_dir)/include.makefile
 

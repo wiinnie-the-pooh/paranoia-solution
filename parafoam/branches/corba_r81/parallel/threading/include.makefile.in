@@ -22,10 +22,10 @@
 
 #--------------------------------------------------------------------------------------
 $(libso): $(patsubst %.cpp, %.o, $(wildcard *.cpp))
-	gcc -shared $^ $(LDFLAGS) -o @abs_top_builddir@/lib/$@
+	gcc -shared $^ $(LDFLAGS) -o $@
 
 $(sexe): $(patsubst %.cpp, %.o, $(wildcard *.cpp))
-	gcc $(LDFLAGS) $^ -o @abs_top_builddir@/bin/$@
+	gcc $(LDFLAGS) $^ -o $@
 
 %.o: %.cpp
 	gcc -x c++ $(CPPFLAGS) -fPIC -c -MMD $<

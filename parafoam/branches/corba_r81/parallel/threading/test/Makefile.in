@@ -21,11 +21,9 @@
 
 
 #--------------------------------------------------------------------------------------
-libso = libparallel_threading_dev.so
+sexe = @abs_top_builddir@/bin/parallel_threading_test
 
-parallel_threading_dev_root_dir = .
-
-SUBDIRS := test
+parallel_threading_dev_root_dir =  @abs_top_builddir@/parallel/threading/dev
 
 include $(parallel_threading_dev_root_dir)/include.makefile
 

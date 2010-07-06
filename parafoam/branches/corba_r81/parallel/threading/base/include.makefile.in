@@ -34,7 +34,7 @@ endif
 
 
 #--------------------------------------------------------------------------------------
-parallel_threading_root_dir := $(parallel_threading_base_root_dir)/..
+parallel_threading_root_dir := @abs_top_builddir@/parallel/threading
 
 include $(parallel_threading_root_dir)/include.makefile
 
