@@ -64,7 +64,7 @@ endif
 
 
 #--------------------------------------------------------------------------------------
-parallel_threading_dev_root_dir := $(parallel_foam_common_root_dir)/../../threading/dev
+parallel_threading_dev_root_dir := @abs_top_builddir@/parallel/threading/dev
 
 include $(parallel_threading_dev_root_dir)/include.makefile
 

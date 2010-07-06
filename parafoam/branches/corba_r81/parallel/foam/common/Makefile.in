@@ -24,7 +24,7 @@
 ifeq "@ENABLE_OPENFOAM@xx" "yesxx"
 #--------------------------------------------------------------------------------------
 
-libso = libparallel_foam_common.so
+libso = @abs_top_builddir@/lib/libparallel_foam_common.so
 
 parallel_foam_common_root_dir := .
 
