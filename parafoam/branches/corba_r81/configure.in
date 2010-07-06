@@ -117,6 +117,7 @@ AC_OUTPUT( [ bashrc \
              parallel/foam/diffusion/threading/Makefile \
              parallel/foam/diffusion/threading/impl/include.makefile \
              parallel/foam/diffusion/threading/impl/Makefile \
+             parallel/foam/diffusion/threading/test/Makefile \
 	     \
              parallel/foam/diffusion/corba/Makefile \
              parallel/foam/diffusion/corba/idl/include.makefile \

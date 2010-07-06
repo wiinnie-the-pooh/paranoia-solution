@@ -21,9 +21,9 @@
 
 
 #--------------------------------------------------------------------------------------
-sexe = parallel_foam_diffusion_threading_test
+sexe = @abs_top_builddir@/bin/parallel_foam_diffusion_threading_test
 
-parallel_foam_diffusion_threading_impl_root_dir = ../impl
+parallel_foam_diffusion_threading_impl_root_dir = @abs_top_builddir@/parallel/foam/diffusion/threading/impl
 
 include $(parallel_foam_diffusion_threading_impl_root_dir)/include.makefile
 
