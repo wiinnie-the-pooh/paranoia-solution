@@ -21,9 +21,9 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/foam/diffusion/corba/server/Foam_Diffusion_NuclearSolverTask_i.hh"
+#include "parallel/foam/diffusion/corba/server/NuclearSolverTaskFactory_i.hh"
 
-#include "parallel/corba/common/TaskLauncher.hh"
+#include "parallel/corba/common/FactoryLauncher.hh"
 
 
 //---------------------------------------------------------------------------
@@ -32,7 +32,7 @@ int main( int argc, char** argv )
   using namespace parallel;
   using namespace parallel::foam::diffusion;
 
-  return run< NuclearSolverTask_i, NuclearSolverTask, NuclearSolverTaskFactory >( argc, argv, "TaskFactory", "Foam_Diffusion_NuclearSolverTask" );
+  return run< NuclearSolverTaskFactory_i, NuclearSolverTaskFactory >( argc, argv, "TaskFactory", "NuclearSolverTask" );
 }
 
 

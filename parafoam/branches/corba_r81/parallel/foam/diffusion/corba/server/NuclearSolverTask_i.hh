@@ -21,15 +21,18 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/foam/diffusion/corba/server/Foam_Diffusion_NuclearSolverTask_i.hh"
-
-#include <iostream>
-
-using namespace std;
+#ifndef corba_server_NuclearSolverTask_i_hh
+#define corba_server_NuclearSolverTask_i_hh
 
 
 //---------------------------------------------------------------------------
-namespace parallel
+#include "parallel/foam/diffusion/corba/idl/NuclearSolverTaskFactory.hh"
+
+#include "parallel/foam/corba/server/Foam_SolverBaseTask_i.hh"
+
+
+//---------------------------------------------------------------------------
+namespace parallel 
 {
   //---------------------------------------------------------------------------
   namespace foam
@@ -38,58 +41,40 @@ namespace parallel
     namespace diffusion
     {
       //---------------------------------------------------------------------------
-      NuclearSolverTask_i::NuclearSolverTask_i( const CORBA::ORB_var& theORB, 
-                                                const PortableServer::POA_var& thePOA )
-        : TransientObject_i( theORB, thePOA )
-        , TaskBase_i( theORB, thePOA )
-        , SolverBaseTask_i( theORB, thePOA )
+      struct NuclearSolverTask_i : virtual POA_parallel::foam::diffusion::NuclearSolverTask, 
+                                   virtual SolverBaseTask_i
       {
-        TMSG( "NuclearSolverTask_i::NuclearSolverTask_i[ " << this << " ]\n" );
-      }
-      
-      
-      //---------------------------------------------------------------------------
-      NuclearSolverTask_i::~NuclearSolverTask_i()
-      {
-        TMSG( "NuclearSolverTask_i::~NuclearSolverTask_i[ " << this << " ]\n" );
-      }
-      
-      
-      //---------------------------------------------------------------------------
-      void NuclearSolverTask_i::init( const TArgs& theArgs )
-      {
-        TMSG( "NuclearSolverTask_i::init[ " << this << " ]\n" );
-      }
-      
+        typedef parallel::foam::diffusion::NuclearSolverTask::TArgs TArgs;
 
-      //---------------------------------------------------------------------------
-      void NuclearSolverTask_i::prepare()
-      {
-        TMSG( "NuclearSolverTask_i::prepare[ " << this << " ]\n" );
-      }
+        NuclearSolverTask_i( const CORBA::ORB_var& theORB, 
+                             const PortableServer::POA_var& thePOA );
       
+        ~NuclearSolverTask_i();
+      
+        virtual void init( const TArgs& theArgs );
 
-      //---------------------------------------------------------------------------
-      bool NuclearSolverTask_i::step()
-      {
-        TMSG( "NuclearSolverTask_i::step[ " << this << " ]\n" );
-        
-        this->pre_step();
-        
-        return this->post_step();
-      }
+        virtual void prepare();
       
-      
+      protected:
+        virtual bool step();
+
+        virtual void destroy()
+        {}
+
+      };
+
+
       //---------------------------------------------------------------------------
     }
-      
+
 
     //---------------------------------------------------------------------------
   }
-    
-    
+
+
   //---------------------------------------------------------------------------
 }
 
 
 //---------------------------------------------------------------------------
+#endif

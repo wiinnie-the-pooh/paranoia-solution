@@ -21,24 +21,15 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef corba_server_Foam_Diffusion_NuclearSolverTaskFactory_i_hh
-#define corba_server_Foam_Diffusion_NuclearSolverTaskFactory_i_hh
+#include "parallel/foam/diffusion/corba/server/NuclearSolverTask_i.hh"
+
+#include <iostream>
+
+using namespace std;
 
 
 //---------------------------------------------------------------------------
-#include "parallel/foam/diffusion/corba/idl/Foam_Diffusion_NuclearSolverTaskFactory.hh"
-
-#include "parallel/corba/server/TaskFactoryArgsBase_i.hh"
-
-
-//---------------------------------------------------------------------------
-#ifdef __USE_CORBA_SINGLE_PROCESS__
-#include "parallel/foam/diffusion/corba/server/Foam_Diffusion_NuclearSolverTask_i.hh"
-#endif
-
-
-//---------------------------------------------------------------------------
-namespace parallel 
+namespace parallel
 {
   //---------------------------------------------------------------------------
   namespace foam
@@ -47,24 +38,58 @@ namespace parallel
     namespace diffusion
     {
       //---------------------------------------------------------------------------
-#ifndef __USE_CORBA_SINGLE_PROCESS__
-      typedef TaskFactoryArgsBase_i< POA_parallel::foam::diffusion::NuclearSolverTaskFactory, NuclearSolverTask > NuclearSolverTaskFactory_i;
-#else
-      typedef TaskFactoryArgsBase_i< POA_parallel::foam::diffusion::NuclearSolverTaskFactory, NuclearSolverTask, NuclearSolverTask_i, NuclearSolverTaskFactory > NuclearSolverTaskFactory_i;
-#endif
+      NuclearSolverTask_i::NuclearSolverTask_i( const CORBA::ORB_var& theORB, 
+                                                const PortableServer::POA_var& thePOA )
+        : TransientObject_i( theORB, thePOA )
+        , TaskBase_i( theORB, thePOA )
+        , SolverBaseTask_i( theORB, thePOA )
+      {
+        TMSG( "NuclearSolverTask_i::NuclearSolverTask_i[ " << this << " ]\n" );
+      }
+      
+      
+      //---------------------------------------------------------------------------
+      NuclearSolverTask_i::~NuclearSolverTask_i()
+      {
+        TMSG( "NuclearSolverTask_i::~NuclearSolverTask_i[ " << this << " ]\n" );
+      }
+      
+      
+      //---------------------------------------------------------------------------
+      void NuclearSolverTask_i::init( const TArgs& theArgs )
+      {
+        TMSG( "NuclearSolverTask_i::init[ " << this << " ]\n" );
+      }
+      
 
+      //---------------------------------------------------------------------------
+      void NuclearSolverTask_i::prepare()
+      {
+        TMSG( "NuclearSolverTask_i::prepare[ " << this << " ]\n" );
+      }
+      
+
+      //---------------------------------------------------------------------------
+      bool NuclearSolverTask_i::step()
+      {
+        TMSG( "NuclearSolverTask_i::step[ " << this << " ]\n" );
+        
+        this->pre_step();
+        
+        return this->post_step();
+      }
+      
       
       //---------------------------------------------------------------------------
     }
-
+      
 
     //---------------------------------------------------------------------------
   }
-
-
+    
+    
   //---------------------------------------------------------------------------
 }
 
 
 //---------------------------------------------------------------------------
-#endif

@@ -21,14 +21,20 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef corba_server_Foam_Diffusion_NuclearSolverTask_i_hh
-#define corba_server_Foam_Diffusion_NuclearSolverTask_i_hh
+#ifndef corba_server_NuclearSolverTaskFactory_i_hh
+#define corba_server_NuclearSolverTaskFactory_i_hh
 
 
 //---------------------------------------------------------------------------
-#include "parallel/foam/diffusion/corba/idl/Foam_Diffusion_NuclearSolverTaskFactory.hh"
+#include "parallel/foam/diffusion/corba/idl/NuclearSolverTaskFactory.hh"
 
-#include "parallel/foam/corba/server/Foam_SolverBaseTask_i.hh"
+#include "parallel/corba/server/TaskFactoryArgsBase_i.hh"
+
+
+//---------------------------------------------------------------------------
+#ifdef __USE_CORBA_SINGLE_PROCESS__
+#include "parallel/foam/diffusion/corba/server/NuclearSolverTask_i.hh"
+#endif
 
 
 //---------------------------------------------------------------------------
@@ -41,29 +47,13 @@ namespace parallel
     namespace diffusion
     {
       //---------------------------------------------------------------------------
-      struct NuclearSolverTask_i : virtual POA_parallel::foam::diffusion::NuclearSolverTask, 
-                                   virtual SolverBaseTask_i
-      {
-        typedef parallel::foam::diffusion::NuclearSolverTask::TArgs TArgs;
+#ifndef __USE_CORBA_SINGLE_PROCESS__
+      typedef TaskFactoryArgsBase_i< POA_parallel::foam::diffusion::NuclearSolverTaskFactory, NuclearSolverTask > NuclearSolverTaskFactory_i;
+#else
+      typedef TaskFactoryArgsBase_i< POA_parallel::foam::diffusion::NuclearSolverTaskFactory, NuclearSolverTask, NuclearSolverTask_i, NuclearSolverTaskFactory > NuclearSolverTaskFactory_i;
+#endif
 
-        NuclearSolverTask_i( const CORBA::ORB_var& theORB, 
-                             const PortableServer::POA_var& thePOA );
       
-        ~NuclearSolverTask_i();
-      
-        virtual void init( const TArgs& theArgs );
-
-        virtual void prepare();
-      
-      protected:
-        virtual bool step();
-
-        virtual void destroy()
-        {}
-
-      };
-
-
       //---------------------------------------------------------------------------
     }
 

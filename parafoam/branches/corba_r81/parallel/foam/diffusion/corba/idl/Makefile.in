@@ -31,7 +31,7 @@ all: $(idl_target)
 clean: clean-idl
 
 IDL_FILES = \
-	Foam_Diffusion_NuclearSolverTaskFactory.idl
+	NuclearSolverTaskFactory.idl
 
 
 #--------------------------------------------------------------------------------------
