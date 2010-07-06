@@ -20,26 +20,17 @@
 ##
 
 
-#--------------------------------------------------------------------------------------
-ifeq "@ENABLE_DIFFUSIONFOAMLIB@xx" "yesxx"
-#--------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+CPPFLAGS += @DIFFUSIONFOAMLIB_CPPFLAGS@ @DIFFUSIONFOAMLIB_CXXFLAGS@
+LDFLAGS += @DIFFUSIONFOAMLIB_LDFLAGS@
 
-libso = libparallel_foam_diffusion_threading_impl.so
-
-parallel_foam_diffusion_threading_impl_root_dir := .
-
-include $(parallel_foam_diffusion_threading_impl_root_dir)/include.makefile
-
-#--------------------------------------------------------------------------------------
-else
-#--------------------------------------------------------------------------------------
-
-$(warning To compile this package you need to install diffusionFoamLib)
-
-all:
-clean:
-
-
-#--------------------------------------------------------------------------------------
+ifneq "$(parallel_foam_diffusion_threading_impl_root_dir)" "."
+  LDFLAGS += -lparallel_foam_diffusion_threading_impl
 endif
+
+parallel_foam_threading_impl_root_dir := $(parallel_foam_diffusion_threading_impl_root_dir)/../../../threading/impl
+
+include $(parallel_foam_threading_impl_root_dir)/include.makefile
+
+
 #--------------------------------------------------------------------------------------

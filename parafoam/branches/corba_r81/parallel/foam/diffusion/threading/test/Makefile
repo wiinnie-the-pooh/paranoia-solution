@@ -21,25 +21,11 @@
 
 
 #--------------------------------------------------------------------------------------
-ifeq "@ENABLE_DIFFUSIONFOAMLIB@xx" "yesxx"
-#--------------------------------------------------------------------------------------
+sexe = parallel_foam_diffusion_threading_test
 
-libso = libparallel_foam_diffusion_threading_impl.so
-
-parallel_foam_diffusion_threading_impl_root_dir := .
+parallel_foam_diffusion_threading_impl_root_dir = ../impl
 
 include $(parallel_foam_diffusion_threading_impl_root_dir)/include.makefile
 
-#--------------------------------------------------------------------------------------
-else
-#--------------------------------------------------------------------------------------
 
-$(warning To compile this package you need to install diffusionFoamLib)
-
-all:
-clean:
-
-
-#--------------------------------------------------------------------------------------
-endif
 #--------------------------------------------------------------------------------------
