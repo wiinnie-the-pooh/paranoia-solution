@@ -36,7 +36,7 @@ include $(parallel_corba_root_dir)/include.makefile
 IDLFLAGS += -I@abs_top_builddir@
 
 ifneq "$(parallel_corba_idl_root_dir)" "."
-  LDFLAGS += -L@abs_top_builddir@/lib -lparallel_idl
+  LDFLAGS += -L@abs_top_builddir@/lib -lparallel_corba_idl
 endif
 
 

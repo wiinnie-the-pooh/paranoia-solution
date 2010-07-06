@@ -21,12 +21,12 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef corba_server_Foam_TimeSourceTask_i_hh
-#define corba_server_Foam_TimeSourceTask_i_hh
+#ifndef corba_server_TimeSourceTask_i_hh
+#define corba_server_TimeSourceTask_i_hh
 
 
 //---------------------------------------------------------------------------
-#include "parallel/foam/corba/idl/Foam_TimeSourceTaskFactory.hh"
+#include "parallel/foam/corba/idl/TimeSourceTaskFactory.hh"
 
 #include "parallel/corba/server/TaskBase_i.hh"
 
@@ -34,7 +34,7 @@
 
 #include "parallel/corba/server/PortInt_i.hh"
 
-#include "parallel/foam/corba/server/Foam_DimensionedScalarPort_i.hh"
+#include "parallel/foam/corba/server/DimensionedScalarPort_i.hh"
 
 #include "parallel/corba/server/SPortHelperBase.hh"
 

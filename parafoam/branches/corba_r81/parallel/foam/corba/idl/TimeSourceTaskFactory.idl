@@ -21,43 +21,56 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef corba_server_Foam_TimeSourceTaskFactory_i_hh
-#define corba_server_Foam_TimeSourceTaskFactory_i_hh
+#ifndef __PARALELL_FOAM_TIMESOURCE_TASKFACTORY_IDL__
+#define __PARALELL_FOAM_TIMESOURCE_TASKFACTORY_IDL__
 
 
 //---------------------------------------------------------------------------
-#include "parallel/foam/corba/idl/Foam_TimeSourceTaskFactory.hh"
+#include "parallel/corba/idl/TaskFactoryBase.idl"
+#include "parallel/corba/idl/TaskBase.idl"
 
-#include "parallel/corba/server/TaskFactoryBase_i.hh"
-
-
-//---------------------------------------------------------------------------
-#ifdef __USE_CORBA_SINGLE_PROCESS__
-#include "parallel/foam/corba/server/Foam_TimeSourceTask_i.hh"
-#endif
-
+#include "parallel/foam/corba/idl/typedefs.idl"
 
 //---------------------------------------------------------------------------
-namespace parallel 
+module parallel
 {
   //---------------------------------------------------------------------------
-  namespace foam
+  module foam
   {
     //---------------------------------------------------------------------------
-#ifndef __USE_CORBA_SINGLE_PROCESS__
-  typedef TaskFactoryBase_i< POA_parallel::foam::TimeSourceTaskFactory, TimeSourceTask > TimeSourceTaskFactory_i;
-#else
-  typedef TaskFactoryBase_i< POA_parallel::foam::TimeSourceTaskFactory, TimeSourceTask, TimeSourceTask_i, TimeSourceTaskFactory > TimeSourceTaskFactory_i;
-#endif
+    interface TimeSourceTask : TaskBase
+    {
+      void setTime( in dimensionedScalar newTime, in label newIndex );
+      dimensionedScalar value();
+      label timeIndex();
+      
+      void setDeltaT( in dimensionedScalar deltaT );
+      dimensionedScalar deltaT();
+      
+      void setEndTime( in dimensionedScalar endTime );
+      dimensionedScalar endTime();
+      
+      void setWriteInterval( in label writeInterval );
+      label getWriteInterval();
+    };
 
 
     //---------------------------------------------------------------------------
-  }
+    interface TimeSourceTaskFactory : TaskFactoryBase
+    {
+      TimeSourceTask create( in string theInvocationShellScript );
+      
+      void publish( in TimeSourceTask theTask );
+    };
+
+
+    //---------------------------------------------------------------------------
+  };
 
 
   //---------------------------------------------------------------------------
-}
+};
 
 
 //---------------------------------------------------------------------------
-#endif
+#endif  // __PARALELL_FOAM_TIMESOURCE_TASKFACTORY_IDL__

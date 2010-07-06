@@ -21,16 +21,24 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef corba_server_Foam_DimensionedScalarPort_i_hh
-#define corba_server_Foam_DimensionedScalarPort_i_hh
+#ifndef corba_server_SolverBaseTask_i_hh
+#define corba_server_SolverBaseTask_i_hh
 
 
 //---------------------------------------------------------------------------
-#include "parallel/foam/corba/idl/Foam_DimensionedScalarPort.hh"
+#include "parallel/foam/corba/idl/SolverBaseTask.hh"
 
-#include "parallel/corba/server/SerializedPort_i.hh"
+#include "parallel/corba/server/TaskBase_i.hh"
 
-#include "parallel/foam/corba/server/Foam_DimensionedScalarValueHelper.hh"
+#include "parallel/corba/server/PortBool_i.hh"
+
+#include "parallel/corba/server/PortInt_i.hh"
+
+#include "parallel/foam/corba/server/DimensionedScalarPort_i.hh"
+
+#include "parallel/corba/server/PortFloat_i.hh"
+
+#include "parallel/corba/server/SPortHelperBase.hh"
 
 
 //---------------------------------------------------------------------------
@@ -40,18 +48,26 @@ namespace parallel
   namespace foam
   {
     //---------------------------------------------------------------------------
-    struct DimensionedScalarPort_i : virtual POA_parallel::foam::DimensionedScalarPort, 
-                                     virtual SerializedPort_i
+    struct SolverBaseTask_i : virtual POA_parallel::foam::SolverBaseTask, 
+                              virtual TaskBase_i
     {
-      DimensionedScalarPort_i( const std::string& theName,
-                               const CORBA::ORB_var& theORB, 
-                               const PortableServer::POA_var& thePOA );
+      SolverBaseTask_i( const CORBA::ORB_var& theORB, 
+                        const PortableServer::POA_var& thePOA );
       
-      ~DimensionedScalarPort_i();
+      ~SolverBaseTask_i();
       
-      CORBA::Boolean is_compatible( PortBase_ptr theArg );
-      
-      typedef SSerializedValueHelper< Foam::dimensionedScalar > TValueHelper;
+    protected:
+      bool pre_step();
+      bool post_step();
+
+    protected:
+      SPortHelperBase< DimensionedScalarPort_i > m_time_i;
+      SPortHelperBase< PortInt_i > m_index_i;
+      SPortHelperBase< PortBool_i > m_write_i;
+      SPortHelperBase< PortBool_i > m_stop_i;
+
+      SPortHelperBase< PortBool_i > m_finished_o;
+      SPortHelperBase< PortFloat_i > m_residual_o;
     };
 
 

@@ -21,14 +21,20 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef corba_server_NuclearSolverTask_i_hh
-#define corba_server_NuclearSolverTask_i_hh
+#ifndef corba_server_TimeSourceTaskFactory_i_hh
+#define corba_server_TimeSourceTaskFactory_i_hh
 
 
 //---------------------------------------------------------------------------
-#include "parallel/foam/diffusion/corba/idl/NuclearSolverTaskFactory.hh"
+#include "parallel/foam/corba/idl/TimeSourceTaskFactory.hh"
 
-#include "parallel/foam/corba/server/SolverBaseTask_i.hh"
+#include "parallel/corba/server/TaskFactoryBase_i.hh"
+
+
+//---------------------------------------------------------------------------
+#ifdef __USE_CORBA_SINGLE_PROCESS__
+#include "parallel/foam/corba/server/TimeSourceTask_i.hh"
+#endif
 
 
 //---------------------------------------------------------------------------
@@ -38,34 +44,11 @@ namespace parallel
   namespace foam
   {
     //---------------------------------------------------------------------------
-    namespace diffusion
-    {
-      //---------------------------------------------------------------------------
-      struct NuclearSolverTask_i : virtual POA_parallel::foam::diffusion::NuclearSolverTask, 
-                                   virtual SolverBaseTask_i
-      {
-        typedef parallel::foam::diffusion::NuclearSolverTask::TArgs TArgs;
-
-        NuclearSolverTask_i( const CORBA::ORB_var& theORB, 
-                             const PortableServer::POA_var& thePOA );
-      
-        ~NuclearSolverTask_i();
-      
-        virtual void init( const TArgs& theArgs );
-
-        virtual void prepare();
-      
-      protected:
-        virtual bool step();
-
-        virtual void destroy()
-        {}
-
-      };
-
-
-      //---------------------------------------------------------------------------
-    }
+#ifndef __USE_CORBA_SINGLE_PROCESS__
+  typedef TaskFactoryBase_i< POA_parallel::foam::TimeSourceTaskFactory, TimeSourceTask > TimeSourceTaskFactory_i;
+#else
+  typedef TaskFactoryBase_i< POA_parallel::foam::TimeSourceTaskFactory, TimeSourceTask, TimeSourceTask_i, TimeSourceTaskFactory > TimeSourceTaskFactory_i;
+#endif
 
 
     //---------------------------------------------------------------------------

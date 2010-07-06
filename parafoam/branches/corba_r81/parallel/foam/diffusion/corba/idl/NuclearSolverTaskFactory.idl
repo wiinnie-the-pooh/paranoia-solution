@@ -27,7 +27,7 @@
 
 //---------------------------------------------------------------------------
 #include "parallel/corba/idl/TaskFactoryBase.idl"
-#include "parallel/foam/corba/idl/Foam_SolverBaseTask.idl"
+#include "parallel/foam/corba/idl/SolverBaseTask.idl"
 
 
 //---------------------------------------------------------------------------

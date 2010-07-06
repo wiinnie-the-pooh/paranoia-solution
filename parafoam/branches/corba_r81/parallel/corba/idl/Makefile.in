@@ -24,7 +24,7 @@
 
 
 #--------------------------------------------------------------------------------------
-idl_target = @abs_top_builddir@/lib/libparallel_idl.so
+idl_target = @abs_top_builddir@/lib/libparallel_corba_idl.so
 
 all: $(idl_target)
 

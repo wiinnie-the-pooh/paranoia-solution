@@ -21,7 +21,7 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/foam/corba/server/Foam_TimeSourceTaskFactory_i.hh"
+#include "parallel/foam/corba/server/TimeSourceTaskFactory_i.hh"
 
 #include "parallel/corba/common/FactoryLauncher.hh"
 

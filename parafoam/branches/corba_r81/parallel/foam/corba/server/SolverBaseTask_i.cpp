@@ -21,56 +21,74 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef __PARALELL_FOAM_TIMESOURCE_TASKFACTORY_IDL__
-#define __PARALELL_FOAM_TIMESOURCE_TASKFACTORY_IDL__
+#include "parallel/foam/corba/server/SolverBaseTask_i.hh"
+
+#include <iostream>
+
+using namespace std;
 
 
 //---------------------------------------------------------------------------
-#include "parallel/corba/idl/TaskFactoryBase.idl"
-#include "parallel/corba/idl/TaskBase.idl"
-
-#include "parallel/foam/corba/idl/Foam_typedefs.idl"
-
-//---------------------------------------------------------------------------
-module parallel
+namespace parallel
 {
   //---------------------------------------------------------------------------
-  module foam
+  namespace foam
   {
     //---------------------------------------------------------------------------
-    interface TimeSourceTask : TaskBase
+    SolverBaseTask_i::SolverBaseTask_i( const CORBA::ORB_var& theORB, 
+                                        const PortableServer::POA_var& thePOA )
+      : TransientObject_i( theORB, thePOA )
+      , TaskBase_i( theORB, thePOA )
+
+      , m_time_i( "time", eInputPort, this )
+      , m_index_i( "index", eInputPort, this )
+      , m_write_i( "write", eInputPort, this )
+      , m_stop_i( "stop", eInputPort, this )
+
+      , m_finished_o( "finished", eOutputPort, this )
+      , m_residual_o( "residual", eOutputPort, this )
     {
-      void setTime( in dimensionedScalar newTime, in label newIndex );
-      dimensionedScalar value();
-      label timeIndex();
-      
-      void setDeltaT( in dimensionedScalar deltaT );
-      dimensionedScalar deltaT();
-      
-      void setEndTime( in dimensionedScalar endTime );
-      dimensionedScalar endTime();
-      
-      void setWriteInterval( in label writeInterval );
-      label getWriteInterval();
-    };
+      cout << "SolverBaseTask_i::SolverBaseTask_i[ " << this << " ]" << endl;
+    }
 
 
     //---------------------------------------------------------------------------
-    interface TimeSourceTaskFactory : TaskFactoryBase
+    SolverBaseTask_i::~SolverBaseTask_i()
     {
-      TimeSourceTask create( in string theInvocationShellScript );
-      
-      void publish( in TimeSourceTask theTask );
-    };
+      cout << "SolverBaseTask_i::~SolverBaseTask_i[ " << this << " ]" << endl;
+    }
 
 
     //---------------------------------------------------------------------------
-  };
+    bool SolverBaseTask_i::pre_step()
+    {
+      this->m_finished_o.publish( this->m_stop_i.retrieve() );
+
+      this->m_time_i.retrieve();
+      this->m_index_i.retrieve();
+
+      //this->runTime.setTime( this->m_time_i(), this->m_index_i() );
+
+      return ! this->m_finished_o();
+    }
 
 
+    //---------------------------------------------------------------------------
+    bool SolverBaseTask_i::post_step()
+    {
+      //if ( this->m_write_i.retrieve() )
+      //  this->runTime.writeNow();
+
+      return ! this->m_finished_o();
+    }
+
+
+    //---------------------------------------------------------------------------
+  }
+    
+    
   //---------------------------------------------------------------------------
-};
+}
 
 
 //---------------------------------------------------------------------------
-#endif  // __PARALELL_FOAM_TIMESOURCE_TASKFACTORY_IDL__

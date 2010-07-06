@@ -31,10 +31,10 @@ all: $(idl_target)
 clean: clean-idl
 
 IDL_FILES = \
-	Foam_typedefs.idl \
-	Foam_DimensionedScalarPort.idl \
-	Foam_TimeSourceTaskFactory.idl \
-	Foam_SolverBaseTask.idl
+	typedefs.idl \
+	DimensionedScalarPort.idl \
+	TimeSourceTaskFactory.idl \
+	SolverBaseTask.idl
 
 
 #--------------------------------------------------------------------------------------

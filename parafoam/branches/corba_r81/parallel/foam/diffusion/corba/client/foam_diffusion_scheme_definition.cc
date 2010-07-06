@@ -22,7 +22,7 @@
 
 //---------------------------------------------------------------------------
 #include "parallel/corba/idl/TaskManager.hh"
-#include "parallel/foam/corba/idl/Foam_TimeSourceTaskFactory.hh"
+#include "parallel/foam/corba/idl/TimeSourceTaskFactory.hh"
 #include "parallel/foam/diffusion/corba/idl/NuclearSolverTaskFactory.hh"
 
 #include "parallel/corba/common/corba_utilities.hh"
@@ -34,7 +34,7 @@
 #ifdef __USE_CORBA_SINGLE_PROCESS__
 
 #include "parallel/corba/server/TaskManager_i.hh"
-#include "parallel/foam/corba/server/Foam_TimeSourceTaskFactory_i.hh"
+#include "parallel/foam/corba/server/TimeSourceTaskFactory_i.hh"
 #include "parallel/foam/diffusion/corba/server/NuclearSolverTaskFactory_i.hh"
 
 #include "parallel/corba/common/FactoryLauncher.hh"
@@ -93,7 +93,7 @@ int main( int argc, char **argv )
       create_factory< TimeSourceTaskFactory_i, TimeSourceTaskFactory >( orb, poa, "TaskFactory", "Foam_TimeSource" );
 
     NuclearSolverTaskFactory_var a_solver_base_task_factory =
-      create_factory< NuclearSolverTaskFactory_i, NuclearSolverTaskFactory >( orb, poa, "TaskFactory", "NuclearSolver" );
+      create_factory< NuclearSolverTaskFactory_i, NuclearSolverTaskFactory >( orb, poa, "TaskFactory", "Foam_Diffusion_NuclearSolver" );
 
     TaskManager_var a_task_manager = create_factory< TaskManager_i, TaskManager >( orb, poa, "TaskManager", "this" );
 
@@ -102,7 +102,7 @@ int main( int argc, char **argv )
       TimeSourceTaskFactory::_narrow( getObjectReference( orb, "TaskFactory", "Foam_TimeSource" ) );
 
     NuclearSolverTaskFactory_var a_solver_base_task_factory = 
-      NuclearSolverTaskFactory::_narrow( getObjectReference( orb, "TaskFactory", "NuclearSolver" ) );
+      NuclearSolverTaskFactory::_narrow( getObjectReference( orb, "TaskFactory", "Foam_Diffusion_NuclearSolver" ) );
 
     TaskManager_var a_task_manager = TaskManager::_narrow( getObjectReference( orb, "TaskManager", "this" ) );
 
@@ -115,7 +115,7 @@ int main( int argc, char **argv )
     a_time_source_task->setEndTime( dimensionedScalar( 0.033 ) );
     a_time_source_task->setWriteInterval( 1 );
 
-    NuclearSolverTask_var a_solver_task = a_solver_base_task_factory->create( "NuclearSolverTask_launcher", NuclearSolverTask::TArgs() );
+    NuclearSolverTask_var a_solver_task = a_solver_base_task_factory->create( "Foam_Diffusion_NuclearSolverTask_launcher", NuclearSolverTask::TArgs() );
 
     connect( a_task_manager, a_time_source_task, a_solver_task.in() );
     

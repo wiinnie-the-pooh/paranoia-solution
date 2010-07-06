@@ -21,7 +21,7 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/foam/corba/server/Foam_DimensionedScalarPort_i.hh"
+#include "parallel/foam/corba/server/DimensionedScalarPort_i.hh"
 
 #include <iostream>
 

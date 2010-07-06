@@ -21,7 +21,7 @@
 
 
 //---------------------------------------------------------------------------
-#include "parallel/foam/corba/server/Foam_TimeSourceTask_i.hh"
+#include "parallel/foam/corba/server/TimeSourceTask_i.hh"
 
 #include <iostream>
 

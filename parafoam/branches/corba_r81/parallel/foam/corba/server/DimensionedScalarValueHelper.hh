@@ -21,8 +21,8 @@
 
 
 //---------------------------------------------------------------------------
-#ifndef corba_server_Foam_DimensionedScalarValueHelper_hh
-#define corba_server_Foam_DimensionedScalarValueHelper_hh
+#ifndef corba_server_DimensionedScalarValueHelper_hh
+#define corba_server_DimensionedScalarValueHelper_hh
 
 
 //---------------------------------------------------------------------------
