@@ -28,7 +28,7 @@ ifneq "$(parallel_foam_diffusion_threading_impl_root_dir)" "."
   LDFLAGS += -lparallel_foam_diffusion_threading_impl
 endif
 
-parallel_foam_threading_impl_root_dir := $(parallel_foam_diffusion_threading_impl_root_dir)/../../../threading/impl
+parallel_foam_threading_impl_root_dir := @abs_top_builddir@/parallel/foam/threading/impl
 
 include $(parallel_foam_threading_impl_root_dir)/include.makefile
 

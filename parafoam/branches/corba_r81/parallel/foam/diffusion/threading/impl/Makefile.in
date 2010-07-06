@@ -24,7 +24,7 @@
 ifeq "@ENABLE_DIFFUSIONFOAMLIB@xx" "yesxx"
 #--------------------------------------------------------------------------------------
 
-libso = libparallel_foam_diffusion_threading_impl.so
+libso = @abs_top_builddir@/lib/libparallel_foam_diffusion_threading_impl.so
 
 parallel_foam_diffusion_threading_impl_root_dir := .
 
