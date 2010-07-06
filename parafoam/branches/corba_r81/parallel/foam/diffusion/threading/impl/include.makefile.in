@@ -20,17 +20,30 @@
 ##
 
 
-#------------------------------------------------------------------------------
-CPPFLAGS += @DIFFUSIONFOAMLIB_CPPFLAGS@ @DIFFUSIONFOAMLIB_CXXFLAGS@
-LDFLAGS += @DIFFUSIONFOAMLIB_LDFLAGS@
+#--------------------------------------------------------------------------------------
+ifeq "$(parallel_foam_diffusion_threading_imp_include_makefile)xx" "xx"
+parallel_foam_diffusion_threading_imp_include_makefile = "included"
+#--------------------------------------------------------------------------------------
 
+
+#------------------------------------------------------------------------------
 ifneq "$(parallel_foam_diffusion_threading_impl_root_dir)" "."
   LDFLAGS += -lparallel_foam_diffusion_threading_impl
 endif
 
+
+#--------------------------------------------------------------------------------------
+parallel_foam_diffusion_common_root_dir := @abs_top_builddir@/parallel/foam/diffusion/common
+
+include $(parallel_foam_diffusion_common_root_dir)/include.makefile
+
+
+#--------------------------------------------------------------------------------------
 parallel_foam_threading_impl_root_dir := @abs_top_builddir@/parallel/foam/threading/impl
 
 include $(parallel_foam_threading_impl_root_dir)/include.makefile
 
 
+#--------------------------------------------------------------------------------------
+endif
 #--------------------------------------------------------------------------------------

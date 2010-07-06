@@ -23,7 +23,7 @@
 //---------------------------------------------------------------------------
 #include "parallel/foam/diffusion/threading/impl/TTemperatureSolverTask.h"
 
-#include "parallel/foam/diffusion/threading/impl/TTemperatureSolver.h"
+#include "parallel/foam/diffusion/common/TTemperatureSolver.h"
 
 #include "parallel/foam/common/SFoamMutex.h"
 

@@ -21,24 +21,23 @@
 
 
 #--------------------------------------------------------------------------------------
-ifeq "@ENABLE_DIFFUSIONFOAMLIB@xx" "yesxx"
+ifeq "$(parallel_foam_diffusion_common_include_makefile)xx" "xx"
+parallel_foam_diffusion_common_include_makefile = "included"
 #--------------------------------------------------------------------------------------
 
-SUBDIRS := common threading corba
 
-include @abs_top_builddir@/recursive.makefile
+#------------------------------------------------------------------------------
+CPPFLAGS += @DIFFUSIONFOAMLIB_CPPFLAGS@ @DIFFUSIONFOAMLIB_CXXFLAGS@
+LDFLAGS += @DIFFUSIONFOAMLIB_LDFLAGS@
 
-all: all-recursive
-clean: clean-recursive
+ifneq "$(parallel_foam_diffusion_common_root_dir)" "."
+  LDFLAGS += -lparallel_foam_diffusion_common
+endif
 
-#--------------------------------------------------------------------------------------
-else
-#--------------------------------------------------------------------------------------
+parallel_foam_common_root_dir := @abs_top_builddir@/parallel/foam/common
 
-$(warning To compile this package you need to install diffusionFoamLib)
+include $(parallel_foam_common_root_dir)/include.makefile
 
-all:
-clean:
 
 #--------------------------------------------------------------------------------------
 endif

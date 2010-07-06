@@ -24,12 +24,11 @@
 ifeq "@ENABLE_DIFFUSIONFOAMLIB@xx" "yesxx"
 #--------------------------------------------------------------------------------------
 
-SUBDIRS := common threading corba
+libso = @abs_top_builddir@/lib/libparallel_foam_diffusion_common.so
 
-include @abs_top_builddir@/recursive.makefile
+parallel_foam_diffusion_common_root_dir := .
 
-all: all-recursive
-clean: clean-recursive
+include $(parallel_foam_diffusion_common_root_dir)/include.makefile
 
 #--------------------------------------------------------------------------------------
 else
@@ -39,6 +38,7 @@ $(warning To compile this package you need to install diffusionFoamLib)
 
 all:
 clean:
+
 
 #--------------------------------------------------------------------------------------
 endif

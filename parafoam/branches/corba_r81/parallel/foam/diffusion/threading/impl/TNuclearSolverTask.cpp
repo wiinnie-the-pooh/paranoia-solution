@@ -23,7 +23,7 @@
 //---------------------------------------------------------------------------
 #include "parallel/foam/diffusion/threading/impl/TNuclearSolverTask.h"
 
-#include "parallel/foam/diffusion/threading/impl/TNuclearSolver.h"
+#include "parallel/foam/diffusion/common/TNuclearSolver.h"
 
 #include "parallel/foam/common/SFoamMutex.h"
 

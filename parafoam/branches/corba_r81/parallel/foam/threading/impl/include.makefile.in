@@ -20,6 +20,12 @@
 ##
 
 
+#--------------------------------------------------------------------------------------
+ifeq "$(parallel_foam_threading_impl_include_makefile)xx" "xx"
+parallel_foam_threading_impl_include_makefile = "included"
+#--------------------------------------------------------------------------------------
+
+
 #------------------------------------------------------------------------------
 ifneq "$(parallel_foam_threading_impl_root_dir)" "."
   LDFLAGS := -lparallel_foam_threading_impl $(LDFLAGS)
@@ -30,4 +36,6 @@ parallel_foam_common_root_dir := @abs_top_builddir@/parallel/foam/common
 include $(parallel_foam_common_root_dir)/include.makefile
 
 
+#--------------------------------------------------------------------------------------
+endif
 #--------------------------------------------------------------------------------------
