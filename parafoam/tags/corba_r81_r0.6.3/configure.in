@@ -1,0 +1,143 @@
+## VulaSHAKA (Simultaneous Neutronic, Fuel Performance, Heat And Kinetics Analysis)
+## Copyright (C) 2009-2010 Pebble Bed Modular Reactor (Pty) Limited (PBMR)
+## 
+## This program is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+## 
+## You should have received a copy of the GNU General Public License
+## along with this program.  If not, see <http://www.gnu.org/licenses/>.
+## 
+## See https://vulashaka.svn.sourceforge.net/svnroot/vulashaka
+##
+## Author : Alexey PETROV
+##
+
+
+#--------------------------------------------------------------------------------------
+# Process this file with autoconf to produce a configure script
+#--------------------------------------------------------------------------------------
+AC_INIT([paraFoam Project], [0.4], [alexey.petrov.nnov@gmail.com], [parafoam])
+
+# AC_CONFIG_AUX_DIR defines an alternative directory where to find the auxiliary
+# scripts such as config.guess, install-sh, ...
+AC_CONFIG_AUX_DIR(admin)
+AC_CONFIG_MACRO_DIR([admin])
+AM_INIT_AUTOMAKE([tar-pax -Wno-portability])
+
+
+echo "--------------------------------------------------------------------------------------"
+CONFFOAM_CHECK_LOKI
+echo 
+
+echo "--------------------------------------------------------------------------------------"
+CONFFOAM_CHECK_BOOST_SERIALIZATION
+echo 
+
+echo "--------------------------------------------------------------------------------------"
+CONFFOAM_CHECK_BOOST_THREAD
+echo 
+
+echo "--------------------------------------------------------------------------------------"
+CONFFOAM_CHECK_OMNIORB
+echo 
+
+echo "--------------------------------------------------------------------------------------"
+PARAFOAM_CHECK_CORBA_SINGLE_PROCESS
+echo 
+
+echo "--------------------------------------------------------------------------------------"
+CONFFOAM_CHECK_OPENFOAM
+echo 
+
+echo "--------------------------------------------------------------------------------------"
+CONFFOAM_CHECK_DIFFUSIONFOAMLIB
+echo 
+
+
+echo "---------------------------- mandatory products --------------------------------"
+CONFFOAM_PRINT_SUMMURY( "loki_ok boost_serialization_ok boost_thread_ok" )
+echo
+echo "---------------------------- optional products ---------------------------------"
+CONFFOAM_PRINT_SUMMURY( "omniORB_ok omniORBpy_ok openfoam_ok diffusionfoamlib_ok" )
+echo
+echo "------------------------------- features ---------------------------------------"
+CONFFOAM_PRINT_SUMMURY( "corba_single_process" )
+echo
+echo "--------------------------------------------------------------------------------"
+CONFFOAM_CHECK_MANDATORY( "loki_ok boost_thread_ok boost_serialization_ok" )
+
+
+#--------------------------------------------------------------------------------------
+AC_OUTPUT( [ bashrc \
+             include.makefile \
+             parallel/Makefile \
+             parallel/threading/Makefile \
+             parallel/threading/include.makefile \
+             parallel/threading/base/include.makefile \
+             parallel/threading/base/Makefile \
+             parallel/threading/dev/include.makefile \
+             parallel/threading/dev/Makefile \
+             parallel/threading/test/Makefile \
+	     \
+             parallel/test/Makefile \
+             parallel/test/threading/Makefile \
+	     \
+             parallel/test/corba/Makefile \
+             parallel/test/corba/idl/include.makefile \
+             parallel/test/corba/idl/Makefile \
+             parallel/test/corba/client/include.makefile \
+             parallel/test/corba/client/Makefile \
+             parallel/test/corba/server/include.makefile \
+             parallel/test/corba/server/Makefile \
+	     \
+             parallel/foam/Makefile \
+             parallel/foam/common/include.makefile \
+             parallel/foam/common/Makefile \
+             parallel/foam/threading/Makefile \
+             parallel/foam/threading/impl/include.makefile \
+             parallel/foam/threading/impl/Makefile \
+             parallel/foam/threading/test/Makefile \
+	     \
+             parallel/foam/corba/Makefile \
+             parallel/foam/corba/idl/include.makefile \
+             parallel/foam/corba/idl/Makefile \
+             parallel/foam/corba/server/include.makefile \
+             parallel/foam/corba/server/Makefile \
+             parallel/foam/corba/client/include.makefile \
+             parallel/foam/corba/client/Makefile \
+	     \
+             parallel/foam/diffusion/Makefile \
+             parallel/foam/diffusion/common/include.makefile \
+             parallel/foam/diffusion/common/Makefile \
+             parallel/foam/diffusion/threading/Makefile \
+             parallel/foam/diffusion/threading/impl/include.makefile \
+             parallel/foam/diffusion/threading/impl/Makefile \
+             parallel/foam/diffusion/threading/test/Makefile \
+	     \
+             parallel/foam/diffusion/corba/Makefile \
+             parallel/foam/diffusion/corba/idl/include.makefile \
+             parallel/foam/diffusion/corba/idl/Makefile \
+             parallel/foam/diffusion/corba/server/include.makefile \
+             parallel/foam/diffusion/corba/server/Makefile \
+             parallel/foam/diffusion/corba/client/include.makefile \
+             parallel/foam/diffusion/corba/client/Makefile \
+	     \
+             parallel/corba/Makefile \
+             parallel/corba/include.makefile \
+             parallel/corba/idl/include.makefile \
+             parallel/corba/idl/Makefile \
+             parallel/corba/common/include.makefile \
+             parallel/corba/common/Makefile \
+             parallel/corba/server/include.makefile \
+             parallel/corba/server/Makefile ] )
+
+
+echo "------------------------------------ OK -----------------------------------------"
+
