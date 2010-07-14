@@ -27,7 +27,7 @@ source /opt/conffoam/r0.2/bashrc
 #--------------------------------------------------------------------------------------
 # Source the pyFoam environment
 which_open_foam="1.4.1-dev"
-source /opt/parafoam/r0.4/OpenFOAM-${which_open_foam}/bashrc 
+source /opt/parafoam/r0.7.1/OpenFOAM-${which_open_foam}/bashrc 
 
 
 #--------------------------------------------------------------------------------------

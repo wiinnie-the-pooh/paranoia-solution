@@ -25,7 +25,7 @@
 
 #------------------------------------------------------------------------------
 # Get application name
-application="parallel_diffusion"
+application="parallel_foam_diffusion_threading_test"
 
 if [ -f ${PARAFOAM_TESTING_DIR}/bin/${application} ] ; then
     echo Compile \"\${PARAFOAM_TESTING_DIR}/bin/${application}\" to perform this test

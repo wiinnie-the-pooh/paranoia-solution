@@ -29,7 +29,7 @@ cd ${0%/*} || exit 1    # run from this directory
 # Source tutorial run functions
 source ${PARAFOAM_TESTING_DIR}/Foam/CleanFunctions
 
-application="parallel_diffusion"
+application="parallel_foam_diffusion_threading_test"
 
 cases="nuclear temperature"
 
